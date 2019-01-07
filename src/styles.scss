@@ -1,1 +1,185 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'assets/css/colors';
+@import 'assets/css/fonts';
+@import 'assets/css/sizes';
+
+/* CUSTOM THEME */
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+/* END CUSTOM THEME */
+
+/* FONTS */
+.sa-roboto{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+}
+/* END FONTS */
+
+/* TEXT SIZES */
+.sa-text-24 {
+    font-size: 24px;
+}
+.sa-text-20 {
+    font-size: 20px;
+}
+.sa-text-18 {
+    font-size: 18px;
+}
+.sa-text-16 {
+    font-size: 16px;
+}
+.sa-text-14 {
+    font-size: 14px;
+}
+.sa-text-12 {
+    font-size: 12px;
+}
+.sa-text-10 {
+    font-size: 10px;
+}
+.sa-text-8 {
+    font-size: 8px;
+}
+/* END TEXT SIZES */
+
+/* TEXT WEIGHTS */
+.sa-regular {
+    font-weight: normal;
+}
+.sa-semibold {
+    font-weight: 600;
+}
+.sa-bold {
+    font-weight: bold;
+}
+.sa-uppercase{
+    text-transform: uppercase;
+}
+/* END TEXT WEIGHTS */
+
+/* TEXT COLORS */
+.sa-white{
+    color: $color-white;
+}
+.sa-pinkish-orange{
+    color: $color-pinkish-orange;
+}
+.sa-brownish-grey{
+    color: $color-brownish-grey;
+}
+.sa-charcoal-grey{
+    color: $color-charcoal-grey;
+}
+.sa-mushroom{
+    color: $color-mushroom;
+}
+/*END TEXT COLORS*/
+
+/*BUTTONS*/
+.mat-raised-button{
+    line-height: 1 !important;
+    height: 40px;
+    width: 200px;
+    border-radius: 4px !important;
+    box-shadow: none !important;
+    font-family: 'Roboto';
+    font-size: 14px;
+    font-weight: bold;
+    &.mat-charcoal-grey{
+        background: $color-charcoal-grey !important;
+        color: $color-white;
+        &:hover{
+            background: rgba($color-charcoal-grey, 0.8) !important;
+        }
+    }
+    &:disabled{
+        cursor: not-allowed;
+        background-color: rgba($color-charcoal-grey, 0.7) !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+}
+/*END BUTTONS*/
+
+/* INPUTS */
+.sa-input-text{
+    width: 325px;
+    height: 48px;
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 3px;
+    border: 1px solid $color-mushroom;
+    label {
+       color: $color-mushroom !important;
+       background-color: $color-white-light;
+       margin-left: 18px;
+    }
+    input {
+        color: $color-brownish-grey;
+        font-size: 14px;
+        font-family: 'Roboto';
+        line-height: 1.49;
+        margin-left: 18px;
+    }
+    .mat-form-field-wrapper {
+        width: 100%;
+        .mat-form-field-infix {
+            border-top: 23px solid transparent
+        }
+        .mat-form-field-suffix {
+            margin-right: 16px;
+            .mat-icon {
+                width: 24px;
+                height: 24px;
+            }
+        }
+        .mat-form-field-underline{
+            display: none;
+        }
+    }
+    &.mat-focused {
+        label {
+            color: $color-brownish-grey !important;
+            width: 50% !important;
+            padding-left: 10px;
+            margin-left: 8px;
+        }
+    }
+    &.ng-dirty {
+        border: 1px solid $color-charcoal-grey;
+        label {
+            color: $color-label !important;
+            width: 50% !important;
+            padding-left: 10px;
+            margin-left: 8px;
+        }
+        &.mat-focused {
+            border: 1px solid $color-mushroom;
+            label {
+                color: $color-brownish-grey !important;
+                width: 50% !important;
+                padding-left: 10px;
+                margin-left: 8px;
+            }
+            input {
+                color: $color-charcoal-grey;
+            }
+        }
+    }
+    &.ng-touched.ng-invalid{
+        border: 1px solid $color-red;
+        label {
+            color: $color-red !important;
+        }
+        input {
+            color: $color-red !important;
+        }
+    }
+    .mat-error{
+        margin-top: 8px;
+        margin-left: 16px;
+    }
+}
+/*END INPUTS*/

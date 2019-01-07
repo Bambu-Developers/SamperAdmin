@@ -1,0 +1,24 @@
+<form class="sa-form">
+  <!-- BUTTONS -->
+  <div class="sa-buttons">
+    <button mat-raised-button color="charcoal-grey">Charcoal Grey</button>
+  </div>
+
+  <!-- INPUT -->
+  <div class="sa-inputs">
+    <mat-form-field class="sa-input-text">
+      <input matInput placeholder="Nombre" [formControl]="nameFormControl">
+      <mat-error *ngIf="nameFormControl.hasError('required')">Este campo es requerido.</mat-error>
+    </mat-form-field>
+  </div>
+
+  <!-- INPUT WITH ICON-->
+  <mat-form-field class="sa-input-text">
+    <input matInput placeholder="Contraseña" [formControl]="passwordFormControl">
+    <button mat-button matSuffix mat-icon-button type="button">
+      <mat-icon svgIcon="ic-eye"></mat-icon>
+    </button>
+    <mat-error *ngIf="nameFormControl.hasError('required')">Este campo es requerido.</mat-error>
+  </mat-form-field>
+
+</form>
