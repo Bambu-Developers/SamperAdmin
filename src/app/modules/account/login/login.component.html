@@ -1,0 +1,47 @@
+<div class="sa-main-content">
+
+  <div class="sa-login-image">
+    <img src="/assets/images/group-2.svg">
+  </div>
+
+  <div class="sa-login-content">
+    <img src="/assets/images/group-6.svg">
+
+    <h1 class="sa-charcoal-grey sa-text-28 sa-roboto">{{language.login.title}}</h1>
+
+    <form class="sa-login-form" [formGroup]="loginForm">
+      <mat-form-field class="sa-input-text">
+        <input matInput placeholder="{{language.placeholderEmail}}" formControlName="email">
+        <mat-error *ngIf="loginForm.controls.email.hasError('required')">{{language.errorRequired}}</mat-error>
+        <mat-error *ngIf="loginForm.controls.email.hasError('email')||loginForm.controls.email.hasError('pattern')">
+          {{language.errorFormatEmail}}
+        </mat-error>
+        <mat-error *ngIf="loginForm.controls.email.hasError('unauthorized')">{{language.errorEmailNotRegister}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="sa-input-text">
+        <input [type]="showPassword?'text':'password'" matInput placeholder="{{language.placeholderPass}}" formControlName="password">
+        <button mat-button matSuffix mat-icon-button type="button" (click)="showPassword = !showPassword">
+          <mat-icon svgIcon="ic-eye"></mat-icon>
+        </button>
+        <mat-error *ngIf="loginForm.controls.password.hasError('required')">{{language.errorRequired}}</mat-error>
+        <mat-error *ngIf="loginForm.controls.password.hasError('minlength') || loginForm.controls.password.hasError('maxlength')">
+          {{language.errorLengthPass}}
+        </mat-error>
+        <mat-error *ngIf="loginForm.controls.password.hasError('authorized')">
+          {{language.errorPassword}}
+        </mat-error>
+      </mat-form-field>
+
+      <p class="sa-text-14 sa-roboto sa-brownish-grey sa-text-right" [routerLink]="['/recover-password']">
+        {{language.login.forgetPassword}}
+      </p>
+
+      <div class="sa-login-buttons">
+        <button mat-raised-button color="charcoal-grey">{{language.login.button}}</button>
+      </div>
+    </form>
+
+  </div>
+
+</div>

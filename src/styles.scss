@@ -3,8 +3,20 @@
 @import 'assets/css/sizes';
 
 /* CUSTOM THEME */
-@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~@angular/material/theming';
+@include mat-core();
+$app-primary: mat-palette($md-primary);
+$app-secondary: mat-palette($md-secondary);
+$app-accent:  mat-palette($md-accent);
+$app-warn:    mat-palette($md-warn);
+$app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
+@include angular-material-theme($app-theme);
 /* END CUSTOM THEME */
+
+*{
+    margin: 0;
+    padding: 0;
+}
 
 /* FONTS */
 .sa-roboto{
@@ -17,6 +29,9 @@
 /* END FONTS */
 
 /* TEXT SIZES */
+.sa-text-28{
+    font-size: 28px;
+}
 .sa-text-24 {
     font-size: 24px;
 }
@@ -76,6 +91,18 @@
 }
 /*END TEXT COLORS*/
 
+/*ALIGN TEXT*/
+.sa-text-left{
+    text-align: left;
+}
+.sa-text-center{
+    text-align: center;
+}
+.sa-text-right{
+    text-align: right;
+}
+/*END ALIGN TEXT*/
+
 /*BUTTONS*/
 .mat-raised-button{
     line-height: 1 !important;
@@ -111,12 +138,16 @@
     justify-content: space-between;
     border-radius: 3px;
     border: 1px solid $color-mushroom;
+    @media #{$break-mobile} {
+        width: 240px;
+    }
     label {
        color: $color-mushroom !important;
        background-color: $color-white-light;
        margin-left: 18px;
     }
     input {
+        width: 90%;
         color: $color-brownish-grey;
         font-size: 14px;
         font-family: 'Roboto';
