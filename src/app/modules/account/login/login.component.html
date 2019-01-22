@@ -28,7 +28,7 @@
         <mat-error *ngIf="loginForm.controls.password.hasError('minlength') || loginForm.controls.password.hasError('maxlength')">
           {{language.errorLengthPass}}
         </mat-error>
-        <mat-error *ngIf="loginForm.controls.password.hasError('authorized')">
+        <mat-error *ngIf="loginForm.controls.password.hasError('unauthorized')">
           {{language.errorPassword}}
         </mat-error>
       </mat-form-field>
@@ -38,7 +38,7 @@
       </p>
 
       <div class="sa-login-buttons">
-        <button mat-raised-button color="charcoal-grey">{{language.login.button}}</button>
+        <button (click)="submit(loginForm.value)" mat-raised-button color="charcoal-grey">{{language.login.button}}</button>
       </div>
     </form>
 

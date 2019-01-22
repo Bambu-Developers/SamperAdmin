@@ -16,8 +16,7 @@ export class ResetPasswordComponent implements OnInit {
   public showPassword: boolean;
   public showConfirmPassword: boolean;
 
-  constructor() {
-  }
+  constructor() { }
 
   ngOnInit() {
     this.resetForm = new FormGroup({

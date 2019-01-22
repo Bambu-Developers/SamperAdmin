@@ -13,7 +13,9 @@ export class RecoverPasswordComponent implements OnInit {
   public language = ACCOUNT_LANGUAGE;
   public recoverForm: FormGroup;
 
-  constructor() {
+  constructor() { }
+
+  ngOnInit() {
     this.recoverForm = new FormGroup({
       email: new FormControl('', [
         Validators.required,
@@ -21,9 +23,6 @@ export class RecoverPasswordComponent implements OnInit {
         Validators.pattern(EMAIL_REGEX),
       ])
     });
-  }
-
-  ngOnInit() {
   }
 
 }

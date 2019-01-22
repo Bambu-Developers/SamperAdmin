@@ -9,12 +9,18 @@ import 'hammerjs';
 /* ANGULAR MATERIAL */
 import { MatButtonModule, MatInputModule, MatIconModule } from '@angular/material';
 
+/* FIREBASE */
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { environment } from '../environments/environment';
+
 /*GLOBALS*/
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 /*GUARDS*/
-import {  NoAuthGuard } from 'src/app/guards/noAuth/no-auth.guard';
+import { AuthGuard } from 'src/app/guards/auth/auth.guard';
 
 /*MODULES*/
 import { AccountModule } from 'src/app/modules/account/account.module';
@@ -30,6 +36,9 @@ import { UiElementsComponent } from './components/ui-elements/ui-elements.compon
   imports: [
     BrowserModule,
     AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
     AccountModule,
     BrowserAnimationsModule,
     RouterModule,
@@ -41,7 +50,7 @@ import { UiElementsComponent } from './components/ui-elements/ui-elements.compon
     MatIconModule
   ],
   providers: [
-    NoAuthGuard
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })
