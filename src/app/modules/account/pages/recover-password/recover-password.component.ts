@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { EMAIL_REGEX } from '../data/data';
-import { ACCOUNT_LANGUAGE } from '../data/language';
+import { EMAIL_REGEX } from 'src/app/modules/account/data/data';
+import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 
 @Component({
   selector: 'app-recover-password',

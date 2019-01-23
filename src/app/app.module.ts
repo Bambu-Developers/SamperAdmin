@@ -25,6 +25,7 @@ import { AuthGuard } from 'src/app/guards/auth/auth.guard';
 /*MODULES*/
 import { AccountModule } from 'src/app/modules/account/account.module';
 import { UiElementsComponent } from './components/ui-elements/ui-elements.component';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 
 
 
@@ -39,7 +40,8 @@ import { UiElementsComponent } from './components/ui-elements/ui-elements.compon
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    AccountModule,
+    // AccountModule,
+    // DashboardModule,
     BrowserAnimationsModule,
     RouterModule,
     HttpClientModule,

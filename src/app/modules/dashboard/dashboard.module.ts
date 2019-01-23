@@ -9,13 +9,24 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatInputModule,
   MatIconModule,
-  MatButtonModule, MatToolbarModule, MatSidenavModule, MatListModule,
+  MatButtonModule,
+  MatToolbarModule,
+  MatSidenavModule,
+  MatListModule,
 } from '@angular/material';
-import { NavbarComponent } from './components/navbar/navbar.component';
 import { LayoutModule } from '@angular/cdk/layout';
 
+/*COMPONENTS*/
+import { DashboardComponent } from './dashboard.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { UsersComponent } from './pages/users/users.component';
+
 @NgModule({
-  declarations: [NavbarComponent],
+  declarations: [
+    DashboardComponent,
+    NavbarComponent,
+    UsersComponent
+  ],
   imports: [
     CommonModule,
     DashboardRoutingModule,

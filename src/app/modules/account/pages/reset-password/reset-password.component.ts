@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { EMAIL_REGEX } from '../data/data';
+import { EMAIL_REGEX } from 'src/app/modules/account/data/data';
 import { matchingPasswords } from 'src/app/directives/equal-to-validator.directive';
-import { ACCOUNT_LANGUAGE } from '../data/language';
+import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 
 @Component({
   selector: 'app-reset-password',

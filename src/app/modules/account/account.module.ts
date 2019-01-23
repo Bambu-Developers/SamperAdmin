@@ -14,9 +14,9 @@ import {
 
 /*COMPONENTS*/
 import { AccountComponent } from './account.component';
-import { LoginComponent } from './login/login.component';
-import { RecoverPasswordComponent } from './recover-password/recover-password.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RecoverPasswordComponent } from './pages/recover-password/recover-password.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 
 
 

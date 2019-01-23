@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { EMAIL_REGEX } from '../data/data';
-import { ACCOUNT_LANGUAGE } from '../data/language';
-import { AuthService } from '../services/auth.service';
+import { EMAIL_REGEX } from 'src/app/modules/account/data/data';
+import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
+import { AuthService } from 'src/app/modules/account/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -37,10 +37,12 @@ export class LoginComponent implements OnInit {
   public submit(value: { email: string; password: string; }) {
     this.authService.login(value.email, value.password).then(
       error => {
-        if (error.code === 'auth/user-not-found') {
-          this.loginForm.controls['email'].setErrors({'unauthorized': true});
-        } else if ( error.code === 'auth/wrong-password' ) {
-          this.loginForm.controls['password'].setErrors({'unauthorized': true});
+        if (error) {
+          if (error.code === 'auth/user-not-found') {
+            this.loginForm.controls['email'].setErrors({ 'unauthorized': true });
+          } else if (error.code === 'auth/wrong-password') {
+            this.loginForm.controls['password'].setErrors({ 'unauthorized': true });
+          }
         }
       }
     );

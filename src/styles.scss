@@ -214,3 +214,13 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     }
 }
 /*END INPUTS*/
+
+/* TOLBAR */
+.mat-sidenav {
+    .mat-drawer-inner-container{
+        .mat-toolbar{
+            background: $color-brick !important;
+        }
+    }
+}
+/* END TOLBAR */

@@ -4,15 +4,18 @@ import { UiElementsComponent } from './components/ui-elements/ui-elements.compon
 import { AuthGuard } from './guards/auth/auth.guard';
 
 const routes: Routes = [
-  { path: 'ui-elements', component: UiElementsComponent },
+  {
+    path: '',
+    loadChildren: './modules/account/account.module#AccountModule',
+  },
   {
     path: 'dashboard',
     loadChildren: './modules/dashboard/dashboard.module#DashboardModule',
     canActivate: [AuthGuard]
   },
   {
-    path: '',
-    loadChildren: './modules/account/account.module#AccountModule',
+    path: 'ui-elements',
+    component: UiElementsComponent
   },
 ];
 
