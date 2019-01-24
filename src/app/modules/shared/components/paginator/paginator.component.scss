@@ -1,13 +1,14 @@
 @import "src/assets/css/colors";
 
 .sa-paginator {
-  width: 20%;
+  width: auto;
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 0px 15px;
   .sa-label-paginator {
     color: #6d6e70;
+    margin-right: 8px;
   }
   .sa-paginator-pages {
     margin: 0px 5px;

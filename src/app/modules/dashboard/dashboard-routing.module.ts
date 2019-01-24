@@ -5,12 +5,15 @@ import { UsersComponent } from './pages/users/users.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'users',
     component: DashboardComponent,
-    children: [
-      { path: 'users', component: UsersComponent},
-    ]}
-  ,
+    loadChildren: './pages/users/users.module#UsersModule'
+  },
+  {
+    path: '',
+    redirectTo: 'users',
+    pathMatch: 'full'
+  },
 ];
 
 @NgModule({
