@@ -1,34 +1,34 @@
 <div class="sa-dahsboard-main-content">
-  <h3 class="sa-text-24 sa-charcoal-grey sa-roboto">Usuarios</h3>
+  <h3 class="sa-text-24 sa-charcoal-grey sa-roboto">{{language.users}}</h3>
   <div class="sa-dashboard-actions">
-    <button mat-raised-button color="accent">Crear Usuario</button>
+    <button mat-raised-button color="accent">{{language.createUser}}</button>
     <app-paginator [totalItems]="60" [perPage]="20" [page]="1" [totalPages]="3"></app-paginator>
   </div>
   <div class="sa-dashboard-content">
     <table mat-table [dataSource]="dataSource">
       <!-- Name Column -->
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <th mat-header-cell *matHeaderCellDef> {{language.user.name}} </th>
         <td mat-cell *matCellDef="let user"> {{user.name}} </td>
       </ng-container>
       <!-- Rol Column -->
       <ng-container matColumnDef="rol">
-        <th mat-header-cell *matHeaderCellDef> Rol </th>
+        <th mat-header-cell *matHeaderCellDef> {{language.user.rol}} </th>
         <td mat-cell *matCellDef="let user"> {{user.rol}} </td>
       </ng-container>
       <!-- Creado Column -->
       <ng-container matColumnDef="dateCreated">
-        <th mat-header-cell *matHeaderCellDef> Creado </th>
+        <th mat-header-cell *matHeaderCellDef> {{language.user.dateCreated}} </th>
         <td mat-cell *matCellDef="let user"> {{user.dateCreated}} </td>
       </ng-container>
       <!-- Última conexión Column -->
       <ng-container matColumnDef="lastConexion">
-        <th mat-header-cell *matHeaderCellDef> Última conexión </th>
+        <th mat-header-cell *matHeaderCellDef> {{language.user.lastConexion}} </th>
         <td mat-cell *matCellDef="let user"> {{user.lastConexion}} </td>
       </ng-container>
       <!-- Estatus Column -->
       <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef> Estatus </th>
+        <th mat-header-cell *matHeaderCellDef> {{language.user.status}} </th>
         <td mat-cell *matCellDef="let user"> {{user.status}} </td>
       </ng-container>
       <!-- Symbol Column -->
