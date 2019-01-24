@@ -114,7 +114,7 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
   font-size: 14px;
   font-weight: bold;
   color: $color-white;
-  &.mat-accent{
+  &.mat-accent {
     color: $color-white;
   }
   &.mat-charcoal-grey {
@@ -243,3 +243,47 @@ button.mat-menu-item {
   padding: 34px 32px;
 }
 /* END CONTENTS */
+
+// ICON
+.mat-icon {
+  &.icon-color-white {
+    svg {
+      path {
+        fill: $color-white;
+      }
+    }
+  }
+  &.icon-color-accent {
+    svg {
+      path {
+        fill: $color-pinkish-orange;
+      }
+    }
+  }
+}
+//END ICONS
+
+// TABLES
+table{
+  width: 100%;
+  font-family: 'Roboto';
+  thead{
+    .mat-header-row{
+      background-color: #f5f2f2;
+      color: $color-mushroom;
+      th{
+        font-size: 14px !important;
+      }
+    }
+  }
+  tbody{
+    tr{
+      border-color: $color-very-light-pink !important;
+      td{
+        font-size: 14px;
+        color: $color-charcoal-grey;
+      }
+    }
+  }
+}
+// END TABLES

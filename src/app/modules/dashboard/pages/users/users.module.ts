@@ -5,11 +5,9 @@ import { UsersRoutingModule } from './users-routing.module';
 
 /*MATERIAL & ANGULAR*/
 import {
-  MatTableModule,
-  MatPaginatorModule
+  MatTableModule
 } from '@angular/material';
 import { PaginatorComponent } from '../../components/paginator/paginator.component';
-import { DashboardModule } from '../../dashboard.module';
 
 @NgModule({
   declarations: [],
@@ -17,9 +15,7 @@ import { DashboardModule } from '../../dashboard.module';
     CommonModule,
     UsersRoutingModule,
     MatTableModule,
-    MatPaginatorModule,
-    PaginatorComponent,
-    DashboardModule
+    PaginatorComponent
   ]
 })
 export class UsersModule { }

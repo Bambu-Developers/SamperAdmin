@@ -22,7 +22,7 @@ export class AppComponent {
       .addSvgIcon('ic-users', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/icon-usuarios-off.svg'))
       .addSvgIcon('ic-clients', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/icon-clientes-off.svg'))
       .addSvgIcon('ic-before', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/before.svg'))
-      .addSvgIcon('ic-next', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/next.svg'));
-
+      .addSvgIcon('ic-next', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/next.svg'))
+      .addSvgIcon('ic-dropdown', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/ic-icon-dropdown-orange.svg'));
   }
 }

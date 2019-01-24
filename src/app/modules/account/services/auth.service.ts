@@ -59,4 +59,9 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
+  public getUser() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user.email;
+  }
+
 }

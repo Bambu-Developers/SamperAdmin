@@ -49,11 +49,14 @@ export class NavbarComponent {
     }
   ];
   public date = new Date;
+  public email: string;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     private authService: AuthService
-  ) {  }
+  ) {
+    this.email = this.authService.getUser();
+  }
 
   public logout() {
     this.authService.logout().then();

@@ -6,8 +6,8 @@
     </mat-toolbar>
     <mat-nav-list>
       <h3 class="sa-roboto sa-charcoal-grey sa-text-20">{{days[date.getDay()]}} {{date.getDate()}} {{months[date.getMonth()]}} {{date.getFullYear()}}</h3>
-      <a *ngFor="let item of items" mat-list-item [routerLink]="[item.route]" routerLinkActive="router-link-active">
-          <mat-icon [svgIcon]="item.icon"></mat-icon>
+      <a *ngFor="let item of items" mat-list-item [routerLink]="[item.route]">
+          <mat-icon  [svgIcon]="item.icon"></mat-icon>
         {{item.title}}
       </a>
     </mat-nav-list>
@@ -19,7 +19,7 @@
       </button>
       <button class="sa-navbar-email" mat-button [matMenuTriggerFor]="menu">
         <p class="sa-navbar-email sa-text-14 sa-white">
-          correo@correo.com
+          {{email}} <mat-icon class="icon-color-white" svgIcon="ic-dropdown"></mat-icon>
         </p>
       </button>
       <mat-menu #menu="matMenu">

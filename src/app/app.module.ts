@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import 'hammerjs';
 
 /* ANGULAR MATERIAL */
-import { MatButtonModule, MatInputModule, MatIconModule, MatPaginatorModule } from '@angular/material';
+import { MatButtonModule, MatInputModule, MatIconModule, MatPaginatorModule, MatTableModule } from '@angular/material';
 
 /* FIREBASE */
 import { AngularFireModule } from '@angular/fire';
@@ -45,7 +45,8 @@ import { UiElementsComponent } from './components/ui-elements/ui-elements.compon
     MatButtonModule,
     MatInputModule,
     MatIconModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatTableModule
   ],
   providers: [
     AuthGuard,

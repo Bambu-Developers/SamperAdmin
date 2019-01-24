@@ -14,7 +14,8 @@ import {
   MatSidenavModule,
   MatListModule,
   MatMenuModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatTableModule
 } from '@angular/material';
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -44,7 +45,8 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     MatSidenavModule,
     MatListModule,
     MatMenuModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatTableModule
   ],
   exports: [PaginatorComponent]
 })
