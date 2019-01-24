@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { reject } from 'q';
 
 @Injectable({
   providedIn: 'root'
@@ -40,9 +39,9 @@ export class AuthService {
   async ForgotPassword(passwordResetEmail: string) {
     try {
       await this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail);
-      return true;
+      return {send: true};
     } catch (e) {
-      reject(e);
+      return e;
     }
   }
 
