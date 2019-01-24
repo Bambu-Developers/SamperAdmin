@@ -64,12 +64,4 @@ export class AuthService {
     return user.email;
   }
 
-  public resetPassword(emailAddress: string) {
-    this.afAuth.auth.sendPasswordResetEmail(emailAddress).then(function () {
-      return 1;
-    }).catch(function (error) {
-      return error;
-    });
-  }
-
 }
