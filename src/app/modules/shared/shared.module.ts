@@ -21,8 +21,10 @@ import { LayoutModule } from '@angular/cdk/layout';
 
 /* FIREBASE */
 import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireDatabase } from '@angular/fire/database';
 import { environment } from '../../../environments/environment';
 
 /*SHARED COMPONENTS*/
@@ -37,6 +39,7 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
     RouterModule,
     HttpClientModule,
     FormsModule,
@@ -68,6 +71,10 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     MatListModule,
     MatMenuModule,
     PaginatorComponent
+  ],
+  providers: [
+    AngularFireDatabase,
+    { provide: FirestoreSettingsToken, useValue: {} }
   ],
 })
 export class SharedModule { }

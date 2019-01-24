@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +11,15 @@ import { Router } from '@angular/router';
 export class AuthService {
 
   userData: any;
+  usersRef: AngularFireList<any>;
 
   constructor(
+    public db: AngularFireDatabase,
     public afAuth: AngularFireAuth,
     public router: Router
   ) {
     this.afAuth.authState.subscribe(user => {
+      this.usersRef = this.db.list('Users');
       if (user) {
         this.userData = user;
         localStorage.setItem('user', JSON.stringify(this.userData));
@@ -25,14 +30,14 @@ export class AuthService {
   }
 
   // Sign in with email/password
-  public async login(email: string, password: string) {
-    try {
-      await this.afAuth.auth.signInWithEmailAndPassword(email, password);
-      this.router.navigate(['/dashboard']);
-      return;
-    } catch (e) {
-      return e;
-    }
+  login(email, password) {
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password)
+      .then((result) => {
+        this.router.navigate(['/dashboard']);
+        this.updateUserData(result.user);
+      }).catch((error) => {
+        return error;
+      });
   }
 
   // Reset Forggot password
@@ -58,6 +63,7 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
+  // Get email of user
   public getUser() {
     const user = JSON.parse(localStorage.getItem('user'));
     return user.email;
@@ -65,5 +71,37 @@ export class AuthService {
 
   // reset password
   public updateUserPassword(password: string, oob: string) { }
+
+  // Create user
+  public createUser(email, password) {
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
+      .then((result) => {
+        this.setUserData(result.user);
+      }).catch((error) => {
+        return error;
+      });
+  }
+
+  /* Setting up user data */
+  public setUserData(user: any) {
+    const userData: User = {
+      email: user.email,
+      created_at: user.metadata.creationTime,
+      last_conexion: user.metadata.lastSignInTime,
+      id: user.uid,
+    };
+    this.usersRef.push(userData);
+  }
+
+  /* Setting up user data */
+  public updateUserData(user: any) {
+    const userData: User = {
+      email: user.email,
+      created_at: user.metadata.creationTime,
+      last_conexion: user.metadata.lastSignInTime,
+      id: user.uid,
+    };
+    this.usersRef.update(user, userData);
+  }
 
 }
