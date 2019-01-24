@@ -17,7 +17,7 @@ export const DASHBOARD_LANGUAGE = {
             'Mar',
             'Mie',
             'Jue',
-            'Fri',
+            'Vie',
             'Sab',
             'Dom'
         ],

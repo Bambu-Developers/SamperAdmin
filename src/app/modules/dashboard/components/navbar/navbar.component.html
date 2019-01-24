@@ -5,9 +5,10 @@
       <img src="/assets/images/sanper.svg">
     </mat-toolbar>
     <mat-nav-list>
-      <h3 class="sa-roboto sa-charcoal-grey sa-text-20">{{days[date.getDay()]}} {{date.getDate()}} {{months[date.getMonth()]}} {{date.getFullYear()}}</h3>
+      <h3 class="sa-roboto sa-charcoal-grey sa-text-20">{{days[date.getDay()-1]}} {{date.getDate()}}
+        {{months[date.getMonth()]}} {{date.getFullYear()}}</h3>
       <a *ngFor="let item of items" mat-list-item [routerLink]="[item.route]">
-          <mat-icon  [svgIcon]="item.icon"></mat-icon>
+        <mat-icon [svgIcon]="item.icon"></mat-icon>
         {{item.title}}
       </a>
     </mat-nav-list>

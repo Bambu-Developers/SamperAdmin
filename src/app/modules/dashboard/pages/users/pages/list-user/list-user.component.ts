@@ -13,9 +13,9 @@ const ELEMENT_DATA: UserModel[] = [
 })
 export class ListUserComponent implements OnInit {
 
+  public language = USERS_LANGUAGE;
   public displayedColumns: string[] = ['name', 'rol', 'dateCreated', 'lastConexion', 'status', 'edit'];
   public dataSource = ELEMENT_DATA;
-  public language = USERS_LANGUAGE;
 
   constructor() { }
 
