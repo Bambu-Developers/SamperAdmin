@@ -1,25 +1,31 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="!(isHandset$ | async)">
-    <mat-toolbar color="primary">Sanper</mat-toolbar>
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
+    <mat-toolbar color="primary">
+      <img src="/assets/images/sanper.svg">
+    </mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item href="#">Link 1</a>
-      <a mat-list-item href="#">Link 2</a>
-      <a mat-list-item href="#">Link 3</a>
+      <h3 class="sa-roboto sa-charcoal-grey sa-text-20">{{days[date.getDay()]}} {{date.getDate()}} {{months[date.getMonth()]}} {{date.getFullYear()}}</h3>
+      <a *ngFor="let item of items" mat-list-item [routerLink]="[item.route]" routerLinkActive="router-link-active">
+          <mat-icon [svgIcon]="item.icon"></mat-icon>
+        {{item.title}}
+      </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+    <mat-toolbar class="sa-navbar-toolbar" color="primary">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
+      <button class="sa-navbar-email" mat-button [matMenuTriggerFor]="menu">
+        <p class="sa-navbar-email sa-text-14 sa-white">
+          correo@correo.com
+        </p>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button (click)="logout()" mat-menu-item>{{language.menu.logout}}</button>
+        <button mat-menu-item>{{language.menu.account}}</button>
+      </mat-menu>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>

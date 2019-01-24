@@ -13,6 +13,8 @@ import {
   MatToolbarModule,
   MatSidenavModule,
   MatListModule,
+  MatMenuModule,
+  MatPaginatorModule
 } from '@angular/material';
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -20,12 +22,14 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { DashboardComponent } from './dashboard.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { UsersComponent } from './pages/users/users.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     NavbarComponent,
-    UsersComponent
+    UsersComponent,
+    PaginatorComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +42,10 @@ import { UsersComponent } from './pages/users/users.component';
     LayoutModule,
     MatToolbarModule,
     MatSidenavModule,
-    MatListModule
-  ]
+    MatListModule,
+    MatMenuModule,
+    MatPaginatorModule
+  ],
+  exports: [PaginatorComponent]
 })
 export class DashboardModule { }

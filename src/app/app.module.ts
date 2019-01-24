@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import 'hammerjs';
 
 /* ANGULAR MATERIAL */
-import { MatButtonModule, MatInputModule, MatIconModule } from '@angular/material';
+import { MatButtonModule, MatInputModule, MatIconModule, MatPaginatorModule } from '@angular/material';
 
 /* FIREBASE */
 import { AngularFireModule } from '@angular/fire';
@@ -22,17 +22,14 @@ import { AppComponent } from './app.component';
 /*GUARDS*/
 import { AuthGuard } from 'src/app/guards/auth/auth.guard';
 
-/*MODULES*/
-import { AccountModule } from 'src/app/modules/account/account.module';
+/*COMPONENTS*/
 import { UiElementsComponent } from './components/ui-elements/ui-elements.component';
-import { DashboardModule } from './modules/dashboard/dashboard.module';
-
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    UiElementsComponent
+    UiElementsComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,8 +37,6 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    // AccountModule,
-    // DashboardModule,
     BrowserAnimationsModule,
     RouterModule,
     HttpClientModule,
@@ -49,10 +44,11 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     ReactiveFormsModule,
     MatButtonModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatPaginatorModule
   ],
   providers: [
-    AuthGuard
+    AuthGuard,
   ],
   bootstrap: [AppComponent]
 })
