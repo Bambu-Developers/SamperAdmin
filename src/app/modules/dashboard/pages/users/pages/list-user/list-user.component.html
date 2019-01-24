@@ -19,12 +19,12 @@
       <!-- Creado Column -->
       <ng-container matColumnDef="dateCreated">
         <th mat-header-cell *matHeaderCellDef> {{language.user.dateCreated}} </th>
-        <td mat-cell *matCellDef="let user"> {{user.dateCreated}} </td>
+        <td mat-cell *matCellDef="let user"> {{user.created_at}} </td>
       </ng-container>
       <!-- Última conexión Column -->
       <ng-container matColumnDef="lastConexion">
         <th mat-header-cell *matHeaderCellDef> {{language.user.lastConexion}} </th>
-        <td mat-cell *matCellDef="let user"> {{user.lastConexion}} </td>
+        <td mat-cell *matCellDef="let user"> {{user.last_conexion}} </td>
       </ng-container>
       <!-- Estatus Column -->
       <ng-container matColumnDef="status">
