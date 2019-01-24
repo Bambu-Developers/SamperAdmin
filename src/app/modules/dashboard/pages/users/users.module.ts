@@ -9,9 +9,9 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 /*COMPONENTS*/
 import { UsersComponent } from './users.component';
-import { EditUserComponent } from './components/edit-user/edit-user.component';
-import { ListUserComponent } from './components/list-user/list-user.component';
-import { CreateUserComponent } from './components/create-user/create-user.component';
+import { EditUserComponent } from './pages/edit-user/edit-user.component';
+import { ListUserComponent } from './pages/list-user/list-user.component';
+import { CreateUserComponent } from './pages/create-user/create-user.component';
 
 @NgModule({
   declarations: [

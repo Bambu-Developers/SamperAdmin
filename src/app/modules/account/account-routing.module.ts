@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'reset-password', component: ResetPasswordComponent},
   { path: 'recover-password', component: RecoverPasswordComponent},
+  { path: '__/auth/action', redirectTo: 'reset-password', pathMatch: 'full'},
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 ];
 
