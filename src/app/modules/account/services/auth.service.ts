@@ -39,7 +39,7 @@ export class AuthService {
   async ForgotPassword(passwordResetEmail: string) {
     try {
       await this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail);
-      return {send: true};
+      return { send: true };
     } catch (e) {
       return e;
     }
@@ -62,5 +62,8 @@ export class AuthService {
     const user = JSON.parse(localStorage.getItem('user'));
     return user.email;
   }
+
+  // reset password
+  public updateUserPassword(password: string, oob: string) { }
 
 }
