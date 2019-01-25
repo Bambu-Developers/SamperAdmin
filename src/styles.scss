@@ -273,8 +273,12 @@ button.mat-menu-item {
   }
   &.icon-color-accent {
     svg {
-      path {
-        fill: $color-pinkish-orange;
+      g {
+        fill: #ff6649;
+        stroke: #ff6649;
+        path {
+          fill: $color-pinkish-orange;
+        }
       }
     }
   }

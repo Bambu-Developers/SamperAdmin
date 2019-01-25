@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DASHBOARD_LANGUAGE } from 'src/app/modules/dashboard/data/language';
 import { AuthService } from 'src/app/modules/account/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -25,37 +26,40 @@ export class NavbarComponent {
     {
       icon: 'ic-stock',
       title: DASHBOARD_LANGUAGE.navbar.stock,
-      route: 'stock'
+      route: '/dashboard/stock'
     },
     {
       icon: 'ic-analytics',
       title: DASHBOARD_LANGUAGE.navbar.analitycs,
-      route: 'analitycs'
+      route: '/dashboard/analitycs'
     },
     {
       icon: 'ic-products',
       title: DASHBOARD_LANGUAGE.navbar.products,
-      route: 'products'
+      route: '/dashboard/products'
     },
     {
       icon: 'ic-users',
       title: DASHBOARD_LANGUAGE.navbar.users,
-      route: 'users'
+      route: '/dashboard/users'
     },
     {
       icon: 'ic-clients',
       title: DASHBOARD_LANGUAGE.navbar.clients,
-      route: 'clients'
+      route: '/dashboard/clients'
     }
   ];
   public date = new Date;
   public email: string;
+  public current: string;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
+    private router: Router,
     private authService: AuthService
   ) {
     this.email = this.authService.getUser();
+    this.current = this.router.url;
   }
 
   public logout() {

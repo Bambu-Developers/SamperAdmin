@@ -36,6 +36,9 @@
     mat-icon {
       margin-right: 8px;
     }
+    &.active {
+      color: $color-pinkish-orange;
+    }
   }
 }
 

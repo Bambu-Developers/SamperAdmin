@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-user',
@@ -13,6 +13,17 @@ export class EditUserComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.editUserForm = new FormGroup({
+      user: new FormControl('', [
+        Validators.required
+      ]),
+      password: new FormControl('', [
+        Validators.required
+      ]),
+      status: new FormControl('', [
+        Validators.required
+      ]),
+    }, Validators.required);
   }
 
 }

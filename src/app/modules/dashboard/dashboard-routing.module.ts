@@ -10,6 +10,11 @@ const routes: Routes = [
     loadChildren: './pages/users/users.module#UsersModule'
   },
   {
+    path: 'clients',
+    component: DashboardComponent,
+    loadChildren: './pages/clients/clients.module#ClientsModule'
+  },
+  {
     path: '',
     redirectTo: 'users',
     pathMatch: 'full'
