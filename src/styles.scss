@@ -127,7 +127,7 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     border: 1px solid $color-charcoal-grey;
     color: $color-charcoal-grey;
   }
-  &.sa-btn-small{
+  &.sa-btn-small {
     width: 112px;
     height: 32px;
   }
@@ -275,22 +275,22 @@ button.mat-menu-item {
 //END ICONS
 
 // TABLES
-table{
+table {
   width: 100%;
-  font-family: 'Roboto';
-  thead{
-    .mat-header-row{
+  font-family: "Roboto";
+  thead {
+    .mat-header-row {
       background-color: #f5f2f2;
       color: $color-mushroom;
-      th{
+      th {
         font-size: 14px !important;
       }
     }
   }
-  tbody{
-    tr{
+  tbody {
+    tr {
       border-color: $color-very-light-pink !important;
-      td{
+      td {
         font-size: 14px;
         color: $color-charcoal-grey;
       }
@@ -300,10 +300,66 @@ table{
 // END TABLES
 
 /* SIDENAV */
-.sidenav-container{
+.sidenav-container {
   height: -webkit-fill-available !important;
 }
 .mat-drawer-content {
   height: inherit !important;
 }
 /* END SIDENAV */
+
+/* SELECTS */
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: $color-charcoal-grey;
+}
+.mat-form-field.mat-focused.mat-primary .mat-select-arrow {
+  color: $color-charcoal-grey;
+}
+.mat-form-field-type-mat-select {
+  width: 310px;
+  height: 32px;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 3px;
+  border: 1px solid #a5a1a1;
+  padding: 8px;
+  .mat-form-field-infix {
+    border-top: none;
+  }
+  .mat-form-field-wrapper {
+    width: 100%;
+    padding-bottom: 0px;
+  }
+  .mat-form-field-underline {
+    display: none;
+  }
+  &.sa-no-label {
+    .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix span {
+      .mat-form-field-label {
+        display: none !important;
+        &.mat-empty {
+          display: block !important;
+        }
+      }
+    }
+    &.mat-form-field-should-float.mat-focused {
+      .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix span .mat-form-field-label {
+        display: none !important;
+      }
+    }
+  }
+  &.mat-form-field-invalid {
+    border: 1px solid $color-red !important;
+  }
+  .mat-error{
+    margin: 30px 5px;
+  }
+}
+/* END SELECTS */
+
+/* RADIO GROUP */
+.mat-radio-button.mat-charcoal-grey .mat-radio-inner-circle{
+  background-color: $color-charcoal-grey;
+}
+/* END RADIO GROUP */

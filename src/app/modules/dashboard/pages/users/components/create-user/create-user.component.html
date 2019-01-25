@@ -2,6 +2,31 @@
   <div class="sa-create-user-content">
     <h1 class="sa-charcoal-grey sa-text-20 sa-roboto">Nuevo usuario</h1>
     <form class="sa-create-user-form" [formGroup]="createUserForm">
+      <mat-form-field class="sa-create-user-select sa-no-label">
+        <mat-select (selectionChange)="selectedRol = $event.value" placeholder="Tipo de rol" formControlName="rol">
+          <mat-option value="1">Vendedor</mat-option>
+          <mat-option value="2">Almacenista</mat-option>
+          <mat-option value="3">Administrador</mat-option>
+        </mat-select>
+        <mat-error *ngIf="createUserForm.controls.rol.hasError('required')">{{language.errorRequired}}</mat-error>
+      </mat-form-field>
+      <mat-form-field *ngIf="selectedRol == 1" class="sa-create-user-select sa-no-label">
+        <mat-select placeholder="Ruta" formControlName="route">
+          <mat-option value="1">Ruta 1</mat-option>
+          <mat-option value="2">Ruta 2</mat-option>
+          <mat-option value="3">Ruta 3</mat-option>
+        </mat-select>
+        <mat-error *ngIf="createUserForm.controls.route.hasError('required')">{{language.errorRequired}}</mat-error>
+      </mat-form-field>
+      <div *ngIf="selectedRol == 3" class="sa-create-user-admin">
+        <p class="sa-charcoal-grey sa-text-14 sa-roboto">Acciones</p>
+        <mat-radio-group class="sa-create-user-radio-group" formControlName="permision">
+          <mat-radio-button color="charcoal-grey" class="sa-create-user-radio-button" *ngFor="let permision of permisions"
+            [value]="permision">
+            {{permision}}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
       <mat-form-field class="sa-input-text">
         <input matInput placeholder="Nombre de la persona" formControlName="name">
         <mat-error *ngIf="createUserForm.controls.name.hasError('required')">{{language.errorRequired}}</mat-error>
