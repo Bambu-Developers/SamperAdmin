@@ -123,6 +123,14 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
       background: rgba($color-charcoal-grey, 0.8) !important;
     }
   }
+  &.mat-white {
+    border: 1px solid $color-charcoal-grey;
+    color: $color-charcoal-grey;
+  }
+  &.sa-btn-small{
+    width: 112px;
+    height: 32px;
+  }
   &:disabled {
     cursor: not-allowed;
     background-color: rgba($color-charcoal-grey, 0.7) !important;
@@ -146,7 +154,7 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
   }
   label {
     color: $color-mushroom !important;
-    background-color: $color-white-light;
+    background-color: $color-white;
     margin-left: 18px;
   }
   input {
@@ -239,7 +247,10 @@ button.mat-menu-item {
 /*END MAT-MENU*/
 
 /* CONTENTS */
-.sa-dahsboard-main-content {
+.mat-drawer-container {
+  background-color: $color-white-dark;
+}
+.sa-dashboard-main-content {
   padding: 34px 32px;
 }
 /* END CONTENTS */
@@ -287,3 +298,12 @@ table{
   }
 }
 // END TABLES
+
+/* SIDENAV */
+.sidenav-container{
+  height: -webkit-fill-available !important;
+}
+.mat-drawer-content {
+  height: inherit !important;
+}
+/* END SIDENAV */

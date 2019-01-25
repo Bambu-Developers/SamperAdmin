@@ -15,7 +15,8 @@ import {
   MatToolbarModule,
   MatSidenavModule,
   MatListModule,
-  MatMenuModule
+  MatMenuModule,
+  MatSelectModule
 } from '@angular/material';
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -53,6 +54,7 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     MatSidenavModule,
     MatListModule,
     MatMenuModule,
+    MatSelectModule
   ],
   exports: [
     AngularFirestoreModule,
@@ -70,6 +72,7 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     MatSidenavModule,
     MatListModule,
     MatMenuModule,
+    MatSelectModule,
     PaginatorComponent
   ],
   providers: [

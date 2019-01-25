@@ -1,0 +1,30 @@
+<div class="sa-dashboard-main-content">
+  <div class="sa-create-user-content">
+    <h1 class="sa-charcoal-grey sa-text-20 sa-roboto">Nuevo usuario</h1>
+    <form class="sa-create-user-form" [formGroup]="createUserForm">
+      <mat-form-field class="sa-input-text">
+        <input matInput placeholder="Nombre de la persona" formControlName="name">
+        <mat-error *ngIf="createUserForm.controls.name.hasError('required')">{{language.errorRequired}}</mat-error>
+      </mat-form-field>
+      <mat-form-field class="sa-input-text">
+        <input matInput placeholder="Nombre de usuario" formControlName="username">
+        <mat-error *ngIf="createUserForm.controls.username.hasError('required')">{{language.errorRequired}}</mat-error>
+      </mat-form-field>
+      <mat-form-field class="sa-input-text">
+        <input [type]="showPassword?'text':'password'" matInput placeholder="{{language.placeholderPass}}"
+          formControlName="password">
+        <button mat-button matSuffix mat-icon-button type="button" (click)="showPassword = !showPassword">
+          <mat-icon svgIcon="ic-eye"></mat-icon>
+        </button>
+        <mat-error *ngIf="createUserForm.controls.password.hasError('required')">{{language.errorRequired}}</mat-error>
+        <mat-error *ngIf="createUserForm.controls.password.hasError('minlength') || createUserForm.controls.password.hasError('maxlength')">
+          {{language.errorLengthPass}}
+        </mat-error>
+      </mat-form-field>
+      <div class="sa-create-user-actions">
+        <button [routerLink]="['/dashboard/users/']" class="sa-btn-small" mat-raised-button color="white">Cancelar</button>
+        <button class="sa-btn-small" mat-raised-button color="charcoal-grey">Crear usuario</button>
+      </div>
+    </form>
+  </div>
+</div>
