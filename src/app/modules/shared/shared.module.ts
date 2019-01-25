@@ -17,7 +17,8 @@ import {
   MatListModule,
   MatMenuModule,
   MatSelectModule,
-  MatRadioModule
+  MatRadioModule,
+  MatSlideToggleModule
 } from '@angular/material';
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -56,7 +57,8 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     MatListModule,
     MatMenuModule,
     MatSelectModule,
-    MatRadioModule
+    MatRadioModule,
+    MatSlideToggleModule
   ],
   exports: [
     AngularFirestoreModule,
@@ -76,7 +78,8 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     MatMenuModule,
     MatSelectModule,
     PaginatorComponent,
-    MatRadioModule
+    MatRadioModule,
+    MatSlideToggleModule
   ],
   providers: [
     AngularFireDatabase,

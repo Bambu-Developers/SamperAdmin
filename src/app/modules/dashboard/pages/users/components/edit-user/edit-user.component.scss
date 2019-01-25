@@ -1,0 +1,65 @@
+@import "src/assets/css/colors";
+
+.sa-dashboard-main-content {
+  .sa-edit-user-content {
+    width: 392px;
+    border-radius: 3px;
+    background-color: $color-white;
+    margin: 0px auto;
+    padding: 24px;
+    justify-content: start;
+    h1 {
+      margin-bottom: 24px;
+    }
+    .sa-edit-user-information {
+      display: flex;
+      flex-direction: row;
+      .sa-edit-user-information-text {
+        width: 50%;
+        p {
+          margin-bottom: 8px;
+        }
+      }
+    }
+    .sa-edit-user-form {
+      display: flex;
+      flex-direction: column;
+      margin-top: 40px;
+      .sa-edit-user-form-group {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 18px;
+        .sa-edit-user-form-label-user{
+          width: 45%;
+        }
+        .sa-edit-user-form-label-email{
+          margin-right: 8px;
+        }
+        .sa-edit-user-form-label {
+          width: 50%;
+        }
+        .sa-edit-user-form-input {
+          width: 50%;
+          height: 27px;
+        }
+      }
+      .sa-edit-user-delete {
+        margin-top: 34px;
+        margin-bottom: 10px;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+      .sa-edit-user-actions {
+        margin-top: 24px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        button {
+          width: 128px;
+          margin: 4px;
+        }
+      }
+    }
+  }
+}
