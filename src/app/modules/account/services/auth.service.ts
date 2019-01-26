@@ -72,32 +72,11 @@ export class AuthService {
   // reset password
   public updateUserPassword(password: string, oob: string) { }
 
-  // Create user
-  public createUser(email, password) {
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-      .then((result) => {
-        this.setUserData(result.user);
-      }).catch((error) => {
-        return error;
-      });
-  }
-
-  /* Setting up user data */
-  public setUserData(user: any) {
-    const userData: User = {
-      email: user.email,
-      created_at: user.metadata.creationTime,
-      last_conexion: user.metadata.lastSignInTime,
-      id: user.uid,
-    };
-    this.usersRef.push(userData);
-  }
-
   /* Setting up user data */
   public updateUserData(user: any) {
     const userData: User = {
       email: user.email,
-      created_at: user.metadata.creationTime,
+      create_at: user.metadata.creationTime,
       last_conexion: user.metadata.lastSignInTime,
       id: user.uid,
     };

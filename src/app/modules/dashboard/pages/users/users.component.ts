@@ -25,6 +25,12 @@ export class UsersComponent implements OnInit {
     this.getsUsers();
   }
 
-  public getsUsers() {  }
+  public getsUsers() {
+    this.usersService.getAllUsers().subscribe(
+      res => {
+        this.dataSource = res;
+      }
+    );
+  }
 
 }

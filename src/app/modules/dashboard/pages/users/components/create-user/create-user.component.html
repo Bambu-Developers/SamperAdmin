@@ -1,7 +1,7 @@
 <div class="sa-dashboard-main-content">
   <div class="sa-create-user-content">
     <h1 class="sa-charcoal-grey sa-text-20 sa-roboto">Nuevo usuario</h1>
-    <form class="sa-create-user-form" [formGroup]="createUserForm">
+    <form (ngSubmit)="createUser()" class="sa-create-user-form" [formGroup]="createUserForm">
       <mat-form-field class="sa-create-user-select sa-no-label">
         <mat-select (selectionChange)="selectedRol = $event.value" placeholder="Tipo de rol" formControlName="rol">
           <mat-option value="1">Vendedor</mat-option>
@@ -20,20 +20,21 @@
       </mat-form-field>
       <div *ngIf="selectedRol == 3" class="sa-create-user-admin">
         <p class="sa-charcoal-grey sa-text-14 sa-roboto">Acciones</p>
-        <mat-radio-group class="sa-create-user-radio-group" formControlName="permision">
-          <mat-radio-button color="charcoal-grey" class="sa-create-user-radio-button" *ngFor="let permision of permisions"
-            [value]="permision">
-            {{permision}}
-          </mat-radio-button>
-        </mat-radio-group>
+        <div class="sa-create-user-checkbox-group">
+          <mat-checkbox (change)="changePermisions($event)" [value]="i" color="charcoal-grey" *ngFor="let permision of permisions; let i = index">{{permision}}</mat-checkbox>
+        </div>
       </div>
       <mat-form-field class="sa-input-text">
         <input matInput placeholder="Nombre de la persona" formControlName="name">
         <mat-error *ngIf="createUserForm.controls.name.hasError('required')">{{language.errorRequired}}</mat-error>
       </mat-form-field>
       <mat-form-field class="sa-input-text">
-        <input matInput placeholder="Nombre de usuario" formControlName="username">
-        <mat-error *ngIf="createUserForm.controls.username.hasError('required')">{{language.errorRequired}}</mat-error>
+        <input matInput placeholder="Correo electrónico" formControlName="email">
+        <mat-error *ngIf="createUserForm.controls.email.hasError('required')">{{language.errorRequired}}</mat-error>
+        <mat-error *ngIf="createUserForm.controls.email.hasError('email')||createUserForm.controls.email.hasError('pattern')">
+          {{language.errorFormatEmail}}
+        </mat-error>
+        <mat-error *ngIf="createUserForm.controls.email.hasError('exists')">Este correo ya esta registrado</mat-error>
       </mat-form-field>
       <mat-form-field class="sa-input-text">
         <input [type]="showPassword?'text':'password'" matInput placeholder="{{language.placeholderPass}}"
@@ -48,7 +49,7 @@
       </mat-form-field>
       <div class="sa-create-user-actions">
         <button [routerLink]="['/dashboard/users/']" class="sa-btn-small" mat-raised-button color="white">Cancelar</button>
-        <button class="sa-btn-small" mat-raised-button color="charcoal-grey">Crear usuario</button>
+        <button type="submit" class="sa-btn-small" mat-raised-button color="charcoal-grey">Crear usuario</button>
       </div>
     </form>
   </div>

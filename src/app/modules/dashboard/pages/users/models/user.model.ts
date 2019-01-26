@@ -1,8 +1,10 @@
 export class UserModel {
-    name: string;
     rol: number;
-    dateCreated: string;
-    lastConexion: string;
+    route?: number;
+    permision?: Array<number>;
+    name: string;
+    email: string;
+    create_at: string;
+    last_conexion: string;
     status: number;
-    edit: boolean;
 }

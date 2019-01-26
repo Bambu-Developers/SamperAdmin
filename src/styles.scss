@@ -387,3 +387,9 @@ table {
   }
 }
 /* END TOOGLE */
+
+/* CHECKBOX */
+.mat-checkbox-checked.mat-charcoal-grey .mat-checkbox-background {
+  background-color: $color-charcoal-grey;
+}
+/* END CHECKBOX */
