@@ -21,6 +21,7 @@ export class CreateUserComponent implements OnInit {
     'Edición de precios',
     'Creación y edición de promociones'
   ];
+  public showPassword = false;
 
   constructor(
     private usersService: UsersService,

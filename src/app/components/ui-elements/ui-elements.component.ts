@@ -29,6 +29,7 @@ export class UiElementsComponent implements OnInit {
   public dataSource = ELEMENT_DATA;
   public nameFormControl = new FormControl('', [Validators.required]);
   public passwordFormControl = new FormControl('', [Validators.required]);
+  public selected: any;
 
   constructor() { }
 
