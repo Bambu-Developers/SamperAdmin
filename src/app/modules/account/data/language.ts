@@ -24,6 +24,8 @@ export const ACCOUNT_LANGUAGE = {
     errorRequired: 'Este campo es requerido',
     errorFormatEmail: 'Utiliza un formato válido como: correo@ejemplo.com',
     errorEmailNotRegister: 'Correo no registrado en Sanper',
+    errorEmailRegister: 'Este correo ya esta registrado',
     errorLengthPass: 'La contraseña debe contener entre 8 y 16 caracteres alfanuméricos',
     errorPassword: 'Contraseña incorrecta',
+    cancel: 'Cancelar'
 };

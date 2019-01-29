@@ -14,17 +14,17 @@
             <!-- Rol Column -->
             <ng-container matColumnDef="rol">
               <th mat-header-cell *matHeaderCellDef> {{language.user.rol}} </th>
-              <td mat-cell *matCellDef="let user"> {{user.rol}} </td>
+              <td mat-cell *matCellDef="let user"> {{user.rol?.name}} </td>
             </ng-container>
             <!-- Creado Column -->
             <ng-container matColumnDef="dateCreated">
               <th mat-header-cell *matHeaderCellDef> {{language.user.dateCreated}} </th>
-              <td mat-cell *matCellDef="let user"> {{user.create_at}} </td>
+              <td mat-cell *matCellDef="let user"> {{user.create_at | date}} </td>
             </ng-container>
             <!-- Última conexión Column -->
             <ng-container matColumnDef="lastConexion">
               <th mat-header-cell *matHeaderCellDef> {{language.user.lastConexion}} </th>
-              <td mat-cell *matCellDef="let user"> {{user.last_conexion}} </td>
+              <td mat-cell *matCellDef="let user"> {{user.last_conexion | date}} </td>
             </ng-container>
             <!-- Estatus Column -->
             <ng-container matColumnDef="status">
