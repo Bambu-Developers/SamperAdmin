@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { EMAIL_REGEX } from 'src/app/modules/account/data/data';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 import { AuthService } from 'src/app/modules/account/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
   public showPassword: boolean;
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -28,7 +30,7 @@ export class LoginComponent implements OnInit {
       ]),
       password: new FormControl('', [
         Validators.required,
-        Validators.minLength(8),
+        Validators.minLength(10),
         Validators.maxLength(16),
       ])
     }, Validators.required);
@@ -36,13 +38,12 @@ export class LoginComponent implements OnInit {
 
   public submit(value: { email: string; password: string; }) {
     this.authService.login(value.email, value.password).then(
+      res => this.router.navigate(['/dashboard']),
       error => {
-        if (error) {
-          if (error.code === 'auth/user-not-found') {
-            this.loginForm.controls['email'].setErrors({ 'unauthorized': true });
-          } else if (error.code === 'auth/wrong-password') {
-            this.loginForm.controls['password'].setErrors({ 'unauthorized': true });
-          }
+        if (error.code === 'auth/user-not-found') {
+          this.loginForm.controls['email'].setErrors({ 'unauthorized': true });
+        } else if (error.code === 'auth/wrong-password') {
+          this.loginForm.controls['password'].setErrors({ 'unauthorized': true });
         }
       }
     );

@@ -51,7 +51,7 @@ export class CreateUserComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.createUserForm = new FormGroup({
-      rol: new FormControl(new RolModel, [
+      rol: new FormControl('', [
         Validators.required
       ]),
       route: new FormControl(''),
@@ -66,7 +66,7 @@ export class CreateUserComponent implements OnInit, OnDestroy {
       ]),
       password: new FormControl('', [
         Validators.required,
-        Validators.minLength(8),
+        Validators.minLength(10),
         Validators.maxLength(16),
       ])
     }, Validators.required);
@@ -100,7 +100,7 @@ export class CreateUserComponent implements OnInit, OnDestroy {
   }
 
   public getRoutes() {
-    this.usersService.getAllRoutes().subscribe(
+    this.subscriptionRoutes = this.usersService.getAllRoutes().subscribe(
       res => {
         this.routes = res;
       }

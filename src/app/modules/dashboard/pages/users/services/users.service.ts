@@ -55,6 +55,7 @@ export class UsersService {
   /* Setting up user data */
   public setUserData(user, result) {
     const userData: UserModel = {
+      id: user.uid,
       rol: user.rol,
       route: user.route ? user.route : 0,
       permision: user.permision,

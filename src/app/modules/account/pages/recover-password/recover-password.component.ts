@@ -32,14 +32,12 @@ export class RecoverPasswordComponent implements OnInit {
   public forgetPassword() {
     if (this.recoverForm.valid) {
       this.authService.ForgotPassword(this.recoverForm.get('email').value).then(
+        res => this.sendEmail = true,
         error => {
-          if (error.send) {
-            this.sendEmail = true;
-          } else if (error.code === 'auth/user-not-found') {
+          if (error.code === 'auth/user-not-found') {
             this.recoverForm.controls['email'].setErrors({ 'unauthorized': true });
           }
-        }
-      );
+        });
     }
   }
 

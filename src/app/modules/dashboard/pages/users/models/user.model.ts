@@ -2,6 +2,7 @@ import { PermisionsModel } from './permisions.model';
 import { RolModel } from './rol.model';
 
 export class UserModel {
+    id: string;
     rol: RolModel;
     route: number;
     permision: PermisionsModel;

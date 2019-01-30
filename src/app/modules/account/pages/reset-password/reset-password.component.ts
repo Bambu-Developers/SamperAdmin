@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { EMAIL_REGEX } from 'src/app/modules/account/data/data';
 import { matchingPasswords } from 'src/app/directives/equal-to-validator.directive';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.scss']
 })
-export class ResetPasswordComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit, OnDestroy {
 
   public language = ACCOUNT_LANGUAGE;
   public resetForm: FormGroup;
@@ -20,6 +20,8 @@ export class ResetPasswordComponent implements OnInit {
   public showConfirmPassword: boolean;
   public subscriptionParams: Subscription;
   public oobCode: string;
+  public invalidCode: boolean;
+  public sendResetPassword: boolean;
 
   constructor(
     private router: Router,
@@ -44,16 +46,26 @@ export class ResetPasswordComponent implements OnInit {
       ]),
       passConfirm: new FormControl('', [
         Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(14),
+        Validators.minLength(10),
+        Validators.maxLength(16),
       ])
     }, matchingPasswords('password', 'passConfirm'));
   }
 
   public updateUserPassword() {
     if (this.resetForm.valid) {
-      this.authService.updateUserPassword(this.resetForm.get('password').value, this.oobCode);
+      this.authService.updateUserPassword(this.resetForm.get('password').value, this.oobCode).then(
+        res => this.sendResetPassword = true,
+        error => {
+          console.log(error);
+          if (error.code === 'auth/invalid-action-code') { this.invalidCode = true; }
+        }
+      );
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptionParams.unsubscribe();
   }
 
 }
