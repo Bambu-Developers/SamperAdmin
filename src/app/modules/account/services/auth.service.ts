@@ -20,7 +20,6 @@ export class AuthService {
   ) {
     this.user = afAuth.authState;
     const user = this.afAuth.auth.currentUser;
-    console.log(user);
     this.usersRef = db.list('Users');
   }
 
@@ -29,7 +28,6 @@ export class AuthService {
     return new Promise<any>((resolve, reject) => {
       this.afAuth.auth.signInWithEmailAndPassword(email, password)
         .then((result) => {
-          console.log(result);
           resolve(result);
           localStorage.setItem('user', JSON.stringify(result.user));
           this.updateUserData(result.user);
