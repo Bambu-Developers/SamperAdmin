@@ -57,7 +57,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       this.authService.updateUserPassword(this.resetForm.get('password').value, this.oobCode).then(
         res => this.sendResetPassword = true,
         error => {
-          console.log(error);
           if (error.code === 'auth/invalid-action-code') { this.invalidCode = true; }
         }
       );
