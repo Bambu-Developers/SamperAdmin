@@ -22,12 +22,13 @@
         margin: 14px auto;
       }
       .sa-create-user-admin {
-        margin: 14px;
-        .sa-create-user-radio-group {
+        margin: 14px 14px 0px 14px;
+        .sa-create-user-checkbox-group {
           display: inline-flex;
           flex-direction: column;
-          .sa-create-user-radio-button {
-            margin: 5px;
+          margin-top: 12px;
+          .mat-checkbox{
+            margin-bottom: 8px;
           }
         }
       }

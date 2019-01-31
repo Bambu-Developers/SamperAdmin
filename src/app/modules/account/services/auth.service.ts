@@ -3,51 +3,55 @@ import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
-import { User } from '../models/user.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  userData: any;
   usersRef: AngularFireList<any>;
+  user: Observable<firebase.User>;
 
   constructor(
     public db: AngularFireDatabase,
     public afAuth: AngularFireAuth,
     public router: Router
   ) {
-    this.afAuth.authState.subscribe(user => {
-      this.usersRef = this.db.list('Users');
-      if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-      } else {
-        localStorage.setItem('user', null);
-      }
-    });
+    this.user = afAuth.authState;
+    const user = this.afAuth.auth.currentUser;
+    this.usersRef = db.list('Users');
   }
 
   // Sign in with email/password
-  login(email, password) {
-    return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-      .then((result) => {
-        this.router.navigate(['/dashboard']);
-        this.updateUserData(result.user);
-      }).catch((error) => {
-        return error;
-      });
+  public login(email: string, password: string): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.afAuth.auth.signInWithEmailAndPassword(email, password)
+        .then((result) => {
+          resolve(result);
+          localStorage.setItem('user', JSON.stringify(result.user));
+          this.updateUserData(result.user);
+        })
+        .catch((error) => reject(error));
+    });
   }
 
   // Reset Forggot password
-  async ForgotPassword(passwordResetEmail: string) {
-    try {
-      await this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail);
-      return { send: true };
-    } catch (e) {
-      return e;
-    }
+  public ForgotPassword(passwordResetEmail: string): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail)
+        .then((result) => resolve(result))
+        .catch((error) => reject(error));
+    });
+  }
+
+  // reset password
+  public updateUserPassword(password: string, oob: string): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.afAuth.auth.confirmPasswordReset(oob, password)
+        .then((result) => resolve(result))
+        .catch((error) => reject(error));
+    });
   }
 
   // Returns true when user is looged in and email is verified
@@ -64,44 +68,19 @@ export class AuthService {
   }
 
   // Get email of user
-  public getUser() {
+  public getUser(): string {
     const user = JSON.parse(localStorage.getItem('user'));
     return user.email;
   }
 
-  // reset password
-  public updateUserPassword(password: string, oob: string) { }
-
-  // Create user
-  public createUser(email, password) {
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-      .then((result) => {
-        this.setUserData(result.user);
-      }).catch((error) => {
-        return error;
-      });
-  }
 
   /* Setting up user data */
-  public setUserData(user: any) {
-    const userData: User = {
-      email: user.email,
-      created_at: user.metadata.creationTime,
+  private updateUserData(user: any) {
+    const userData = {
       last_conexion: user.metadata.lastSignInTime,
-      id: user.uid,
+      timestamp_last_conexion: user.metadata.b
     };
-    this.usersRef.push(userData);
-  }
-
-  /* Setting up user data */
-  public updateUserData(user: any) {
-    const userData: User = {
-      email: user.email,
-      created_at: user.metadata.creationTime,
-      last_conexion: user.metadata.lastSignInTime,
-      id: user.uid,
-    };
-    this.usersRef.update(user, userData);
+    this.usersRef.update(user.uid, userData);
   }
 
 }
