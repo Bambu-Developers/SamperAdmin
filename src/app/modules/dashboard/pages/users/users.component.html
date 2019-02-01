@@ -35,7 +35,7 @@
             <ng-container matColumnDef="edit">
               <th mat-header-cell *matHeaderCellDef></th>
               <td mat-cell *matCellDef="let user">
-                <mat-icon [routerLink]="['edit/1']"  svgIcon="ic-edit"></mat-icon>
+                <mat-icon [routerLink]="['/dashboard/users/edit/', user.id]" svgIcon="ic-edit"></mat-icon>
               </td>
             </ng-container>
       

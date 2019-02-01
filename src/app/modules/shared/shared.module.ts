@@ -19,7 +19,8 @@ import {
   MatSelectModule,
   MatRadioModule,
   MatSlideToggleModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatSnackBarModule
 } from '@angular/material';
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -33,10 +34,12 @@ import { environment } from '../../../environments/environment';
 
 /*SHARED COMPONENTS*/
 import { PaginatorComponent } from './components/paginator/paginator.component';
+import { ToastComponent } from '../dashboard/components/toast/toast.component';
 
 @NgModule({
   declarations: [
-    PaginatorComponent
+    PaginatorComponent,
+    ToastComponent
   ],
   imports: [
     CommonModule,
@@ -60,7 +63,8 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     MatSelectModule,
     MatRadioModule,
     MatSlideToggleModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSnackBarModule
   ],
   exports: [
     AngularFirestoreModule,
@@ -82,11 +86,16 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     PaginatorComponent,
     MatRadioModule,
     MatSlideToggleModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSnackBarModule,
+    ToastComponent
   ],
   providers: [
     AngularFireDatabase,
     { provide: FirestoreSettingsToken, useValue: {} }
   ],
+  entryComponents: [
+    ToastComponent
+  ]
 })
 export class SharedModule { }

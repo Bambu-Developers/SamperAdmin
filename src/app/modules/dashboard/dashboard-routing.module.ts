@@ -15,6 +15,11 @@ const routes: Routes = [
     loadChildren: './pages/clients/clients.module#ClientsModule'
   },
   {
+    path: 'profile',
+    component: DashboardComponent,
+    loadChildren: './pages/profile/profile.module#ProfileModule'
+  },
+  {
     path: '',
     redirectTo: 'users',
     pathMatch: 'full'
