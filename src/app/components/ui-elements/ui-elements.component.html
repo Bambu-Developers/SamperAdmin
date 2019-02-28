@@ -10,6 +10,11 @@
       <input matInput placeholder="Nombre" [formControl]="nameFormControl">
       <mat-error *ngIf="nameFormControl.hasError('required')">Este campo es requerido.</mat-error>
     </mat-form-field>
+
+    <mat-form-field class="sa-input-number">
+      <input matInput placeholder="Numero" [formControl]="nameFormControl">
+      <mat-error *ngIf="nameFormControl.hasError('required')">Este campo es requerido.</mat-error>
+    </mat-form-field>
   </div>
 
   <!-- SELECT -->
