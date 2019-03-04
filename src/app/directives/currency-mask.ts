@@ -21,5 +21,5 @@ export const NUMBER_MASK = createNumberMask({
   requireDecimal: false,
   allowNegative: false,
   allowLeadingZeroes: false,
-  integerLimit: 4
+  integerLimit: 3
 });

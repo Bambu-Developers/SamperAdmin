@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { ProductModel } from 'src/app/modules/dashboard/pages/products/models/product.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ProductModel } from '../models/product.model';
-import * as firebase from 'firebase';
-import { Upload } from '../models/upload.model';
-
 
 @Injectable({
   providedIn: 'root'
@@ -13,54 +11,38 @@ import { Upload } from '../models/upload.model';
 export class ProductsService {
 
   public productsRef: AngularFireList<ProductModel>;
-  private basePath:string = 'Developer/Groups';
-  public img_preview_url: string;
+  private basePath = 'Developer/Groups';
 
-  constructor( public db: AngularFireDatabase ) {
-    this.productsRef = this.db.list<ProductModel>('Developer/Groups')
+  constructor(
+    private db: AngularFireDatabase,
+    private storage: AngularFireStorage
+  ) {
+    this.productsRef = this.db.list<ProductModel>('Developer/Groups');
   }
 
-  imageUpload(upload: Upload) {
-    let storageRef = firebase.storage().ref();
-    let uploadTask = storageRef.child(`${this.basePath}/${upload.file.name}`).put(upload.file);
-
-    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, function(snapshot){
-      var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log('Upload is ' + progress + '% done');
-      switch (snapshot.state) {
-        case firebase.storage.TaskState.PAUSED: // or 'paused'
-        console.log('Upload is paused');
-        break;
-        case firebase.storage.TaskState.RUNNING: // or 'running'
-        console.log('Upload is running');
-        break;
-      }
-    }, function(error) {
-
-    }, () => {
-      uploadTask.snapshot.ref.getDownloadURL().then( (downloadURL) => {
-        this.img_preview_url = upload.img_preview_url = downloadURL
-      });
+  imageUpload(image: any) {
+    image = 'data:image/jpeg;base64,' + image;
+    return new Promise<any>((resolve, reject) => {
+      const NEW_NAME = `${new Date().getTime()}`;
+      const PATH = `${this.basePath}/${NEW_NAME}`;
+      this.storage.ref(PATH).putString(image, 'data_url').then(
+        response => resolve(
+          this.storage.ref(PATH).getDownloadURL()
+        ),
+        (error: any) => {
+        }
+      );
     });
   }
 
-  private saveFileData( upload: Upload ) {
-    this.db.list<Upload>(`${this.basePath}/`).push(upload);
-  }
-
   public registerProduct( productData ) {
-    this.setProductData(productData)
-  }
-
-  public deleteFileStorage(name:string) {
-    let storageRef = firebase.storage().ref();
-    storageRef.child(`${this.basePath}/${name}`).delete()
+    this.setProductData( productData );
   }
 
   // Writes the file details to the realtime db
   private setProductData(product) {
     const PRODUCT_DATA: ProductModel = {
-      img_preview_url: this.img_preview_url,
+      img_preview_url: product.image,
       name: product.name,
       sku: product.sku,
       brand: product.brand,
@@ -77,11 +59,11 @@ export class ProductsService {
       friday_price: product.fridayPrice,
       saturday_price: product.saturdayPrice,
       sunday_price: product.sundayPrice
-    }
+    };
     this.productsRef.push(PRODUCT_DATA);
   }
 
-  //Get all products
+  // Get all products
   public getAllProducts(): Observable<ProductModel[]> {
     return this.productsRef
     .snapshotChanges()

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PRODUCTS_LANGUAGE } from './data/language';
-import { ProductsService } from './services/products.service';
+import { ProductsService } from 'src/app/modules/dashboard/pages/products/services/products.service';
 import { Subscription } from 'rxjs';
+import { PRODUCTS_LANGUAGE } from 'src/app/modules/dashboard/pages/products/data/language';
 
 @Component({
   selector: 'app-products',

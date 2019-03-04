@@ -69,6 +69,7 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
   exports: [
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
     RouterModule,
     HttpClientModule,
     FormsModule,

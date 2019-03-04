@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { PRODUCTS_LANGUAGE } from '../../data/language';
-import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 import { Subscription } from 'rxjs';
-import { ProductsService } from '../../services/products.service';
-import { ProductModel } from '../../models/product.model';
-import { Upload } from '../../models/upload.model';
-import { CURRENCY_MASK, NUMBER_MASK } from '../../../../../../directives/currency-mask';
+import { ProductsService } from 'src/app/modules/dashboard/pages/products/services/products.service';
+import { ProductModel } from 'src/app/modules/dashboard/pages/products/models/product.model';
+import { UploadModel } from 'src/app/modules/dashboard/pages/products/models/upload.model';
+import { PRODUCTS_LANGUAGE } from 'src/app/modules/dashboard/pages/products/data/language';
+import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
+import { CURRENCY_MASK, NUMBER_MASK } from 'src/app/directives/currency-mask';
 
 @Component({
   selector: 'app-register-product',
@@ -17,34 +17,26 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
 
   public lanProduct = PRODUCTS_LANGUAGE;
   public language = ACCOUNT_LANGUAGE;
+  public currencyMask = CURRENCY_MASK;
+  public numberMask = NUMBER_MASK;
+  public showPricingPerDay = false;
+  public baseValue = 0.00;
   public registerProductForm: FormGroup;
   public subscriptionRoutes: Subscription;
   public currentProduct: ProductModel;
   public selectedFiles: FileList;
-  public currentUpload: Upload;
+  public currentUpload: UploadModel;
   public imgURL: any;
+  public base64textString;
   public imagePath;
-  public baseValue = 0.00;
-  public currencyMask = CURRENCY_MASK;
-  public numberMask = NUMBER_MASK;
-  public showPricingPerDay = false;
-  public file;
+  private subscriptionURL: Subscription;
 
 
   constructor( private productService: ProductsService ) {  }
 
-  public detectFiles( event ) {
-      this.selectedFiles = event.target.files;
-  }
-
-  public uploadSingle() {
-    this.file = this.selectedFiles.item(0)
-    this.currentUpload = new Upload( this.file );
-    this.productService.imageUpload( this.currentUpload )
-  }
-
   ngOnInit() {
     this.registerProductForm = new FormGroup({
+      image: new FormControl(''),
       name: new FormControl('', [
         Validators.required,
       ]),
@@ -97,39 +89,61 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
   }
 
   public registerProduct() {
-    if (this.registerProductForm.valid) {
-      console.log( this.registerProductForm.value )
-      this.productService.registerProduct( this.registerProductForm.value )
-    } else {
-      // Handle Errors
-      console.log('Error')
-    }
+        if (this.registerProductForm.valid) {
+          this.savePhoto().then(
+            response => {
+                this.registerProductForm.get('image').patchValue(response);
+                this.productService.registerProduct( this.registerProductForm.value );
+            }, error => console.error(error)
+          );
+        }
+  }
+
+  public handleFileSelect(event) {
+    const files = event.target.files;
+    const file = files[0];
+    const reader = new FileReader();
+    reader.onload = this._handleReaderLoaded.bind(this);
+    reader.readAsBinaryString(file);
+  }
+
+  public _handleReaderLoaded(readerEvent) {
+    const binaryString = readerEvent.target.result;
+    this.base64textString = btoa(binaryString);
+  }
+
+  public savePhoto() {
+    return new Promise((resolve, reject) => {
+      this.productService.imageUpload( this.base64textString ).then(
+        response => {
+          this.subscriptionURL = response.subscribe(
+            url => resolve(url),
+            error => console.error(error)
+          );
+        },
+        error => reject(error)
+      );
+    });
   }
 
   public preview( files ) {
-    if ( files.length === 0 )
-      return;
-    var mimeType = files[0].type;
-    if (mimeType.match( /image\/*/ ) == null) {
-      //mat-error
+    if ( files.length === 0 ) {
       return;
     }
-    var reader = new FileReader();
+    const MIME_TYPE = files[0].type;
+    if (MIME_TYPE.match( /image\/*/ ) == null) {
+      // mat-error
+      return;
+    }
+    const READER = new FileReader();
     this.imagePath = files;
-    reader.readAsDataURL( files[0] );
-    reader.onload = ( _event ) => {
-      this.imgURL = reader.result;
-    }
+    READER.readAsDataURL( files[0] );
+    READER.onload = ( _event ) => {
+      this.imgURL = READER.result;
+    };
   }
 
-  deleteImage() {
-    if (this.file.name !== null) {
-      this.productService.deleteFileStorage(this.file.name)
-    } else {
-      console.log('Error')
-    }
+  ngOnDestroy() {
+    this.subscriptionURL.unsubscribe();
   }
-
-  ngOnDestroy() { }
-
 }
