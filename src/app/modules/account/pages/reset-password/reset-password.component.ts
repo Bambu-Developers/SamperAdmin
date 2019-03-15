@@ -41,7 +41,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     this.resetForm = new FormGroup({
       password: new FormControl('', [
         Validators.required,
-        Validators.minLength(6),
+        Validators.minLength(10),
         Validators.maxLength(14),
       ]),
       passConfirm: new FormControl('', [

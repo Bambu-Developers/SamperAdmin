@@ -1,0 +1,39 @@
+@import "src/assets/css/colors";
+
+.sa-dashboard-main-content {
+  .sa-profile-content {
+    margin: 0px auto;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 576px;
+    height: auto;
+    border-radius: 5px;
+    background-color: white;
+    .sa-profile-information {
+      width: 45%;
+      h1 {
+        margin-bottom: 20px;
+      }
+      p {
+        margin-bottom: 8px;
+      }
+    }
+    .sa-profile-content-form {
+      width: 50%;
+      .sa-input-text {
+        margin-bottom: 45px;
+        width: inherit;
+      }
+      .sa-profile-actions {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        button {
+          width: 200px;
+        }
+      }
+    }
+  }
+}
