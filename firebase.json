@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/SanperAdmin",
+    "public": "dist/sanper-admin",
     "ignore": [
       "firebase.json",
       "**/.*",

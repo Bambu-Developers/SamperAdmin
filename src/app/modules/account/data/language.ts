@@ -27,6 +27,5 @@ export const ACCOUNT_LANGUAGE = {
     errorEmailRegister: 'Este correo ya esta registrado',
     errorLengthPass: 'La contraseña debe contener entre 10 y 16 caracteres alfanuméricos',
     errorPassword: 'Contraseña incorrecta',
-    cancel: 'Cancelar',
-    required: 'Requerido'
+    cancel: 'Cancelar'
 };
