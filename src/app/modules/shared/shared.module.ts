@@ -40,12 +40,14 @@ import { environment } from '../../../environments/environment';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { ToastComponent } from '../dashboard/components/toast/toast.component';
 
 @NgModule({
   declarations: [
     PaginatorComponent,
     SnackbarComponent,
-    DialogComponent
+    DialogComponent,
+    ToastComponent
   ],
   imports: [
     CommonModule,
@@ -79,7 +81,6 @@ import { DialogComponent } from './components/dialog/dialog.component';
   exports: [
     AngularFirestoreModule,
     AngularFireAuthModule,
-    AngularFireStorageModule,
     RouterModule,
     HttpClientModule,
     FormsModule,
@@ -102,13 +103,14 @@ import { DialogComponent } from './components/dialog/dialog.component';
     TextMaskModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    MatDialogModule
+    MatDialogModule,
+    ToastComponent
   ],
   providers: [
     AngularFireDatabase,
     { provide: FirestoreSettingsToken, useValue: {} }
   ],
   entryComponents: [SnackbarComponent,
-                    DialogComponent]
+                    DialogComponent, ToastComponent]
 })
 export class SharedModule { }

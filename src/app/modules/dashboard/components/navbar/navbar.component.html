@@ -25,7 +25,7 @@
       </button>
       <mat-menu #menu="matMenu">
         <button (click)="logout()" mat-menu-item>{{language.menu.logout}}</button>
-        <button mat-menu-item>{{language.menu.account}}</button>
+        <button [routerLink]="['/dashboard/profile']"  mat-menu-item>{{language.menu.account}}</button>
       </mat-menu>
     </mat-toolbar>
     <router-outlet></router-outlet>

@@ -1,5 +1,5 @@
 <div class="sa-dashboard-main-content">
-  <div class="sa-edit-user-content">
+  <div *ngIf="user" class="sa-edit-user-content">
     <h1 class="sa-charcoal-grey sa-text-20 sa-roboto">Editar usuario</h1>
     <div class="sa-edit-user-information">
       <div class="sa-edit-user-information-text">
@@ -25,16 +25,31 @@
           <input matInput placeholder="Contraseña" formControlName="password">
         </mat-form-field>
       </div>
-      <div class="sa-edit-user-form-group">
+      <div *ngIf="user.rol.id == 1" class="sa-edit-user-form-group">
+        <p class="sa-charcoal-grey sa-text-14 sa-roboto sa-edit-user-form-label">Ruta:</p>
+        <mat-form-field class="sa-edit-user-form-input sa-no-label sa-input-text">
+          <mat-select placeholder="Rutas" formControlName="route">
+            <mat-option *ngFor="let route of routes" [value]="route.id">{{route.name}}</mat-option>
+          </mat-select>>
+        </mat-form-field>
+      </div>
+      <div *ngIf="user.rol.id == 0" class="sa-edit-user-admin">
+        <p class="sa-charcoal-grey sa-text-14 sa-roboto">Acciones:</p>
+        <div class="sa-edit-user-checkbox-group">
+          <mat-checkbox [checked]="permision.name" (change)="changePermisions($event, permision.id)" color="charcoal-grey" *ngFor="let permision of permisions">{{permision.name}}</mat-checkbox>
+        </div>
+      </div>
+      <div *ngIf="user.rol.id != 0" class="sa-edit-user-form-group">
         <p class="sa-charcoal-grey sa-text-14 sa-roboto sa-edit-user-form-label">Estatus:</p>
-        <mat-slide-toggle class="sa-edit-user-form-input" labelPosition="before" color="accent">
+        <mat-slide-toggle [checked]="editUserForm.get('status').value == 0 ? true : false" class="sa-edit-user-form-input"
+          labelPosition="before" color="accent">
           Habilitado
         </mat-slide-toggle>
       </div>
       <p class="sa-edit-user-delete sa-charcoal-grey sa-text-12 sa-roboto">Eliminar usuario</p>
       <div class="sa-edit-user-actions">
         <button [routerLink]="['/dashboard/users/']" class="sa-btn-small" mat-raised-button color="white">Cancelar</button>
-        <button class="sa-btn-small" mat-raised-button color="charcoal-grey">Guardar usuario</button>
+        <button (click)="editUser()" class="sa-btn-small" mat-raised-button color="charcoal-grey">Guardar usuario</button>
       </div>
     </form>
   </div>

@@ -84,4 +84,40 @@ export class UsersService {
         )
       );
   }
+
+  public editUserData(user: UserModel): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.usersRef.update(user.id, user).then(
+        result => resolve(result),
+        error => reject(error)
+      );
+    });
+  }
+
+  public getUser(idUser: string): Observable<UserModel> {
+    return this.db.object('Users/' + idUser).snapshotChanges()
+      .pipe(
+        map(user => {
+          const data = user.payload.val() as UserModel;
+          const id = user.payload.key;
+          return { id, ...data };
+        })
+      );
+  }
+
+  public updateUserPassword(email, form): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.afAuth.auth.signInWithEmailAndPassword(email, form.currentPassword).then(
+        result => {
+          const user = this.afAuth.auth.currentUser;
+          user.updatePassword(form.newPassword).then(
+            res => resolve(res),
+            error => reject(error)
+          );
+        },
+        error => reject(error)
+      );
+    });
+  }
+
 }

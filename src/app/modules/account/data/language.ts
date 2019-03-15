@@ -15,7 +15,7 @@ export const ACCOUNT_LANGUAGE = {
         subtitle: 'Por favor crea una nueva contraseña',
         placeholderNewPassword: 'Nueva contraseña',
         placeholderConfirmPass: 'Confirmar contraseña',
-        securityPassword: 'Por seguridad, la contraseña debe contener de 8 a 16 caracteres alfanuméricos',
+        securityPassword: 'Por seguridad, la contraseña debe contener de 10 a 16 caracteres alfanuméricos',
         errorMatchPassword: 'La contraseña no coincide con la anterior',
         button: 'Cambiar contraseña'
     },
@@ -27,6 +27,5 @@ export const ACCOUNT_LANGUAGE = {
     errorEmailRegister: 'Este correo ya esta registrado',
     errorLengthPass: 'La contraseña debe contener entre 10 y 16 caracteres alfanuméricos',
     errorPassword: 'Contraseña incorrecta',
-    cancel: 'Cancelar',
-    required: 'Requerido'
+    cancel: 'Cancelar'
 };

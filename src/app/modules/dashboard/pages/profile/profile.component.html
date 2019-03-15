@@ -1,0 +1,49 @@
+<div class="sa-dashboard-main-content">
+  <div class="sa-profile-content">
+    <div class="sa-profile-information">
+      <h1 class="sa-charcoal-grey sa-text-24 sa-roboto sa-bold">Cuenta</h1>
+      <p class="sa-charcoal-grey sa-text-14 sa-roboto">Correo electrónico</p>
+      <p class="sa-charcoal-grey sa-text-14 sa-roboto">{{email}}</p>
+    </div>
+    <div class="sa-profile-content-form">
+      <form (ngSubmit)="updateUserPassword()" class="sa-profile-form" [formGroup]="passwordForm">
+        <mat-form-field class="sa-input-text">
+          <input [type]="showPassword?'text':'password'" matInput placeholder="Contraseña actual" formControlName="currentPassword">
+          <button mat-button matSuffix mat-icon-button type="button" (click)="showPassword = !showPassword">
+            <mat-icon svgIcon="ic-eye"></mat-icon>
+          </button>
+          <mat-error *ngIf="passwordForm.controls.currentPassword.hasError('required')">{{language.errorRequired}}</mat-error>
+          <mat-error *ngIf="passwordForm.controls.currentPassword.hasError('minlength') || passwordForm.controls.currentPassword.hasError('maxlength')">
+            {{language.resetPassword.securityPassword}}
+          </mat-error>
+          <mat-error *ngIf="passwordForm.controls.currentPassword.hasError('unauthorized')">{{language.errorPassword}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="sa-input-text">
+          <input [type]="showNewPassword?'text':'password'" matInput placeholder="Nueva contraseña" formControlName="newPassword">
+          <button mat-button matSuffix mat-icon-button type="button" (click)="showNewPassword = !showNewPassword">
+            <mat-icon svgIcon="ic-eye"></mat-icon>
+          </button>
+          <mat-error *ngIf="passwordForm.controls.newPassword.hasError('required')">{{language.errorRequired}}</mat-error>
+          <mat-error *ngIf="passwordForm.controls.newPassword.hasError('minlength') || passwordForm.controls.newPassword.hasError('maxlength')">
+            {{language.resetPassword.securityPassword}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="sa-input-text">
+          <input [type]="showConfirmPassword?'text':'password'" matInput placeholder="Confirmar contraseña"
+            formControlName="confirmPassword">
+          <button mat-button matSuffix mat-icon-button type="button" (click)="showConfirmPassword = !showConfirmPassword">
+            <mat-icon svgIcon="ic-eye"></mat-icon>
+          </button>
+          <mat-error *ngIf="passwordForm.controls.confirmPassword.hasError('required')">{{language.errorRequired}}</mat-error>
+          <mat-error *ngIf="passwordForm.controls.confirmPassword.hasError('minlength') || passwordForm.controls.confirmPassword.hasError('maxlength')">
+            {{language.errorLengthPass}}
+          </mat-error>
+          <mat-error *ngIf="passwordForm.controls.confirmPassword.hasError('notEquivalent')">{{language.resetPassword.errorMatchPassword}}</mat-error>
+        </mat-form-field>
+        <div class="sa-profile-actions">
+          <button type="submit" class="sa-btn-small" mat-raised-button color="accent">Cambiar contraseña</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

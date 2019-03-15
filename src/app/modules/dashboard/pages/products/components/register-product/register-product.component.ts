@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
 import { PRODUCTS_LANGUAGE } from 'src/app/modules/dashboard/pages/products/data/language';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
-import { CURRENCY_MASK, NUMBER_MASK } from 'src/app/directives/currency-mask';
+import { CURRENCY_MASK, NUMBER_MASK } from 'src/app/directives/currency-mask.directive';
 
 @Component({
   selector: 'app-register-product',
