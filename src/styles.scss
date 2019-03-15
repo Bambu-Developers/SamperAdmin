@@ -21,6 +21,7 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 /* FONTS */
 .sa-roboto {
   font-family: "Roboto";
+  font-weight: normal;
   font-style: normal;
   font-stretch: normal;
   line-height: normal;
@@ -88,6 +89,9 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 }
 .sa-mushroom {
   color: $color-mushroom;
+}
+.sa-gray-medium {
+  color: $color-gray-medium;
 }
 /*END TEXT COLORS*/
 
@@ -227,8 +231,59 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     }
   }
   .mat-error {
-    margin-top: 8px;
-    margin-left: 16px;
+    margin-top: 4px;
+    margin-left: 8px;
+  }
+}
+.sa-input-amount {
+  width: 136px;
+  height: 48px;
+  color: $color-charcoal-grey;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 3px;
+  border: 1px solid $color-mushroom;
+  @media #{$break-mobile} {
+    width: 160px;
+  }
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+  input {
+    width: 90%;
+    font-size: 14px;
+    font-family: "Roboto";
+    line-height: 1.49;
+    margin-left: 18px;
+  }
+  .sa-amount-prefix {
+    margin-left: 10px;
+  }
+  .mat-form-field-wrapper {
+    width: 100%;
+    margin-left: 10px;
+    .mat-form-field-infix {
+      border-top: 23px solid transparent;
+      margin-left: -10px;
+    }
+    .mat-form-field-suffix {
+      margin-right: 20px;
+      .mat-icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+    .mat-form-field-underline {
+      display: none;
+    }
+    .mat-error {
+      margin-top: 4px;
+    }
   }
 }
 /*END INPUTS*/
@@ -258,7 +313,7 @@ button.mat-menu-item {
   background-color: $color-white-dark;
 }
 .sa-dashboard-main-content {
-  padding: 34px 32px;
+  padding: 34px 64px;
 }
 /* END CONTENTS */
 
