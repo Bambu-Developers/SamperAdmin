@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TextMaskModule } from 'angular2-text-mask';
 import 'hammerjs';
 
 
@@ -20,8 +19,7 @@ import {
   MatSelectModule,
   MatRadioModule,
   MatSlideToggleModule,
-  MatCheckboxModule,
-  MatCardModule,
+  MatCheckboxModule
 } from '@angular/material';
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -62,14 +60,11 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     MatSelectModule,
     MatRadioModule,
     MatSlideToggleModule,
-    MatCheckboxModule,
-    MatCardModule,
-    TextMaskModule
+    MatCheckboxModule
   ],
   exports: [
     AngularFirestoreModule,
     AngularFireAuthModule,
-    AngularFireStorageModule,
     RouterModule,
     HttpClientModule,
     FormsModule,
@@ -87,9 +82,7 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     PaginatorComponent,
     MatRadioModule,
     MatSlideToggleModule,
-    MatCheckboxModule,
-    MatCardModule,
-    TextMaskModule
+    MatCheckboxModule
   ],
   providers: [
     AngularFireDatabase,
