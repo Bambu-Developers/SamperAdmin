@@ -1,0 +1,17 @@
+.sa-dialog {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-end;
+  .sa-dialog-question {
+    margin-top: 5px;
+  }
+  .sa-dialog-actions {
+    width: 240px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+}

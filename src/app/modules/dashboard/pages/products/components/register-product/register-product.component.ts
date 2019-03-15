@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { ProductsService } from 'src/app/modules/dashboard/pages/products/services/products.service';
 import { ProductModel } from 'src/app/modules/dashboard/pages/products/models/product.model';
 import { UploadModel } from 'src/app/modules/dashboard/pages/products/models/upload.model';
+import { MatSnackBar } from '@angular/material';
+import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
 import { PRODUCTS_LANGUAGE } from 'src/app/modules/dashboard/pages/products/data/language';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 import { CURRENCY_MASK, NUMBER_MASK } from 'src/app/directives/currency-mask';
@@ -20,7 +22,7 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
   public currencyMask = CURRENCY_MASK;
   public numberMask = NUMBER_MASK;
   public showPricingPerDay = false;
-  public baseValue = 0.00;
+  public baseValue = '0.00';
   public registerProductForm: FormGroup;
   public subscriptionRoutes: Subscription;
   public currentProduct: ProductModel;
@@ -29,10 +31,12 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
   public imgURL: any;
   public base64textString;
   public imagePath;
+  public loading = false;
   private subscriptionURL: Subscription;
 
-
-  constructor( private productService: ProductsService ) {  }
+  constructor( private productService: ProductsService,
+               private snackBar: MatSnackBar,
+             ) {  }
 
   ngOnInit() {
     this.registerProductForm = new FormGroup({
@@ -89,14 +93,16 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
   }
 
   public registerProduct() {
-        if (this.registerProductForm.valid) {
-          this.savePhoto().then(
-            response => {
-                this.registerProductForm.get('image').patchValue(response);
-                this.productService.registerProduct( this.registerProductForm.value );
-            }, error => console.error(error)
-          );
-        }
+    if (this.registerProductForm.valid) {
+      this.loading = true; // Add this line
+      this.savePhoto().then(
+        response => {
+          this.registerProductForm.get('image').patchValue(response);
+          this.productService.registerProduct( this.registerProductForm.value );
+          this.openSnackBar();
+        }, error => console.error(error)
+      );
+    }
   }
 
   public handleFileSelect(event) {
@@ -143,7 +149,16 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
     };
   }
 
+  public openSnackBar() {
+    this.snackBar.openFromComponent(SnackbarComponent, {
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      data: {text: PRODUCTS_LANGUAGE.snackbarAdd}
+    });
+  }
+
   ngOnDestroy() {
-    this.subscriptionURL.unsubscribe();
+    // this.subscriptionURL.unsubscribe();
   }
 }

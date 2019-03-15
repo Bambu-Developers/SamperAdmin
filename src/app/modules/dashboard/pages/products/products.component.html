@@ -8,46 +8,45 @@
   </div>
   <div class="sa-dashboard-content">
     <table mat-table [dataSource]="dataSource">
-      <!-- Image Preview Column -->
       <ng-container matColumnDef="img">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let product">
-          <img class="sa-dashboard-img-preview" src="{{product.img_preview_url}}" alt="N/A">
+        <td class="sa-img-column" mat-cell *matCellDef="let product">
+          <img class="sa-img-preview" src="{{product.img_preview_url}}" alt="N/A">
         </td>
       </ng-container>
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> {{language.product.name}} </th>
-        <td mat-cell *matCellDef="let product"> {{product.name}} </td>
+        <td class="sa-name-column" mat-cell *matCellDef="let product"> {{product.name}} </td>
       </ng-container>
       <!-- Brand Column -->
       <ng-container matColumnDef="brand">
         <th mat-header-cell *matHeaderCellDef> {{language.product.brand}} </th>
-        <td mat-cell *matCellDef="let product"> {{product.brand}} </td>
+        <td class="sa-brand-column" mat-cell *matCellDef="let product"> {{product.brand}} </td>
       </ng-container>
       <!-- Content Column -->
       <ng-container matColumnDef="content">
-        <th mat-header-cell *matHeaderCellDef> {{language.product.content}} </th>
-        <td mat-cell *matCellDef="let product"> {{product.content}} </td>
+        <th class="sa-center-text" mat-header-cell *matHeaderCellDef> {{language.product.content}} </th>
+        <td class="sa-content-column sa-center-text" mat-cell *matCellDef="let product"> {{product.content}} </td>
       </ng-container>
       <!-- Quantity Column -->
       <ng-container matColumnDef="quantity">
-        <th mat-header-cell *matHeaderCellDef> {{language.product.quantity}} </th>
-        <td mat-cell *matCellDef="let product"> {{product.units_package}} </td>
+        <th class="sa-center-text" mat-header-cell *matHeaderCellDef> {{language.product.quantity}} </th>
+        <td class="sa-quantity-column sa-center-text" mat-cell *matCellDef="let product"> {{product.units_package}} {{language.product.unitsPackage}} </td>
       </ng-container>
       <!-- Retail Price Column -->
       <ng-container matColumnDef="retailPrice">
-        <th mat-header-cell *matHeaderCellDef> {{language.product.retailPrice}} </th>
-        <td mat-cell *matCellDef="let product"> $ {{product.retail_price}} </td>
+        <th class="sa-center-text" mat-header-cell *matHeaderCellDef> {{language.product.retailPrice}} </th>
+        <td class="sa-retailPrice-column sa-center-text" mat-cell *matCellDef="let product"> $ {{product.retail_price}} </td>
       </ng-container>
       <!-- Wholesale Price Column -->
       <ng-container matColumnDef="wholesalePrice">
-        <th mat-header-cell *matHeaderCellDef> {{language.product.wholesalePrice}} </th>
-        <td mat-cell *matCellDef="let product"> $ {{product.wholesale_price}} </td>
+        <th class="sa-center-text" mat-header-cell *matHeaderCellDef> {{language.product.wholesalePrice}} </th>
+        <td class="sa-wholesalePrice-column sa-center-text" mat-cell *matCellDef="let product"> $ {{product.wholesale_price}} </td>
       </ng-container>
-
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/dashboard/products/view/', row.id]"></tr>
+      <!-- // [routerLink]="['view/', row.id]" -->
     </table>
   </div>
 </div>

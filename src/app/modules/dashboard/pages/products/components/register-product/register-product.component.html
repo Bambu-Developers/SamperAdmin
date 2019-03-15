@@ -1,13 +1,14 @@
 <div class="sa-dashboard-main-content">
+  <mat-spinner *ngIf="loading" class="sa-loader" mode="indeterminate"> </mat-spinner>
   <div class="sa-register-product-content">
     <h3 class="sa-text-24 sa-charcoal-grey sa-roboto">{{lanProduct.newProduct.title}}</h3>
-    <form (ngSubmit)="registerProduct()" class="" [formGroup]="registerProductForm">
+    <form (ngSubmit)="registerProduct()" [formGroup]="registerProductForm">
       <mat-card>
         <div class="sa-product-content sa-gray-medium">
-          <div class="sa-upload-image sa-mushroom" (click)="file.click()" style="cursor: pointer">
+          <div class="sa-upload-image sa-mushroom" (click)="file.click()">
             <img src="/assets/images/cloud-computing.svg" *ngIf="!imgURL">
-            <input #file type="file" accept='image/*' (change)="handleFileSelect($event)"
-            (change)="preview(file.files)" style="display: none">
+            <span class="sa-roboto sa-text-14 sa-mushroom" *ngIf="!imgURL">{{lanProduct.newProduct.uploadImage}}</span>
+            <input #file type="file" accept='image/*' (change)="handleFileSelect($event)" (change)="preview(file.files)" style="display: none">
             <img [src]="imgURL" height="100%" *ngIf="imgURL">
           </div>
           <div class="sa-info-column">
@@ -71,6 +72,7 @@
                 <div class="sa-wholesale-units">
                   <mat-form-field class="sa-input-amount sa-wq">
                     <input matInput [textMask]="{mask: numberMask}" formControlName="wholesaleQuantity">
+                    <mat-error *ngIf="registerProductForm.controls.wholesaleQuantity.hasError('required')">{{language.errorRequired}}</mat-error>
                   </mat-form-field>
                   <p class="sa-p-right sa-text-14 sa-roboto">{{lanProduct.newProduct.units}}</p>
                 </div>

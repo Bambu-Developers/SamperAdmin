@@ -22,6 +22,9 @@ import {
   MatSlideToggleModule,
   MatCheckboxModule,
   MatCardModule,
+  MatProgressSpinnerModule,
+  MatSnackBarModule,
+  MatDialogModule
 } from '@angular/material';
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -35,10 +38,14 @@ import { environment } from '../../../environments/environment';
 
 /*SHARED COMPONENTS*/
 import { PaginatorComponent } from './components/paginator/paginator.component';
+import { SnackbarComponent } from './components/snackbar/snackbar.component';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 @NgModule({
   declarations: [
-    PaginatorComponent
+    PaginatorComponent,
+    SnackbarComponent,
+    DialogComponent
   ],
   imports: [
     CommonModule,
@@ -64,7 +71,10 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     MatSlideToggleModule,
     MatCheckboxModule,
     MatCardModule,
-    TextMaskModule
+    TextMaskModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
+    MatDialogModule,
   ],
   exports: [
     AngularFirestoreModule,
@@ -89,11 +99,16 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     MatSlideToggleModule,
     MatCheckboxModule,
     MatCardModule,
-    TextMaskModule
+    TextMaskModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
+    MatDialogModule
   ],
   providers: [
     AngularFireDatabase,
     { provide: FirestoreSettingsToken, useValue: {} }
   ],
+  entryComponents: [SnackbarComponent,
+                    DialogComponent]
 })
 export class SharedModule { }

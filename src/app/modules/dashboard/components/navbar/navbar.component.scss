@@ -33,11 +33,14 @@
   }
   .mat-list-item {
     color: $color-mushroom;
+    font-weight: 500;
     mat-icon {
       margin-right: 8px;
     }
     &.active {
       color: $color-pinkish-orange;
+      background-color: $color-white-dark;
+      font-weight: bold;
     }
   }
 }

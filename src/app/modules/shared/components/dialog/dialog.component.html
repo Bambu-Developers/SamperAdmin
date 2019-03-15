@@ -1,0 +1,9 @@
+<div class="sa-dialog sa-text-16 sa-charcoal-grey">
+  <p class="sa-dialog-question">
+    {{data.text}}
+  </p>
+  <div class="sa-dialog-actions">
+    <button class="sa-btn-small sa-text-14" mat-raised-button color="white" (click)="accept()">{{language.remove}}</button>
+    <button class="sa-btn-small" mat-raised-button color="charcoal-grey" [mat-dialog-close] >{{language.cancel}}</button>
+  </div>
+</div>

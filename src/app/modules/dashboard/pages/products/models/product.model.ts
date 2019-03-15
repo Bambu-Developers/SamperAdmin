@@ -1,7 +1,7 @@
 export class ProductModel {
     img_preview_url: string;
     name: string;
-    sku: string;
+    sku?: string;
     brand: string;
     units_package: string;
     category: string;
