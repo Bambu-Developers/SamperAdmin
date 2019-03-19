@@ -47,9 +47,6 @@
             margin-bottom: 11px;
           }
         }
-        .sa-edit-button {
-          // Style
-        }
       }
     }
 
@@ -101,6 +98,10 @@
               display: flex;
               flex-direction: column;
               justify-content: space-between;
+              .sa-delete-product {
+                text-decoration:underline;
+                cursor: pointer;
+              }
             }
           }
         }

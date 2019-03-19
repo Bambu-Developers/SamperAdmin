@@ -45,35 +45,35 @@
     <mat-card class="sa-product-prices">
       <div class="sa-prices">
         <div class="sa-product-retailprice">
-          <mat-label class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.retailPrice}}</mat-label>
+          <mat-label class="sa-text-14 sa-roboto sa-charcoal-grey">{{lanProduct.newProduct.retailPrice}} {{lanProduct.pricing.currencySymbol}}{{dataSource?.retail_price}} {{lanProduct.pricing.country}}</mat-label>
           <mat-list class="sa-price-per-day">
             <li class="sa-day">
               <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.monday}}</p>
-              <span class="sa-text-14 sa-charcoal-grey">${{dataSource?.monday_price}} MXN</span>
+              <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.monday_price}} {{lanProduct.pricing.country}}</span>
             </li>
             <li class="sa-day">
               <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.tuesday}}</p>
-              <span class="sa-text-14 sa-charcoal-grey">${{dataSource?.tuesday_price}} MXN</span>
+              <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.tuesday_price}} {{lanProduct.pricing.country}}</span>
             </li>
             <li class="sa-day">
               <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.wednesday}}</p>
-              <span class="sa-text-14 sa-charcoal-grey">${{dataSource?.wednesday_price}} MXN</span>
+              <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.wednesday_price}} {{lanProduct.pricing.country}}</span>
             </li>
             <li class="sa-day">
               <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.thursday}}</p>
-              <span class="sa-text-14 sa-charcoal-grey">${{dataSource?.thursday_price}} MXN</span>
+              <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.thursday_price}} {{lanProduct.pricing.country}}</span>
             </li>
             <li class="sa-day">
               <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.friday}}</p>
-              <span class="sa-text-14 sa-charcoal-grey">${{dataSource?.friday_price}} MXN</span>
+              <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.friday_price}} {{lanProduct.pricing.country}}</span>
             </li>
             <li class="sa-day">
               <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.saturday}}</p>
-              <span class="sa-text-14 sa-charcoal-grey">${{dataSource?.saturday_price}} MXN</span>
+              <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.saturday_price}} {{lanProduct.pricing.country}}</span>
             </li>
             <li class="sa-day">
               <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.sunday}}</p>
-              <span class="sa-text-14 sa-charcoal-grey">${{dataSource?.sunday_price}} MXN</span>
+              <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.sunday_price}} {{lanProduct.pricing.country}}</span>
             </li>
           </mat-list>
         </div>
@@ -81,12 +81,12 @@
           <mat-label class="sa-text-14 sa-charcoal-grey">{{lanProduct.newProduct.wholesalePrice}}</mat-label>
           <div class="sa-wholesale-column">
             <div class="sa-wp">
-              <span class="sa-text-14 sa-charcoal-grey">${{dataSource?.retail_price}} MXN</span>
+              <span class="sa-text-14 sa-charcoal-grey">${{dataSource?.wholesale_price}} {{lanProduct.pricing.country}}</span>
               <p class="sa-text-14 sa-gray-medium">{{lanProduct.product.startingFrom}}{{dataSource?.wholesale_quantity}}{{lanProduct.product.units}}</p>
             </div>
             <div class="sa-product-actions">
               <mat-slide-toggle>{{lanProduct.disable}}</mat-slide-toggle>
-              <span (click)="openDialog()" style="text-decoration:underline; cursor: pointer;" class="sa-text-14 sa-charcoal-grey">{{lanProduct.remove}}</span>
+              <span (click)="openDialog()" class="sa-delete-product sa-text-14 sa-charcoal-grey">{{lanProduct.remove}}</span>
             </div>
           </div>
         </div>

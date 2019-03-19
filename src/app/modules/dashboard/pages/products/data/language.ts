@@ -38,12 +38,15 @@ export const PRODUCTS_LANGUAGE = {
       units: 'Piezas',
     },
     pricing: {
+      pricing_by_day: 'Habilitar precios por día',
+      currencySymbol: '$',
+      country: 'MXN',
       monday: 'Lunes',
       tuesday: 'Martes',
       wednesday: 'Miércoles',
       thursday: 'Jueves',
       friday: 'Viernes',
       saturday: 'Sábado',
-      sunday: 'Domingo'
+      sunday: 'Domingo',
     }
   };

@@ -8,8 +8,8 @@
           <div class="sa-upload-image sa-mushroom" (click)="file.click()">
             <img src="/assets/images/cloud-computing.svg" *ngIf="!imgURL">
             <span class="sa-roboto sa-text-14 sa-mushroom" *ngIf="!imgURL">{{lanProduct.newProduct.uploadImage}}</span>
-            <input #file type="file" accept='image/*' (change)="handleFileSelect($event)" (change)="preview(file.files)" style="display: none">
-            <img [src]="imgURL" height="100%" *ngIf="imgURL">
+            <input id="hidden" #file type="file" accept='image/*' (change)="handleFileSelect($event)" (change)="preview(file.files)">
+            <img id="preview" [src]="imgURL" *ngIf="imgURL">
           </div>
           <div class="sa-info-column">
             <mat-form-field class="sa-input-text">
@@ -52,8 +52,8 @@
               <mat-label class="sa-p sa-text-14 sa-roboto">{{lanProduct.newProduct.retailPrice}}</mat-label>
               <mat-form-field class="sa-input-amount">
                 <input matInput [textMask]="{mask: currencyMask}" formControlName="retailPrice">
-                <span matPrefix>$&nbsp;</span>
-                <span matSuffix>MXN</span>
+                <span matPrefix>{{lanProduct.pricing.currencySymbol}}</span>
+                <span matSuffix>{{lanProduct.pricing.country}}</span>
                 <mat-error *ngIf="registerProductForm.controls.retailPrice.hasError('required')">{{language.errorRequired}}</mat-error>
               </mat-form-field>
             </div>
@@ -62,8 +62,8 @@
                 <mat-label class="sa-p sa-text-14 sa-roboto">{{lanProduct.newProduct.wholesalePrice}}</mat-label>
                 <mat-form-field class="sa-input-amount">
                   <input matInput [textMask]="{mask: currencyMask}" formControlName="wholesalePrice">
-                  <span matPrefix>$&nbsp;</span>
-                  <span matSuffix>MXN</span>
+                  <span matPrefix>{{lanProduct.pricing.currencySymbol}}</span>
+                  <span matSuffix>{{lanProduct.pricing.country}}</span>
                   <mat-error *ngIf="registerProductForm.controls.retailPrice.hasError('required')">{{language.errorRequired}}</mat-error>
                 </mat-form-field>
               </div>
@@ -80,15 +80,15 @@
             </div>
           </div>
           <section class="sa-checkbox-prices sa-text-14 sa-roboto">
-            <mat-checkbox #display>Habilitar precios por día</mat-checkbox>
+            <mat-checkbox #display>{{lanProduct.pricing.pricing_by_day}} </mat-checkbox>
           </section>
           <ul class="sa-product-price-per-day" *ngIf="display.checked">
             <li>
               <mat-label class="sa-text-14 sa-roboto">{{lanProduct.pricing.monday}}</mat-label>
               <mat-form-field class="sa-input-amount">
                 <input matInput [textMask]="{mask: currencyMask}" formControlName="mondayPrice">
-                <span matPrefix>$&nbsp;</span>
-                <span matSuffix>MXN</span>
+                <span matPrefix>{{lanProduct.pricing.currencySymbol}}</span>
+                <span matSuffix>{{lanProduct.pricing.country}}</span>
                 <mat-error *ngIf="registerProductForm.controls.mondayPrice.hasError('required')">{{language.errorRequired}}</mat-error>
               </mat-form-field>
             </li>
@@ -96,8 +96,8 @@
               <mat-label class="sa-text-14 sa-roboto">{{lanProduct.pricing.tuesday}}</mat-label>
               <mat-form-field class="sa-input-amount">
                 <input matInput [textMask]="{mask: currencyMask}" formControlName="tuesdayPrice">
-                <span matPrefix>$&nbsp;</span>
-                <span matSuffix>MXN</span>
+                <span matPrefix>{{lanProduct.pricing.currencySymbol}}</span>
+                <span matSuffix>{{lanProduct.pricing.country}}</span>
                 <mat-error *ngIf="registerProductForm.controls.tuesdayPrice.hasError('required')">{{language.errorRequired}}</mat-error>
               </mat-form-field>
             </li>
@@ -105,8 +105,8 @@
               <mat-label class="sa-text-14 sa-roboto">{{lanProduct.pricing.wednesday}}</mat-label>
               <mat-form-field class="sa-input-amount">
                 <input matInput [textMask]="{mask: currencyMask}" formControlName="wednesdayPrice">
-                <span matPrefix>$&nbsp;</span>
-                <span matSuffix>MXN</span>
+                <span matPrefix>{{lanProduct.pricing.currencySymbol}}</span>
+                <span matSuffix>{{lanProduct.pricing.country}}</span>
                 <mat-error *ngIf="registerProductForm.controls.wednesdayPrice.hasError('required')">{{language.errorRequired}}</mat-error>
               </mat-form-field>
             </li>
@@ -114,8 +114,8 @@
               <mat-label class="sa-text-14 sa-roboto">{{lanProduct.pricing.thursday}}</mat-label>
               <mat-form-field class="sa-input-amount">
                 <input matInput [textMask]="{mask: currencyMask}" formControlName="thursdayPrice">
-                <span matPrefix>$&nbsp;</span>
-                <span matSuffix>MXN</span>
+                <span matPrefix>{{lanProduct.pricing.currencySymbol}}</span>
+                <span matSuffix>{{lanProduct.pricing.country}}</span>
                 <mat-error *ngIf="registerProductForm.controls.thursdayPrice.hasError('required')">{{language.errorRequired}}</mat-error>
               </mat-form-field>
             </li>
@@ -123,8 +123,8 @@
               <mat-label class="sa-text-14 sa-roboto">{{lanProduct.pricing.friday}}</mat-label>
               <mat-form-field class="sa-input-amount">
                 <input matInput [textMask]="{mask: currencyMask}" formControlName="fridayPrice">
-                <span matPrefix>$&nbsp;</span>
-                <span matSuffix>MXN</span>
+                <span matPrefix>{{lanProduct.pricing.currencySymbol}}</span>
+                <span matSuffix>{{lanProduct.pricing.country}}</span>
                 <mat-error *ngIf="registerProductForm.controls.fridayPrice.hasError('required')">{{language.errorRequired}}</mat-error>
               </mat-form-field>
             </li>
@@ -132,8 +132,8 @@
               <mat-label class="sa-text-14 sa-roboto">{{lanProduct.pricing.saturday}}</mat-label>
               <mat-form-field class="sa-input-amount">
                 <input matInput [textMask]="{mask: currencyMask}" formControlName="saturdayPrice">
-                <span matPrefix>$&nbsp;</span>
-                <span matSuffix>MXN</span>
+                <span matPrefix>{{lanProduct.pricing.currencySymbol}}</span>
+                <span matSuffix>{{lanProduct.pricing.country}}</span>
                 <mat-error *ngIf="registerProductForm.controls.saturdayPrice.hasError('required')">{{language.errorRequired}}</mat-error>
               </mat-form-field>
             </li>
@@ -141,8 +141,8 @@
               <mat-label class="sa-text-14 sa-roboto">{{lanProduct.pricing.sunday}}</mat-label>
               <mat-form-field class="sa-input-amount">
                 <input matInput [textMask]="{mask: currencyMask}" formControlName="sundayPrice">
-                <span matPrefix>$&nbsp;</span>
-                <span matSuffix>MXN</span>
+                <span matPrefix>{{lanProduct.pricing.currencySymbol}}</span>
+                <span matSuffix>{{lanProduct.pricing.country}}</span>
                 <mat-error *ngIf="registerProductForm.controls.sundayPrice.hasError('required')">{{language.errorRequired}}</mat-error>
               </mat-form-field>
             </li>

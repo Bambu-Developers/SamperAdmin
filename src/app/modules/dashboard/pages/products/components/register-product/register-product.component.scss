@@ -19,6 +19,7 @@
       width: 100;
       height: 100;
       justify-content: space-around;
+      
       .sa-upload-image {
         width: 328px;
         height: 247px;
@@ -29,6 +30,12 @@
         justify-content: center;
         align-items: center;
         cursor: pointer;
+        #preview {
+          height: 100%;
+        }
+        #hidden {
+          display: none;
+        }
       }
       .sa-info-column {
         display: flex;

@@ -384,8 +384,7 @@ table {
       border-color: $color-very-light-pink !important;
       td {
         font-size: 14px;
-        color: $color-charcoal-grey;
-        // width: 0px;
+        color: $color-charcoal-grey !important;
         display: table-cell;
         align-items: center;
       }

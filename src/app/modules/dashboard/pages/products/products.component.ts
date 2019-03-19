@@ -34,10 +34,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
     );
   }
 
-  // public selectedProduct(product) {
-  //   this.router.navigate(['/dashboard/products/view/' + product.id]);
-  // }
-
   ngOnDestroy() {
     this.subscriptionProducts.unsubscribe();
   }

@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
 import { PRODUCTS_LANGUAGE } from 'src/app/modules/dashboard/pages/products/data/language';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
+import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/data';
 import { CURRENCY_MASK, NUMBER_MASK } from 'src/app/directives/currency-mask.directive';
 
 @Component({
@@ -17,25 +18,25 @@ import { CURRENCY_MASK, NUMBER_MASK } from 'src/app/directives/currency-mask.dir
 export class EditProductComponent implements OnInit, OnDestroy {
 
   public editProductForm: FormGroup;
-  public loading = false;
   public dataSource: any;
   public id: string;
-  public base64textString;
+  public base64textString: any;
   public imgURL: any;
-  public imagePath;
-  private subscription: Subscription;
-  private subscriptionURL: Subscription;
+  public imagePath: any;
+  private _subscription: Subscription;
+  private _subscriptionURL: Subscription;
   public lanProduct = PRODUCTS_LANGUAGE;
   public language = ACCOUNT_LANGUAGE;
   public currencyMask = CURRENCY_MASK;
   public numberMask = NUMBER_MASK;
   public showPricingPerDay = true;
   public imgChanged = false;
+  public loading = false;
 
   constructor(
-    private route: ActivatedRoute,
-    private snackBar: MatSnackBar,
-    private productService: ProductsService
+    private _route: ActivatedRoute,
+    private _snackBar: MatSnackBar,
+    private _productService: ProductsService
   ) { }
 
   ngOnInit() {
@@ -91,9 +92,9 @@ export class EditProductComponent implements OnInit, OnDestroy {
   }
 
   public getProduct() {
-    this.subscription = this.route.params.subscribe(params  => {
+    this._subscription = this._route.params.subscribe(params  => {
       this.id = params['id'];
-      this.productService.getProduct(this.id).subscribe(
+      this._productService.getProduct(this.id).subscribe(
         res => {
           this.dataSource = res;
           this.editProductForm.get('image').patchValue(res.img_preview_url);
@@ -123,12 +124,12 @@ export class EditProductComponent implements OnInit, OnDestroy {
         this.savePhoto().then(
           response => {
             this.editProductForm.get('image').patchValue(response);
-            this.productService.editProduct( this.editProductForm.value, this.id );
+            this._productService.editProduct( this.editProductForm.value, this.id );
             this.openSnackBar();
           }, error => console.error(error)
         );
       } else {
-        this.productService.editProduct( this.editProductForm.value, this.id);
+        this._productService.editProduct( this.editProductForm.value, this.id);
         this.openSnackBar();
       }
     }
@@ -167,9 +168,9 @@ export class EditProductComponent implements OnInit, OnDestroy {
 
   public savePhoto() {
     return new Promise((resolve, reject) => {
-      this.productService.imageUpload( this.base64textString ).then(
+      this._productService.imageUpload( this.base64textString ).then(
         response => {
-          this.subscriptionURL = response.subscribe(
+          this._subscriptionURL = response.subscribe(
             url => resolve(url),
             error => console.error(error)
           );
@@ -180,16 +181,22 @@ export class EditProductComponent implements OnInit, OnDestroy {
   }
 
   public openSnackBar() {
-    this.snackBar.openFromComponent(SnackbarComponent, {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom',
-      data: {text: PRODUCTS_LANGUAGE.snackbarEdited}
+    this._snackBar.openFromComponent(SnackbarComponent, {
+      duration: SNACKBAR_CONFIG.duration,
+      verticalPosition: SNACKBAR_CONFIG.verticalPosition,
+      horizontalPosition: SNACKBAR_CONFIG.horizontalPosition,
+      data: {
+        text: PRODUCTS_LANGUAGE.snackbarEdited
+      }
     });
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if ( this._subscription ) {
+      this._subscription.unsubscribe();
+    }
+    if ( this._subscriptionURL ) {
+      this._subscriptionURL.unsubscribe();
+    }
   }
-
 }

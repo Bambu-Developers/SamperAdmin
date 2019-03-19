@@ -8,6 +8,7 @@ import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/sn
 import { DialogComponent } from 'src/app/modules/shared/components/dialog/dialog.component';
 import { PRODUCTS_LANGUAGE } from 'src/app/modules/dashboard/pages/products/data/language';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
+import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/data';
 
 @Component({
   selector: 'app-view-product',
@@ -55,10 +56,12 @@ export class ViewProductComponent implements OnInit, OnDestroy {
 
   public openSnackBar() {
     this.snackBar.openFromComponent(SnackbarComponent, {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom',
-      data: {text: PRODUCTS_LANGUAGE.snackbarDeleted}
+      duration: SNACKBAR_CONFIG.duration,
+      verticalPosition: SNACKBAR_CONFIG.verticalPosition,
+      horizontalPosition: SNACKBAR_CONFIG.horizontalPosition,
+      data: {
+        text: PRODUCTS_LANGUAGE.snackbarDeleted
+      }
     });
   }
 

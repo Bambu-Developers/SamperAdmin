@@ -9,6 +9,7 @@ import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/sn
 import { PRODUCTS_LANGUAGE } from 'src/app/modules/dashboard/pages/products/data/language';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 import { CURRENCY_MASK, NUMBER_MASK } from 'src/app/directives/currency-mask.directive';
+import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/data';
 
 @Component({
   selector: 'app-register-product',
@@ -24,19 +25,18 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
   public showPricingPerDay = false;
   public baseValue = '0.00';
   public registerProductForm: FormGroup;
-  public subscriptionRoutes: Subscription;
   public currentProduct: ProductModel;
   public selectedFiles: FileList;
   public currentUpload: UploadModel;
   public imgURL: any;
-  public base64textString;
-  public imagePath;
+  public base64textString: any;
+  public imagePath: any;
   public loading = false;
-  private subscriptionURL: Subscription;
+  private _subscriptionURL: Subscription;
 
-  constructor( private productService: ProductsService,
-               private snackBar: MatSnackBar,
-             ) {  }
+  constructor(private _productService: ProductsService,
+    private _snackBar: MatSnackBar,
+  ) { }
 
   ngOnInit() {
     this.registerProductForm = new FormGroup({
@@ -98,7 +98,7 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
       this.savePhoto().then(
         response => {
           this.registerProductForm.get('image').patchValue(response);
-          this.productService.registerProduct( this.registerProductForm.value );
+          this._productService.registerProduct(this.registerProductForm.value);
           this.openSnackBar();
         }, error => console.error(error)
       );
@@ -120,9 +120,9 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
 
   public savePhoto() {
     return new Promise((resolve, reject) => {
-      this.productService.imageUpload( this.base64textString ).then(
+      this._productService.imageUpload(this.base64textString).then(
         response => {
-          this.subscriptionURL = response.subscribe(
+          this._subscriptionURL = response.subscribe(
             url => resolve(url),
             error => console.error(error)
           );
@@ -132,33 +132,37 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
     });
   }
 
-  public preview( files ) {
-    if ( files.length === 0 ) {
+  public preview(files: any) {
+    if (files.length === 0) {
       return;
     }
     const MIME_TYPE = files[0].type;
-    if (MIME_TYPE.match( /image\/*/ ) == null) {
+    if (MIME_TYPE.match(/image\/*/) == null) {
       // mat-error
       return;
     }
     const READER = new FileReader();
     this.imagePath = files;
-    READER.readAsDataURL( files[0] );
-    READER.onload = ( _event ) => {
+    READER.readAsDataURL(files[0]);
+    READER.onload = (_event) => {
       this.imgURL = READER.result;
     };
   }
 
   public openSnackBar() {
-    this.snackBar.openFromComponent(SnackbarComponent, {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom',
-      data: {text: PRODUCTS_LANGUAGE.snackbarAdd}
+    this._snackBar.openFromComponent(SnackbarComponent, {
+      duration: SNACKBAR_CONFIG.duration,
+      verticalPosition: SNACKBAR_CONFIG.verticalPosition,
+      horizontalPosition: SNACKBAR_CONFIG.horizontalPosition,
+      data: {
+        text: PRODUCTS_LANGUAGE.snackbarAdd
+      }
     });
   }
 
   ngOnDestroy() {
-    // this.subscriptionURL.unsubscribe();
+    if ( this._subscriptionURL ) {
+      this._subscriptionURL.unsubscribe();
+    }
   }
 }
