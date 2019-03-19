@@ -19,7 +19,7 @@ export class ViewProductComponent implements OnInit, OnDestroy {
 
   public lanProduct = PRODUCTS_LANGUAGE;
   public language = ACCOUNT_LANGUAGE;
-  private subscription: Subscription;
+  private _subscription: Subscription;
   public id: string;
   public dataSource: any;
 
@@ -36,7 +36,7 @@ export class ViewProductComponent implements OnInit, OnDestroy {
   }
 
   public getProduct() {
-    this.subscription = this.route.params.subscribe(params  => {
+    this._subscription = this.route.params.subscribe(params  => {
       this.id = params['id'];
       this.productService.getProduct(this.id).subscribe(
         res => {
@@ -79,7 +79,9 @@ export class ViewProductComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if ( this._subscription ) {
+      this._subscription.unsubscribe();
+    }
   }
 
 }

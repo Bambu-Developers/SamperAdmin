@@ -9,7 +9,7 @@
             <img class="sa-current-img" src="{{dataSource?.img_preview_url}}" *ngIf="!imgURL">
             <input class="sa-preview" #file type="file" accept='image/*' (change)="handleFileSelect($event)"
             (change)="preview(file.files)">
-            <img [src]="imgURL" height="100%" *ngIf="imgURL">
+            <img id="preview" [src]="imgURL" *ngIf="imgURL">
           </div>
           <div class="sa-info-column">
             <mat-form-field class="sa-input-text sa-no-label">
