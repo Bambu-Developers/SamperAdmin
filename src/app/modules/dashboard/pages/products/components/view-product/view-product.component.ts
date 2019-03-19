@@ -20,6 +20,7 @@ export class ViewProductComponent implements OnInit, OnDestroy {
   public lanProduct = PRODUCTS_LANGUAGE;
   public language = ACCOUNT_LANGUAGE;
   private _subscription: Subscription;
+  private _subscriptionService: Subscription;
   public id: string;
   public dataSource: any;
 
@@ -38,7 +39,7 @@ export class ViewProductComponent implements OnInit, OnDestroy {
   public getProduct() {
     this._subscription = this.route.params.subscribe(params  => {
       this.id = params['id'];
-      this.productService.getProduct(this.id).subscribe(
+      this._subscriptionService = this.productService.getProduct(this.id).subscribe(
         res => {
           this.dataSource = res;
         });
@@ -82,6 +83,9 @@ export class ViewProductComponent implements OnInit, OnDestroy {
     if ( this._subscription ) {
       this._subscription.unsubscribe();
     }
-  }
+    if ( this._subscriptionService ) {
+      this._subscriptionService.unsubscribe();
+    }
+   }
 
 }
