@@ -1,0 +1,51 @@
+<div class="sa-dashboard-main-content">
+  <h3 class="sa-text-24 sa-charcoal-grey sa-roboto">{{language.products}}</h3>
+  <div class="sa-dashboard-actions">
+    <button [routerLink]="['/dashboard/products/register']" mat-raised-button color="accent">
+      {{language.registerProduct}}
+    </button>
+    <app-paginator [totalItems]="60" [perPage]="20" [page]="1" [totalPages]="3"></app-paginator>
+  </div>
+  <div class="sa-dashboard-content">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="img">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td class="sa-img-column" mat-cell *matCellDef="let product">
+          <img class="sa-img-preview" src="{{product.img_preview_url}}" alt="N/A">
+        </td>
+      </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> {{language.product.name}} </th>
+        <td class="sa-name-column" mat-cell *matCellDef="let product"> {{product.name}} </td>
+      </ng-container>
+      <!-- Brand Column -->
+      <ng-container matColumnDef="brand">
+        <th mat-header-cell *matHeaderCellDef> {{language.product.brand}} </th>
+        <td class="sa-brand-column" mat-cell *matCellDef="let product"> {{product.brand}} </td>
+      </ng-container>
+      <!-- Content Column -->
+      <ng-container matColumnDef="content">
+        <th class="sa-center-text" mat-header-cell *matHeaderCellDef> {{language.product.content}} </th>
+        <td class="sa-content-column sa-center-text" mat-cell *matCellDef="let product"> {{product.content}} </td>
+      </ng-container>
+      <!-- Quantity Column -->
+      <ng-container matColumnDef="quantity">
+        <th class="sa-center-text" mat-header-cell *matHeaderCellDef> {{language.product.quantity}} </th>
+        <td class="sa-quantity-column sa-center-text" mat-cell *matCellDef="let product"> {{product.units_package}} {{language.product.unitsPackage}} </td>
+      </ng-container>
+      <!-- Retail Price Column -->
+      <ng-container matColumnDef="retailPrice">
+        <th class="sa-center-text" mat-header-cell *matHeaderCellDef> {{language.product.retailPrice}} </th>
+        <td class="sa-retailPrice-column sa-center-text" mat-cell *matCellDef="let product"> $ {{product.retail_price}} </td>
+      </ng-container>
+      <!-- Wholesale Price Column -->
+      <ng-container matColumnDef="wholesalePrice">
+        <th class="sa-center-text" mat-header-cell *matHeaderCellDef> {{language.product.wholesalePrice}} </th>
+        <td class="sa-wholesalePrice-column sa-center-text" mat-cell *matCellDef="let product"> $ {{product.wholesale_price}} </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/dashboard/products/view/', row.id]"></tr>
+    </table>
+  </div>
+</div>

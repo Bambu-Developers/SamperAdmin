@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TextMaskModule } from 'angular2-text-mask';
 import 'hammerjs';
 
 
@@ -20,7 +21,10 @@ import {
   MatRadioModule,
   MatSlideToggleModule,
   MatCheckboxModule,
-  MatSnackBarModule
+  MatCardModule,
+  MatProgressSpinnerModule,
+  MatSnackBarModule,
+  MatDialogModule
 } from '@angular/material';
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -34,11 +38,15 @@ import { environment } from '../../../environments/environment';
 
 /*SHARED COMPONENTS*/
 import { PaginatorComponent } from './components/paginator/paginator.component';
+import { SnackbarComponent } from './components/snackbar/snackbar.component';
+import { DialogComponent } from './components/dialog/dialog.component';
 import { ToastComponent } from '../dashboard/components/toast/toast.component';
 
 @NgModule({
   declarations: [
     PaginatorComponent,
+    SnackbarComponent,
+    DialogComponent,
     ToastComponent
   ],
   imports: [
@@ -64,7 +72,11 @@ import { ToastComponent } from '../dashboard/components/toast/toast.component';
     MatRadioModule,
     MatSlideToggleModule,
     MatCheckboxModule,
-    MatSnackBarModule
+    MatCardModule,
+    TextMaskModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
+    MatDialogModule,
   ],
   exports: [
     AngularFirestoreModule,
@@ -87,15 +99,18 @@ import { ToastComponent } from '../dashboard/components/toast/toast.component';
     MatRadioModule,
     MatSlideToggleModule,
     MatCheckboxModule,
+    MatCardModule,
+    TextMaskModule,
+    MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatDialogModule,
     ToastComponent
   ],
   providers: [
     AngularFireDatabase,
     { provide: FirestoreSettingsToken, useValue: {} }
   ],
-  entryComponents: [
-    ToastComponent
-  ]
+  entryComponents: [SnackbarComponent,
+                    DialogComponent, ToastComponent]
 })
 export class SharedModule { }

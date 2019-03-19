@@ -21,6 +21,7 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 /* FONTS */
 .sa-roboto {
   font-family: "Roboto";
+  font-weight: normal;
   font-style: normal;
   font-stretch: normal;
   line-height: normal;
@@ -89,6 +90,9 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 .sa-mushroom {
   color: $color-mushroom;
 }
+.sa-gray-medium {
+  color: $color-gray-medium;
+}
 /*END TEXT COLORS*/
 
 /*ALIGN TEXT*/
@@ -126,6 +130,7 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
   &.mat-white {
     border: 1px solid $color-charcoal-grey;
     color: $color-charcoal-grey;
+    background-color: rgba(0, 0, 0, 0);
   }
   &.sa-btn-small {
     width: 112px;
@@ -184,7 +189,7 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
   &.mat-focused {
     label {
       color: $color-brownish-grey !important;
-      width: 100% !important;
+      width: 50% !important;
       padding-left: 10px;
       margin-left: 8px;
     }
@@ -193,7 +198,7 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     border: 1px solid $color-charcoal-grey;
     label {
       color: $color-label !important;
-      width: 100% !important;
+      width: 50% !important;
       padding-left: 10px;
       margin-left: 8px;
     }
@@ -201,7 +206,7 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
       border: 1px solid $color-mushroom;
       label {
         color: $color-brownish-grey !important;
-        width: 100% !important;
+        width: 50% !important;
         padding-left: 10px;
         margin-left: 8px;
       }
@@ -220,23 +225,88 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     }
   }
   &.sa-no-label {
-    input {
-      margin-left: 5px;
-    }
-    .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix {
-      .mat-form-field-label-wrapper .mat-form-field-label {
-        display: none !important;
-      }
-    }
-    &.mat-form-field-should-float.mat-focused {
+    &.mat-form-field-should-float { // .mat-focused
       .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix span .mat-form-field-label {
         display: none !important;
-      }
+       }
     }
   }
   .mat-error {
-    margin-top: 8px;
-    margin-left: 16px;
+    margin-top: 4px;
+    margin-left: 8px;
+  }
+}
+.sa-input-amount {
+  width: 136px;
+  height: 48px;
+  color: $color-charcoal-grey;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 3px;
+  border: 1px solid $color-mushroom;
+  @media #{$break-mobile} {
+    width: 160px;
+  }
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+  input {
+    width: 90%;
+    font-size: 14px;
+    font-family: "Roboto";
+    line-height: 1.49;
+    margin-left: 18px;
+  }
+  .sa-amount-prefix {
+    margin-left: 10px;
+  }
+  .mat-form-field-wrapper {
+    width: 100%;
+    margin-left: 10px;
+    .mat-form-field-infix {
+      border-top: 23px solid transparent;
+      margin-left: 2px;
+    }
+    .mat-form-field-suffix {
+      margin-right: 20px;
+      .mat-icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+    .mat-form-field-underline {
+      display: none;
+    }
+    .mat-error {
+      margin-top: 4px;
+    }
+  }
+  &.ng-touched.ng-invalid {
+    border: 1px solid $color-red;
+    label {
+      color: $color-red !important;
+    }
+    input {
+      color: $color-red !important;
+    }
+  }
+  &.mat-focused {
+    .mat-form-field-infix {
+      // border-top: 23px solid transparent;
+      margin-left: -8px;
+    }
+  }
+  &.sa-no-label {
+    &.mat-form-field-should-float { // .mat-focused
+      .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix span .mat-form-field-label {
+        display: none !important;
+       }
+    }
   }
 }
 /*END INPUTS*/
@@ -266,7 +336,7 @@ button.mat-menu-item {
   background-color: $color-white-dark;
 }
 .sa-dashboard-main-content {
-  padding: 34px 32px;
+  padding: 34px 64px;
 }
 /* END CONTENTS */
 
@@ -287,6 +357,9 @@ button.mat-menu-item {
         path {
           fill: $color-pinkish-orange;
         }
+      }
+      path {
+        fill: $color-pinkish-orange;
       }
     }
   }
@@ -311,7 +384,9 @@ table {
       border-color: $color-very-light-pink !important;
       td {
         font-size: 14px;
-        color: $color-charcoal-grey;
+        color: $color-charcoal-grey !important;
+        display: table-cell;
+        align-items: center;
       }
     }
   }
@@ -404,5 +479,32 @@ table {
 
 /* SNACKBAR */
 .mat-snack-bar-container {
-  background-color: #37474f;
+  width: 432px;
+  height: 55px;
+  border-radius: 0px;
+  background: $color-charcoal-grey;
+  color: $color-white;
+  font-family: "Roboto";
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
 }
+/* END SNACKBAR */
+
+/* DIALOG */
+.mat-dialog-container {
+  width: 432px !important;
+  height: 144px !important;
+  font-family: "Roboto";
+  font-size: 14px;
+  background: $color-white;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+}
+/* END DIALOG */

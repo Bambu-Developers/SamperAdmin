@@ -20,6 +20,11 @@ const routes: Routes = [
     loadChildren: './pages/profile/profile.module#ProfileModule'
   },
   {
+    path: 'products',
+    component: DashboardComponent,
+    loadChildren: './pages/products/products.module#ProductsModule'
+  },
+  {
     path: '',
     redirectTo: 'users',
     pathMatch: 'full'

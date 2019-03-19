@@ -13,13 +13,13 @@ export const DASHBOARD_LANGUAGE = {
             account: 'Cuenta'
         },
         days: [
-            'Lun',
-            'Mar',
-            'Mie',
-            'Jue',
-            'Vie',
-            'Sab',
-            'Dom'
+            'Lunes',
+            'Martes',
+            'Miércoles',
+            'Jueves',
+            'Viernes',
+            'Sábado',
+            'Domingo'
         ],
         months: [
             'Ene',

@@ -1,0 +1,96 @@
+<div class="sa-dashboard-main-content">
+  <div class="sa-view-product-content">
+    <div class="sa-viewproduct-title">
+      <img src="/assets/icons/icon-vendedor-back-gray.svg" [routerLink]="['/dashboard/products/']">
+      <h3 class="sa-text-24 sa-charcoal-grey sa-roboto">{{lanProduct.products}}</h3>
+    </div>
+    <mat-card class="sa-product-card">
+      <div class="sa-product-content-info">
+        <div class="sa-product-image">
+          <img class="sa-image" src="{{dataSource?.img_preview_url}}" alt="N/A">
+        </div>
+        <div class="sa-product-info">
+          <div class="sa-info-column">
+            <div class="sa-product-name">
+              <p class="sa-top-p sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.name}}</p>
+              <span class="sa-text-18 sa-bold sa-charcoal-grey"> {{dataSource?.name}} </span>
+            </div>
+            <div class="sa-product-sku">
+              <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.sku}}</p>
+              <span class="sa-text-18 sa-bold sa-uppercase sa-charcoal-grey">{{dataSource?.sku}}</span>
+            </div>
+            <div class="sa-product-brand">
+              <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.brand}}</p>
+              <span class="sa-text-18 sa-bold sa-charcoal-grey">{{dataSource?.brand}}</span>
+            </div>
+          </div>
+          <div class="sa-info-column">
+            <div class="sa-product-unitsPackage">
+              <p class="sa-top-p sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.unitsPackage}}</p>
+              <span class="sa-text-18 sa-bold sa-charcoal-grey">{{dataSource?.units_package}}</span>
+            </div>
+            <div class="sa-product-category">
+              <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.category}}</p>
+              <span class="sa-text-18 sa-bold sa-charcoal-grey">{{dataSource?.category}}</span>
+            </div>
+            <div class="sa-product-content">
+              <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.content}}</p>
+              <span class="sa-text-18 sa-bold sa-charcoal-grey">{{dataSource?.content}}</span>
+            </div>
+          </div>
+        </div>
+        <button class="sa-btn-small sa-edit-button" mat-raised-button color="white" (click)="editProduct()">{{lanProduct.edit}}</button>
+      </div>
+    </mat-card>
+    <mat-card class="sa-product-prices">
+      <div class="sa-prices">
+        <div class="sa-product-retailprice">
+          <mat-label class="sa-text-14 sa-roboto sa-charcoal-grey">{{lanProduct.newProduct.retailPrice}} {{lanProduct.pricing.currencySymbol}}{{dataSource?.retail_price}} {{lanProduct.pricing.country}}</mat-label>
+          <mat-list class="sa-price-per-day">
+            <li class="sa-day">
+              <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.monday}}</p>
+              <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.monday_price}} {{lanProduct.pricing.country}}</span>
+            </li>
+            <li class="sa-day">
+              <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.tuesday}}</p>
+              <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.tuesday_price}} {{lanProduct.pricing.country}}</span>
+            </li>
+            <li class="sa-day">
+              <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.wednesday}}</p>
+              <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.wednesday_price}} {{lanProduct.pricing.country}}</span>
+            </li>
+            <li class="sa-day">
+              <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.thursday}}</p>
+              <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.thursday_price}} {{lanProduct.pricing.country}}</span>
+            </li>
+            <li class="sa-day">
+              <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.friday}}</p>
+              <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.friday_price}} {{lanProduct.pricing.country}}</span>
+            </li>
+            <li class="sa-day">
+              <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.saturday}}</p>
+              <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.saturday_price}} {{lanProduct.pricing.country}}</span>
+            </li>
+            <li class="sa-day">
+              <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.sunday}}</p>
+              <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.sunday_price}} {{lanProduct.pricing.country}}</span>
+            </li>
+          </mat-list>
+        </div>
+        <div class="sa-product_wholesaleprice">
+          <mat-label class="sa-text-14 sa-charcoal-grey">{{lanProduct.newProduct.wholesalePrice}}</mat-label>
+          <div class="sa-wholesale-column">
+            <div class="sa-wp">
+              <span class="sa-text-14 sa-charcoal-grey">${{dataSource?.wholesale_price}} {{lanProduct.pricing.country}}</span>
+              <p class="sa-text-14 sa-gray-medium">{{lanProduct.product.startingFrom}}{{dataSource?.wholesale_quantity}}{{lanProduct.product.units}}</p>
+            </div>
+            <div class="sa-product-actions">
+              <mat-slide-toggle>{{lanProduct.disable}}</mat-slide-toggle>
+              <span (click)="openDialog()" class="sa-delete-product sa-text-14 sa-charcoal-grey">{{lanProduct.remove}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

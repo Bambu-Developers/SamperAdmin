@@ -1,0 +1,111 @@
+@import "src/assets/css/colors";
+@import "src/assets/css/sizes.scss";
+
+.sa-dashboard-main-content {
+  .sa-view-product-content {
+    .sa-viewproduct-title {
+      width: 144px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-left: -32px;
+    }
+    .sa-product-card {
+      margin-top: 16px;
+      .sa-product-content-info {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 28px 32px;
+        .sa-product-image {
+          width: 328px;
+          height: 247px;
+          display: flex;
+          justify-content: center;
+          .sa-image {
+            height: 100%;
+          }
+        }
+        .sa-product-info {
+          height: 247px;
+          width: 80%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          align-items: center;
+          .sa-info-column {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            .sa-top-p {
+              margin-top: 0px;
+            }
+          }
+          p {
+            margin-top: 32px;
+            margin-bottom: 11px;
+          }
+        }
+      }
+    }
+
+    .sa-product-prices {
+      margin-top: 16px;
+      .sa-prices {
+        display: flex;
+        flex-direction: row;
+        padding: 24px 32px;
+        justify-content: space-between;
+        .sa-product-retailprice {
+          height: 180px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          .sa-price-per-day {
+            width: 350px;
+            height: 144px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            .sa-day {
+              width: 160px;
+              display: flex;
+              flex-direction: row;
+              flex-wrap: wrap;
+              justify-content: space-between;
+            }
+          }
+        }
+        .sa-product_wholesaleprice {
+          display: flex;
+          flex-direction: row;
+          .sa-wholesale-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-right: 170px;
+            .sa-wp {
+              height: 40px;
+              margin-left: 11px;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+            }
+            .sa-product-actions {
+              height: 52px;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+              .sa-delete-product {
+                text-decoration:underline;
+                cursor: pointer;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

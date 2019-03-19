@@ -7,7 +7,7 @@
     <mat-nav-list>
       <h3 class="sa-roboto sa-charcoal-grey sa-text-20">{{days[date.getDay()-1]}} {{date.getDate()}}
         {{months[date.getMonth()]}} {{date.getFullYear()}}</h3>
-      <a *ngFor="let item of items" mat-list-item [ngClass]="{'active': current == item.route}" [routerLink]="[item.route]">
+      <a *ngFor="let item of items" mat-list-item [routerLink]="[item.route]" [routerLinkActive]="['active', 'icon-color-accent']" >
         <mat-icon [ngClass]="{'icon-color-accent': current == item.route}" [svgIcon]="item.icon"></mat-icon>
         {{item.title}}
       </a>
