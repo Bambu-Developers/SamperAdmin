@@ -24,7 +24,8 @@ import {
   MatCardModule,
   MatProgressSpinnerModule,
   MatSnackBarModule,
-  MatDialogModule
+  MatDialogModule,
+  MatProgressBarModule
 } from '@angular/material';
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -77,6 +78,7 @@ import { ToastComponent } from '../dashboard/components/toast/toast.component';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatDialogModule,
+    MatProgressBarModule,
   ],
   exports: [
     AngularFirestoreModule,
@@ -104,7 +106,8 @@ import { ToastComponent } from '../dashboard/components/toast/toast.component';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatDialogModule,
-    ToastComponent
+    ToastComponent,
+    MatProgressBarModule,
   ],
   providers: [
     AngularFireDatabase,

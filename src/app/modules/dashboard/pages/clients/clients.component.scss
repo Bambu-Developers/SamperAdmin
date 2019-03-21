@@ -1,0 +1,42 @@
+@import "src/assets/css/colors";
+
+.sa-dashboard-main-content {
+    padding: 34px 32px;
+    h3{
+        margin-bottom: 24px;
+        font-weight: 500;
+    }
+    .sa-dashboard-actions {
+        display: flex;
+        justify-content: flex-end;
+    }
+    .sa-dashboard-content {
+        margin: 22px 0px;
+        th {
+            color: $color-mushroom;
+            font-weight: bold;
+        }
+        .sa-benderID-column {
+            width: 18%;
+            font-weight: bold !important;
+        }
+        .sa-shopName-column {
+            width: 20%;
+        }
+        .sa-name-column {
+            width: 20%;
+        }
+        .sa-route-column {
+            width: 10%;
+        }
+        .sa-type-column {
+            width: 10%;
+        }
+        .sa-credit-column {
+            width: 10%;
+        }
+        .sa-lastConexion-column {
+            width: 12%;
+        }
+    }
+}

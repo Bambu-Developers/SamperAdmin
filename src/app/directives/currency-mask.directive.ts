@@ -3,7 +3,7 @@ import { createNumberMask } from 'text-mask-addons';
 export const CURRENCY_MASK = createNumberMask({
   prefix: '',
   suffix: '',
-  includeThousandsSeparator: false,
+  includeThousandsSeparator: true,
   allowDecimal: true,
   decimalLimit: 2,
   requireDecimal: false,

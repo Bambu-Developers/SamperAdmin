@@ -27,6 +27,14 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
   line-height: normal;
   letter-spacing: normal;
 }
+.sa-roboto-medium {
+  font-family: "Roboto";
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.16;
+  letter-spacing: normal;
+}
 /* END FONTS */
 
 /* TEXT SIZES */
@@ -189,8 +197,8 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
   &.mat-focused {
     label {
       color: $color-brownish-grey !important;
-      width: 50% !important;
-      padding-left: 10px;
+      width: auto !important;
+      padding: 0px 10px;
       margin-left: 8px;
     }
   }
@@ -198,16 +206,16 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     border: 1px solid $color-charcoal-grey;
     label {
       color: $color-label !important;
-      width: 50% !important;
-      padding-left: 10px;
+      width: auto !important;
+      padding: 0px 10px;
       margin-left: 8px;
     }
     &.mat-focused {
       border: 1px solid $color-mushroom;
       label {
         color: $color-brownish-grey !important;
-        width: 50% !important;
-        padding-left: 10px;
+        width: auto !important;
+        padding: 0px 10px;
         margin-left: 8px;
       }
       input {
@@ -237,7 +245,7 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
   }
 }
 .sa-input-amount {
-  width: 136px;
+  width: 144px;
   height: 48px;
   color: $color-charcoal-grey;
   display: flex !important;
@@ -508,3 +516,15 @@ table {
   letter-spacing: normal;
 }
 /* END DIALOG */
+
+/* PROGRESS BAR */
+.mat-progress-bar {
+  padding: 4px 0;
+  .mat-progress-bar-buffer {
+    background-color: $color-very-light-pink;
+  }
+  .mat-progress-bar-fill::after {
+    background-color: #f5a623;
+  }
+}
+/* END PROGRESS BAR */

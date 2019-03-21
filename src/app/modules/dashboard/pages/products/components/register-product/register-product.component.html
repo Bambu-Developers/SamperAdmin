@@ -13,15 +13,15 @@
           </div>
           <div class="sa-info-column">
             <mat-form-field class="sa-input-text">
-              <input matInput placeholder="{{lanProduct.newProduct.name}}" formControlName="name">
+              <input matInput placeholder="{{lanProduct.newProduct.name}}" formControlName="name" maxlength="30">
               <mat-error *ngIf="registerProductForm.controls.name.hasError('required')">{{language.errorRequired}}</mat-error>
             </mat-form-field>
             <mat-form-field class="sa-input-text">
-              <input matInput placeholder="{{lanProduct.newProduct.sku}}" formControlName="sku">
+              <input matInput placeholder="{{lanProduct.newProduct.sku}}" formControlName="sku" maxlength="30">
               <mat-error *ngIf="registerProductForm.controls.sku.hasError('required')">{{language.errorRequired}}</mat-error>
             </mat-form-field>
             <mat-form-field class="sa-input-text">
-              <input matInput placeholder="{{lanProduct.newProduct.brand}}" formControlName="brand">
+              <input matInput placeholder="{{lanProduct.newProduct.brand}}" formControlName="brand" maxlength="30">
               <mat-error *ngIf="registerProductForm.controls.brand.hasError('required')">{{language.errorRequired}}</mat-error>
             </mat-form-field>
           </div>
@@ -34,7 +34,7 @@
             </div>
             <p class="sa-p sa-text-14 sa-roboto">{{lanProduct.newProduct.category}}</p>
             <mat-form-field class="sa-input-text">
-              <input matInput formControlName="category">
+              <input matInput formControlName="category" maxlength="20">
               <mat-error *ngIf="registerProductForm.controls.category.hasError('required')">{{language.errorRequired}}</mat-error>
             </mat-form-field>
             <p class="sa-p sa-text-14 sa-roboto">{{lanProduct.newProduct.content}}</p>
@@ -151,7 +151,7 @@
       </mat-card>
       <div class="sa-register-product-actions">
         <button [routerLink]="['/dashboard/products/']" class="sa-btn-small" mat-raised-button color="white">{{language.cancel}}</button>
-        <button type="submit" class="sa-btn-small" mat-raised-button color="charcoal-grey">{{lanProduct.register}}</button>
+        <button type="submit" [disabled]="!registerProductForm.valid" class="sa-btn-small" mat-raised-button color="charcoal-grey">{{lanProduct.register}}</button>
       </div>
     </form>
   </div>
