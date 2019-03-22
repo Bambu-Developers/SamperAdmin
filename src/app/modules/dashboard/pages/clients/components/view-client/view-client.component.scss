@@ -65,53 +65,38 @@
           }
           .sa-credit-info {
             margin-top: 8px;
-            padding: 24px;
+            padding: 27px 29px 24px 24px;
             // min-height: 168px;
             .sa-with-credit {
+              // width: 501px !important;
               display: flex;
               flex-direction: row;
               justify-content: space-between;
               align-items: flex-start;
-              .sa-content {
+              .sa-left-column-wc {
                 .sa-credit-details {
-                  width: 577px;
                   height: 70px;
                   display: flex;
-                  flex-direction: row;
-                  justify-content: space-between;
+                  flex-direction: column;
                   margin-top: 16px;
-                  .sa-amount-assigned {
-                    height: 40px;
+                  .sa-credit-labels {
+                    width: 220px;
                     display: flex;
-                    flex-direction: column;
+                    flex-direction: row;
                     justify-content: space-between;
+                  }
+                  .sa-credit-inputs {
+                    margin-top: 8px;
+                    display: flex;
+                    flex-direction: row;
+                    #right {
+                      margin-left: 68px;
+                    }
                     .sa-edit-credit {
-                      // width: 601px;
-                      margin-top: 8px;
+                      width: 308px;
                       display: flex;
-                      flex-direction: column;
-                      .sa-inputs {
-                        display: flex;
-                        flex-direction: row;
-                        .sa-label-input {
-                          height: 72px;
-                          display: flex;
-                          flex-direction: column;
-                          justify-content: space-between;
-                        }
-                        .sa-label-input-validity {
-                          height: 72px;
-                          margin-left: 20px;
-                          display: flex;
-                          flex-direction: column;
-                          justify-content: space-between;
-                        }
-                      }
-                      .sa-edit-credit-actions {
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: space-between;
-                      }
+                      flex-direction: row;
+                      justify-content: space-between;
                     }
                   }
                   .sa-validity {
@@ -119,48 +104,6 @@
                     display: flex;
                     flex-direction: column;
                     justify-content: space-between
-                  }
-                  .sa-progress-bar {
-                    width: 256px;
-                    height: 48px;
-                    margin-top: 15px;
-                    margin-right: -10px;
-                    .sa-amount-in-bar {
-                      display: flex;
-                      margin-top: 8px;
-                      flex-direction: row;
-                      justify-content: space-between;
-                      .sa-amount-used {
-                        width: 115px;
-                        display: flex;
-                        justify-content: space-between;  
-                        .sa-dot {
-                          width: 8px;
-                          height: 8px;
-                          background-color: #f5a623;
-                          border-radius: 4px;
-                          margin-top: 5px;
-                        }
-                        .sa-label {
-                          color: #5a5a5a;
-                        }
-                      }
-                      .sa-remaining-amount {
-                        width: 115px;
-                        display: flex;
-                        justify-content: space-between;  
-                        .sa-dot {
-                          width: 8px;
-                          height: 8px;
-                          background-color: $color-very-light-pink;
-                          border-radius: 4px;
-                          margin-top: 5px;
-                        }
-                        .sa-label {
-                          color: #5a5a5a;
-                        }
-                      }
-                    }
                   }
                 }
                 .sa-credit-history {
@@ -184,9 +127,65 @@
                     }
                   }
                 }
-                .sa-transactions-list {
-                  margin-top: 31px;
+              }
+              .sa-right-column-wc {
+                height: 138px;
+                padding-top: 45px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: flex-end;
+                .sa-progress-bar {
+                  width: 256px;
+                  height: 48px;
+                  .sa-amount-in-bar {
+                    display: flex;
+                    margin-top: 8px;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    .sa-amount-used {
+                      width: 115px;
+                      display: flex;
+                      justify-content: space-between;  
+                      .sa-dot {
+                        width: 8px;
+                        height: 8px;
+                        background-color: #f5a623;
+                        border-radius: 4px;
+                        margin-top: 5px;
+                      }
+                      .sa-label {
+                        color: #5a5a5a;
+                      }
+                    }
+                    .sa-remaining-amount {
+                      width: 115px;
+                      display: flex;
+                      justify-content: space-between;  
+                      .sa-dot {
+                        width: 8px;
+                        height: 8px;
+                        background-color: $color-very-light-pink;
+                        border-radius: 4px;
+                        margin-top: 5px;
+                      }
+                      .sa-label {
+                        color: #5a5a5a;
+                      }
+                    }
+                  }
                 }
+                .sa-edit-credit-actions {
+                  width: 240px;
+                  display: flex;
+                  flex-direction: row;
+                  justify-content: space-between;
+                }
+              }
+              #sa-icon-edit {
+                position: absolute;
+                margin-left: 587px;
+                margin-top: -12px;
               }
             }
             .sa-without-credit {
@@ -195,6 +194,47 @@
                 text-decoration:underline;
                 cursor: pointer;
               }
+              .sa-assigning-credit {
+                width: inherit;
+                height: 168px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                .sa-credit-column {
+                  width: 308px;
+                  height: inherit;
+                  display: flex;
+                  flex-direction: column;
+                  .sa-labels {
+                    width: 216px;
+                    margin-top: 16px;
+                    margin-bottom: 8px;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                  }
+                  .sa-inputs {
+                    width: inherit;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                  }
+                }
+                .sa-right-column {
+                  width: 240px;
+                  display: flex;
+                  align-items: flex-end;
+                  .sa-assigning-credit-actions {
+                    width: inherit;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                  }
+                }
+              }
+            }
+            .sa-transactions-list {
+              margin-top: 31px;
             }
           }
         }

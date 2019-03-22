@@ -39,11 +39,28 @@ export class ClientsService {
   }
 
   // Get product by ID
-  public getProduct(id: string): Observable<ClientModel> {
+  public getClient(id: string): Observable<ClientModel> {
     return this.client = this.db.object<ClientModel>(`${this._basePath}/` + id )
     .snapshotChanges()
     .pipe(
       map(res => res.payload.val())
     );
+  }
+
+  public editCredit( creditData, id ) {
+    // this._setEditedClientCredit( creditData, id );
+    this.router.navigate(['/dashboard/clients/view/' +  id]);
+  }
+
+  public assignCredit( creditData, id ) {
+    // this._setClientCredit( creditData, id );
+    this.router.navigate(['/dashboard/clients/view/' +  id]);
+  }
+
+  private _setEditedClientCredit( creditData, id ) {
+  }
+
+  private _setClientCredit( creditData, id ) {
+
   }
 }

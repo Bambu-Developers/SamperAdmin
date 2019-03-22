@@ -3,6 +3,8 @@ export const CLIENTS_LANGUAGE = {
     purchasedProducts: 'Productos que consume:',
     ticketAvarage: 'Ticket promedio por compra:',
     save: 'Guardar',
+    snackbarEdited: 'Crédito editado exitosamente',
+    snackbarAssignedCredit: 'Crédito asignado exitosamente',
     client: {
         benderID: 'No. de cliente',
         shopName: 'Nombre de la sucursal',
@@ -25,6 +27,7 @@ export const CLIENTS_LANGUAGE = {
         creditHistory: 'Historial de crédito',
         assignedAmount: 'Monto asignado',
         lastAmountAssigned: 'Última asignación',
+        assigningCredit: 'Asignando crédito',
         currencySymbol: '$',
         country: 'MXN',
     },
