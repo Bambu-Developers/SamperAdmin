@@ -6,7 +6,8 @@
       <div class="sa-client-sections">
         <div class="sa-left-column">
           <mat-card class="sa-shop-image-card">
-            <img src="{{dataSource?.photo}}" alt="N/A">
+            <img class="sa-current-photo" src="{{dataSource?.photo}}">
+            <img *ngIf="!dataSource?.photo" src="assets/images/defaullt_photo_store.svg">
           </mat-card>
           <mat-card class="sa-bender-type-card sa-roboto sa-charcoal-grey sa-text-14">
             <mat-label class="sa-roboto-medium sa-text-18">Mayorista</mat-label>
@@ -24,7 +25,7 @@
           <mat-card class="sa-client-info">
             <div class="sa-client-title sa-roboto-medium sa-text-18 sa-charcoal-grey">
               <mat-label> {{dataSource?.bender_id}} </mat-label>
-              <mat-label class="sa-route"> {{dataSource?.route_id}} </mat-label>
+              <mat-label class="sa-route"> {{dataSource?.route_name}} </mat-label>
             </div>
             <div class="sa-info sa-brownish-grey sa-text-14 sa-roboto">
               <mat-label> {{dataSource?.name}} </mat-label>
@@ -62,11 +63,10 @@
                         <mat-label class="sa-roboto-medium sa-text-14">
                           {{lanClient.credit.validity}} </mat-label>
                       </div>
-
                       <div class="sa-credit-inputs">
                         <mat-label class="sa-roboto sa-text-14" *ngIf="!isEditCredit">$6,500.00 MXN</mat-label>
-                        <mat-label class="sa-roboto sa-text-14" id="right" *ngIf="!isEditCredit">20 / Ago / 2018</mat-label>
-                        
+                        <mat-label class="sa-roboto sa-text-14" id="right" *ngIf="!isEditCredit">20 / Ago / 2018
+                        </mat-label>
                         <div *ngIf="isEditCredit" class="sa-edit-credit">
                           <mat-form-field class="sa-input-amount">
                             <input matInput placeholder="" [textMask]="{mask: currencyMask}"
@@ -76,20 +76,16 @@
                             <mat-error *ngIf="creditEditForm.controls.amountAssigned.hasError('required')">
                               {{language.errorRequired}}</mat-error>
                           </mat-form-field>
-
-                          <mat-form-field class="sa-input-amount">
-                            <input matInput placeholder="" [textMask]="{mask: currencyMask}"
+                          <mat-form-field class="sa-input-date">
+                            <input matInput [matDatepicker]="dp3" placeholder="" disabled
                               formControlName="validityDate">
-                            <span matPrefix>{{lanClient.credit.currencySymbol}}</span>
-                            <span matSuffix>{{lanClient.credit.country}}</span>
                             <mat-error *ngIf="creditEditForm.controls.validityDate.hasError('required')">
                               {{language.errorRequired}}</mat-error>
+                            <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
                           </mat-form-field>
                         </div>
-
                       </div>
-
-
                     </div>
                     <div *ngIf="!isEditCredit" class="sa-credit-history">
                       <mat-label class="sa-roboto-medium sa-text-18 sa-charcoal-grey">{{lanClient.credit.creditHistory}}
@@ -131,16 +127,15 @@
                         </div>
                       </div>
                     </div>
-
                     <div class="sa-edit-credit-actions" *ngIf="isEditCredit">
                       <button class="sa-btn-small" mat-raised-button color="white"
                         (click)="isEditCredit = false">{{language.cancel}}</button>
-                      <button type="submit" class="sa-btn-small" mat-raised-button
-                        color="charcoal-grey" [disabled]="!creditEditForm.valid">{{lanClient.save}}</button>
+                      <button type="submit" class="sa-btn-small" mat-raised-button color="charcoal-grey"
+                        [disabled]="!creditEditForm.valid">{{lanClient.save}}</button>
                     </div>
-
                   </div>
-                  <img src="/assets/icons/icon-edit-gray.svg" (click)="isEditCredit = true" *ngIf="!isEditCredit" id="sa-icon-edit">
+                  <img src="/assets/icons/icon-edit-gray.svg" (click)="isEditCredit = true" *ngIf="!isEditCredit"
+                    id="sa-icon-edit">
                 </div>
                 <div *ngIf="!isEditCredit" class="sa-transactions-list">
                   <mat-label class="sa-roboto-medium sa-text-14 sa-charcoal-grey">
@@ -150,52 +145,48 @@
             </ng-template>
             <ng-template #withoutCredit>
               <div class="sa-without-credit">
-                <ng-container *ngIf="!isAssignedCredit; else assignCredit">
-                  <mat-label class="sa-roboto-medium sa-text-18 sa-charcoal-grey">{{lanClient.credit.withoutCredit}}
-                  </mat-label>
-                  <mat-label class="sa-roboto sa-text-12 sa-charcoal-grey" id="sa-assign-credit"
-                    (click)="isAssignedCredit = true">{{lanClient.credit.assignCredit}}
-                  </mat-label>
-                </ng-container>
-                <ng-template #assignCredit>
-                  <form (ngSubmit)="assignCredit()" [formGroup]="creditAssignForm">
-                    <div class="sa-assigning-credit sa-roboto sa-text-18 sa-charcoal-grey">
-                      <div class="sa-credit-column">
-                        <mat-label> {{lanClient.credit.assigningCredit}} </mat-label>
-                        <div class="sa-labels sa-roboto-medium sa-text-14">
-                          <mat-label> {{lanClient.credit.assignedAmount}} </mat-label>
-                          <mat-label> {{lanClient.credit.validity}} </mat-label>
-                        </div>
-                        <div class="sa-inputs">
-                          <mat-form-field class="sa-input-amount">
-                            <input matInput placeholder="" [textMask]="{mask: currencyMask}"
-                              formControlName="amountAssigned">
-                            <span matPrefix>{{lanClient.credit.currencySymbol}}</span>
-                            <span matSuffix>{{lanClient.credit.country}}</span>
-                            <mat-error *ngIf="creditAssignForm.controls.amountAssigned.hasError('required')">
-                              {{language.errorRequired}}</mat-error>
-                          </mat-form-field>
-                          <mat-form-field class="sa-validity-input sa-input-amount">
-                            <input matInput placeholder="" [textMask]="{mask: currencyMask}"
-                              formControlName="validityDate">
-                            <span matPrefix>{{lanClient.credit.currencySymbol}}</span>
-                            <span matSuffix>{{lanClient.credit.country}}</span>
-                            <mat-error *ngIf="creditAssignForm.controls.validityDate.hasError('required')">
-                              {{language.errorRequired}}</mat-error>
-                          </mat-form-field>
-                        </div>
+                <mat-label *ngIf="!isAssignedCredit" class="sa-roboto-medium sa-text-18 sa-charcoal-grey">
+                  {{lanClient.credit.withoutCredit}}
+                </mat-label>
+                <mat-label *ngIf="!isAssignedCredit" class="sa-roboto sa-text-12 sa-charcoal-grey" id="sa-assign-credit"
+                  (click)="isAssignedCredit = true">{{lanClient.credit.assignCredit}}
+                </mat-label>
+                <form (ngSubmit)="assignCredit()" [formGroup]="creditAssignForm">
+                  <div *ngIf="isAssignedCredit" class="sa-assigning-credit sa-roboto sa-text-18 sa-charcoal-grey">
+                    <div class="sa-credit-column">
+                      <mat-label> {{lanClient.credit.assigningCredit}} </mat-label>
+                      <div class="sa-labels sa-roboto-medium sa-text-14">
+                        <mat-label> {{lanClient.credit.assignedAmount}} </mat-label>
+                        <mat-label> {{lanClient.credit.validity}} </mat-label>
                       </div>
-                      <div class="sa-right-column">
-                        <div class="sa-assigning-credit-actions">
-                          <button class="sa-btn-small" mat-raised-button color="white"
-                            (click)="isAssignedCredit = false">{{language.cancel}}</button>
-                          <button type="submit" class="sa-btn-small" mat-raised-button
-                            color="charcoal-grey" [disabled]="!creditAssignForm.valid">{{lanClient.save}}</button>
-                        </div>
+                      <div class="sa-inputs">
+                        <mat-form-field class="sa-input-amount">
+                          <input matInput placeholder="" [textMask]="{mask: currencyMask}"
+                            formControlName="amountAssigned">
+                          <span matPrefix>{{lanClient.credit.currencySymbol}}</span>
+                          <span matSuffix>{{lanClient.credit.country}}</span>
+                          <mat-error *ngIf="creditAssignForm.controls.amountAssigned.hasError('required')">
+                            {{language.errorRequired}}</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="sa-input-date">
+                          <input matInput [matDatepicker]="dp3" placeholder="" disabled formControlName="validityDate">
+                          <mat-error *ngIf="creditAssignForm.controls.validityDate.hasError('required')">
+                            {{language.errorRequired}}</mat-error>
+                          <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                          <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                        </mat-form-field>
                       </div>
                     </div>
-                  </form>
-                </ng-template>
+                    <div class="sa-right-column">
+                      <div class="sa-assigning-credit-actions">
+                        <button class="sa-btn-small" mat-raised-button color="white"
+                          (click)="isAssignedCredit = false">{{language.cancel}}</button>
+                        <button type="submit" class="sa-btn-small" mat-raised-button color="charcoal-grey"
+                          [disabled]="!creditAssignForm.valid">{{lanClient.save}}</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
               </div>
             </ng-template>
           </mat-card>

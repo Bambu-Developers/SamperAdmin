@@ -144,6 +144,10 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     width: 112px;
     height: 32px;
   }
+  &.sa-btn-medium {
+    width: 136px;
+    height: 40px;
+  }
   &:disabled {
     cursor: not-allowed;
     background-color: rgba($color-charcoal-grey, 0.7) !important;
@@ -317,6 +321,32 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     }
   }
 }
+.sa-input-date {
+  .mat-form-field-wrapper {
+    .mat-form-field-infix {
+      padding: 0px;
+      border: 0px;
+    }
+    .mat-form-field-flex {
+      width: 144px;
+      height: 50px;
+      border: 1px solid $color-mushroom;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      input {
+        margin-left: 18px;
+      }
+    }
+    .mat-form-field-underline {
+      display: none;
+    }
+    .mat-input-element:disabled {
+      color: $color-charcoal-grey;
+      margin-left: 18px;
+    }
+  }
+}
 /*END INPUTS*/
 
 /* TOLBAR */
@@ -361,7 +391,6 @@ button.mat-menu-item {
     svg {
       g {
         fill: #ff6649;
-        stroke: #ff6649;
         path {
           fill: $color-pinkish-orange;
         }
@@ -528,3 +557,25 @@ table {
   }
 }
 /* END PROGRESS BAR */
+
+/* SLIDE-TOGGLE*/
+.mat-slide-toggle {
+  .mat-slide-toggle-label {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+  .mat-slide-toggle-bar {
+    margin-left: 8px;
+    // background-color: $color-pinkish-orange;
+  }
+  .mat-slide-toggle-thumb {
+    background: $color-white;
+  }
+}
+.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+  background-color: $color-white;
+}
+.mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+  background-color: $color-pinkish-orange;
+}
+/* END SLIDE-TOGGLE*/

@@ -12,7 +12,7 @@ export const CLIENTS_LANGUAGE = {
         route: 'Ruta',
         type: 'Tipo',
         credit: 'Crédito',
-        lastConexion: 'Última conexión',
+        lastPurchased: 'Última compra',
         address: 'Dirección:',
         phone: 'Teléfono:',
         email: 'Correo electrónico:',

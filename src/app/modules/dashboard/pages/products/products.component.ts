@@ -12,7 +12,7 @@ import { PRODUCTS_LANGUAGE } from 'src/app/modules/dashboard/pages/products/data
 export class ProductsComponent implements OnInit, OnDestroy {
 
   public language = PRODUCTS_LANGUAGE;
-  public displayedColumns: string[] = ['img', 'name', 'brand', 'content', 'quantity', 'retailPrice', 'wholesalePrice'];
+  public displayedColumns: string[] = ['img', 'name', 'has_promo', 'brand', 'content', 'quantity', 'retailPrice', 'wholesalePrice'];
   public dataSource: any;
   public products;
   public subscriptionProducts: Subscription;

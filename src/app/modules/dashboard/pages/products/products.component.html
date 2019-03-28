@@ -4,7 +4,7 @@
     <button [routerLink]="['/dashboard/products/register']" mat-raised-button color="accent">
       {{language.registerProduct}}
     </button>
-    <app-paginator [totalItems]="60" [perPage]="20" [page]="1" [totalPages]="3"></app-paginator>
+    <app-paginator [totalItems]="dataSource?.length" [perPage]="15" [page]="1" [totalPages]="3"></app-paginator>
   </div>
   <div class="sa-dashboard-content">
     <table mat-table [dataSource]="dataSource">
@@ -18,6 +18,13 @@
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> {{language.product.name}} </th>
         <td class="sa-name-column" mat-cell *matCellDef="let product"> {{product.name}} </td>
+      </ng-container>
+      <!-- Status/Promo Column -->
+      <ng-container matColumnDef="has_promo">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td class="sa-status-column" mat-cell *matCellDef="let product">
+          <img *ngIf="product.has_promo === true" src="assets/images/group-5.svg">
+        </td>
       </ng-container>
       <!-- Brand Column -->
       <ng-container matColumnDef="brand">

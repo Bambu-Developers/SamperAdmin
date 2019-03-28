@@ -1,7 +1,9 @@
+import { CLIENTS_LANGUAGE } from './../data/language';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { ClientModel } from 'src/app/modules/dashboard/pages/clients/models/client.model';
+import { RouteModel } from 'src/app/modules/dashboard/pages/clients/models/route.model';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
@@ -11,16 +13,19 @@ import { map } from 'rxjs/operators';
 })
 export class ClientsService {
 
-  public clientsRef: AngularFireList<ClientModel>;
   public client: Observable<ClientModel>;
-  private _basePath = 'Developer/Customers/';
+  public clientsRef: AngularFireList<ClientModel>;
+  public routesRef: AngularFireList<RouteModel>;
+  private _baseClientsPath = 'Developer/Customers/';
+  private _baseRoutesPath = 'Developer/Routes/';
 
   constructor(
     private db: AngularFireDatabase,
     private storage: AngularFireStorage,
     private router: Router,
   ) {
-    this.clientsRef = this.db.list<ClientModel>(this._basePath);
+    this.clientsRef = this.db.list<ClientModel>(this._baseClientsPath);
+    this.routesRef = this.db.list<RouteModel>(this._baseRoutesPath);
   }
 
   // Get all products
@@ -38,9 +43,17 @@ export class ClientsService {
     );
   }
 
+  public getRouteByID(id: string) {
+    return this.db.object<RouteModel>(`${this._baseRoutesPath}/` + id )
+    .snapshotChanges()
+    .pipe(
+      map(res => res.payload.val())
+    );
+  }
+
   // Get product by ID
   public getClient(id: string): Observable<ClientModel> {
-    return this.client = this.db.object<ClientModel>(`${this._basePath}/` + id )
+    return this.client = this.db.object<ClientModel>(`${this._baseClientsPath}/` + id )
     .snapshotChanges()
     .pipe(
       map(res => res.payload.val())
@@ -53,7 +66,7 @@ export class ClientsService {
   }
 
   public assignCredit( creditData, id ) {
-    // this._setClientCredit( creditData, id );
+    this._setClientCredit( creditData, id );
     this.router.navigate(['/dashboard/clients/view/' +  id]);
   }
 
@@ -61,6 +74,9 @@ export class ClientsService {
   }
 
   private _setClientCredit( creditData, id ) {
-
+    const CLIENT_DATA: ClientModel = {
+      haveCredit: true
+    };
+    this.clientsRef.update( id, CLIENT_DATA);
   }
 }

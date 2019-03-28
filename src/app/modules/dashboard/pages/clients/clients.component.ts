@@ -13,7 +13,10 @@ export class ClientsComponent implements OnInit, OnDestroy {
   public language = CLIENTS_LANGUAGE;
   public displayedColumns: string[] = ['bender_id', 'shop_name', 'name', 'route_id', 'isMayoreo', 'haveCredit', 'last_conexion'];
   public subscriptionClients: Subscription;
+  public subscriptionRoutes: Subscription;
   public dataSource: any;
+  public dataRoutes: any;
+  public google: any;
 
   constructor(
     private clientsService: ClientsService,
@@ -27,6 +30,11 @@ export class ClientsComponent implements OnInit, OnDestroy {
     this.subscriptionClients = this.clientsService.getAllClients().subscribe(
       res => {
         this.dataSource = res;
+        this.dataSource.forEach(customer => {
+          this.clientsService.getRouteByID(customer.route_id).subscribe(route => {
+            customer.route_name = route.name;
+          });
+        });
       }
     );
   }
@@ -34,6 +42,9 @@ export class ClientsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if ( this.subscriptionClients ) {
       this.subscriptionClients.unsubscribe();
+    }
+    if ( this.subscriptionRoutes ) {
+      this.subscriptionRoutes.unsubscribe();
     }
   }
 

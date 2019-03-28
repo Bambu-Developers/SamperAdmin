@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDatepicker} from '@angular/material';
 import { ClientsService } from 'src/app/modules/dashboard/pages/clients/services/clients.service';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
@@ -21,17 +21,18 @@ export class ViewClientComponent implements OnInit {
   public creditEditForm: FormGroup;
   public creditAssignForm: FormGroup;
   private _subscription: Subscription;
-  private _subscriptionService: any;
+  private _subscriptionService: Subscription;
   public id: string;
   public language = ACCOUNT_LANGUAGE;
   public currencyMask = CURRENCY_MASK;
   public lanClient = CLIENTS_LANGUAGE;
   public isAssignedCredit = false;
   public isEditCredit = false;
+  public address: any;
+  public google: any;
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private _snackBar: MatSnackBar,
     private _clientService: ClientsService,
   ) { }
@@ -42,7 +43,7 @@ export class ViewClientComponent implements OnInit {
       amountAssigned: new FormControl('', [
         Validators.required,
       ]),
-      validityDate: new FormControl('', [
+      validityDate: new FormControl(new Date, [
         Validators.required,
       ])
     });
@@ -50,7 +51,7 @@ export class ViewClientComponent implements OnInit {
       amountAssigned: new FormControl('', [
         Validators.required,
       ]),
-      validityDate: new FormControl('', [
+      validityDate: new FormControl(new Date, [
         Validators.required,
       ])
     });
@@ -62,7 +63,11 @@ export class ViewClientComponent implements OnInit {
       this._subscriptionService = this._clientService.getClient(this.id).subscribe(
         res => {
           this.dataSource = res;
-        });
+          this._clientService.getRouteByID(this.dataSource.route_id).subscribe(route => {
+            this.dataSource.route_name = route.name;
+          });
+        }
+      );
     });
   }
 
@@ -102,13 +107,8 @@ export class ViewClientComponent implements OnInit {
     });
   }
 
-  ngOnDestroy() {
-    // if (this._subscription) {
-    //   this._subscription.unsubscribe();
-    // }
-    // if (this._subscriptionService) {
-    //   this._subscriptionService.unsubscribe();
-    // }
+  OnDestroy() {
+    this._subscription.unsubscribe();
+    this._subscriptionService.unsubscribe();
   }
-
 }

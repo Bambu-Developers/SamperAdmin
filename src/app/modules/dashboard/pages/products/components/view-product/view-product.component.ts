@@ -50,12 +50,20 @@ export class ViewProductComponent implements OnInit, OnDestroy {
     this.router.navigate(['/dashboard/products/edit/' + this.id]);
   }
 
-  public removeProduct() {
-    this.productService.removeProduct(this.id);
-    this.openSnackBar();
+  public setDisponibility(event) {
+    if (event.checked === true) {
+      this.productService.setDisponibility(this.id, event.checked);
+    } else {
+      this.openDialogDisable(event.checked);
+    }
   }
 
-  public openSnackBar() {
+  public removeProduct() {
+    this.productService.removeProduct(this.id);
+    this.openSnackBarDeleted();
+  }
+
+  public openSnackBarDeleted() {
     this.snackBar.openFromComponent(SnackbarComponent, {
       duration: SNACKBAR_CONFIG.duration,
       verticalPosition: SNACKBAR_CONFIG.verticalPosition,
@@ -66,9 +74,38 @@ export class ViewProductComponent implements OnInit, OnDestroy {
     });
   }
 
-  public openDialog() {
+  public openSnackBarDisabled() {
+    this.snackBar.openFromComponent(SnackbarComponent, {
+      duration: SNACKBAR_CONFIG.duration,
+      verticalPosition: SNACKBAR_CONFIG.verticalPosition,
+      horizontalPosition: SNACKBAR_CONFIG.horizontalPosition,
+      data: {
+        text: PRODUCTS_LANGUAGE.snackbarDisabled
+      }
+    });
+  }
+
+  public openDialogDisable(eventValue) {
     const dialogRef = this.dialog.open(DialogComponent, {
-      data: {text: PRODUCTS_LANGUAGE.dialogDelete, accept: true}
+      data: {text: PRODUCTS_LANGUAGE.dialogDisable,
+             accept: true,
+             action: PRODUCTS_LANGUAGE.disable}
+    });
+    dialogRef.afterClosed().subscribe(
+      response => {
+        if (response) {
+          this.productService.setDisponibility(this.id, eventValue);
+          this.openSnackBarDisabled();
+        }
+      }
+    );
+  }
+
+  public openDialogDelete() {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {text: PRODUCTS_LANGUAGE.dialogDelete,
+             accept: true,
+             action: PRODUCTS_LANGUAGE.remove}
     });
     dialogRef.afterClosed().subscribe(
       response => {

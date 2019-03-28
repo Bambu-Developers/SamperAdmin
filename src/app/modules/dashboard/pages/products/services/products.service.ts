@@ -13,7 +13,7 @@ export class ProductsService {
 
   public productsRef: AngularFireList<ProductModel>;
   public product: Observable<ProductModel>;
-  private basePath = 'Staging/Groups';
+  private basePath = 'Staging/Groups/';
   public NEW_NAME;
 
   constructor(
@@ -21,7 +21,7 @@ export class ProductsService {
     private storage: AngularFireStorage,
     private router: Router,
   ) {
-    this.productsRef = this.db.list<ProductModel>('Staging/Groups/');
+    this.productsRef = this.db.list<ProductModel>(this.basePath);
   }
 
   public imageUpload(image: any) {
@@ -68,7 +68,10 @@ export class ProductsService {
       thursday_price: product.thursdayPrice,
       friday_price: product.fridayPrice,
       saturday_price: product.saturdayPrice,
-      sunday_price: product.sundayPrice
+      sunday_price: product.sundayPrice,
+      seller_commission: product.sellerCommission,
+      is_enabled: true,
+      is_priced_per_day: product.isPricedPerDay
     };
     this.productsRef.push(PRODUCT_DATA);
   }
@@ -123,7 +126,14 @@ export class ProductsService {
     this.deleteProductData(id);
     this.deleteImageStorage();
     this.router.navigate(['/dashboard/products/']);
-    }
+  }
+
+  public setDisponibility(id: string, disponibility: boolean) {
+    const PRODUCT_DATA: ProductModel = {
+      is_enabled: disponibility
+    };
+    this.productsRef.update( id, PRODUCT_DATA);
+  }
 
   public deleteProductData (id: string) {
     this.db.object(`${this.basePath}/` + id ).remove();

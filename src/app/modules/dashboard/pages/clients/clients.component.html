@@ -23,7 +23,7 @@
       <!-- Route Column -->
       <ng-container matColumnDef="route_id">
         <th mat-header-cell *matHeaderCellDef> {{ language.client.route }} </th>
-        <td class="sa-route-column" mat-cell *matCellDef="let client"> {{client.route_id}} </td>
+        <td class="sa-route-column" mat-cell *matCellDef="let client"> {{client.route_name}} </td>
       </ng-container>
       <!-- Type Column -->
       <ng-container matColumnDef="isMayoreo">
@@ -33,12 +33,12 @@
       <!-- Credit Column -->
       <ng-container matColumnDef="haveCredit">
         <th mat-header-cell *matHeaderCellDef> {{ language.client.credit }} </th>
-        <td class="sa-credit-column" mat-cell *matCellDef="let client"> {{client.haveCredit}} </td>
+        <td class="sa-credit-column" mat-cell *matCellDef="let client"> {{client.haveCredit ? language.credit.withCredit : language.credit.withoutCredit }} </td>
       </ng-container>
       <!-- Last Conexion Column -->
       <ng-container matColumnDef="last_conexion">
-        <th mat-header-cell *matHeaderCellDef> {{ language.client.lastConexion }} </th>
-        <td class="sa-lastConexion-column" mat-cell *matCellDef="let client"> {{client.last_conexion}} </td>
+        <th mat-header-cell *matHeaderCellDef> {{ language.client.lastPurchased }} </th>
+        <td class="sa-lastConexion-column" mat-cell *matCellDef="let client"> {{client.last_purchased}} </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/dashboard/clients/view/', row.id]">

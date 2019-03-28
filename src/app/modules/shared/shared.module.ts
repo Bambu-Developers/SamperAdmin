@@ -22,10 +22,11 @@ import {
   MatSlideToggleModule,
   MatCheckboxModule,
   MatCardModule,
-  MatProgressSpinnerModule,
   MatSnackBarModule,
   MatDialogModule,
-  MatProgressBarModule
+  MatProgressBarModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 } from '@angular/material';
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -75,10 +76,11 @@ import { ToastComponent } from '../dashboard/components/toast/toast.component';
     MatCheckboxModule,
     MatCardModule,
     TextMaskModule,
-    MatProgressSpinnerModule,
     MatSnackBarModule,
     MatDialogModule,
     MatProgressBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports: [
     AngularFirestoreModule,
@@ -103,15 +105,16 @@ import { ToastComponent } from '../dashboard/components/toast/toast.component';
     MatCheckboxModule,
     MatCardModule,
     TextMaskModule,
-    MatProgressSpinnerModule,
     MatSnackBarModule,
     MatDialogModule,
     ToastComponent,
     MatProgressBarModule,
+    MatDatepickerModule,
   ],
   providers: [
     AngularFireDatabase,
-    { provide: FirestoreSettingsToken, useValue: {} }
+    { provide: FirestoreSettingsToken, useValue: {} },
+    MatDatepickerModule
   ],
   entryComponents: [SnackbarComponent,
                     DialogComponent, ToastComponent]
