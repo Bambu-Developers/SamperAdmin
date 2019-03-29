@@ -10,7 +10,7 @@
             <img *ngIf="!dataSource?.photo" src="assets/images/defaullt_photo_store.svg">
           </mat-card>
           <mat-card class="sa-bender-type-card sa-roboto sa-charcoal-grey sa-text-14">
-            <mat-label class="sa-roboto-medium sa-text-18">Mayorista</mat-label>
+            <mat-label class="sa-roboto-medium sa-text-18">{{hardc.wholesale}}</mat-label>
             <div class="sa-purchased-products">
               <mat-label class="sa-roboto-medium"> {{lanClient.purchasedProducts}} </mat-label>
               <div class="sa-products">
@@ -18,7 +18,7 @@
               </div>
             </div>
             <mat-label class="sa-roboto-medium"> {{lanClient.ticketAvarage}} </mat-label>
-            <mat-label class="sa-amount">$9,500.00 MXN</mat-label>
+            <mat-label class="sa-amount">{{hardc.amount9}}</mat-label>
           </mat-card>
         </div>
         <div class="sa-right-column">
@@ -30,10 +30,10 @@
             <div class="sa-info sa-brownish-grey sa-text-14 sa-roboto">
               <mat-label> {{dataSource?.name}} </mat-label>
               <mat-label> "{{dataSource?.shop_name}}" </mat-label>
-              <!-- <div>
-                  <mat-label> {{lanClient.client.address}} </mat-label>
-                  <mat-label class="sa-charcoal-grey"> {{dataSource?.address}} </mat-label>
-              </div> -->
+              <div>
+                <mat-label> {{lanClient.client.address}} </mat-label>
+                <mat-label class="sa-charcoal-grey"> {{dataSource?.address}} </mat-label>
+              </div>
               <div>
                 <mat-label> {{lanClient.client.phone}} </mat-label>
                 <mat-label class="sa-charcoal-grey"> {{dataSource?.phone}} </mat-label>
@@ -42,10 +42,10 @@
                 <mat-label> {{lanClient.client.email}} </mat-label>
                 <mat-label class="sa-charcoal-grey"> {{dataSource?.email}} </mat-label>
               </div>
-              <!-- <div>
-                  <mat-label> {{lanClient.client.createdBy}} </mat-label>
-                  <mat-label class="sa-charcoal-grey"> {{dataSource?.created_by}} </mat-label>
-              </div> -->
+              <div>
+                <mat-label> {{lanClient.client.createdBy}} </mat-label>
+                <mat-label class="sa-charcoal-grey"> {{dataSource?.created_by}} </mat-label>
+              </div>
             </div>
           </mat-card>
           <mat-card class="sa-credit-info">
@@ -64,8 +64,8 @@
                           {{lanClient.credit.validity}} </mat-label>
                       </div>
                       <div class="sa-credit-inputs">
-                        <mat-label class="sa-roboto sa-text-14" *ngIf="!isEditCredit">$6,500.00 MXN</mat-label>
-                        <mat-label class="sa-roboto sa-text-14" id="right" *ngIf="!isEditCredit">20 / Ago / 2018
+                        <mat-label class="sa-roboto sa-text-14" *ngIf="!isEditCredit"> {{hardc.amount6}} </mat-label>
+                        <mat-label class="sa-roboto sa-text-14" id="right" *ngIf="!isEditCredit"> {{hardc.date}}
                         </mat-label>
                         <div *ngIf="isEditCredit" class="sa-edit-credit">
                           <mat-form-field class="sa-input-amount">
@@ -77,8 +77,7 @@
                               {{language.errorRequired}}</mat-error>
                           </mat-form-field>
                           <mat-form-field class="sa-input-date">
-                            <input matInput [matDatepicker]="dp3" placeholder="" disabled
-                              formControlName="validityDate">
+                            <input matInput [matDatepicker]="dp3" placeholder="" formControlName="validityDate">
                             <mat-error *ngIf="creditEditForm.controls.validityDate.hasError('required')">
                               {{language.errorRequired}}</mat-error>
                             <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
@@ -93,12 +92,12 @@
                       <div class="sa-amount-in-history">
                         <div class="sa-amount-assigned">
                           <mat-label class="sa-roboto-medium sa-text-14">{{lanClient.credit.assignedAmount}}</mat-label>
-                          <mat-label class="sa-text-14">$3,500.00 MXN</mat-label>
+                          <mat-label class="sa-text-14"> {{hardc.amount3}} </mat-label>
                         </div>
                         <div class="sa-last-assigned">
                           <mat-label class="sa-roboto-medium sa-text-14">{{lanClient.credit.lastAmountAssigned}}
                           </mat-label>
-                          <mat-label class="sa-text-14">12 / Jun / 2018</mat-label>
+                          <mat-label class="sa-text-14"> {{hardc.date}} </mat-label>
                         </div>
                       </div>
                     </div>
@@ -110,7 +109,7 @@
                         <div class="sa-amount-used">
                           <div class="sa-dot"></div>
                           <div>
-                            <mat-label class="sa-text-14">$1,500.00 MXN</mat-label>
+                            <mat-label class="sa-text-14"> {{hardc.amount1}} </mat-label>
                             <div>
                               <mat-label class="sa-label sa-text-12">{{lanClient.credit.amountUsed}}</mat-label>
                             </div>
@@ -119,7 +118,7 @@
                         <div class="sa-remaining-amount">
                           <div class="sa-dot"></div>
                           <div>
-                            <mat-label class="sa-text-14">$5,000.00 MXN</mat-label>
+                            <mat-label class="sa-text-14"> {{hardc.amount5}} </mat-label>
                             <div>
                               <mat-label class="sa-label sa-text-12">{{lanClient.credit.remainingAmount}}</mat-label>
                             </div>
@@ -169,7 +168,7 @@
                             {{language.errorRequired}}</mat-error>
                         </mat-form-field>
                         <mat-form-field class="sa-input-date">
-                          <input matInput [matDatepicker]="dp3" placeholder="" disabled formControlName="validityDate">
+                          <input matInput [matDatepicker]="dp3" placeholder="" formControlName="validityDate">
                           <mat-error *ngIf="creditAssignForm.controls.validityDate.hasError('required')">
                             {{language.errorRequired}}</mat-error>
                           <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>

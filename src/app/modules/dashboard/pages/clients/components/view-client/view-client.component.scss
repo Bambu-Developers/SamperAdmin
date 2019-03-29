@@ -154,7 +154,7 @@
                       .sa-dot {
                         width: 8px;
                         height: 8px;
-                        background-color: #f5a623;
+                        background-color: $color-dark-yellow;
                         border-radius: 4px;
                         margin-top: 5px;
                       }
@@ -174,7 +174,7 @@
                         margin-top: 5px;
                       }
                       .sa-label {
-                        color: #5a5a5a;
+                        color: $color-medium-grey;
                       }
                     }
                   }

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MatSnackBar, MatDatepicker} from '@angular/material';
 import { ClientsService } from 'src/app/modules/dashboard/pages/clients/services/clients.service';
@@ -28,11 +28,20 @@ export class ViewClientComponent implements OnInit {
   public lanClient = CLIENTS_LANGUAGE;
   public isAssignedCredit = false;
   public isEditCredit = false;
-  public address: any;
-  public google: any;
+  public hardc = {
+    wholesale: 'Mayorista',
+    amount9: '$9,500.00 MXN',
+    amount6: '$6,500.00 MXN',
+    amount5: '$5,000.00 MXN',
+    amount3: '$3,500.00 MXN',
+    amount1: '$1,500.00 MXN',
+    date: '20 / Ago / 2018',
+  };
+
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private _snackBar: MatSnackBar,
     private _clientService: ClientsService,
   ) { }
@@ -75,6 +84,7 @@ export class ViewClientComponent implements OnInit {
     if (this.creditEditForm.valid) {
       this._clientService.editCredit( this.creditEditForm.value, this.id );
       this.openSnackBarEdited();
+      this.router.navigate(['/dashboard/clients/view/' +  this.id]);
     }
   }
 
@@ -82,6 +92,7 @@ export class ViewClientComponent implements OnInit {
     if (this.creditAssignForm.valid) {
       this._clientService.assignCredit( this.creditAssignForm.value, this.id );
       this.openSnackBarAssigned();
+      this.router.navigate(['/dashboard/clients/view/' +  this.id]);
     }
   }
 

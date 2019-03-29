@@ -16,6 +16,7 @@ export const CLIENTS_LANGUAGE = {
         address: 'Dirección:',
         phone: 'Teléfono:',
         email: 'Correo electrónico:',
+        createdBy: 'Creado por:',
     },
     credit: {
         withCredit: 'Con crédito',

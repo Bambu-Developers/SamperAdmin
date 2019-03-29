@@ -5,7 +5,6 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { ClientModel } from 'src/app/modules/dashboard/pages/clients/models/client.model';
 import { RouteModel } from 'src/app/modules/dashboard/pages/clients/models/route.model';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -22,7 +21,6 @@ export class ClientsService {
   constructor(
     private db: AngularFireDatabase,
     private storage: AngularFireStorage,
-    private router: Router,
   ) {
     this.clientsRef = this.db.list<ClientModel>(this._baseClientsPath);
     this.routesRef = this.db.list<RouteModel>(this._baseRoutesPath);
@@ -60,16 +58,17 @@ export class ClientsService {
     );
   }
 
+  // TODO: Implementing edit credit functionality
   public editCredit( creditData, id ) {
     // this._setEditedClientCredit( creditData, id );
-    this.router.navigate(['/dashboard/clients/view/' +  id]);
   }
 
+  // TODO: Implementing assign credit functionality
   public assignCredit( creditData, id ) {
     this._setClientCredit( creditData, id );
-    this.router.navigate(['/dashboard/clients/view/' +  id]);
   }
 
+  // TODO: Setting credit data to the client
   private _setEditedClientCredit( creditData, id ) {
   }
 

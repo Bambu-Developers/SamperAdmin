@@ -1,9 +1,9 @@
 <div class="sa-dashboard-main-content">
   <h3 class="sa-text-24 sa-charcoal-grey sa-roboto">{{language.clients}}</h3>
-  <div class="sa-dashboard-actions">
-    <app-paginator [totalItems]="60" [perPage]="20" [page]="1" [totalPages]="3"></app-paginator>
+  <div class="sa-dashboard-clients-paginator">
+    <app-paginator [totalItems]="pagintor.totalItems" [perPage]="pagintor.perPage" [page]="pagintor.page" [totalPages]="pagintor.totalPages"></app-paginator>
   </div>
-  <div class="sa-dashboard-content">
+  <div class="sa-dashboard-clients-content">
     <table mat-table [dataSource]="dataSource">
       <!-- BenderID Column -->
       <ng-container matColumnDef="bender_id">

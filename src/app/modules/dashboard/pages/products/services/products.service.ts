@@ -13,7 +13,7 @@ export class ProductsService {
 
   public productsRef: AngularFireList<ProductModel>;
   public product: Observable<ProductModel>;
-  private basePath = 'Staging/Groups/';
+  private basePath = 'Developer/Groups/';
   public NEW_NAME;
 
   constructor(
