@@ -1,0 +1,40 @@
+<div class="sa-dashboard-main-content">
+  <img class="sa-loader" *ngIf="loading" src="assets/images/sanper-loader.gif">
+  <div class="sa-register-promotion-content">
+    <form (ngSubmit)="registerPromotion()" [formGroup]="registerPromotionForm">
+      <div class="sa-register-promotion-header">
+        <div class="sa-register-promotion-tittle">
+          <img src="/assets/icons/icon-vendedor-back-gray.svg" [routerLink]="['/dashboard/products/']">
+          <h3 class="sa-text-24 sa-charcoal-grey sa-roboto-medium">{{lanProduct.promotion.createPromotion}}</h3>
+        </div>
+        <div class="sa-register-promotion-actions-top">
+          <button [routerLink]="['/dashboard/products/']" class="sa-btn-small" mat-raised-button
+            color="white">{{language.cancel}}</button>
+          <button type="submit" [disabled]="!registerPromotionForm.valid" class="sa-btn-small" mat-raised-button
+            color="charcoal-grey">{{lanProduct.save}}</button>
+        </div>
+      </div>
+      <mat-card class="sa-product-info">
+        <div class="sa-product-image">
+          <img src="{{dataSource?.image}}" alt="N/A">
+        </div>
+        <div class="sa-product-name">
+          <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.name}}</p>
+          <span class="sa-text-18 sa-bold sa-charcoal-grey"> {{dataSource?.name}} HOOOOLA</span>
+        </div>
+      </mat-card>
+      <mat-card class="sa-promotion-validity">
+        <mat-label class="sa-roboto-medium sa-text-16 sa-charcoal-grey">{{lanProduct.promotion.promotion}}</mat-label>
+        <div class="sa-promotion-dates">
+
+        </div>
+      </mat-card>
+      <div class="sa-register-product-actions">
+        <button [routerLink]="['/dashboard/products/']" class="sa-btn-small" mat-raised-button
+          color="white">{{language.cancel}}</button>
+        <button type="submit" [disabled]="!registerPromotionForm.valid" class="sa-btn-small" mat-raised-button
+          color="charcoal-grey">{{lanProduct.register}}</button>
+      </div>
+    </form>
+  </div>
+</div>

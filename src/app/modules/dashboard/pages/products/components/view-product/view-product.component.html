@@ -50,7 +50,7 @@
       </div>
     </mat-card>
     <button class="sa-promotion sa-btn-medium sa-text-14" mat-raised-button
-      color="accent" *ngIf="dataSource?.is_enabled">{{lanProduct.createPromo}}</button>
+      color="accent" *ngIf="dataSource?.is_enabled" (click)="registerPromotion()">{{lanProduct.createPromo}}</button>
     <mat-card *ngIf="dataSource?.is_priced_per_day === true" class="sa-product-prices-perday">
       <div class="sa-product-retailprice">
         <mat-label class="sa-tittle sa-text-16 sa-roboto-medium sa-charcoal-grey">{{lanProduct.newProduct.retailPrice}}
@@ -124,6 +124,6 @@
         </span>
       </div>
     </mat-card>
-    <span class="sa-roboto-medium sa-text-14 sa-pinkish-orange" (click)="openDialogDelete()" *ngIf="!dataSource?.is_enabled" id="delete">{{lanProduct.remove}}</span>
+    <span class="sa-roboto-medium sa-text-14 sa-pinkish-orange" (click)="openDialogDelete()" *ngIf="!dataSource?.is_enabled" id="delete">{{lanProduct.removeProduct}}</span>
   </div>
 </div>

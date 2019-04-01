@@ -1,4 +1,3 @@
-import { CLIENTS_LANGUAGE } from './../data/language';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { AngularFireStorage } from '@angular/fire/storage';

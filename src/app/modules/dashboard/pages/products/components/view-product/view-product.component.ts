@@ -50,6 +50,10 @@ export class ViewProductComponent implements OnInit, OnDestroy {
     this.router.navigate(['/dashboard/products/edit/' + this.id]);
   }
 
+  public registerPromotion() {
+    this.router.navigate(['/dashboard/products/register-promotion/' + this.id]);
+  }
+
   public setDisponibility(event) {
     if (event.checked === true) {
       this.productService.setDisponibility(this.id, event.checked);

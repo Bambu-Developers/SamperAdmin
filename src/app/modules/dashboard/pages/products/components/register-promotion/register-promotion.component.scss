@@ -1,0 +1,68 @@
+@import "src/assets/css/colors";
+@import "src/assets/css/sizes.scss";
+
+.sa-dashboard-main-content {
+  .sa-register-promotion-content {
+    margin: 0px auto;
+    width: 824px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    .sa-register-promotion-header {
+      width: 824px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      .sa-register-promotion-tittle {
+        width: 212px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-left: -34px;
+      }
+      .sa-register-promotion-actions-top {
+        width: 240px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+    .sa-product-info {
+      margin-top: 16px;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: row;
+      .sa-product-image {
+        width: 119px;
+        height: 102px;
+        border: 1px solid $color-mushroom;
+        border-radius: 4px;
+      }
+      .sa-product-name {
+        height: 48px;
+        margin-top: 8px;
+        margin-left: 127px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+    }
+    .sa-promotion-validity {
+        margin-top: 16px;
+        padding: 21px 32px 16px 32px;
+
+    }
+    .sa-register-product-actions {
+        width: 240px;
+        margin-top: 16px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+  }
+}

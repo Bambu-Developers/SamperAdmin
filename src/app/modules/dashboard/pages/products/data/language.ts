@@ -7,6 +7,7 @@ export const PRODUCTS_LANGUAGE = {
     disabled: 'Deshabilitado',
     disable: 'Deshabilitar',
     remove: 'Dar de baja',
+    removeProduct: 'Dar de baja producto',
     save: 'Guardar',
     edit: 'Editar',
     cancel: 'Cancelar',
@@ -16,7 +17,6 @@ export const PRODUCTS_LANGUAGE = {
     snackbarEdited: 'Cambios guardados con éxito',
     dialogDelete: '¿Estás seguro que deseas dar de baja este producto?',
     dialogDisable: '¿Estás seguro que deseas deshabilitar este producto?',
-    createPromo: 'Crear promoción',
     product: {
       name: 'Nombre',
       brand: 'Marca',
@@ -54,5 +54,9 @@ export const PRODUCTS_LANGUAGE = {
       saturday: 'Sábado',
       sunday: 'Domingo',
       sellerCommission: 'Comisión a vendedor:'
+    },
+    promotion: {
+      promotion: 'Promoción',
+      createPromotion: 'Crear promoción',
     }
   };
