@@ -87,6 +87,9 @@ export class EditProductComponent implements OnInit, OnDestroy {
       ]),
       sundayPrice: new FormControl('', [
         Validators.required,
+      ]),
+      sellerCommission: new FormControl('', [
+        Validators.required,
       ])
     });
   }
@@ -113,6 +116,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
           this.editProductForm.get('fridayPrice').patchValue(res.friday_price);
           this.editProductForm.get('saturdayPrice').patchValue(res.saturday_price);
           this.editProductForm.get('sundayPrice').patchValue(res.sunday_price);
+          this.editProductForm.get('sellerCommission').patchValue(res.seller_commission);
         });
     });
   }

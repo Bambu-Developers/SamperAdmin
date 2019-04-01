@@ -88,7 +88,11 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
       ]),
       sundayPrice: new FormControl(this.baseValue, [
         Validators.required,
-      ])
+      ]),
+      sellerCommission: new FormControl(this.baseValue, [
+        Validators.required,
+      ]),
+      isPricedPerDay: new FormControl()
     });
   }
 

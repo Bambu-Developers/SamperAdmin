@@ -3,109 +3,146 @@
 
 .sa-dashboard-main-content {
   .sa-view-product-content {
-    .sa-viewproduct-title {
-      width: 144px;
+    margin: 0px auto;
+    width: 824px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    .sa-viewproduct-header {
+      width: 824px;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      margin-left: -32px;
-    }
-    .sa-product-card {
-      margin-top: 16px;
-      .sa-product-content-info {
+      .sa-viewproduct-tittle {
+        width: 143px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        padding: 28px 32px;
-        .sa-product-image {
-          width: 328px;
-          height: 247px;
+        align-items: center;
+        margin-left: -34px;
+      }
+      .sa-product-actions {
+        width: 263px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+    .sa-product-card {
+      width: 792px;
+      margin-top: 16px;
+      padding: 32px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .sa-product-image {
+        width: 208px;
+        height: 184px;
+        display: flex;
+        border: 1px #cacaca solid;
+        border-radius: 4px;
+        justify-content: center;
+        .sa-image {
+          height: 100%;
+        }
+      }
+      .sa-product-info {
+        height: 184px;
+        width: 540px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        .sa-info-column {
+          height: 184px;
           display: flex;
-          justify-content: center;
-          .sa-image {
-            height: 100%;
+          flex-direction: column;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          .sa-product-data {
+            height: 48px;
+            display: flex;
+            flex-flow: column;
+            justify-content: space-between;
           }
         }
-        .sa-product-info {
-          height: 247px;
-          width: 80%;
-          display: flex;
-          flex-direction: row;
-          justify-content: space-around;
-          align-items: center;
-          .sa-info-column {
-            display: flex;
-            flex-direction: column;
-            flex-wrap: wrap;
-            .sa-top-p {
-              margin-top: 0px;
-            }
-          }
-          p {
-            margin-top: 32px;
-            margin-bottom: 11px;
-          }
+        #right {
+          padding-right: 60px;
         }
       }
     }
-
-    .sa-product-prices {
+    .sa-promotion {
       margin-top: 16px;
-      .sa-prices {
+    }
+    .sa-product-prices-perday {
+      width: 792px;
+      height: 171px;
+      margin-top: 16px;
+      padding: 21px 32px 0px 0px;
+      .sa-product-retailprice {
         display: flex;
-        flex-direction: row;
-        padding: 24px 32px;
+        flex-direction: column;
         justify-content: space-between;
-        .sa-product-retailprice {
-          height: 180px;
+        .sa-tittle {
+          padding-left: 33px;
+        }
+        .sa-price-per-day {
+          width: 400px;
+          height: 140px;
+          padding-top: 14px;
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
-          .sa-price-per-day {
-            width: 350px;
-            height: 144px;
+          flex-wrap: wrap;
+          .sa-day {
+            width: 160px;
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             justify-content: space-between;
-            .sa-day {
-              width: 160px;
-              display: flex;
-              flex-direction: row;
-              flex-wrap: wrap;
-              justify-content: space-between;
-            }
-          }
-        }
-        .sa-product_wholesaleprice {
-          display: flex;
-          flex-direction: row;
-          .sa-wholesale-column {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            margin-right: 170px;
-            .sa-wp {
-              height: 40px;
-              margin-left: 11px;
-              display: flex;
-              flex-direction: column;
-              justify-content: space-between;
-            }
-            .sa-product-actions {
-              height: 52px;
-              display: flex;
-              flex-direction: column;
-              justify-content: space-between;
-              .sa-delete-product {
-                text-decoration:underline;
-                cursor: pointer;
-              }
-            }
+            padding-bottom: 16px;
+            padding-left: 33px;
           }
         }
       }
+      .sa-product_wholesaleprice {
+        display: flex;
+        flex-direction: row;
+        .sa-wholesale-column {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          margin-right: 170px;
+          .sa-wp {
+            height: 40px;
+            margin-left: 11px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          }
+        }
+      }
+    }
+    .sa-product-prices-comm {
+      margin-top: 16px;
+      padding: 21px 32px 24px 32px;
+      width: 760px;
+      height: 51px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .sa-wp {
+        width: 220px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+    #delete {
+      margin-top: 16px;
+      cursor: pointer;
     }
   }
 }

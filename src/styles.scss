@@ -27,6 +27,14 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
   line-height: normal;
   letter-spacing: normal;
 }
+.sa-roboto-medium {
+  font-family: "Roboto";
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.16;
+  letter-spacing: normal;
+}
 /* END FONTS */
 
 /* TEXT SIZES */
@@ -136,6 +144,10 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     width: 112px;
     height: 32px;
   }
+  &.sa-btn-medium {
+    width: 136px;
+    height: 40px;
+  }
   &:disabled {
     cursor: not-allowed;
     background-color: rgba($color-charcoal-grey, 0.7) !important;
@@ -189,8 +201,8 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
   &.mat-focused {
     label {
       color: $color-brownish-grey !important;
-      width: 50% !important;
-      padding-left: 10px;
+      width: auto !important;
+      padding: 0px 10px;
       margin-left: 8px;
     }
   }
@@ -198,16 +210,16 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     border: 1px solid $color-charcoal-grey;
     label {
       color: $color-label !important;
-      width: 50% !important;
-      padding-left: 10px;
+      width: auto !important;
+      padding: 0px 10px;
       margin-left: 8px;
     }
     &.mat-focused {
       border: 1px solid $color-mushroom;
       label {
         color: $color-brownish-grey !important;
-        width: 50% !important;
-        padding-left: 10px;
+        width: auto !important;
+        padding: 0px 10px;
         margin-left: 8px;
       }
       input {
@@ -237,7 +249,7 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
   }
 }
 .sa-input-amount {
-  width: 136px;
+  width: 144px;
   height: 48px;
   color: $color-charcoal-grey;
   display: flex !important;
@@ -309,6 +321,32 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     }
   }
 }
+.sa-input-date {
+  .mat-form-field-wrapper {
+    .mat-form-field-infix {
+      padding: 0px;
+      border: 0px;
+    }
+    .mat-form-field-flex {
+      width: 144px;
+      height: 50px;
+      border: 1px solid $color-mushroom;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      input {
+        margin-left: 18px;
+      }
+    }
+    .mat-form-field-underline {
+      display: none;
+    }
+    .mat-input-element:disabled {
+      color: $color-charcoal-grey;
+      margin-left: 18px;
+    }
+  }
+}
 /*END INPUTS*/
 
 /* TOLBAR */
@@ -353,7 +391,6 @@ button.mat-menu-item {
     svg {
       g {
         fill: #ff6649;
-        stroke: #ff6649;
         path {
           fill: $color-pinkish-orange;
         }
@@ -508,3 +545,37 @@ table {
   letter-spacing: normal;
 }
 /* END DIALOG */
+
+/* PROGRESS BAR */
+.mat-progress-bar {
+  padding: 4px 0;
+  .mat-progress-bar-buffer {
+    background-color: $color-very-light-pink;
+  }
+  .mat-progress-bar-fill::after {
+    background-color: #f5a623;
+  }
+}
+/* END PROGRESS BAR */
+
+/* SLIDE-TOGGLE*/
+.mat-slide-toggle {
+  .mat-slide-toggle-label {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+  .mat-slide-toggle-bar {
+    margin-left: 8px;
+    // background-color: $color-pinkish-orange;
+  }
+  .mat-slide-toggle-thumb {
+    background: $color-white;
+  }
+}
+.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+  background-color: $color-white;
+}
+.mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+  background-color: $color-pinkish-orange;
+}
+/* END SLIDE-TOGGLE*/

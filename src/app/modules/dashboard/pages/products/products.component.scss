@@ -14,18 +14,21 @@
           text-align: center;
         }
         .sa-img-column {
-          width: 7%;
+          width: 8%;
           .sa-img-preview {
               height: 40px;
               width: 40px;
           }
         }
         .sa-name-column {
-          width: 24%;
+          width: 14%;
           font-weight: 500;
         }
+        .sa-status-column {
+          width: 10%;
+        }
         .sa-brand-column {
-          width: 14%;
+          width: 10%;
         }
         .sa-content-column {
           width: 10%;

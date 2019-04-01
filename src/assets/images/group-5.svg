@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="24" viewBox="0 0 64 24">
+    <g fill="none" fill-rule="evenodd">
+        <path fill="#FF6243" d="M4.314 24H48.63c.622 0 1.214-.186 1.624-.512l13.212-10.5c.712-.565.712-1.41 0-1.976L50.254.512C49.844.186 49.252 0 48.63 0H4.314C1.932 0 0 1.343 0 3v18c0 1.657 1.932 3 4.314 3z"/>
+        <text fill="#FFF" font-family="Roboto-Regular, Roboto" font-size="12">
+            <tspan x="8" y="16">Promo</tspan>
+        </text>
+    </g>
+</svg>
