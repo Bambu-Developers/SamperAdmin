@@ -98,6 +98,27 @@ export class ProductsService {
     this.productsRef.update( id, PRODUCT_DATA);
   }
 
+  public registerPromotion(promotion, id) {
+    this.setPromotionData(promotion, id);
+  }
+
+  public setPromotionData(promotion, id) {
+    const PRODUCT_DATA: ProductModel = {
+      has_promo: true,
+      monday_price_promo: promotion.mondayPrice,
+      tuesday_price_promo: promotion.tuesdayPrice,
+      wednesday_price_promo: promotion.wednesdayPrice,
+      thursday_price_promo: promotion.thursdayPrice,
+      friday_price_promo: promotion.fridayPrice,
+      saturday_price_promo: promotion.saturdayPrice,
+      sunday_price_promo: promotion.sundayPrice,
+      wholesale_price_promo: promotion.wholesalePrice,
+      start_date_promo: promotion.startDate,
+      end_date_promo: promotion.endDate
+    };
+    this.productsRef.update( id, PRODUCT_DATA);
+  }
+
   // Get all products
   public getAllProducts(): Observable<ProductModel[]> {
     return this.productsRef

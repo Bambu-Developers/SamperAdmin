@@ -15,6 +15,7 @@ export const PRODUCTS_LANGUAGE = {
     snackbarDisabled: 'Producto deshabilitado',
     snackbarDeleted: 'Producto dado de baja exitosamente',
     snackbarEdited: 'Cambios guardados con éxito',
+    snackbarAddPromotion: 'Promoción creada',
     dialogDelete: '¿Estás seguro que deseas dar de baja este producto?',
     dialogDisable: '¿Estás seguro que deseas deshabilitar este producto?',
     product: {
@@ -57,6 +58,10 @@ export const PRODUCTS_LANGUAGE = {
     },
     promotion: {
       promotion: 'Promoción',
+      editPromotion: 'Editar promoción',
+      deletePromotion: 'Eliminar promoción',
       createPromotion: 'Crear promoción',
+      startDate: 'Fecha de inicio:',
+      endDate: 'Fecha límite:',
     }
   };

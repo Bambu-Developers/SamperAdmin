@@ -48,6 +48,12 @@
         .sa-image {
           height: 100%;
         }
+        .sa-promo-img {
+          height: 32px;
+          position: absolute;
+          padding-right: 125px;
+          padding-top: 8px;
+        }
       }
       .sa-product-info {
         height: 184px;
@@ -76,6 +82,42 @@
     }
     .sa-promotion {
       margin-top: 16px;
+    }
+    .sa-promotion-card {
+      width: 747px;
+      height: 51px;
+      padding: 21px 45px 32px 32px;
+      margin-top: 16px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      .sa-promotion-left-column {
+        width: 24%;
+        height: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .sa-promotion-startdate {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+        }
+      }
+      .sa-promotion-center-column {
+        width: 24%;
+        height: inherit;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .sa-promotion-right-column {
+        width: 25%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
     }
     .sa-product-prices-perday {
       width: 792px;
@@ -125,6 +167,44 @@
         }
       }
     }
+    .sa-product-prices-promotion {
+      width: 760px;
+      margin-top: 16px;
+      padding: 21px 32px 24px 32px;
+      .sa-prices-perday {
+        margin-top: 16px;
+        display: flex;
+        flex-direction: row;
+        li {
+          list-style-type: none;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .sa-prices-left-column {
+          width: 30%;
+          height: 112px;
+          ul {
+            height: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          }
+        }
+        .sa-prices-right-column {
+          width: 30%;
+          height: 80px;
+          margin-left: 57px;
+          ul {
+            height: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          }
+        }
+      }
+    }
     .sa-product-prices-comm {
       margin-top: 16px;
       padding: 21px 32px 24px 32px;
@@ -134,10 +214,11 @@
       flex-direction: column;
       justify-content: space-between;
       .sa-wp {
-        width: 220px;
+        width: 40%;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        align-items: center;
       }
     }
     #delete {

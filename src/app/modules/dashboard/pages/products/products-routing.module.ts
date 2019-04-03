@@ -5,6 +5,7 @@ import { RegisterProductComponent } from 'src/app/modules/dashboard/pages/produc
 import { ViewProductComponent } from 'src/app/modules/dashboard/pages/products/components/view-product/view-product.component';
 import { EditProductComponent } from 'src/app/modules/dashboard/pages/products/components/edit-product/edit-product.component';
 import { RegisterPromotionComponent } from 'src/app/modules/dashboard/pages/products/components/register-promotion/register-promotion.component';
+import { EditPromotionComponent } from 'src/app/modules/dashboard/pages/products/components/edit-promotion/edit-promotion.component';
 
 
 const routes: Routes = [
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'register-promotion/:id',
     component: RegisterPromotionComponent,
+  },
+  {
+    path: 'edit-promotion/:id',
+    component: EditPromotionComponent,
   },
 ];
 
