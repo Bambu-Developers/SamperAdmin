@@ -29,22 +29,23 @@
           <div class="sa-promotion-start-date">
             <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.promotion.startDate}}</mat-label>
             <mat-form-field class="sa-input-date">
-              <input class="sa-gray-medium" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="dp3"
-                placeholder="" formControlName="startDate">
+              <input class="sa-gray-medium" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="dp"
+                formControlName="startDate">
               <mat-error *ngIf="registerPromotionForm.controls.startDate.hasError('required')">
                 {{language.errorRequired}}</mat-error>
-              <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-              <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+              <mat-datepicker #dp disabled="false"></mat-datepicker>
             </mat-form-field>
           </div>
           <div class="sa-promotion-end-date">
             <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.promotion.endDate}}</mat-label>
             <mat-form-field class="sa-input-date">
-              <input class="sa-gray-medium" matInput [matDatepicker]="dp3to" placeholder="" formControlName="endDate">
+              <input class="sa-gray-medium" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="dpTo"
+                formControlName="endDate">
               <mat-error *ngIf="registerPromotionForm.controls.endDate.hasError('required')">
                 {{language.errorRequired}}</mat-error>
-              <mat-datepicker-toggle matSuffix [for]="dp3to"></mat-datepicker-toggle>
-              <mat-datepicker #dp3to disabled="false"></mat-datepicker>
+              <mat-datepicker-toggle matSuffix [for]="dpTo"></mat-datepicker-toggle>
+              <mat-datepicker #dpTo disabled="false"></mat-datepicker>
             </mat-form-field>
           </div>
         </div>

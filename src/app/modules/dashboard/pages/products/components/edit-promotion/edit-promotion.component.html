@@ -1,3 +1,160 @@
-<p>
-  edit-promotion works!
-</p>
+<div class="sa-dashboard-main-content">
+  <div class="sa-edit-promotion-content sa-roboto sa-charcoal-grey">
+    <form (ngSubmit)="editPromotion()" [formGroup]="editPromotionForm">
+      <div class="sa-edit-promotion-header">
+        <div class="sa-edit-promotion-tittle">
+          <img src="/assets/icons/icon-vendedor-back-gray.svg" [routerLink]="['/dashboard/products/']">
+          <h3 class="sa-text-24 sa-charcoal-grey sa-roboto-medium">{{lanProduct.promotion.editPromotion}}</h3>
+        </div>
+        <div class="sa-edit-promotion-actions-top">
+          <button [routerLink]="['/dashboard/products/']" class="sa-btn-small" mat-raised-button
+            color="white">{{language.cancel}}</button>
+          <button type="submit" [disabled]="!editPromotionForm.valid" class="sa-btn-small" mat-raised-button
+            color="charcoal-grey">{{lanProduct.save}}</button>
+        </div>
+      </div>
+      <mat-card class="sa-product-info">
+        <div class="sa-product-image">
+          <img src="{{dataSource?.img_preview_url}}" alt="N/A">
+          <img class="sa-promotion-img" src="assets/images/group-5.png">
+        </div>
+        <div class="sa-product-name">
+          <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.newProduct.name}}</mat-label>
+          <mat-label class="sa-text-18 sa-bold sa-charcoal-grey"> {{dataSource?.name}}</mat-label>
+        </div>
+      </mat-card>
+      <mat-card class="sa-promotion-validity">
+        <mat-label class="sa-roboto-medium sa-text-16 sa-charcoal-grey">{{lanProduct.promotion.promotion}}</mat-label>
+        <mat-label class="sa-text-14 sa-gray-medium" id="space">Ingresa el tiempo que durará la promoción</mat-label>
+        <div class="sa-promotion-dates">
+          <div class="sa-promotion-start-date">
+            <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.promotion.startDate}}</mat-label>
+            <mat-form-field class="sa-input-date">
+              <input class="sa-gray-medium" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="dp3"
+                placeholder="" formControlName="startDate">
+              <mat-error *ngIf="editPromotionForm.controls.startDate.hasError('required')">
+                {{language.errorRequired}}</mat-error>
+              <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+              <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="sa-promotion-end-date">
+            <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.promotion.endDate}}</mat-label>
+            <mat-form-field class="sa-input-date">
+              <input class="sa-gray-medium" matInput [matDatepicker]="dp3to" placeholder="" formControlName="endDate">
+              <mat-error *ngIf="editPromotionForm.controls.endDate.hasError('required')">
+                {{language.errorRequired}}</mat-error>
+              <mat-datepicker-toggle matSuffix [for]="dp3to"></mat-datepicker-toggle>
+              <mat-datepicker #dp3to disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="sa-promotion-retailprice sa-roboto sa-charcoal-grey">
+        <mat-label class="sa-roboto-medium sa-text-16">{{lanProduct.product.retailPrice}}:</mat-label>
+        <mat-label class="sa-text-14 sa-gray-medium" id="space">Ingresa el precio de promoción por día</mat-label>
+        <div class="sa-promotion-retailprice-content">
+          <div class="sa-promtion-left-column">
+            <ul class="sa-gray-medium">
+              <li>
+                <mat-label class="sa-text-14">{{lanProduct.pricing.monday}}</mat-label>
+                <mat-form-field class="sa-input-amount">
+                  <input matInput class="sa-mushroom" [textMask]="{mask: currencyMask}" formControlName="mondayPrice">
+                  <span matPrefix class="sa-mushroom">{{lanProduct.pricing.currencySymbol}}</span>
+                  <span matSuffix class="sa-mushroom">{{lanProduct.pricing.country}}</span>
+                  <mat-error *ngIf="editPromotionForm.controls.mondayPrice.hasError('required')">
+                    {{language.errorRequired}}</mat-error>
+                </mat-form-field>
+              </li>
+              <li>
+                <mat-label class="sa-text-14">{{lanProduct.pricing.tuesday}}</mat-label>
+                <mat-form-field class="sa-input-amount">
+                  <input matInput class="sa-mushroom" [textMask]="{mask: currencyMask}" formControlName="tuesdayPrice">
+                  <span matPrefix class="sa-mushroom">{{lanProduct.pricing.currencySymbol}}</span>
+                  <span matSuffix class="sa-mushroom">{{lanProduct.pricing.country}}</span>
+                  <mat-error *ngIf="editPromotionForm.controls.tuesdayPrice.hasError('required')">
+                    {{language.errorRequired}}</mat-error>
+                </mat-form-field>
+              </li>
+              <li>
+                <mat-label class="sa-text-14">{{lanProduct.pricing.wednesday}}</mat-label>
+                <mat-form-field class="sa-input-amount">
+                  <input matInput class="sa-mushroom" [textMask]="{mask: currencyMask}"
+                    formControlName="wednesdayPrice">
+                  <span matPrefix class="sa-mushroom">{{lanProduct.pricing.currencySymbol}}</span>
+                  <span matSuffix class="sa-mushroom">{{lanProduct.pricing.country}}</span>
+                  <mat-error *ngIf="editPromotionForm.controls.wednesdayPrice.hasError('required')">
+                    {{language.errorRequired}}</mat-error>
+                </mat-form-field>
+              </li>
+              <li>
+                <mat-label class="sa-text-14">{{lanProduct.pricing.thursday}}</mat-label>
+                <mat-form-field class="sa-input-amount">
+                  <input matInput class="sa-mushroom" [textMask]="{mask: currencyMask}" formControlName="thursdayPrice">
+                  <span matPrefix class="sa-mushroom">{{lanProduct.pricing.currencySymbol}}</span>
+                  <span matSuffix class="sa-mushroom">{{lanProduct.pricing.country}}</span>
+                  <mat-error *ngIf="editPromotionForm.controls.thursdayPrice.hasError('required')">
+                    {{language.errorRequired}}</mat-error>
+                </mat-form-field>
+              </li>
+            </ul>
+          </div>
+          <div class="sa-promtion-right-column">
+            <ul class="sa-gray-medium">
+              <li>
+                <mat-label class="sa-text-14">{{lanProduct.pricing.friday}}</mat-label>
+                <mat-form-field class="sa-input-amount">
+                  <input matInput class="sa-mushroom" [textMask]="{mask: currencyMask}" formControlName="fridayPrice">
+                  <span matPrefix class="sa-mushroom">{{lanProduct.pricing.currencySymbol}}</span>
+                  <span matSuffix class="sa-mushroom">{{lanProduct.pricing.country}}</span>
+                  <mat-error *ngIf="editPromotionForm.controls.fridayPrice.hasError('required')">
+                    {{language.errorRequired}}</mat-error>
+                </mat-form-field>
+              </li>
+              <li>
+                <mat-label class="sa-text-14">{{lanProduct.pricing.saturday}}</mat-label>
+                <mat-form-field class="sa-input-amount">
+                  <input matInput class="sa-mushroom" [textMask]="{mask: currencyMask}" formControlName="saturdayPrice">
+                  <span matPrefix class="sa-mushroom">{{lanProduct.pricing.currencySymbol}}</span>
+                  <span matSuffix class="sa-mushroom">{{lanProduct.pricing.country}}</span>
+                  <mat-error *ngIf="editPromotionForm.controls.saturdayPrice.hasError('required')">
+                    {{language.errorRequired}}</mat-error>
+                </mat-form-field>
+              </li>
+              <li>
+                <mat-label class="sa-text-14">{{lanProduct.pricing.sunday}}</mat-label>
+                <mat-form-field class="sa-input-amount">
+                  <input matInput class="sa-mushroom" [textMask]="{mask: currencyMask}" formControlName="sundayPrice">
+                  <span matPrefix class="sa-mushroom">{{lanProduct.pricing.currencySymbol}}</span>
+                  <span matSuffix class="sa-mushroom">{{lanProduct.pricing.country}}</span>
+                  <mat-error *ngIf="editPromotionForm.controls.sundayPrice.hasError('required')">
+                    {{language.errorRequired}}</mat-error>
+                </mat-form-field>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="sa-promotion-wholsaleprice sa-charcoal-grey">
+          <mat-label class="sa-roboto-medium sa-text-16">{{lanProduct.product.wholesalePrice}}:</mat-label>
+          <mat-label class="sa-text-14 sa-gray-medium" id="space">Ingresa el precio de promoción</mat-label>
+          <mat-form-field class="sa-input-amount">
+            <input matInput class="sa-mushroom" [textMask]="{mask: currencyMask}" formControlName="wholesalePrice">
+            <span matPrefix class="sa-mushroom">{{lanProduct.pricing.currencySymbol}}</span>
+            <span matSuffix class="sa-mushroom">{{lanProduct.pricing.country}}</span>
+            <mat-error *ngIf="editPromotionForm.controls.wholesalePrice.hasError('required')">
+              {{language.errorRequired}}</mat-error>
+          </mat-form-field>
+        </mat-card>
+        <div class="sa-edit-product-actions">
+          <button [routerLink]="['/dashboard/products/']" class="sa-btn-small" mat-raised-button
+            color="white">{{language.cancel}}</button>
+          <button type="submit" [disabled]="!editPromotionForm.valid" class="sa-btn-small" mat-raised-button
+            color="charcoal-grey">{{lanProduct.save}}</button>
+        </div>
+
+    </form>
+  </div>
+</div>

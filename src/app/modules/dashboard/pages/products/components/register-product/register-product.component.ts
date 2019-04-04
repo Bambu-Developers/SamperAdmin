@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ProductsService } from 'src/app/modules/dashboard/pages/products/services/products.service';
@@ -34,8 +35,10 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
   public loading = false;
   private _subscriptionURL: Subscription;
 
-  constructor(private _productService: ProductsService,
+  constructor(
+    private _productService: ProductsService,
     private _snackBar: MatSnackBar,
+    private _router: Router,
   ) { }
 
   ngOnInit() {
@@ -104,6 +107,7 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
           this.registerProductForm.get('image').patchValue(response);
           this._productService.registerProduct(this.registerProductForm.value);
           this.openSnackBar();
+          this._router.navigate(['/dashboard/products']);
         }, error => console.error(error)
       );
     }
@@ -165,7 +169,7 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if ( this._subscriptionURL ) {
+    if (this._subscriptionURL) {
       this._subscriptionURL.unsubscribe();
     }
   }

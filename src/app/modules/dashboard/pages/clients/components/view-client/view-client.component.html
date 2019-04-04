@@ -77,7 +77,8 @@
                               {{language.errorRequired}}</mat-error>
                           </mat-form-field>
                           <mat-form-field class="sa-input-date">
-                            <input matInput [matDatepicker]="dp3" placeholder="" formControlName="validityDate">
+                            <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="dp3" placeholder=""
+                              formControlName="validityDate">
                             <mat-error *ngIf="creditEditForm.controls.validityDate.hasError('required')">
                               {{language.errorRequired}}</mat-error>
                             <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
@@ -168,7 +169,7 @@
                             {{language.errorRequired}}</mat-error>
                         </mat-form-field>
                         <mat-form-field class="sa-input-date">
-                          <input matInput [matDatepicker]="dp3" placeholder="" formControlName="validityDate">
+                          <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="dp3" placeholder="" formControlName="validityDate">
                           <mat-error *ngIf="creditAssignForm.controls.validityDate.hasError('required')">
                             {{language.errorRequired}}</mat-error>
                           <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>

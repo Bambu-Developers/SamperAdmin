@@ -57,12 +57,12 @@
         <mat-label class="sa-roboto-medium sa-text-16">{{lanProduct.promotion.promotion}}</mat-label>
         <div class="sa-promotion-startdate">
           <p class="sa-text-14 sa-gray-medium">{{lanProduct.promotion.startDate}}</p>
-          <span class="sa-roboto-medium">{{dataSource?.start_date_promo}}</span>
+          <span class="sa-roboto-medium sa-text-14">{{dataSource?.start_date_promo}}</span>
         </div>
       </div>
       <div class="sa-promotion-center-column">
         <p class="sa-text-14 sa-gray-medium">{{lanProduct.promotion.endDate}}</p>
-        <span class="sa-roboto-medium">{{dataSource?.end_date_promo}}</span>
+        <span class="sa-roboto-medium sa-text-14">{{dataSource?.end_date_promo}}</span>
       </div>
       <div class="sa-promotion-right-column">
         <mat-label class="sa-text-14 sa-cursor-ponter" (click)="editPromotion()">{{lanProduct.promotion.editPromotion}}</mat-label>
@@ -122,7 +122,7 @@
           <ul>
             <li>
               <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.pricing.monday}}</mat-label>
-              <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey">
+              <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey" *ngIf="dataSource?.is_priced_per_day">
                 {{lanProduct.pricing.currencySymbol}}{{dataSource?.monday_price}}{{lanProduct.pricing.country}}
               </mat-label>
               <mat-label class="sa-roboto-medium sa-text-14">
@@ -131,7 +131,7 @@
             </li>
             <li>
               <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.pricing.tuesday}}</mat-label>
-              <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey">
+              <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey" *ngIf="dataSource?.is_priced_per_day">
                 {{lanProduct.pricing.currencySymbol}}{{dataSource?.tuesday_price}}{{lanProduct.pricing.country}}
               </mat-label>
               <mat-label class="sa-roboto-medium sa-text-14">
@@ -140,7 +140,7 @@
             </li>
             <li>
               <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.pricing.wednesday}}</mat-label>
-              <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey">
+              <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey" *ngIf="dataSource?.is_priced_per_day">
                 {{lanProduct.pricing.currencySymbol}}{{dataSource?.wednesday_price}}{{lanProduct.pricing.country}}
               </mat-label>
               <mat-label class="sa-roboto-medium sa-text-14">
@@ -149,7 +149,7 @@
             </li>
             <li>
               <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.pricing.thursday}}</mat-label>
-              <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey">
+              <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey" *ngIf="dataSource?.is_priced_per_day">
                 {{lanProduct.pricing.currencySymbol}}{{dataSource?.thursday_price}}{{lanProduct.pricing.country}}
               </mat-label>
               <mat-label class="sa-roboto-medium sa-text-14">
@@ -162,7 +162,7 @@
           <ul>
             <li>
               <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.pricing.friday}}</mat-label>
-              <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey">
+              <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey" *ngIf="dataSource?.is_priced_per_day">
                 {{lanProduct.pricing.currencySymbol}}{{dataSource?.friday_price}}{{lanProduct.pricing.country}}
               </mat-label>
               <mat-label class="sa-roboto-medium sa-text-14">
@@ -171,7 +171,7 @@
             </li>
             <li>
               <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.pricing.saturday}}</mat-label>
-              <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey">
+              <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey" *ngIf="dataSource?.is_priced_per_day">
                 {{lanProduct.pricing.currencySymbol}}{{dataSource?.saturday_price}}{{lanProduct.pricing.country}}
               </mat-label>
               <mat-label class="sa-roboto-medium sa-text-14">
@@ -180,7 +180,7 @@
             </li>
             <li>
               <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.pricing.sunday}}</mat-label>
-              <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey">
+              <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey" *ngIf="dataSource?.is_priced_per_day">
                 {{lanProduct.pricing.currencySymbol}}{{dataSource?.sunday_price}}{{lanProduct.pricing.country}}
               </mat-label>
               <mat-label class="sa-roboto-medium sa-text-14">
@@ -191,7 +191,7 @@
         </div>
       </div>
     </mat-card>
-    <mat-card class="sa-product-prices-comm" *ngIf="!dataSource?.is_priced_per_day">
+    <mat-card class="sa-product-prices-comm" *ngIf="!dataSource?.is_priced_per_day && !dataSource?.has_promo">
       <mat-label class="sa-text-16 sa-roboto-medium sa-charcoal-grey">{{lanProduct.newProduct.retailPrice}}</mat-label>
       <div class="sa-wp">
         <span class="sa-text-14 sa-charcoal-grey">${{dataSource?.retail_price}}

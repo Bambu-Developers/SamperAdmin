@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ProductsService } from 'src/app/modules/dashboard/pages/products/services/products.service';
 import { MatSnackBar } from '@angular/material';
@@ -34,6 +34,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
   public loading = false;
 
   constructor(
+    private _router: Router,
     private _route: ActivatedRoute,
     private _snackBar: MatSnackBar,
     private _productService: ProductsService
@@ -95,7 +96,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
   }
 
   public getProduct() {
-    this._subscription = this._route.params.subscribe(params  => {
+    this._subscription = this._route.params.subscribe(params => {
       this.id = params['id'];
       this._productService.getProduct(this.id).subscribe(
         res => {
@@ -128,13 +129,15 @@ export class EditProductComponent implements OnInit, OnDestroy {
         this.savePhoto().then(
           response => {
             this.editProductForm.get('image').patchValue(response);
-            this._productService.editProduct( this.editProductForm.value, this.id );
+            this._productService.editProduct(this.editProductForm.value, this.id);
             this.openSnackBar();
+            this._router.navigate(['/dashboard/products/view/' + this.id]);
           }, error => console.error(error)
         );
       } else {
-        this._productService.editProduct( this.editProductForm.value, this.id);
+        this._productService.editProduct(this.editProductForm.value, this.id);
         this.openSnackBar();
+        this._router.navigate(['/dashboard/products/view/' + this.id]);
       }
     }
   }
@@ -152,19 +155,19 @@ export class EditProductComponent implements OnInit, OnDestroy {
     this.base64textString = btoa(binaryString);
   }
 
-  public preview( files ) {
-    if ( files.length === 0 ) {
+  public preview(files) {
+    if (files.length === 0) {
       return;
     }
     const MIME_TYPE = files[0].type;
-    if (MIME_TYPE.match( /image\/*/ ) == null) {
+    if (MIME_TYPE.match(/image\/*/) == null) {
       // mat-error
       return;
     }
     const READER = new FileReader();
     this.imagePath = files;
-    READER.readAsDataURL( files[0] );
-    READER.onload = ( _event ) => {
+    READER.readAsDataURL(files[0]);
+    READER.onload = (_event) => {
       this.imgURL = READER.result;
     };
     this.imgChanged = true;
@@ -172,7 +175,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
 
   public savePhoto() {
     return new Promise((resolve, reject) => {
-      this._productService.imageUpload( this.base64textString ).then(
+      this._productService.imageUpload(this.base64textString).then(
         response => {
           this._subscriptionURL = response.subscribe(
             url => resolve(url),
@@ -196,10 +199,10 @@ export class EditProductComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if ( this._subscription ) {
+    if (this._subscription) {
       this._subscription.unsubscribe();
     }
-    if ( this._subscriptionURL ) {
+    if (this._subscriptionURL) {
       this._subscriptionURL.unsubscribe();
     }
   }

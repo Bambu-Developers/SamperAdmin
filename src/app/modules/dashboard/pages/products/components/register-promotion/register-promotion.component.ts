@@ -7,27 +7,28 @@ import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 import { CURRENCY_MASK } from 'src/app/directives/currency-mask.directive';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
 import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/data';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, DateAdapter } from '@angular/material';
+import { DateFormat } from 'src/app/modules/dashboard/data/date-format.data';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-register-promotion',
   templateUrl: './register-promotion.component.html',
-  styleUrls: ['./register-promotion.component.scss']
+  styleUrls: ['./register-promotion.component.scss'],
+  providers: [{provide: DateAdapter, useClass: DateFormat}],
 })
-export class RegisterPromotionComponent implements OnInit {
+export class RegisterPromotionComponent implements OnInit, OnDestroy {
 
   public lanProduct = PRODUCTS_LANGUAGE;
   public language = ACCOUNT_LANGUAGE;
   public currencyMask = CURRENCY_MASK;
   public registerPromotionForm: FormGroup;
-  public minDate = new Date(2019, 0, 1);
-  public maxDate = new Date(2025, 0, 1);
-  private _subscription: Subscription;
+  public minDate = new Date();
+  public maxDate = new Date(2021, 11, 31);
   public dataSource: any;
   public id: string;
+  private _subscription: Subscription;
   public _subscriptionService: Subscription;
 
   constructor(
@@ -35,17 +36,16 @@ export class RegisterPromotionComponent implements OnInit {
     private _route: ActivatedRoute,
     private _productService: ProductsService,
     private _snackBar: MatSnackBar,
-  ) { }
+    private _dateAdapter: DateAdapter<Date>
+  ) {
+    this._dateAdapter.setLocale('es-ES');
+  }
 
   ngOnInit() {
     this.getProduct();
     this.registerPromotionForm = new FormGroup({
-      startDate: new FormControl(new Date, [
-        Validators.required
-      ]),
-      endDate: new FormControl(new Date, [
-        Validators.required
-      ]),
+      startDate: new FormControl(new Date),
+      endDate: new FormControl(new Date),
       mondayPrice: new FormControl('', [
         Validators.required
       ]),
@@ -87,7 +87,7 @@ export class RegisterPromotionComponent implements OnInit {
     if (this.registerPromotionForm.valid) {
       this._productService.registerPromotion(this.registerPromotionForm.value, this.id);
       this.openSnackBar();
-      this._router.navigate(['/dashboard/products/view/' +  this.id]);
+      this._router.navigate(['/dashboard/products/view/' + this.id]);
     }
   }
 
@@ -102,7 +102,7 @@ export class RegisterPromotionComponent implements OnInit {
     });
   }
 
-  OnDestroy() {
+  ngOnDestroy() {
     if (this._subscription) {
       this._subscription.unsubscribe();
     }

@@ -2,18 +2,20 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { MatSnackBar, MatDatepicker} from '@angular/material';
+import { MatSnackBar, DateAdapter } from '@angular/material';
 import { ClientsService } from 'src/app/modules/dashboard/pages/clients/services/clients.service';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 import { CLIENTS_LANGUAGE } from 'src/app/modules/dashboard/pages/clients/data/language';
 import { CURRENCY_MASK } from 'src/app/directives/currency-mask.directive';
 import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/data';
+import { DateFormat } from 'src/app/modules/dashboard/data/date-format.data';
 
 @Component({
   selector: 'app-view-client',
   templateUrl: './view-client.component.html',
-  styleUrls: ['./view-client.component.scss']
+  styleUrls: ['./view-client.component.scss'],
+  providers: [{provide: DateAdapter, useClass: DateFormat}],
 })
 export class ViewClientComponent implements OnInit {
 
@@ -28,6 +30,8 @@ export class ViewClientComponent implements OnInit {
   public lanClient = CLIENTS_LANGUAGE;
   public isAssignedCredit = false;
   public isEditCredit = false;
+  public minDate = new Date();
+  public maxDate = new Date(2021, 11, 31);
   public hardc = {
     wholesale: 'Mayorista',
     amount9: '$9,500.00 MXN',
@@ -44,7 +48,10 @@ export class ViewClientComponent implements OnInit {
     private router: Router,
     private _snackBar: MatSnackBar,
     private _clientService: ClientsService,
-  ) { }
+    private _dateAdapter: DateAdapter<Date>
+  ) {
+    this._dateAdapter.setLocale('es-ES');
+  }
 
   ngOnInit() {
     this.getClient();
@@ -82,17 +89,17 @@ export class ViewClientComponent implements OnInit {
 
   public editCredit() {
     if (this.creditEditForm.valid) {
-      this._clientService.editCredit( this.creditEditForm.value, this.id );
+      this._clientService.editCredit(this.creditEditForm.value, this.id);
       this.openSnackBarEdited();
-      this.router.navigate(['/dashboard/clients/view/' +  this.id]);
+      this.router.navigate(['/dashboard/clients/view/' + this.id]);
     }
   }
 
   public assignCredit() {
     if (this.creditAssignForm.valid) {
-      this._clientService.assignCredit( this.creditAssignForm.value, this.id );
+      this._clientService.assignCredit(this.creditAssignForm.value, this.id);
       this.openSnackBarAssigned();
-      this.router.navigate(['/dashboard/clients/view/' +  this.id]);
+      this.router.navigate(['/dashboard/clients/view/' + this.id]);
     }
   }
 
