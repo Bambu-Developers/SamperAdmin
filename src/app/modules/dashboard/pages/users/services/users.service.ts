@@ -15,6 +15,8 @@ export class UsersService {
 
   public usersRef: AngularFireList<UserModel>;
   public routesRef: AngularFireList<RouteModel>;
+  public _basePath = 'Users/';
+  private _baseRoutesPath = 'Developer/Routes/';
 
   constructor(
     public db: AngularFireDatabase,
@@ -22,7 +24,7 @@ export class UsersService {
     private router: Router,
   ) {
     this.usersRef = this.db.list<UserModel>('Users');
-    this.routesRef = this.db.list<RouteModel>('Developer/Routes');
+    this.routesRef = this.db.list<RouteModel>(this._baseRoutesPath);
   }
 
   // Get all users
@@ -43,7 +45,7 @@ export class UsersService {
   // Create user
   public createUser(userData) {
     return this.afAuth.auth.createUserWithEmailAndPassword(userData.email, userData.password)
-      .then((result: any) => {
+      .then(result => {
         this.setUserData(userData, result.user);
         this.router.navigate(['/dashboard/users']);
         return true;
@@ -55,7 +57,7 @@ export class UsersService {
   /* Setting up user data */
   public setUserData(user, result) {
     const userData: UserModel = {
-      id: user.uid,
+      id: result.uid,
       rol: user.rol,
       route: user.route ? user.route : 0,
       permision: user.permision,
@@ -65,9 +67,9 @@ export class UsersService {
       timestamp_create_at: result.metadata.a,
       last_conexion: result.metadata.lastSignInTime,
       timestamp_last_conexion: result.metadata.b,
-      status: user.status ? user.status : 0
+      status: 0
     };
-    this.usersRef.push(userData);
+    this.usersRef.set(userData.id, userData);
   }
 
   // Get all router
@@ -105,6 +107,20 @@ export class UsersService {
       );
   }
 
+  public getUserLogged(email): any {
+    return this.db.list('Users', ref => ref.orderByChild('email').equalTo(email))
+      .snapshotChanges()
+      .pipe(
+        map(changes =>
+          changes.map(c => {
+            const data = c.payload.val() as UserModel;
+            const id = c.payload.key;
+            return { id, ...data };
+          })
+        )
+      );
+  }
+
   public updateUserPassword(email, form): Promise<any> {
     return new Promise((resolve, reject) => {
       this.afAuth.auth.signInWithEmailAndPassword(email, form.currentPassword).then(
@@ -118,6 +134,31 @@ export class UsersService {
         error => reject(error)
       );
     });
+  }
+
+  public deleteUser(uid): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.db.object(this._basePath + uid).remove().then(
+        result => resolve(result),
+        error => reject(error)
+      );
+    });
+  }
+
+  public setDisponibility(id: string, disponibility: boolean) {
+    const newStatus = disponibility === true ? 0 : 1;
+    const USER_DATA: UserModel = {
+      status: newStatus
+    };
+    this.usersRef.update(id, USER_DATA);
+  }
+
+  public getRouteByID(id: string) {
+    return this.db.object<RouteModel>(this._baseRoutesPath + id)
+      .snapshotChanges()
+      .pipe(
+        map(res => res.payload.val())
+      );
   }
 
 }

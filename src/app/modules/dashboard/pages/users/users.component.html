@@ -1,47 +1,63 @@
 <div class="sa-dashboard-main-content">
-        <h3 class="sa-text-24 sa-charcoal-grey sa-roboto">{{language.users}}</h3>
-        <div class="sa-dashboard-actions">
-          <button [routerLink]="['/dashboard/users/create']" mat-raised-button color="accent">{{language.createUser}}</button>
-          <app-paginator [totalItems]="60" [perPage]="20" [page]="1" [totalPages]="3"></app-paginator>
-        </div>
-        <div class="sa-dashboard-content">
-          <table mat-table [dataSource]="dataSource">
+    <h3 class="sa-text-24 sa-charcoal-grey sa-roboto">{{language.users}}</h3>
+    <div class="sa-dashboard-actions">
+        <button *ngIf="logged?.permision.user_registration" [routerLink]="['/dashboard/users/create']" mat-raised-button color="accent">{{language.createUser}}</button>
+        <mat-form-field class="sa-user-search sa-input-text sa-search sa-no-label">
+            <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="{{language.search}}">
+        </mat-form-field>
+        <app-paginator [totalItems]="60" [perPage]="20" [page]="1" [totalPages]="3"></app-paginator>
+    </div>
+    <div class="sa-dashboard-content">
+        <table mat-table [dataSource]="dataSource" matSort>
             <!-- Name Column -->
             <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef> {{language.user.name}} </th>
-              <td mat-cell *matCellDef="let user"> {{user.name}} </td>
+                <th class="sa-name-column" mat-header-cell *matHeaderCellDef> {{language.user.name}} </th>
+                <td class="sa-name-column" mat-cell *matCellDef="let user"> {{user.name}} </td>
             </ng-container>
             <!-- Rol Column -->
             <ng-container matColumnDef="rol">
-              <th mat-header-cell *matHeaderCellDef> {{language.user.rol}} </th>
-              <td mat-cell *matCellDef="let user"> {{user.rol?.name}} </td>
+                <th class="sa-rol-column" mat-header-cell *matHeaderCellDef> {{language.user.rol}} </th>
+                <td class="sa-rol-column" mat-cell *matCellDef="let user">
+                    <mat-label *ngIf="user.rol == 0">{{language.vendor}}</mat-label>
+                    <mat-label *ngIf="user.rol == 1">{{language.storer}}</mat-label>
+                    <mat-label *ngIf="user.rol == 2">{{language.admin}}</mat-label>
+                </td>
+            </ng-container>
+            <!-- Route Column -->
+            <ng-container matColumnDef="route">
+                <th class="sa-route-column" mat-header-cell *matHeaderCellDef>
+                    <mat-select class="mat-select-trigger" placeholder="{{language.user.route}}">
+                        <mat-option (click)="doFilter('')" [value]="Todas">Todas</mat-option>
+                        <mat-option *ngFor="let route of routes" (click)="doFilter(route.name)" [value]="route.name">{{route.name}}</mat-option>
+                    </mat-select>
+                </th>
+                <td class="sa-route-column" mat-cell *matCellDef="let user">
+                    <mat-label> {{ user.rol !== 0 ? language.user.notValid : user.route_name }} </mat-label>
             </ng-container>
             <!-- Creado Column -->
             <ng-container matColumnDef="dateCreated">
-              <th mat-header-cell *matHeaderCellDef> {{language.user.dateCreated}} </th>
-              <td mat-cell *matCellDef="let user"> {{user.create_at | date}} </td>
+                <th class="sa-dateCreated-column" mat-header-cell *matHeaderCellDef> {{language.user.dateCreated}} </th>
+                <td class="sa-dateCreated-column" mat-cell *matCellDef="let user"> {{user.create_at | date}} </td>
             </ng-container>
             <!-- Última conexión Column -->
             <ng-container matColumnDef="lastConexion">
-              <th mat-header-cell *matHeaderCellDef> {{language.user.lastConexion}} </th>
-              <td mat-cell *matCellDef="let user"> {{user.last_conexion | date}} </td>
+                <th class="sa-lastConexion-column" mat-header-cell *matHeaderCellDef> {{language.user.lastConexion}} </th>
+                <td class="sa-lastConexion-column" mat-cell *matCellDef="let user"> {{user.last_conexion | date}} </td>
             </ng-container>
             <!-- Estatus Column -->
             <ng-container matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef> {{language.user.status}} </th>
-              <td mat-cell *matCellDef="let user"> {{user.status == 0 ? 'Habilitado' : 'Deshabilitado'}} </td>
+                <th class="sa-status-column" mat-header-cell *matHeaderCellDef> {{language.user.status}} </th>
+                <td class="sa-status-column" mat-cell *matCellDef="let user"> {{user.status == 0 ? 'Habilitado' : 'Deshabilitado'}} </td>
             </ng-container>
             <!-- Symbol Column -->
             <ng-container matColumnDef="edit">
-              <th mat-header-cell *matHeaderCellDef></th>
-              <td mat-cell *matCellDef="let user">
-                <mat-icon [routerLink]="['/dashboard/users/edit/', user.id]" svgIcon="ic-edit"></mat-icon>
-              </td>
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let user">
+                    <mat-icon [routerLink]="['/dashboard/users/edit/', user.id]" svgIcon="ic-edit"></mat-icon>
+                </td>
             </ng-container>
-      
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-        </div>
-      
-      </div>
+        </table>
+    </div>
+</div>

@@ -10,28 +10,38 @@ import { CLIENTS_LANGUAGE } from 'src/app/modules/dashboard/pages/clients/data/l
 import { CURRENCY_MASK } from 'src/app/directives/currency-mask.directive';
 import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/data';
 import { DateFormat } from 'src/app/modules/dashboard/data/date-format.data';
+import { RouteModel } from '../../models/route.model';
+import { DAYS } from '../../data/days';
 
 @Component({
   selector: 'app-view-client',
   templateUrl: './view-client.component.html',
   styleUrls: ['./view-client.component.scss'],
-  providers: [{provide: DateAdapter, useClass: DateFormat}],
+  providers: [{ provide: DateAdapter, useClass: DateFormat }],
 })
 export class ViewClientComponent implements OnInit {
 
   public dataSource: any;
   public creditEditForm: FormGroup;
   public creditAssignForm: FormGroup;
-  private _subscription: Subscription;
-  private _subscriptionService: Subscription;
+  public editClientForm: FormGroup;
   public id: string;
   public language = ACCOUNT_LANGUAGE;
   public currencyMask = CURRENCY_MASK;
   public lanClient = CLIENTS_LANGUAGE;
   public isAssignedCredit = false;
   public isEditCredit = false;
+  public isEditClient = false;
   public minDate = new Date();
   public maxDate = new Date(2021, 11, 31);
+  public base64textString: any;
+  public imagePath: any;
+  public imgURL: any;
+  public imgChanged = false;
+  public loading = false;
+  public routes: RouteModel[];
+  public days = DAYS;
+  public currentDays = new Array();
   public hardc = {
     wholesale: 'Mayorista',
     amount9: '$9,500.00 MXN',
@@ -41,6 +51,10 @@ export class ViewClientComponent implements OnInit {
     amount1: '$1,500.00 MXN',
     date: '20 / Ago / 2018',
   };
+  private _subscription: Subscription;
+  private _subscriptionURL: Subscription;
+  private _subscriptionService: Subscription;
+  private _subscriptionRoutes: Subscription;
 
 
   constructor(
@@ -55,6 +69,7 @@ export class ViewClientComponent implements OnInit {
 
   ngOnInit() {
     this.getClient();
+    this.getRoutes();
     this.creditEditForm = new FormGroup({
       amountAssigned: new FormControl('', [
         Validators.required,
@@ -71,6 +86,29 @@ export class ViewClientComponent implements OnInit {
         Validators.required,
       ])
     });
+    this.editClientForm = new FormGroup({
+      photo: new FormControl(),
+      name: new FormControl('', [
+        Validators.required,
+      ]),
+      shop_name: new FormControl('', [
+        Validators.required,
+      ]),
+      phone: new FormControl('', [
+        Validators.required,
+      ]),
+      email: new FormControl('', [
+        Validators.required,
+      ]),
+      route: new FormControl(''),
+      monday: new FormControl(''),
+      tuesday: new FormControl(''),
+      wednesday: new FormControl(''),
+      thursday: new FormControl(''),
+      friday: new FormControl(''),
+      saturday: new FormControl(''),
+      sunday: new FormControl(''),
+    });
   }
 
   public getClient() {
@@ -79,12 +117,35 @@ export class ViewClientComponent implements OnInit {
       this._subscriptionService = this._clientService.getClient(this.id).subscribe(
         res => {
           this.dataSource = res;
+          this.currentDays.push(res.monday);
+          this.currentDays.push(res.tuesday);
+          this.currentDays.push(res.wednesday);
+          this.currentDays.push(res.thursday);
+          this.currentDays.push(res.friday);
+          this.currentDays.push(res.saturday);
+          this.currentDays.push(res.sunday);
+          for (let i = 0; i < this.days.length; i++) {
+            this.days[i].active = this.currentDays[i];
+          }
+          this.editClientForm.get('name').patchValue(res.name);
+          this.editClientForm.get('shop_name').patchValue(res.shop_name);
+          this.editClientForm.get('phone').patchValue(res.phone);
+          this.editClientForm.get('email').patchValue(res.email);
+          this.editClientForm.get('route').patchValue(res.route_id);
           this._clientService.getRouteByID(this.dataSource.route_id).subscribe(route => {
             this.dataSource.route_name = route.name;
           });
         }
       );
     });
+  }
+
+  public getRoutes() {
+    this._subscriptionRoutes = this._clientService.getAllRoutes().subscribe(
+      res => {
+        this.routes = res;
+      }
+    );
   }
 
   public editCredit() {
@@ -95,12 +156,100 @@ export class ViewClientComponent implements OnInit {
     }
   }
 
+  public editClient() {
+    this.loading = true;
+    this.editClientForm.get('monday').setValue(this.days[0].active);
+    this.editClientForm.get('tuesday').setValue(this.days[1].active);
+    this.editClientForm.get('wednesday').patchValue(this.days[2].active);
+    this.editClientForm.get('thursday').patchValue(this.days[3].active);
+    this.editClientForm.get('friday').patchValue(this.days[4].active);
+    this.editClientForm.get('saturday').patchValue(this.days[5].active);
+    this.editClientForm.get('sunday').patchValue(this.days[6].active);
+    if (this.imgChanged) {
+      this.savePhoto().then(
+        response => {
+          this.editClientForm.get('photo').patchValue(response);
+          this._clientService.editClient(this.editClientForm.value, this.id);
+          this.openSnackBarClientEdited();
+          this.isEditClient = false;
+          this.loading = false;
+        }, error => console.error(error)
+      );
+    } else {
+      this._clientService.editClient(this.editClientForm.value, this.id);
+      this.openSnackBarClientEdited();
+      this.isEditClient = false;
+      this.loading = false;
+    }
+    this.getClient();
+  }
+
   public assignCredit() {
     if (this.creditAssignForm.valid) {
       this._clientService.assignCredit(this.creditAssignForm.value, this.id);
       this.openSnackBarAssigned();
       this.router.navigate(['/dashboard/clients/view/' + this.id]);
     }
+  }
+
+  public handleFileSelect(event) {
+    const files = event.target.files;
+    const file = files[0];
+    const reader = new FileReader();
+    reader.onload = this._handleReaderLoaded.bind(this);
+    reader.readAsBinaryString(file);
+  }
+
+  public _handleReaderLoaded(readerEvent) {
+    const binaryString = readerEvent.target.result;
+    this.base64textString = btoa(binaryString);
+  }
+
+  public preview(files) {
+    if (files.length === 0) {
+      return;
+    }
+    const MIME_TYPE = files[0].type;
+    if (MIME_TYPE.match(/image\/*/) == null) {
+      // mat-error
+      return;
+    }
+    const READER = new FileReader();
+    this.imagePath = files;
+    READER.readAsDataURL(files[0]);
+    READER.onload = (_event) => {
+      this.imgURL = READER.result;
+    };
+    this.imgChanged = true;
+  }
+
+  public savePhoto() {
+    return new Promise((resolve, reject) => {
+      this._clientService.imageUpload(this.base64textString).then(
+        response => {
+          this._subscriptionURL = response.subscribe(
+            url => resolve(url),
+            error => console.error(error)
+          );
+        },
+        error => reject(error)
+      );
+    });
+  }
+
+  public onChange(isChecked: boolean, id: number) {
+    this.days[id - 1].active = isChecked;
+  }
+
+  public openSnackBarClientEdited() {
+    this._snackBar.openFromComponent(SnackbarComponent, {
+      duration: SNACKBAR_CONFIG.duration,
+      verticalPosition: SNACKBAR_CONFIG.verticalPosition,
+      horizontalPosition: SNACKBAR_CONFIG.horizontalPosition,
+      data: {
+        text: CLIENTS_LANGUAGE.snackbarClientEdited
+      }
+    });
   }
 
   public openSnackBarEdited() {
@@ -128,5 +277,7 @@ export class ViewClientComponent implements OnInit {
   OnDestroy() {
     this._subscription.unsubscribe();
     this._subscriptionService.unsubscribe();
+    this._subscriptionURL.unsubscribe();
+    this._subscriptionRoutes.unsubscribe();
   }
 }

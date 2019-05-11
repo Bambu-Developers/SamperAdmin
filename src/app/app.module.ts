@@ -27,6 +27,7 @@ import { SharedModule } from './modules/shared/shared.module';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    
   ],
   providers: [
     AuthGuard,

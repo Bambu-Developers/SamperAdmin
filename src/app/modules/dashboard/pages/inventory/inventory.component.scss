@@ -1,0 +1,78 @@
+@import "src/assets/css/colors";
+.sa-commission-card {
+    width: 97.3%;
+    height: 134px;
+    padding: 24px;
+    position: absolute;
+    z-index: 3;
+    border-radius: 0px;
+}
+
+.sa-dashboard-main-content {
+    .sa-inventory-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 32px;
+        .sa-button-calc {
+            width: 168px;
+            height: 32px;
+        }
+    }
+    .sa-route-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .sa-route-selection {
+            width: 166px;
+            height: 30px;
+            margin-right: 20px;
+            background-color: $color-white-medium;
+            border: 1px solid $color-mushroom;
+            border-radius: 3px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            .mat-select-trigger {
+                margin-left: 8px;
+            }
+        }
+        .sa-button-liquidation {
+            width: 168px;
+            height: 32px;
+        }
+    }
+    .sa-paginator {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 12px;
+    }
+    .sa-dashboard-content {
+        .sa-center-text {
+            text-align: center;
+        }
+        .sa-sku-column {
+            width: 225px;
+        }
+        .sa-img-column {
+            width: 40px;
+            .sa-img-preview {
+                width: 30px;
+            }
+        }
+        .sa-name-column {
+            width: 260px;
+        }
+        .sa-quantity-column {
+            width: 150px;
+        }
+        .sa-brand-column {
+            width: 200px;
+        }
+        .sa-category-column {
+            width: 200px;
+        }
+    }
+}

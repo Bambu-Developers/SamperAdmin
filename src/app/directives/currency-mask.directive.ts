@@ -23,3 +23,27 @@ export const NUMBER_MASK = createNumberMask({
   allowLeadingZeroes: false,
   integerLimit: 3
 });
+
+export const PERCENTAGE_MASK = createNumberMask({
+  prefix: '',
+  suffix: '',
+  includeThousandsSeparator: false,
+  allowDecimal: true,
+  decimalLimit: 2,
+  requireDecimal: false,
+  allowNegative: false,
+  allowLeadingZeroes: false,
+  integerLimit: 2
+});
+
+export const PHONE_MASK = createNumberMask({
+  prefix: '',
+  suffix: '',
+  includeThousandsSeparator: false,
+  allowDecimal: false,
+  decimalLimit: 0,
+  requireDecimal: false,
+  allowNegative: false,
+  allowLeadingZeroes: false,
+  integerLimit: 10
+});

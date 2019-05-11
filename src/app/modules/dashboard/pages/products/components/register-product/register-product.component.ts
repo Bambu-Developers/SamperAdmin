@@ -3,13 +3,11 @@ import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ProductsService } from 'src/app/modules/dashboard/pages/products/services/products.service';
-import { ProductModel } from 'src/app/modules/dashboard/pages/products/models/product.model';
-import { UploadModel } from 'src/app/modules/dashboard/pages/products/models/upload.model';
 import { MatSnackBar } from '@angular/material';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
 import { PRODUCTS_LANGUAGE } from 'src/app/modules/dashboard/pages/products/data/language';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
-import { CURRENCY_MASK, NUMBER_MASK } from 'src/app/directives/currency-mask.directive';
+import { CURRENCY_MASK, NUMBER_MASK, PERCENTAGE_MASK } from 'src/app/directives/currency-mask.directive';
 import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/data';
 
 @Component({
@@ -23,12 +21,11 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
   public language = ACCOUNT_LANGUAGE;
   public currencyMask = CURRENCY_MASK;
   public numberMask = NUMBER_MASK;
+  public percentageMask = PERCENTAGE_MASK;
   public showPricingPerDay = false;
   public baseValue = '0.00';
   public registerProductForm: FormGroup;
-  public currentProduct: ProductModel;
   public selectedFiles: FileList;
-  public currentUpload: UploadModel;
   public imgURL: any;
   public base64textString: any;
   public imagePath: any;

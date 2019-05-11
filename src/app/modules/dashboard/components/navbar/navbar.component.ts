@@ -26,7 +26,7 @@ export class NavbarComponent {
     {
       icon: 'ic-stock',
       title: DASHBOARD_LANGUAGE.navbar.stock,
-      route: '/dashboard/stock'
+      route: '/dashboard/inventory'
     },
     {
       icon: 'ic-analytics',

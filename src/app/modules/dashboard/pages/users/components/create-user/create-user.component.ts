@@ -46,7 +46,8 @@ export class CreateUserComponent implements OnInit, OnDestroy {
   public subscriptionRoutes: Subscription;
 
   constructor(
-    private usersService: UsersService
+    private usersService: UsersService,
+    private _router: Router,
   ) { }
 
   ngOnInit() {
@@ -75,6 +76,7 @@ export class CreateUserComponent implements OnInit, OnDestroy {
 
   public createUser() {
     this.createUserForm.get('permision').patchValue(this.selectPermisions);
+    this.createUserForm.get('rol').patchValue(this.selectedRol);
     if (this.createUserForm.valid) {
       this.usersService.createUser(this.createUserForm.value).then(
         error => {
@@ -82,6 +84,7 @@ export class CreateUserComponent implements OnInit, OnDestroy {
             this.createUserForm.get('email').setErrors({ 'exists': true });
           }
         });
+        this._router.navigate(['/dashboard/users']);
     }
   }
 

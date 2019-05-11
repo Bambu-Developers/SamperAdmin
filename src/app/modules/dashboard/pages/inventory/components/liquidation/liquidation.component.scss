@@ -1,0 +1,14 @@
+.sa-dashboard-main-content {
+    .sa-liquidation-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .sa-liquidation-title {
+            display: flex;
+            align-items: center;
+            mat-icon {
+                margin-right: 8px;
+            }
+        }
+    }
+}

@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextMaskModule } from 'angular2-text-mask';
+import { AgmCoreModule } from '@agm/core';
 import 'hammerjs';
 
 
@@ -26,7 +27,9 @@ import {
   MatDialogModule,
   MatProgressBarModule,
   MatDatepickerModule,
-  MatNativeDateModule
+  MatNativeDateModule,
+  MatFormFieldModule,
+  MatPaginatorModule
 } from '@angular/material';
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -80,7 +83,12 @@ import { ToastComponent } from '../dashboard/components/toast/toast.component';
     MatDialogModule,
     MatProgressBarModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatFormFieldModule,
+    MatPaginatorModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDeQSZDAnz9i4fDbOyNUi0LJiJ-czWbJMg'
+    })
   ],
   exports: [
     AngularFirestoreModule,
@@ -110,6 +118,9 @@ import { ToastComponent } from '../dashboard/components/toast/toast.component';
     ToastComponent,
     MatProgressBarModule,
     MatDatepickerModule,
+    MatFormFieldModule,
+    MatPaginatorModule,
+    AgmCoreModule,
   ],
   providers: [
     AngularFireDatabase,

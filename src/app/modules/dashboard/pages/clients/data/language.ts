@@ -2,9 +2,14 @@ export const CLIENTS_LANGUAGE = {
     clients: 'Clientes',
     purchasedProducts: 'Productos que consume:',
     ticketAvarage: 'Ticket promedio por compra:',
+    createClient: 'Crear Cliente',
     save: 'Guardar',
+    search: 'Buscar...',
+    snackbarCreate: 'Cliente creado exitosamente',
     snackbarEdited: 'Crédito editado exitosamente',
+    snackbarClientEdited: 'Cliente editado exitosamente',
     snackbarAssignedCredit: 'Crédito asignado exitosamente',
+    uploadImage: 'Sube una imagen',
     client: {
         benderID: 'No. de cliente',
         shopName: 'Nombre de la sucursal',
@@ -16,6 +21,7 @@ export const CLIENTS_LANGUAGE = {
         address: 'Dirección:',
         phone: 'Teléfono:',
         email: 'Correo electrónico:',
+        emailEdit: 'Correo electrónico',
         createdBy: 'Creado por:',
     },
     credit: {
@@ -32,7 +38,15 @@ export const CLIENTS_LANGUAGE = {
         currencySymbol: '$',
         country: 'MXN',
     },
+    create: {
+        newClient: 'Nuevo cliente',
+        uploadImage: 'Sube una foto',
+        route: 'Ruta',
+        phone: 'Teléfono',
+        email: 'Correo electrónico',
+        visitDays: 'Días de visita',
+    },
     transactions: {
         listOfTransactions: 'Lista de movimientos',
     }
-}
+};

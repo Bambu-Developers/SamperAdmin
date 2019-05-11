@@ -1,9 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
-import { UsersComponent } from './pages/users/users.component';
 
 const routes: Routes = [
+  {
+    path: 'inventory',
+    component: DashboardComponent,
+    loadChildren: './pages/inventory/inventory.module#InventoryModule'
+  },
   {
     path: 'users',
     component: DashboardComponent,

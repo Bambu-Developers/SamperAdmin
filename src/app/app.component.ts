@@ -21,6 +21,7 @@ export class AppComponent {
       .addSvgIcon('ic-products', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/icon-productos-off.svg'))
       .addSvgIcon('ic-users', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/icon-usuarios-off.svg'))
       .addSvgIcon('ic-clients', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/icon-clientes-off.svg'))
+      .addSvgIcon('ic-back', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/icon-vendedor-back-gray.svg'))
       .addSvgIcon('ic-before', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/before.svg'))
       .addSvgIcon('ic-next', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/next.svg'))
       .addSvgIcon('ic-edit', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/icon-edit-gray.svg'))

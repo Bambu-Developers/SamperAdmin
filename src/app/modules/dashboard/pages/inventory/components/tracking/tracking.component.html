@@ -1,0 +1,15 @@
+<div class="sa-dashboard-main-content sa-roboto sa-charcoal-grey">
+    <mat-label class="sa-text-24 sa-roboto-meduim">Tracking rutas</mat-label>
+    <div class="sa-route-selection">
+        <mat-select class="mat-select-trigger" placeholder="Todas las rutas">
+            <mat-option (click)="doFilter('')" (click)="routeSelected = false" [value]="Todas">Todas las rutas</mat-option>
+            <mat-option *ngFor="let route of routes" (click)="doFilter(route.seller)" (click)="routeSelected = true" [value]="route.name">{{route.name}}
+            </mat-option>
+        </mat-select>
+    </div>
+</div>
+<div class="sa-tracking-map">
+    <agm-map [latitude]="lat" [longitude]="lng">
+        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+    </agm-map>
+</div>

@@ -1,0 +1,65 @@
+<mat-card class="sa-commission-card sa-charcoal-grey" *ngIf="commissionCalc">
+    <mat-label class="sa-text-24 sa-roboto-medium">{{lanInv.commissionCalc}}</mat-label>
+</mat-card>
+<div class="sa-dashboard-main-content sa-roboto sa-charcoal-grey">
+    <div class="sa-inventory-header">
+        <mat-label class="sa-text-24 sa-roboto-medium">{{lanInv.todaysInventory}}</mat-label>
+        <button mat-raised-button class="sa-button-calc" (click)="commissionCalc = true" color="charcoal-grey">
+      {{lanInv.commissionCalc}}
+    </button>
+    </div>
+    <div class="sa-route-row">
+        <div class="sa-route-selection">
+            <mat-select class="mat-select-trigger" placeholder="Todas las rutas">
+                <mat-option (click)="doFilter('')" (click)="routeSelected = false" [value]="Todas">Todas las rutas</mat-option>
+                <mat-option *ngFor="let route of routes" (click)="doFilter(route.seller)" (click)="routeSelected = true" [value]="route.name">{{route.name}}
+                </mat-option>
+            </mat-select>
+        </div>
+        <mat-label *ngIf="!routeSelected" class="sa-text-italic sa-text-14">{{lanInv.selectRoute}}</mat-label>
+        <button *ngIf="routeSelected" mat-raised-button class="sa-button-liquidation" color="accent">
+            {{lanInv.doLiquidation}}
+        </button>
+    </div>
+    <div class="sa-paginator">
+        <app-paginator [totalItems]="15" [perPage]="15" [page]="1" [totalPages]="3"></app-paginator>
+    </div>
+    <div class="sa-dashboard-content">
+        <table mat-table [dataSource]="dataSource">
+            <!-- Sku Column -->
+            <ng-container matColumnDef="sku">
+                <th class="sa-sku-column" mat-header-cell *matHeaderCellDef>{{lanInv.skuCode}}</th>
+                <td class="sa-sku-column sa-roboto-medium" mat-cell *matCellDef="let inventory">{{inventory.sku}}</td>
+            </ng-container>
+            <!-- Image Column -->
+            <ng-container matColumnDef="image">
+                <th class="sa-img-column" mat-header-cell *matHeaderCellDef></th>
+                <td class="sa-img-column" mat-cell *matCellDef="let inventory">
+                    <img class="sa-img-preview" src="{{inventory.img_preview_url}}" alt="N/A">
+                </td>
+            </ng-container>
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th class="sa-name-column" mat-header-cell *matHeaderCellDef>{{lanInv.name}}</th>
+                <td class="sa-name-column" mat-cell *matCellDef="let inventory">{{inventory.name}}</td>
+            </ng-container>
+            <!-- Quantity Column -->
+            <ng-container matColumnDef="quantity">
+                <th class="sa-quantity-column sa-center-text" mat-header-cell *matHeaderCellDef>{{lanInv.quantity}}</th>
+                <td class="sa-quantity-column sa-center-text" mat-cell *matCellDef="let inventory">/{{inventory.original_items}}</td>
+            </ng-container>
+            <!-- Brand Column -->
+            <ng-container matColumnDef="brand">
+                <th class="sa-brand-column sa-center-text" mat-header-cell *matHeaderCellDef>{{lanInv.brand}}</th>
+                <td class="sa-brand-column sa-center-text" mat-cell *matCellDef="let inventory">{{inventory.brand}}</td>
+            </ng-container>
+            <!-- Category Column -->
+            <ng-container matColumnDef="category">
+                <th class="sa-category-column sa-center-text" mat-header-cell *matHeaderCellDef>{{lanInv.category}}</th>
+                <td class="sa-category-column sa-center-text" mat-cell *matCellDef="let inventory">{{inventory.category}}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+</div>
