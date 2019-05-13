@@ -5,6 +5,8 @@ import { ClientsService } from './../clients/services/clients.service';
 import { InventoryService } from './services/inventory.service';
 import { Subscription } from 'rxjs';
 import { RouteModel } from '../clients/models/route.model';
+import { Router } from '@angular/router';
+import { PAGINATION } from 'src/app/modules/shared/components/paginator/data/data';
 
 @Component({
   selector: 'app-inventory',
@@ -17,17 +19,19 @@ export class InventoryComponent implements OnInit, OnDestroy {
   public dataSource = new MatTableDataSource();
   public displayedColumns: string[] = ['sku', 'image', 'name', 'quantity', 'brand', 'category'];
   public routes: RouteModel[];
-  private _subscriptionInventories: Subscription;
-  private _subscriptionRoutes: Subscription;
-  private _allInventories: any;
+  public pagination = PAGINATION;
   public routeSelected = false;
   public commissionCalc = false;
   public user: any;
   public liquidation: any;
+  private _subscriptionInventories: Subscription;
+  private _subscriptionRoutes: Subscription;
+  private _allInventories: any;
 
   constructor(
     private _inventoryService: InventoryService,
     private _clientService: ClientsService,
+    private _router: Router,
   ) { }
 
   ngOnInit() {
@@ -65,6 +69,10 @@ export class InventoryComponent implements OnInit, OnDestroy {
     this.liquidation = value;
     console.log(this.liquidation);
     this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
+  public doLiquidation() {
+    this._router.navigate(['/dashboard/inventory/liquidation/' + this.liquidation]);
   }
 
   ngOnDestroy() {

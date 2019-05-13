@@ -1,11 +1,32 @@
 <div class="sa-dashboard-main-content sa-roboto-medium sa-charcoal-grey">
     <div class="sa-liquidation-header">
         <div class="sa-liquidation-title">
-            <mat-icon (click)="before()" svgIcon="ic-back"></mat-icon>
-            <mat-label class="sa-text-24">{{lanLiq.liquidation}} -</mat-label>
+            <mat-icon svgIcon="ic-back"></mat-icon>
+            <mat-label class="sa-text-24">{{lanLiq.liquidation}} - {{dataSource?.route_name}}</mat-label>
+            <mat-label class="sa-user-name sa-text-16 sa-brownish-grey">({{dataSource?.name}})</mat-label>
         </div>
-        <div>
+        <div class="sa-appprove-liquidation">
             <mat-label>{{lanLiq.totalLiq}}</mat-label>
+            <button mat-raised-button class="sa-button-approve-liquidation" color="charcoal-grey">
+                {{lanLiq.approve}}
+            </button>
         </div>
+    </div>
+    <div class="sa-devolutions">
+        <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Devoluciones ()</mat-label>
+        <mat-card class="sa-devolutions-card">
+        </mat-card>
+    </div>
+    <div class="sa-losses">
+        <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Mermas ()</mat-label>
+        <mat-card class="sa-losses-card">
+        </mat-card>
+    </div>
+    <div class="sa-daily-sales">
+        <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Ventas del día</mat-label>
+        <table mat-table [dataSource]="dataSourceTable">
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
     </div>
 </div>

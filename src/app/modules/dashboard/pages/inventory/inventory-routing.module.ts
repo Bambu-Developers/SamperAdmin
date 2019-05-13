@@ -15,7 +15,7 @@ const routes: Routes = [
     component: HistoryComponent,
   },
   {
-    path: 'liquidation',
+    path: 'liquidation/:id',
     component: LiquidationComponent,
   },
   {

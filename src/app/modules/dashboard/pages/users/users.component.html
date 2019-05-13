@@ -5,7 +5,7 @@
         <mat-form-field class="sa-user-search sa-input-text sa-search sa-no-label">
             <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="{{language.search}}">
         </mat-form-field>
-        <app-paginator [totalItems]="60" [perPage]="20" [page]="1" [totalPages]="3"></app-paginator>
+        <app-paginator [totalItems]="pagination.totalItems" [perPage]="pagination.perPage" [page]="pagination.page" [totalPages]="pagination.totalPages" (nextPage)="nextPage()" (beforePage)="beforePage()"></app-paginator>
     </div>
     <div class="sa-dashboard-content">
         <table mat-table [dataSource]="dataSource" matSort>

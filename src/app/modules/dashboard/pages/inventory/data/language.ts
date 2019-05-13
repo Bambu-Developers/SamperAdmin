@@ -14,5 +14,6 @@ export const INVENTORY_LANGUAGE = {
     liquidation: {
         liquidation: 'Liquidación',
         totalLiq: 'Total a liquidar',
+        approve: 'Aprobar liquidación'
     },
 };

@@ -2,12 +2,12 @@
     <h3 class="sa-text-24 sa-charcoal-grey sa-roboto">{{language.products}}</h3>
     <div class="sa-dashboard-actions">
         <button [routerLink]="['/dashboard/products/register']" mat-raised-button color="accent">
-      {{language.registerProduct}}
-    </button>
+            {{language.registerProduct}}
+        </button>
         <mat-form-field class="sa-input-text sa-search sa-no-label sa-product-search">
             <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="{{language.search}}">
         </mat-form-field>
-        <app-paginator [totalItems]="15" [perPage]="15" [page]="1" [totalPages]="3"></app-paginator>
+        <app-paginator [totalItems]="pagination.totalItems" [perPage]="pagination.perPage" [page]="pagination.page" [totalPages]="pagination.totalPages" (nextPage)="nextPage()" (beforePage)="beforePage()"></app-paginator>
     </div>
     <div class="sa-dashboard-content">
         <table mat-table [dataSource]="dataSource">
@@ -37,12 +37,14 @@
             <!-- Content Column -->
             <ng-container matColumnDef="content">
                 <th class="sa-center-text" mat-header-cell *matHeaderCellDef> {{language.product.content}} </th>
-                <td class="sa-content-column sa-center-text" mat-cell *matCellDef="let product"> {{product.content}} </td>
+                <td class="sa-content-column sa-center-text" mat-cell *matCellDef="let product"> {{product.content}}
+                </td>
             </ng-container>
             <!-- Quantity Column -->
             <ng-container matColumnDef="quantity">
                 <th class="sa-center-text" mat-header-cell *matHeaderCellDef> {{language.product.quantity}} </th>
-                <td class="sa-quantity-column sa-center-text" mat-cell *matCellDef="let product"> {{product.units_package}} {{language.product.unitsPackage}} </td>
+                <td class="sa-quantity-column sa-center-text" mat-cell *matCellDef="let product">
+                    {{product.units_package}} {{language.product.unitsPackage}} </td>
             </ng-container>
             <!-- Retail Price Column -->
             <ng-container matColumnDef="retailPrice">

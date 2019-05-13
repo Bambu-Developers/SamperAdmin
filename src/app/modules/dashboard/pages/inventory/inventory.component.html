@@ -11,18 +11,18 @@
     <div class="sa-route-row">
         <div class="sa-route-selection">
             <mat-select class="mat-select-trigger" placeholder="Todas las rutas">
-                <mat-option (click)="doFilter('')" (click)="routeSelected = false" [value]="Todas">Todas las rutas</mat-option>
+                <mat-option (click)="doFilter('')" (click)="routeSelected = false" [value]="">Todas las rutas</mat-option>
                 <mat-option *ngFor="let route of routes" (click)="doFilter(route.seller)" (click)="routeSelected = true" [value]="route.name">{{route.name}}
                 </mat-option>
             </mat-select>
         </div>
         <mat-label *ngIf="!routeSelected" class="sa-text-italic sa-text-14">{{lanInv.selectRoute}}</mat-label>
-        <button *ngIf="routeSelected" mat-raised-button class="sa-button-liquidation" color="accent">
+        <button *ngIf="routeSelected" mat-raised-button class="sa-button-liquidation" color="accent" (click)="doLiquidation()">
             {{lanInv.doLiquidation}}
         </button>
     </div>
     <div class="sa-paginator">
-        <app-paginator [totalItems]="15" [perPage]="15" [page]="1" [totalPages]="3"></app-paginator>
+        <app-paginator [totalItems]="pagination.totalItems" [perPage]="pagination.perPage" [page]="pagination.page" [totalPages]="pagination.totalPages" (nextPage)="nextPage()" (beforePage)="beforePage()"></app-paginator>
     </div>
     <div class="sa-dashboard-content">
         <table mat-table [dataSource]="dataSource">

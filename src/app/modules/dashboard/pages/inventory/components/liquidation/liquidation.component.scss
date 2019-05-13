@@ -3,12 +3,46 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        align-items: flex-start;
         .sa-liquidation-title {
             display: flex;
             align-items: center;
             mat-icon {
                 margin-right: 8px;
             }
+            .sa-user-name {
+                margin-left: 12px;
+            }
         }
+        .sa-appprove-liquidation {
+            height: 93px;
+            .sa-button-approve-liquidation {
+                width: 168px;
+                height: 32px;
+                margin-left: 32px;
+            }
+        }
+    }
+    .sa-devolutions {
+        display: flex;
+        flex-direction: column;
+        .sa-devolutions-card {
+            border-radius: 0px;
+        }
+    }
+    .sa-losses {
+        margin-top: 24px;
+        display: flex;
+        flex-direction: column;
+        .sa-losses-card {
+            border-radius: 0px;
+        }
+    }
+    .sa-card-title {
+        margin-left: 16px;
+        margin-bottom: 8px;
+    }
+    .sa-daily-sales {
+        margin-top: 32px;
     }
 }
