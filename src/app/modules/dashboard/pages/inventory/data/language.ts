@@ -5,15 +5,38 @@ export const INVENTORY_LANGUAGE = {
     skuCode: 'Código SKU',
     name: 'Nombre',
     quantity: 'Cantidad (pzas) vendido / inicial',
+    quantityP: 'Cantidad (pzas)',
     brand: 'Marca',
     category: 'Categoría',
+    subtotal: 'Subtotal',
     doLiquidation: 'Realizar liquidación',
+    losses: 'Mermas',
     history: {
         salesHistory: 'Historial de ventas',
+        ticket: 'No. de ticket',
+        dateSold: 'Fecha de venta',
+        route: 'Ruta',
+        quantitySold: 'Piezas vendidas',
+        total: 'Total',
+        paymentMethod: 'Método de pago',
+    },
+    historyLiq: {
+        liquidationHistory: 'Historial de liquidaciones',
     },
     liquidation: {
         liquidation: 'Liquidación',
         totalLiq: 'Total a liquidar',
-        approve: 'Aprobar liquidación'
+        approveLiq: 'Aprobar liquidación',
+        approve: 'Aprobar',
+        currencySymbol: '$',
+        dialogApprove: '¿Estás seguro que deseas aprobar la liquidación?',
+    },
+    commission: {
+        commission: 'Comisión',
+        totalSold: 'Comisión total',
+        loss: 'Merma total',
+        totalToPay: 'Total a pagar',
+        seeHistory: 'Ver historial completo',
+        weekSales: 'Ventas de la semana'
     },
 };

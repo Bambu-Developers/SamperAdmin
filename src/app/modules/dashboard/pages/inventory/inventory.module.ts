@@ -8,10 +8,12 @@ import { InventoryRoutingModule } from './inventory-routing.module';
 import { InventoryComponent } from './inventory.component';
 import { HistoryComponent } from './components/history/history.component';
 import { LiquidationComponent } from './components/liquidation/liquidation.component';
-import { TrackingComponent } from './components/tracking/tracking.component';
+import { CommissionComponent } from './components/commission/commission.component';
+import { HistoryLiquidationComponent } from './components/history-liquidation/history-liquidation.component';
+import { TicketComponent } from './components/ticket/ticket.component';
 
 @NgModule({
-  declarations: [InventoryComponent, HistoryComponent, LiquidationComponent, TrackingComponent],
+  declarations: [InventoryComponent, HistoryComponent, LiquidationComponent, CommissionComponent, HistoryLiquidationComponent, TicketComponent],
   imports: [
     CommonModule,
     InventoryRoutingModule,

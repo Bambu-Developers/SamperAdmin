@@ -1,0 +1,171 @@
+<div class="sa-dashboard-main-content sa-roboto sa-charcoal-grey">
+    <div class="sa-commission-header">
+        <div class="sa-user-data">
+            <mat-icon svgIcon="ic-back" [routerLink]="['/dashboard/inventory']"></mat-icon>
+            <mat-label class="sa-commission-title sa-text-24">{{lanCom.commission}} - {{dataSourceUser?.route_name}} </mat-label>
+            <mat-label class="sa-user-name sa-text-16 sa-brownish-grey"> ({{dataSourceUser?.name}})</mat-label>
+        </div>
+        <div class="sa-commission-calc">
+            <div class="sa-calc-amount">
+                <mat-label class="sa-text-14 sa-brownish-grey">{{lanCom.totalSold}}</mat-label>
+                <mat-label class="sa-amount sa-text-18"> {{totalCommission | currency}}</mat-label>
+            </div>
+            <div class="sa-calc-amount">
+                <mat-label class="sa-text-14 sa-brownish-grey">{{lanCom.loss}}</mat-label>
+                <mat-label class="sa-amount sa-text-18">{{totalLosses | currency}}</mat-label>
+            </div>
+            <div class="sa-calc-amount">
+                <mat-label class="sa-roboto-medium sa-text-14">{{lanCom.totalToPay}}</mat-label>
+                <mat-label class="sa-amount sa-text-20">{{totalCommission - totalLosses | currency}}</mat-label>
+            </div>
+        </div>
+    </div>
+    <div class="sa-commission-losses" *ngIf="dataSourceTableLosses.data.length !== 0">
+        <mat-label class="sa-table-title sa-bold sa-pinkish-orange">{{lanInv.losses}}</mat-label>
+        <table mat-table [dataSource]="dataSourceTableLosses">
+            <!-- Sku Column -->
+            <ng-container matColumnDef="sku">
+                <th class="sa-sku-column" mat-header-cell *matHeaderCellDef>{{lanInv.skuCode}}</th>
+                <td class="sa-sku-column sa-roboto-medium" mat-cell *matCellDef="let loss">{{loss.sku}}</td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Image Column -->
+            <ng-container matColumnDef="image">
+                <th class="sa-img-column" mat-header-cell *matHeaderCellDef></th>
+                <td class="sa-img-column" mat-cell *matCellDef="let loss">
+                    <img class="sa-img-preview" src="{{loss.img_preview_url}}" alt="N/A">
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th class="sa-name-column" mat-header-cell *matHeaderCellDef>{{lanInv.name}}</th>
+                <td class="sa-name-column" mat-cell *matCellDef="let loss">{{loss.name}} {{loss.content}}</td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Quantity Column -->
+            <ng-container matColumnDef="quantity">
+                <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>{{lanInv.quantityP}}</th>
+                <td class="sa-quantity-column sa-roboto-medium" mat-cell *matCellDef="let loss">{{loss.numberItems}} piezas</td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Brand Column -->
+            <ng-container matColumnDef="brand">
+                <th class="sa-brand-column" mat-header-cell *matHeaderCellDef>{{lanInv.brand}}</th>
+                <td class="sa-brand-column" mat-cell *matCellDef="let loss">{{loss.brand}}</td>
+                <td class="sa-total-column" mat-footer-cell *matFooterCellDef> Total: </td>
+            </ng-container>
+            <!-- Subtotal Column -->
+            <ng-container matColumnDef="subtotal">
+                <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanInv.subtotal}}</th>
+                <td class="sa-subtotal-column" mat-cell *matCellDef="let loss">{{loss.totalPrice | currency}}</td>
+                <td class="sa-subtotal-column" mat-footer-cell *matFooterCellDef> {{ subtotalLosses | currency}} </td>
+            </ng-container>
+            <!-- <tr mat-header-row *matHeaderRowDef="displayedColumnsDevolutions"></tr> -->
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsLosses;"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+        </table>
+    </div>
+    <div class="sa-week-sales">
+        <div class="sa-week-sales-header">
+            <mat-label class="sa-bold sa-pinkish-orange">{{lanCom.weekSales}}</mat-label>
+            <!-- <button mat-raised-button class="sa-button-history" color="accent">{{lanCom.seeHistory}}</button> -->
+        </div>
+        <table mat-table [dataSource]="dataSourceTableHistory">
+            <!-- Sku Column -->
+            <ng-container matColumnDef="sku">
+                <th class="sa-sku-column" mat-header-cell *matHeaderCellDef>{{lanInv.skuCode}}</th>
+                <td class="sa-sku-column sa-roboto-medium" mat-cell *matCellDef="let history">{{history.sku}}</td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Image Column -->
+            <ng-container matColumnDef="image">
+                <th class="sa-img-column" mat-header-cell *matHeaderCellDef></th>
+                <td class="sa-img-column" mat-cell *matCellDef="let history">
+                    <img class="sa-img-preview" src="{{history.img_preview_url}}" alt="N/A">
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th class="sa-name-column" mat-header-cell *matHeaderCellDef>{{lanInv.name}}</th>
+                <td class="sa-name-column" mat-cell *matCellDef="let history">{{history.name}} {{history.content}}
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Quantity Column -->
+            <ng-container matColumnDef="quantity">
+                <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>{{lanInv.quantityP}}</th>
+                <td class="sa-quantity-column" mat-cell *matCellDef="let history">{{history.totalItems}}</td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Brand Column -->
+            <ng-container matColumnDef="subtotal">
+                <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanInv.subtotal}}</th>
+                <td class="sa-subtotal-column" mat-cell *matCellDef="let history">{{history.totalPrice | currency}}</td>
+                <td class="sa-total-column" mat-footer-cell *matFooterCellDef>TOTAL :</td>
+            </ng-container>
+            <!-- Commission Column -->
+            <ng-container matColumnDef="commission">
+                <th class="sa-commission-column" mat-header-cell *matHeaderCellDef>{{lanCom.commission}}</th>
+                <td class="sa-commission-column" mat-cell *matCellDef="let history"> {{history.seller_commission}}% {{ history.totalCommission | currency}}</td>
+                <td class="sa-commission-column" mat-footer-cell *matFooterCellDef> {{ totalCommissionRetail | currency}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsSales"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsSales;"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumnsSales"></tr>
+        </table>
+    </div>
+
+    <div class="sa-week-sales" *ngIf="dataSourceTableHistoryWholeSale.data.length">
+        <div class="sa-week-sales-header">
+            <mat-label class="sa-bold sa-pinkish-orange">Ventas Mayoristas</mat-label>
+        </div>
+        <table mat-table [dataSource]="dataSourceTableHistoryWholeSale">
+            <!-- Sku Column -->
+            <ng-container matColumnDef="sku">
+                <th class="sa-sku-column" mat-header-cell *matHeaderCellDef>{{lanInv.skuCode}}</th>
+                <td class="sa-sku-column sa-roboto-medium" mat-cell *matCellDef="let history">{{history.sku}}</td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Image Column -->
+            <ng-container matColumnDef="image">
+                <th class="sa-img-column" mat-header-cell *matHeaderCellDef></th>
+                <td class="sa-img-column" mat-cell *matCellDef="let history">
+                    <img class="sa-img-preview" src="{{history.img_preview_url}}" alt="N/A">
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th class="sa-name-column" mat-header-cell *matHeaderCellDef>{{lanInv.name}}</th>
+                <td class="sa-name-column" mat-cell *matCellDef="let history">{{history.name}} {{history.content}}
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Quantity Column -->
+            <ng-container matColumnDef="quantity">
+                <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>{{lanInv.quantityP}}</th>
+                <td class="sa-quantity-column" mat-cell *matCellDef="let history">{{history.totalItems}}</td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Brand Column -->
+            <ng-container matColumnDef="subtotal">
+                <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanInv.subtotal}}</th>
+                <td class="sa-subtotal-column" mat-cell *matCellDef="let history">{{history.totalPrice | currency}}</td>
+                <td class="sa-total-column" mat-footer-cell *matFooterCellDef>TOTAL :</td>
+            </ng-container>
+            <!-- Commission Column -->
+            <ng-container matColumnDef="commission">
+                <th class="sa-commission-column" mat-header-cell *matHeaderCellDef>{{lanCom.commission}}</th>
+                <td class="sa-commission-column" mat-cell *matCellDef="let history"> {{history.seller_commission}}% {{ history.totalCommission | currency}}</td>
+                <td class="sa-commission-column" mat-footer-cell *matFooterCellDef> {{ totalCommissionWholesale | currency}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsSalesWholesale"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsSalesWholesale;"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumnsSalesWholesale"></tr>
+        </table>
+    </div>
+</div>

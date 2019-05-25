@@ -11,9 +11,10 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { ClientsComponent } from 'src/app/modules/dashboard/pages/clients/clients.component';
 import { ViewClientComponent } from './components/view-client/view-client.component';
 import { CreateClientComponent } from './components/create-client/create-client.component';
+import { TrackingComponent } from '../inventory/components/tracking/tracking.component';
 
 @NgModule({
-  declarations: [ClientsComponent, ViewClientComponent, CreateClientComponent],
+  declarations: [ClientsComponent, ViewClientComponent, CreateClientComponent, TrackingComponent],
   imports: [
     CommonModule,
     ClientsRoutingModule,

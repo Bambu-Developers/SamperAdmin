@@ -1,11 +1,46 @@
 @import "src/assets/css/colors";
 .sa-commission-card {
-    width: 97.3%;
-    height: 134px;
+    width: 96%;
+    height: 86px;
     padding: 24px;
     position: absolute;
     z-index: 3;
     border-radius: 0px;
+    display: flex;
+    flex-direction: column;
+    .sa-commission-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .sa-select-date-route {
+        margin-top: 16px;
+        .sa-calculate-commission-form {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .sa-route-selection {
+                width: 166px;
+                height: 30px;
+                margin-right: 20px;
+                margin-left: 20px;
+                background-color: $color-white-medium;
+                border: 1px solid $color-mushroom;
+                border-radius: 3px;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                .mat-select-trigger {
+                    margin-left: 8px;
+                }
+            }
+            .sa-button-calc-commission {
+                width: 96px;
+                height: 32px;
+            }
+        }
+    }
 }
 
 .sa-dashboard-main-content {
@@ -60,6 +95,7 @@
             width: 40px;
             .sa-img-preview {
                 width: 30px;
+                height: 30px;
             }
         }
         .sa-name-column {
@@ -73,6 +109,22 @@
         }
         .sa-category-column {
             width: 200px;
+        }
+        .sa-empty-inventory {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .sa-inventory-not-assigned {
+                width: 194px;
+                height: 21px;
+                text-align: center;
+            }
+            .sa-inventory-not-assigned-to-route {
+                width: 177px;
+                height: 32px;
+                text-align: center;
+            }
         }
     }
 }

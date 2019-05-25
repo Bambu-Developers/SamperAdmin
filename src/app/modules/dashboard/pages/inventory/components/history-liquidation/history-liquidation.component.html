@@ -1,0 +1,59 @@
+<div class="sa-dashboard-main-content sa-roboto sa-charcoal-grey">
+    <mat-label class="sa-text-24 sa-roboto-medium">{{lanLiq.liquidationHistory}}</mat-label>
+    <!-- <div class="sa-history-liquidation-header">
+        <div class="sa-date-route-picker">
+            <mat-form-field>
+                <input matInput [satDatepicker]="picker2" [(ngModel)]="date">
+                <sat-datepicker #picker2 [rangeMode]="true">
+                </sat-datepicker>
+                <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
+            </mat-form-field>
+            <div class="sa-route-selection">
+                <mat-select class="mat-select-trigger" placeholder="Elige una ruta">
+                    <mat-option [value]="" (click)="getAllSales()">. . .</mat-option>
+                    <mat-option *ngFor="let route of routes" (click)="routeSelectedCommission = true" [value]="route.id" (click)="getSalesByKeyAndDate(route.id)">{{route.name}}</mat-option>
+                </mat-select>
+            </div>
+        </div>
+    </div> -->
+    <div class="sa-actions">
+        <mat-paginator [hidePageSize]="true" [pageSize]="15"></mat-paginator>
+    </div>
+    <div class="sa-history-liquidation-table">
+        <table mat-table [dataSource]="dataSourceHistoryLiquidation">
+            <!-- Date Column -->
+            <ng-container matColumnDef="dateSold">
+                <th class="sa-date-column" mat-header-cell *matHeaderCellDef>Fecha</th>
+                <td class="sa-date-column" mat-cell *matCellDef="let sale"> {{sale.date | date:'dd/MMM/yyyy' }}</td>
+            </ng-container>
+            <!-- Route Column -->
+            <ng-container matColumnDef="route">
+                <th class="sa-route-column-select" mat-header-cell *matHeaderCellDef>
+                    <mat-select class="mat-select-trigger" placeholder="Ruta">
+                        <mat-option (click)="doFilter('')" [value]="Todas">Todas</mat-option>
+                        <mat-option *ngFor="let route of routes" (click)="doFilter(route.name)" [value]="route.name">
+                            {{route.name}}</mat-option>
+                    </mat-select>
+                </th>
+                <td class="sa-route-column" mat-cell *matCellDef="let client"> {{client.route_name}} </td>
+            </ng-container>
+            <!-- Sales Of The Day Column -->
+            <ng-container matColumnDef="saleOfDay">
+                <th class="sa-sale-of-day-column" mat-header-cell *matHeaderCellDef>Ventas del día</th>
+                <td class="sa-sale-of-day-column" mat-cell *matCellDef="let sale">{{sale.total_sale | currency}}</td>
+            </ng-container>
+            <!-- Total Liquidation Column -->
+            <ng-container matColumnDef="totalLiq">
+                <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>Total liquidado</th>
+                <td class="sa-subtotal-column" mat-cell *matCellDef="let sale">{{sale.total_liquidation | currency}}</td>
+            </ng-container>
+            <!-- Total Liquidation Loss Column -->
+            <ng-container matColumnDef="totalLiqLoss">
+                <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>Total liquidado c/merma</th>
+                <td class="sa-subtotal-column" mat-cell *matCellDef="let sale">{{sale.total_liq_loss | currency}}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsHistoryLiquidation"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsHistoryLiquidation;" [routerLink]="['/dashboard/inventory/liquidation/',row.uid]" [queryParams]="{  date: row.date }"></tr>
+        </table>
+    </div>
+</div>

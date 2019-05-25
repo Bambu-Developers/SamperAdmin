@@ -1,0 +1,108 @@
+@import "src/assets/css/colors";
+.sa-dashboard-main-content {
+    .sa-commission-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        .sa-user-data {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            mat-label {
+                margin-left: 8px
+            }
+        }
+        .sa-commission-calc {
+            height: 85px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .sa-calc-amount {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                .sa-amount {
+                    margin-left: 16px;
+                }
+            }
+        }
+    }
+    .sa-commission-losses {
+        margin-top: 16px;
+        .sa-table-title {
+            margin-bottom: 8px;
+        }
+        td.mat-cell {
+            border-bottom-style: none;
+        }
+        .sa-sku-column {
+            width: 210px;
+        }
+        .sa-img-column {
+            width: 40px;
+            .sa-img-preview {
+                width: 30px;
+                height: 30px;
+            }
+        }
+        .sa-name-column {
+            width: 350px;
+        }
+        .sa-quantity-column {
+            width: 100px;
+            text-align: right;
+        }
+        .sa-brand-column {
+            width: 280px;
+            text-align: center;
+        }
+        .sa-total-column {
+            text-align: right;
+        }
+        .sa-subtotal-column {
+            width: 140px;
+            text-align: center;
+        }
+    }
+    .sa-week-sales {
+        .sa-week-sales-header {
+            margin-top: 16px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sa-sku-column {
+            width: 250px;
+        }
+        .sa-img-column {
+            width: 40px;
+            .sa-img-preview {
+                width: 30px;
+                height: 30px;
+            }
+        }
+        .sa-name-column {
+            width: 300px;
+        }
+        .sa-quantity-column {
+            width: 120px;
+            text-align: center;
+        }
+        .sa-total-column {
+            text-align: center;
+        }
+        .sa-subtotal-column {
+            width: 170px;
+            text-align: center;
+            border-left-style: solid;
+            border-left-width: 1px;
+            border-left-color: $color-very-light-pink;
+        }
+        .sa-commission-column {
+            width: 170px;
+        }
+    }
+}

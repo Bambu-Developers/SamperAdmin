@@ -7,7 +7,8 @@
         <mat-form-field class="sa-input-text sa-search sa-no-label sa-product-search">
             <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="{{language.search}}">
         </mat-form-field>
-        <app-paginator [totalItems]="pagination.totalItems" [perPage]="pagination.perPage" [page]="pagination.page" [totalPages]="pagination.totalPages" (nextPage)="nextPage()" (beforePage)="beforePage()"></app-paginator>
+        <mat-paginator [hidePageSize]="true" [pageSize]="15"></mat-paginator>
+        <!-- <app-paginator [totalItems]="pagination.totalItems" [perPage]="pagination.perPage" [page]="pagination.page" [totalPages]="pagination.totalPages" (nextPage)="nextPage()" (beforePage)="beforePage()"></app-paginator> -->
     </div>
     <div class="sa-dashboard-content">
         <table mat-table [dataSource]="dataSource">

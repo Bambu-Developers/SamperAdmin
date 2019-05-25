@@ -19,15 +19,20 @@
                     <div class="sa-info-column">
                         <mat-form-field class="sa-input-text sa-no-label">
                             <input matInput placeholder="{{dataSource?.name}}" formControlName="name">
-                            <mat-error *ngIf="editProductForm.controls.name.hasError('required')">{{language.errorRequired}}
+                            <mat-error *ngIf="editProductForm.controls.name.hasError('required')">
+                                {{language.errorRequired}}
                             </mat-error>
                         </mat-form-field>
-                        <mat-form-field class="sa-input-text">
-                            <input matInput placeholder="{{dataSource?.sku}}" disabled>
+                        <mat-form-field class="sa-input-text sa-no-label">
+                            <input matInput placeholder="{{dataSource?.sku}}" formControlName="sku">
+                            <mat-error *ngIf="editProductForm.controls.name.hasError('required')">
+                                {{language.errorRequired}}
+                            </mat-error>
                         </mat-form-field>
                         <mat-form-field class="sa-input-text sa-no-label">
                             <input matInput placeholder="{{dataSource?.brand}}" formControlName="brand">
-                            <mat-error *ngIf="editProductForm.controls.brand.hasError('required')">{{language.errorRequired}}
+                            <mat-error *ngIf="editProductForm.controls.brand.hasError('required')">
+                                {{language.errorRequired}}
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -35,7 +40,8 @@
                         <div class="sa-info-unitsPackage">
                             <mat-form-field class="sa-input-amount sa-no-label" id="unitsPackage">
                                 <input matInput placeholder="{{dataSource?.units_package}}" [textMask]="{mask: numberMask}" formControlName="unitsPackage">
-                                <mat-error *ngIf="editProductForm.controls.unitsPackage.hasError('required')">{{language.required}}
+                                <mat-error *ngIf="editProductForm.controls.unitsPackage.hasError('required')">
+                                    {{language.required}}
                                 </mat-error>
                             </mat-form-field>
                             <p class="sa-p-right sa-text-14 sa-roboto">{{lanProduct.newProduct.unitsPackage}}</p>
@@ -43,13 +49,15 @@
                         <p class="sa-p sa-text-14 sa-roboto">{{lanProduct.newProduct.category}}</p>
                         <mat-form-field class="sa-input-text sa-no-label">
                             <input matInput placeholder="{{dataSource?.category}}" formControlName="category">
-                            <mat-error *ngIf="editProductForm.controls.category.hasError('required')">{{language.errorRequired}}
+                            <mat-error *ngIf="editProductForm.controls.category.hasError('required')">
+                                {{language.errorRequired}}
                             </mat-error>
                         </mat-form-field>
                         <p class="sa-p sa-text-14 sa-roboto">{{lanProduct.newProduct.content}}</p>
                         <mat-form-field class="sa-input-text sa-no-label">
                             <input matInput placeholder="{{dataSource?.content}}" formControlName="content">
-                            <mat-error *ngIf="editProductForm.controls.content.hasError('required')">{{language.errorRequired}}
+                            <mat-error *ngIf="editProductForm.controls.content.hasError('required')">
+                                {{language.errorRequired}}
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -59,7 +67,8 @@
                 <div class="sa-product-price-expand">
                     <div class="sa-product-info-top">
                         <div class="sa-product-retail-pricing">
-                            <mat-label class="sa-text-16 sa-roboto-medium sa-charcoal-grey">{{lanProduct.newProduct.retailPrice}}
+                            <mat-label class="sa-text-16 sa-roboto-medium sa-charcoal-grey">
+                                {{lanProduct.newProduct.retailPrice}}
                             </mat-label>
                             <mat-form-field class="sa-input-amount sa-no-label" id="amount">
                                 <input matInput placeholder="{{dataSource?.retail_price}}" [textMask]="{mask: currencyMask}" formControlName="retailPrice">
@@ -164,7 +173,8 @@
                             {{language.errorRequired}}</mat-error>
                     </mat-form-field>
                     <div class="sa-wholesale-units">
-                        <mat-label class="sa-p sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.wholesaleQuantity}}
+                        <mat-label class="sa-p sa-text-14 sa-roboto sa-gray-medium">
+                            {{lanProduct.newProduct.wholesaleQuantity}}
                         </mat-label>
                         <mat-form-field class="sa-input-amount sa-wq">
                             <input matInput [textMask]="{mask: numberMask}" formControlName="wholesaleQuantity">
@@ -176,16 +186,30 @@
                 </div>
             </mat-card>
             <mat-card class="sa-seller-commission">
-                <mat-label class="sa-robot-medium sa-text-16 sa-charcoal-grey">{{lanProduct.pricing.sellerCommission}}
-                </mat-label>
-                <mat-form-field class="sa-input-amount sa-no-label" id="amount">
-                    <input matInput placeholder="{{dataSource?.seller_commission}}" [textMask]="{mask: currencyMask}" formControlName="sellerCommission">
-                    <span matPrefix>{{lanProduct.pricing.currencySymbol}}</span>
-                    <span matSuffix>{{lanProduct.pricing.country}}</span>
-                    <mat-error *ngIf="editProductForm.controls.sellerCommission.hasError('required')">
-                        {{language.errorRequired}}
-                    </mat-error>
-                </mat-form-field>
+                <div class="sa-commission">
+                    <mat-label class="sa-robot-medium sa-text-16 sa-charcoal-grey">
+                        {{lanProduct.pricing.sellerCommissionRetail}}
+                    </mat-label>
+                    <mat-form-field class="sa-input-amount sa-no-label" id="amount">
+                        <input matInput placeholder="{{dataSource?.seller_commission_retail}}" [textMask]="{mask: percentageMask}" formControlName="sellerCommissionRetail">
+                        <span matSuffix>{{lanProduct.pricing.percentage}}</span>
+                        <mat-error *ngIf="editProductForm.controls.sellerCommissionRetail.hasError('required')">
+                            {{language.errorRequired}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="sa-commission">
+                    <mat-label class="sa-robot-medium sa-text-16 sa-charcoal-grey">
+                        {{lanProduct.pricing.sellerCommissionWholesale}}
+                    </mat-label>
+                    <mat-form-field class="sa-input-amount sa-no-label" id="amount">
+                        <input matInput placeholder="{{dataSource?.seller_commission_wholesale}}" [textMask]="{mask: percentageMask}" formControlName="sellerCommissionWholesale">
+                        <span matSuffix>{{lanProduct.pricing.percentage}}</span>
+                        <mat-error *ngIf="editProductForm.controls.sellerCommissionWholesale.hasError('required')">
+                            {{language.errorRequired}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
             </mat-card>
             <div class="sa-edit-product-actions">
                 <button [routerLink]="['/dashboard/products/']" class="sa-btn-small" mat-raised-button color="white">{{language.cancel}}</button>

@@ -195,13 +195,21 @@
                 }
             }
         }
-        .sa-seller-commission {
+        .sa-seller-commissions {
             height: 98px;
             margin-top: 16px;
             padding: 22px 32px 24px 32px;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             justify-content: space-between;
+            .sa-commission {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                mat-label {
+                    margin-bottom: 10px;
+                }
+            }
         }
     }
 }

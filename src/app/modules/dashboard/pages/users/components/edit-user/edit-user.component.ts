@@ -83,14 +83,13 @@ export class EditUserComponent implements OnInit {
         this.editUserForm.get('name').patchValue(this.user.name);
         this.editUserForm.get('status').patchValue(this.user.status);
         this.selectPermisions = this.user.permision;
-        console.log(this.user);
       },
       err => console.error(err)
     );
   }
 
   public editUser() {
-    console.log(this.user);
+    // console.log(this.user);
     if (this.user.rol === 2) {
       this.user.permision = this.selectPermisions;
     }
@@ -103,6 +102,8 @@ export class EditUserComponent implements OnInit {
       res => this._router.navigate(['/dashboard/users']),
       err => console.log(err)
     );
+    console.log(this.user.route, this.user.id);
+    this.userService.editUserToRoute(this.user.route, this.user.id);
   }
 
   public getRoutes() {

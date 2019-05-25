@@ -1,0 +1,27 @@
+@import "src/assets/css/colors";
+.sa-dashboard-main-content {
+    .sa-history-header {
+        display: flex;
+        flex-direction: column;
+        .sa-filter {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin: 16px 0px;
+        }
+    }
+    .sa-sku-column {
+        width: 210px;
+    }
+    .sa-img-column {
+        width: 40px;
+    }
+    .sa-name-column {
+        width: 350px;
+        text-align: center;
+    }
+    .sa-subtotal-column {
+        width: 140px;
+        text-align: center;
+    }
+}

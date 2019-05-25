@@ -46,6 +46,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   public getsUsers() {
     this._subscriptrionUsers = this.usersService.getAllUsers().subscribe(
       res => {
+        this.dataSource.data = res;
         this.users = res;
         const data = [];
         this.users.forEach(user => {
@@ -61,7 +62,7 @@ export class UsersComponent implements OnInit, OnDestroy {
             this.indexUsers = this.indexUsers + i;
           }
         }
-        this.dataSource.data = data;
+        // this.dataSource.data = data;
         this.pagination.perPage = res.length / 15 < 15 ? res.length : res.length / 15;
         this.pagination.totalItems = res.length;
         this.pagination.totalPages = res.length / 15 < 1 ? 1 : res.length / 15;
@@ -108,10 +109,18 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._subscriptrionUser.unsubscribe();
-    this._subscriptrionUsers.unsubscribe();
-    this._subscriptionUserLogged.unsubscribe();
-    this._subscriptionRoutes.unsubscribe();
+    if (this._subscriptrionUser) {
+      this._subscriptrionUser.unsubscribe();
+    }
+    if (this._subscriptrionUsers) {
+      this._subscriptrionUsers.unsubscribe();
+    }
+    if (this._subscriptionUserLogged) {
+      this._subscriptionUserLogged.unsubscribe();
+    }
+    if (this._subscriptionRoutes) {
+      this._subscriptionRoutes.unsubscribe();
+    }
   }
 
 }

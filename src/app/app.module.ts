@@ -15,23 +15,25 @@ import { UiElementsComponent } from './components/ui-elements/ui-elements.compon
 
 /*MODULES*/
 import { SharedModule } from './modules/shared/shared.module';
+import { DateFormatPipe } from './pipes/date-format.pipe';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     UiElementsComponent,
+    DateFormatPipe
   ],
   imports: [
     SharedModule,
     BrowserModule,
     BrowserAnimationsModule,
-    AppRoutingModule,
-    
+    AppRoutingModule
   ],
   providers: [
     AuthGuard,
-    NoAuthGuard
+    NoAuthGuard,
+    DateFormatPipe
   ],
   bootstrap: [AppComponent]
 })

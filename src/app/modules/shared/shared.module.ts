@@ -1,12 +1,13 @@
+import { DateFormatPipe } from './../../pipes/date-format.pipe';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextMaskModule } from 'angular2-text-mask';
 import { AgmCoreModule } from '@agm/core';
+import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import 'hammerjs';
-
 
 /* ANGULAR MATERIAL */
 import {
@@ -29,9 +30,14 @@ import {
   MatDatepickerModule,
   MatNativeDateModule,
   MatFormFieldModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatPaginatorIntl
 } from '@angular/material';
 import { LayoutModule } from '@angular/cdk/layout';
+import {
+  SatDatepickerModule,
+  SatNativeDateModule
+} from 'saturn-datepicker';
 
 /* FIREBASE */
 import { AngularFireModule } from '@angular/fire';
@@ -52,7 +58,7 @@ import { ToastComponent } from '../dashboard/components/toast/toast.component';
     PaginatorComponent,
     SnackbarComponent,
     DialogComponent,
-    ToastComponent
+    ToastComponent,
   ],
   imports: [
     CommonModule,
@@ -87,8 +93,13 @@ import { ToastComponent } from '../dashboard/components/toast/toast.component';
     MatFormFieldModule,
     MatPaginatorModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDeQSZDAnz9i4fDbOyNUi0LJiJ-czWbJMg'
-    })
+      // apiKey: 'AIzaSyDeQSZDAnz9i4fDbOyNUi0LJiJ-czWbJMg'
+      apiKey: 'AIzaSyAskN-VARhdUaLDaeA9chNu4vpveNjNs4s'
+    }),
+    AgmSnazzyInfoWindowModule,
+    SatDatepickerModule,
+    SatNativeDateModule,
+    // MatPaginatorIntl
   ],
   exports: [
     AngularFirestoreModule,
@@ -121,13 +132,23 @@ import { ToastComponent } from '../dashboard/components/toast/toast.component';
     MatFormFieldModule,
     MatPaginatorModule,
     AgmCoreModule,
+    AgmSnazzyInfoWindowModule,
+    SatDatepickerModule,
+    SatNativeDateModule,
+    // MatPaginatorIntl,
   ],
   providers: [
     AngularFireDatabase,
     { provide: FirestoreSettingsToken, useValue: {} },
-    MatDatepickerModule
+    MatDatepickerModule,
+    DatePipe,
+    // DateFormatPipe,
+    { provide: MatPaginatorIntl, useClass: PaginatorComponent }
   ],
-  entryComponents: [SnackbarComponent,
-                    DialogComponent, ToastComponent]
+  entryComponents: [
+    SnackbarComponent,
+    DialogComponent,
+    ToastComponent
+  ]
 })
 export class SharedModule { }

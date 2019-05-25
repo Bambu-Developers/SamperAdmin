@@ -1,3 +1,4 @@
+import { TrackingComponent } from './../inventory/components/tracking/tracking.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ClientsComponent } from './clients.component';
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'create',
     component: CreateClientComponent,
+  },
+  {
+    path: 'tracking',
+    component: TrackingComponent,
   },
 ];
 

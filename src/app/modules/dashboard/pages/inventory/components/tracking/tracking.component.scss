@@ -21,4 +21,20 @@
 
 agm-map {
     height: 100vh;
+    .si-frame.si-content-wrapper {
+        width: 300px;
+    }
+}
+
+.sa-window-info {
+    width: 130px !important;
+    height: 90px;
+}
+
+.si-float-wrapper {
+    .si-wrapper-top {
+        .si-content-wrapper {
+            width: 300px;
+        }
+    }
 }

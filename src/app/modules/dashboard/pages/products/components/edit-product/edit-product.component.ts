@@ -8,7 +8,7 @@ import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/sn
 import { PRODUCTS_LANGUAGE } from 'src/app/modules/dashboard/pages/products/data/language';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/data';
-import { CURRENCY_MASK, NUMBER_MASK } from 'src/app/directives/currency-mask.directive';
+import { CURRENCY_MASK, NUMBER_MASK, PERCENTAGE_MASK } from 'src/app/directives/currency-mask.directive';
 
 @Component({
   selector: 'app-edit-product',
@@ -27,6 +27,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
   private _subscriptionURL: Subscription;
   public lanProduct = PRODUCTS_LANGUAGE;
   public language = ACCOUNT_LANGUAGE;
+  public percentageMask = PERCENTAGE_MASK;
   public currencyMask = CURRENCY_MASK;
   public numberMask = NUMBER_MASK;
   public showPricingPerDay = true;
@@ -45,6 +46,9 @@ export class EditProductComponent implements OnInit, OnDestroy {
     this.editProductForm = new FormGroup({
       image: new FormControl(),
       name: new FormControl('', [
+        Validators.required,
+      ]),
+      sku: new FormControl('', [
         Validators.required,
       ]),
       brand: new FormControl('', [
@@ -89,7 +93,10 @@ export class EditProductComponent implements OnInit, OnDestroy {
       sundayPrice: new FormControl('', [
         Validators.required,
       ]),
-      sellerCommission: new FormControl('', [
+      sellerCommissionRetail: new FormControl('', [
+        Validators.required,
+      ]),
+      sellerCommissionWholesale: new FormControl('', [
         Validators.required,
       ])
     });
@@ -103,6 +110,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
           this.dataSource = res;
           this.editProductForm.get('image').patchValue(res.img_preview_url);
           this.editProductForm.get('name').patchValue(res.name);
+          this.editProductForm.get('sku').patchValue(res.sku);
           this.editProductForm.get('brand').patchValue(res.brand);
           this.editProductForm.get('unitsPackage').patchValue(res.units_package);
           this.editProductForm.get('category').patchValue(res.category);
@@ -117,7 +125,8 @@ export class EditProductComponent implements OnInit, OnDestroy {
           this.editProductForm.get('fridayPrice').patchValue(res.friday_price);
           this.editProductForm.get('saturdayPrice').patchValue(res.saturday_price);
           this.editProductForm.get('sundayPrice').patchValue(res.sunday_price);
-          this.editProductForm.get('sellerCommission').patchValue(res.seller_commission);
+          this.editProductForm.get('sellerCommissionRetail').patchValue(res.seller_commission_retail);
+          this.editProductForm.get('sellerCommissionWholesale').patchValue(res.seller_commission_wholesale);
         });
     });
   }

@@ -1,0 +1,31 @@
+@import "src/assets/css/colors";
+.sa-dashboard-main-content {
+    .sa-actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        .sa-input-text {
+            height: 40px;
+        }
+    }
+    .sa-history-liquidation-table {
+        margin-top: 12px;
+        .sa-date-column {
+            width: 25%;
+        }
+        .sa-route-column {
+            width: 15%;
+        }
+        .sa-sale-of-day-column {
+            width: 20%;
+            text-align: center;
+        }
+        .sa-subtotal-column {
+            width: 20%;
+            text-align: center;
+        }
+        .mat-select-trigger {
+            width: 90px;
+        }
+    }
+}

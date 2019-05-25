@@ -16,7 +16,7 @@ export class UsersService {
   public usersRef: AngularFireList<UserModel>;
   public routesRef: AngularFireList<RouteModel>;
   public _basePath = 'Users/';
-  private _baseRoutesPath = 'Developer/Routes/';
+  private _baseRoutesPath = 'Staging/Routes/';
 
   constructor(
     public db: AngularFireDatabase,
@@ -47,6 +47,7 @@ export class UsersService {
     return this.afAuth.auth.createUserWithEmailAndPassword(userData.email, userData.password)
       .then(result => {
         this.setUserData(userData, result.user);
+        this.setUserToRoute(userData, result.user);
         this.router.navigate(['/dashboard/users']);
         return true;
       }).catch((error) => {
@@ -70,6 +71,20 @@ export class UsersService {
       status: 0
     };
     this.usersRef.set(userData.id, userData);
+  }
+
+  public setUserToRoute(data, uid) {
+    const USER_ROUTE: RouteModel = {
+      seller: uid.uid
+    };
+    this.routesRef.update(data.route, USER_ROUTE);
+  }
+
+  public editUserToRoute(data, uid) {
+    const USER_ROUTE: RouteModel = {
+      seller: uid
+    };
+    this.routesRef.update(data, USER_ROUTE);
   }
 
   // Get all router

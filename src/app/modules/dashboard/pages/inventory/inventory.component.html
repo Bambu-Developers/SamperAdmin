@@ -1,12 +1,36 @@
 <mat-card class="sa-commission-card sa-charcoal-grey" *ngIf="commissionCalc">
-    <mat-label class="sa-text-24 sa-roboto-medium">{{lanInv.commissionCalc}}</mat-label>
+    <div class="sa-commission-header">
+        <mat-label class="sa-text-24 sa-roboto-medium">{{lanInv.commissionCalc}}</mat-label>
+        <mat-icon svgIcon="ic-close-grey" (click)="commissionCalc = false"></mat-icon>
+    </div>
+    <div class="sa-select-date-route">
+        <form class="sa-calculate-commission-form" (ngSubmit)="calculateCommission()" [formGroup]="form">
+            <mat-form-field>
+                <input matInput [satDatepicker]="picker2" formControlName="date">
+                <sat-datepicker #picker2 [rangeMode]="true">
+                </sat-datepicker>
+                <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
+            </mat-form-field>
+            <div class="sa-route-selection">
+                <mat-select class="mat-select-trigger" placeholder="Elige una ruta" formControlName="route">
+                    <mat-option (click)="routeSelectedCommision = false" [value]="">. . .
+                    </mat-option>
+                    <mat-option *ngFor="let route of routes" (click)="routeSelectedCommission = true" [value]="route.id">{{route.name}}
+                    </mat-option>
+                </mat-select>
+            </div>
+            <button mat-raised-button class="sa-button-calc-commission" [disabled]="!form.valid" type="submit" color="accent">
+                Calcular
+            </button>
+        </form>
+    </div>
 </mat-card>
 <div class="sa-dashboard-main-content sa-roboto sa-charcoal-grey">
     <div class="sa-inventory-header">
         <mat-label class="sa-text-24 sa-roboto-medium">{{lanInv.todaysInventory}}</mat-label>
         <button mat-raised-button class="sa-button-calc" (click)="commissionCalc = true" color="charcoal-grey">
-      {{lanInv.commissionCalc}}
-    </button>
+            {{lanInv.commissionCalc}}
+        </button>
     </div>
     <div class="sa-route-row">
         <div class="sa-route-selection">
@@ -20,10 +44,13 @@
         <button *ngIf="routeSelected" mat-raised-button class="sa-button-liquidation" color="accent" (click)="doLiquidation()">
             {{lanInv.doLiquidation}}
         </button>
+        <!-- <button *ngIf="routeSelected && dataSource?.filteredData.length !== 0" mat-raised-button class="sa-button-liquidation" color="accent" (click)="doLiquidation()">
+            {{lanInv.doLiquidation}}
+        </button> -->
     </div>
-    <div class="sa-paginator">
-        <app-paginator [totalItems]="pagination.totalItems" [perPage]="pagination.perPage" [page]="pagination.page" [totalPages]="pagination.totalPages" (nextPage)="nextPage()" (beforePage)="beforePage()"></app-paginator>
-    </div>
+    <!-- <div class="sa-paginator">
+        <app-paginator [totalItems]="pagination.totalItems" [perPage]="pagination.perPage" [page]="pagination.page" [totalPages]="pagination.totalPages"></app-paginator>
+    </div> -->
     <div class="sa-dashboard-content">
         <table mat-table [dataSource]="dataSource">
             <!-- Sku Column -->
@@ -46,7 +73,8 @@
             <!-- Quantity Column -->
             <ng-container matColumnDef="quantity">
                 <th class="sa-quantity-column sa-center-text" mat-header-cell *matHeaderCellDef>{{lanInv.quantity}}</th>
-                <td class="sa-quantity-column sa-center-text" mat-cell *matCellDef="let inventory">/{{inventory.original_items}}</td>
+                <td class="sa-quantity-column sa-center-text" mat-cell *matCellDef="let inventory">
+                    {{inventory.original_items - inventory.number_of_items}}/{{inventory.original_items}}</td>
             </ng-container>
             <!-- Brand Column -->
             <ng-container matColumnDef="brand">
@@ -56,10 +84,17 @@
             <!-- Category Column -->
             <ng-container matColumnDef="category">
                 <th class="sa-category-column sa-center-text" mat-header-cell *matHeaderCellDef>{{lanInv.category}}</th>
-                <td class="sa-category-column sa-center-text" mat-cell *matCellDef="let inventory">{{inventory.category}}</td>
+                <td class="sa-category-column sa-center-text" mat-cell *matCellDef="let inventory">
+                    {{inventory.category}}</td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+        <div class="sa-empty-inventory" *ngIf="dataSource?.filteredData.length === 0">
+            <img src="assets/images/empty-inventory.svg">
+            <mat-label class="sa-inventory-not-assigned sa-roboto-medium sa-text-16">Inventario no asignado aún
+            </mat-label>
+            <mat-label class="sa-inventory-not-assigned-to-route sa-mushroom sa-text-14">No ha sido asignado ningún inventario para esta Ruta </mat-label>
+        </div>
     </div>
 </div>

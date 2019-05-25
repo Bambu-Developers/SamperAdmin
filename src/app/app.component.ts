@@ -26,7 +26,10 @@ export class AppComponent {
       .addSvgIcon('ic-next', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/next.svg'))
       .addSvgIcon('ic-edit', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/icon-edit-gray.svg'))
       .addSvgIcon('ic-dropdown', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/ic-icon-dropdown-orange.svg'))
-      .addSvgIcon('ic-close-circle', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/close-circle.svg'));
+      .addSvgIcon('ic-close-circle', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/close-circle.svg'))
+      .addSvgIcon('ic-close-grey', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/icon-close-grey.svg'))
+      .addSvgIcon('ic-calendar', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/icon-calendar-orange.svg'))
+      ;
 
   }
 }

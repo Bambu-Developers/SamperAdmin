@@ -7,11 +7,14 @@ import { Subscription } from 'rxjs';
 import { RouteModel } from '../clients/models/route.model';
 import { Router } from '@angular/router';
 import { PAGINATION } from 'src/app/modules/shared/components/paginator/data/data';
-
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { take, map, concatMap, toArray } from 'rxjs/operators';
+import * as moment from 'moment';
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
-  styleUrls: ['./inventory.component.scss']
+  styleUrls: ['./inventory.component.scss'],
 })
 export class InventoryComponent implements OnInit, OnDestroy {
 
@@ -27,52 +30,92 @@ export class InventoryComponent implements OnInit, OnDestroy {
   private _subscriptionInventories: Subscription;
   private _subscriptionRoutes: Subscription;
   private _allInventories: any;
+  public form: FormGroup;
+  public startDate;
+  public endDate;
 
   constructor(
     private _inventoryService: InventoryService,
     private _clientService: ClientsService,
     private _router: Router,
+    private _fb: FormBuilder,
+    private _datePipe: DatePipe,
   ) { }
 
   ngOnInit() {
     this.getInventories();
     this.getRoutes();
+    this.form = this._fb.group({
+      date: [{ begin: new Date(), end: new Date() }],
+      route: new FormControl('', [
+        Validators.required,
+      ]),
+    });
+    this.getDates();
   }
 
   public getInventories() {
     const inventories = this.dataSource.data;
-    this._subscriptionInventories = this._inventoryService.getInventories().snapshotChanges().subscribe(actions => {
-      actions.forEach(action => {
-        this._allInventories = this._inventoryService.getInventoriesFromKeys(action.key).valueChanges();
-        this._allInventories.subscribe(res => {
-          res.forEach(element => {
-            element['uid'] = action.key;
-            inventories.push(element);
+    this._subscriptionInventories = this._inventoryService.getInvHis().valueChanges()
+      .pipe(
+        take(1),
+        concatMap(x => x),
+        concatMap(inv => {
+          const keys = Object.keys(inv);
+          const invArray = keys.map(k => {
+            
           });
-          this.dataSource.data = inventories;
+          return invArray;
+        }),
+        toArray()
+      ).subscribe(products => {
+        const prodArray = [];
+        products.forEach(element => {
         });
       });
-      console.log(this.dataSource.data);
-    });
   }
 
   public getRoutes() {
     this._subscriptionRoutes = this._clientService.getAllRoutes().subscribe(
       res => {
-        this.routes = res;
-        console.log(this.routes);
+        this.routes = res.sort((r1, r2) => {
+          if (r1.name < r2.name) {
+            return -1;
+          }
+          if (r1.name > r2.name) {
+            return 1;
+          }
+          return 0;
+        });
       }
     );
   }
 
-  public doFilter(value: string) {
+  public doFilter(value: string = 'noSeller') {
+    console.log(value);
     this.liquidation = value;
-    console.log(this.liquidation);
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
 
   public doLiquidation() {
     this._router.navigate(['/dashboard/inventory/liquidation/' + this.liquidation]);
+  }
+
+  public getDates() {
+    this.form.get('date').valueChanges
+      .subscribe(res => {
+        this.startDate = this._datePipe.transform(res.begin, 'yyyy-MM-dd');
+        this.endDate = this._datePipe.transform(res.end, 'yyyy-MM-dd');
+      });
+  }
+
+  public calculateCommission() {
+    const data = {
+      route: this.form.controls.route.value,
+      startDate: moment(new Date(this.form.controls.date.value.begin)).format("YYYYMMDD"),
+      endDate: moment(new Date(this.form.controls.date.value.end)).format("YYYYMMDD"),
+    };
+    this._router.navigate(['/dashboard/inventory/commission/'], { queryParams: data });
   }
 
   ngOnDestroy() {

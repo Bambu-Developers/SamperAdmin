@@ -1,11 +1,48 @@
 <div class="sa-dashboard-main-content sa-roboto sa-charcoal-grey">
     <div class="sa-history-header">
         <mat-label class="sa-text-24 sa-roboto-medium">{{lanInv.history.salesHistory}}</mat-label>
-        <button mat-raised-button class="sa-button-calc" color="charcoal-grey">
-            {{lanInv.commissionCalc}}
-        </button>
+        <div class="sa-filter">
+            <mat-form-field class="sa-user-search sa-input-text sa-search sa-no-label">
+                <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Buscar...">
+            </mat-form-field>
+            <mat-paginator [hidePageSize]="true" [pageSize]="15"></mat-paginator>
+        </div>
     </div>
-    <div class="sa-sale-date-row">
-
+    <div>
+        <table mat-table [dataSource]="dataSourceTableHistory">
+            <!-- Ticket Column -->
+            <ng-container matColumnDef="ticket">
+                <th class="sa-sku-column" mat-header-cell *matHeaderCellDef>{{lanHis.ticket}}</th>
+                <td class="sa-sku-column sa-roboto-medium" mat-cell *matCellDef="let sale">{{sale.id | slice:0:8}}</td>
+            </ng-container>
+            <!-- Date Column -->
+            <ng-container matColumnDef="date">
+                <th class="sa-img-column" mat-header-cell *matHeaderCellDef>{{lanHis.dateSold}}</th>
+                <td class="sa-img-column" mat-cell *matCellDef="let sale"> {{sale.date | date:'dd/MMM/yyyy' }}</td>
+            </ng-container>
+            <!-- Route Column -->
+            <ng-container matColumnDef="route">
+                <th class="sa-name-column" mat-header-cell *matHeaderCellDef>{{lanHis.route}}</th>
+                <td class="sa-name-column" mat-cell *matCellDef="let sale">{{sale.route_name}}</td>
+            </ng-container>
+            <!-- Total Column -->
+            <ng-container matColumnDef="total">
+                <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanHis.total}}</th>
+                <td class="sa-subtotal-column" mat-cell *matCellDef="let sale">{{sale.total}}</td>
+            </ng-container>
+            <!-- Devolution Column -->
+            <!-- <ng-container matColumnDef="devolution">
+                <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef></th>
+                <td class="sa-subtotal-column" mat-cell *matCellDef="let sale">{{sale.total}}</td>
+            </ng-container> -->
+            <!-- Payment Method Column -->
+            <!-- <ng-container matColumnDef="paymentMethod">
+                <th class="sa-commission-column" mat-header-cell *matHeaderCellDef>{{lanHis.paymentMethod}}</th>
+                <td class="sa-commission-column" mat-cell *matCellDef="let sale">{{sale.haveCredit ? 'Crédito' : 'Efectivo'}}</td>
+            </ng-container> -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsSales"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsSales;" [routerLink]="['/dashboard/inventory/ticket/']" [queryParams]="{ route: row.route_id, ticket: row.id }">
+            </tr>
+        </table>
     </div>
 </div>

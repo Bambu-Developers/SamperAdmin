@@ -311,8 +311,15 @@
                             margin-top: 31px;
                         }
                     }
+                    .sa-map-location {
+                        margin-top: 16px;
+                    }
                 }
             }
         }
     }
+}
+
+agm-map {
+    height: 50vh;
 }

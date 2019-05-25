@@ -30,5 +30,6 @@ export class ProductModel {
     wholesale_price_promo?: string;
     start_date_promo?: string;
     end_date_promo?: string;
-    seller_commission?: string;
+    seller_commission_retail?: string;
+    seller_commission_wholesale?: string;
 }

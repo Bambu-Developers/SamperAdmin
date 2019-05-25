@@ -72,7 +72,9 @@ export class ProductsService {
       friday_price: product.fridayPrice,
       saturday_price: product.saturdayPrice,
       sunday_price: product.sundayPrice,
-      seller_commission: product.sellerCommission,
+      seller_commission_retail: product.sellerCommissionRetail,
+      seller_commission_wholesale: product.sellerCommissionWholesale,
+
       is_enabled: true,
       is_priced_per_day: product.isPricedPerDay
     };
@@ -83,6 +85,7 @@ export class ProductsService {
     const PRODUCT_DATA: ProductModel = {
       img_preview_url: product.image,
       name: product.name,
+      sku: product.sku,
       brand: product.brand,
       units_package: product.unitsPackage,
       category: product.category,
@@ -96,7 +99,9 @@ export class ProductsService {
       thursday_price: product.thursdayPrice,
       friday_price: product.fridayPrice,
       saturday_price: product.saturdayPrice,
-      sunday_price: product.sundayPrice
+      sunday_price: product.sundayPrice,
+      seller_commission_retail: product.sellerCommissionRetail,
+      seller_commission_wholesale: product.sellerCommissionWholesale,
     };
     this.productsRef.update(id, PRODUCT_DATA);
   }

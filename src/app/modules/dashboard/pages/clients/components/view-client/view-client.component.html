@@ -108,7 +108,7 @@
                             </form>
                         </ng-template>
                     </mat-card>
-                    <mat-card class="sa-credit-info">
+                    <!-- <mat-card class="sa-credit-info">
                         <div *ngIf="dataSource?.haveCredit; then withCredit else withoutCredit">
                             {{dataSource?.haveCredit}}</div>
                         <ng-template #withCredit>
@@ -251,6 +251,11 @@
                                 </form>
                             </div>
                         </ng-template>
+                    </mat-card> -->
+                    <mat-card class="sa-map-location">
+                        <agm-map [zoom]="15" [latitude]="dataSource?.latitud" [longitude]="dataSource?.longitud">
+                            <agm-marker [latitude]="dataSource?.latitud" [longitude]="dataSource?.longitud"></agm-marker>
+                        </agm-map>
                     </mat-card>
                 </div>
             </div>

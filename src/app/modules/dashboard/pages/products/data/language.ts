@@ -59,7 +59,8 @@ export const PRODUCTS_LANGUAGE = {
       friday: 'Viernes',
       saturday: 'Sábado',
       sunday: 'Domingo',
-      sellerCommission: 'Comisión a vendedor:'
+      sellerCommissionRetail: 'Comisión a vendedor por menudeo:',
+      sellerCommissionWholesale: 'Comisión a vendedor por mayoreo:'
     },
     promotion: {
       promotion: 'Promoción',
