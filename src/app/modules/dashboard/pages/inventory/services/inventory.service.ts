@@ -58,16 +58,6 @@ export class InventoryService {
     return this.lossRef = this._db.list<any>(this._basePathLoss);
   }
 
-  public getLossesFromKeys(key) {
-    const rest = this._db.list(this._basePathLoss + key);
-    return rest;
-  }
-
-  public getInventoriesFromKeys(key) {
-    const rest = this._db.list(this._basePathInv + key);
-    return rest;
-  }
-
   public approveLiquidation(userId, date, userRoute, totalSale, totalLiquidation, totalWithLoss, totalDevolutions, totalLosses) {
     this.liquidationRef = this._db.list<any>(`${this._basePathLiq + userRoute}`);
     const LIQUIDATION_DATA = {
@@ -105,32 +95,25 @@ export class InventoryService {
   public getSaleByTicket(route, ticket) {
     return this._db.list(`${this._basePathHis}/${route}/${ticket}`);
   }
-  public getInvHis() {
-    const inventories = this.hisInvRef;
-    return inventories;
-  }
-
-  public getInvHisFromKeys(key) {
-    const rest = this._db.list(this._basePathInvHis + key);
-    return rest;
-  }
 
   public getProductsSold(key, id) {
     const rest = this._db.list(this._basePathHis + key + '/' + id + '/Products');
     return rest;
   }
 
-  public getSalesByDate(key, startDate:Date, endDate: Date) {
-    endDate = moment(endDate).add(1,"day").toDate()
-/*     startDate =
-    endDate = parseInt(endDate, 10); */
+  public getSalesByDate(key, startDate: Date, endDate: Date) {
+    endDate = moment(endDate).add(1, 'day').toDate();
     return this._db.list(`${this._basePathHis + key}`,
       ref => ref.orderByChild('timesatamp').startAt(startDate.getTime()).endAt(endDate.getTime())
     );
   }
 
-  public getLossesByDate(key, startDate :Date, endDate: Date) {
-    endDate = moment(endDate).add(1,"day").toDate()
+  public getSalesByKey(key) {
+    return this._db.list(`${this._basePathHis + key}`);
+  }
+
+  public getLossesByDate(key, startDate: Date, endDate: Date) {
+    endDate = moment(endDate).add(1, 'day').toDate();
     return this._db.list(`${this._basePathLoss + key}`,
       ref => ref.orderByChild('timestamp').startAt(startDate.getTime()).endAt(endDate.getTime())
     );

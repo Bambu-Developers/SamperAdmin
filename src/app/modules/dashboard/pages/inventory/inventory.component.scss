@@ -50,33 +50,62 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 32px;
-        .sa-button-calc {
-            width: 168px;
-            height: 32px;
-        }
     }
-    .sa-route-row {
+    .sa-inventory-content {
+        height: 300px;
+        padding: 20px;
+        margin-top: 100px;
         display: flex;
         flex-direction: row;
+        justify-content: space-around;
         align-items: center;
-        .sa-route-selection {
-            width: 166px;
-            height: 30px;
-            margin-right: 20px;
-            background-color: $color-white-medium;
-            border: 1px solid $color-mushroom;
-            border-radius: 3px;
+        .sa-do-liquidation {
+            width: 300px;
+            height: 250px;
             display: flex;
-            flex-direction: row;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: space-around;
             align-items: center;
-            .mat-select-trigger {
-                margin-left: 8px;
+            .sa-liquidation-actions {
+                height: 100px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+                .sa-route-selection {
+                    width: 200px;
+                    height: 40px;
+                    background-color: $color-white-medium;
+                    border: 1px solid $color-mushroom;
+                    border-radius: 3px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    .mat-select-trigger {
+                        margin-left: 8px;
+                    }
+                }
+                .sa-button-liquidation {
+                    width: 244px;
+                    height: 40px;
+                    margin-top: 20px;
+                }
             }
         }
-        .sa-button-liquidation {
-            width: 168px;
-            height: 32px;
+        .sa-calc-commission {
+            width: 300px;
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            .sa-button {
+                height: 100px;
+                .sa-button-calc {
+                    width: 200px;
+                    height: 40px;
+                }
+            }
         }
     }
     .sa-paginator {

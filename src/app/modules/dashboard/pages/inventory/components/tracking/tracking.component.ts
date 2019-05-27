@@ -86,11 +86,11 @@ export class TrackingComponent implements OnInit, OnDestroy {
   }
 
   onMouseOver(infoWindow, $event: MouseEvent) {
-    infoWindow._openInfoWindow();
+    infoWindow.open();
   }
 
   onMouseOut(infoWindow, $event: MouseEvent) {
-    infoWindow._closeInfoWindow();
+    infoWindow.close();
   }
 
   public ngOnDestroy() {

@@ -30,7 +30,6 @@ export class EditProductComponent implements OnInit, OnDestroy {
   public percentageMask = PERCENTAGE_MASK;
   public currencyMask = CURRENCY_MASK;
   public numberMask = NUMBER_MASK;
-  public showPricingPerDay = true;
   public imgChanged = false;
   public loading = false;
 
@@ -72,27 +71,27 @@ export class EditProductComponent implements OnInit, OnDestroy {
       wholesaleQuantity: new FormControl('', [
         Validators.required,
       ]),
-      mondayPrice: new FormControl('', [
-        Validators.required,
-      ]),
-      tuesdayPrice: new FormControl('', [
-        Validators.required,
-      ]),
-      wednesdayPrice: new FormControl('', [
-        Validators.required,
-      ]),
-      thursdayPrice: new FormControl('', [
-        Validators.required,
-      ]),
-      fridayPrice: new FormControl('', [
-        Validators.required,
-      ]),
-      saturdayPrice: new FormControl('', [
-        Validators.required,
-      ]),
-      sundayPrice: new FormControl('', [
-        Validators.required,
-      ]),
+      // mondayPrice: new FormControl('', [
+      //   Validators.required,
+      // ]),
+      // tuesdayPrice: new FormControl('', [
+      //   Validators.required,
+      // ]),
+      // wednesdayPrice: new FormControl('', [
+      //   Validators.required,
+      // ]),
+      // thursdayPrice: new FormControl('', [
+      //   Validators.required,
+      // ]),
+      // fridayPrice: new FormControl('', [
+      //   Validators.required,
+      // ]),
+      // saturdayPrice: new FormControl('', [
+      //   Validators.required,
+      // ]),
+      // sundayPrice: new FormControl('', [
+      //   Validators.required,
+      // ]),
       sellerCommissionRetail: new FormControl('', [
         Validators.required,
       ]),
@@ -118,13 +117,13 @@ export class EditProductComponent implements OnInit, OnDestroy {
           this.editProductForm.get('retailPrice').patchValue(res.retail_price);
           this.editProductForm.get('wholesalePrice').patchValue(res.wholesale_price);
           this.editProductForm.get('wholesaleQuantity').patchValue(res.wholesale_quantity);
-          this.editProductForm.get('mondayPrice').patchValue(res.monday_price);
-          this.editProductForm.get('tuesdayPrice').patchValue(res.tuesday_price);
-          this.editProductForm.get('wednesdayPrice').patchValue(res.wednesday_price);
-          this.editProductForm.get('thursdayPrice').patchValue(res.thursday_price);
-          this.editProductForm.get('fridayPrice').patchValue(res.friday_price);
-          this.editProductForm.get('saturdayPrice').patchValue(res.saturday_price);
-          this.editProductForm.get('sundayPrice').patchValue(res.sunday_price);
+          // this.editProductForm.get('mondayPrice').patchValue(res.monday_price);
+          // this.editProductForm.get('tuesdayPrice').patchValue(res.tuesday_price);
+          // this.editProductForm.get('wednesdayPrice').patchValue(res.wednesday_price);
+          // this.editProductForm.get('thursdayPrice').patchValue(res.thursday_price);
+          // this.editProductForm.get('fridayPrice').patchValue(res.friday_price);
+          // this.editProductForm.get('saturdayPrice').patchValue(res.saturday_price);
+          // this.editProductForm.get('sundayPrice').patchValue(res.sunday_price);
           this.editProductForm.get('sellerCommissionRetail').patchValue(res.seller_commission_retail);
           this.editProductForm.get('sellerCommissionWholesale').patchValue(res.seller_commission_wholesale);
         });

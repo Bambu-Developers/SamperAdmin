@@ -7,7 +7,7 @@ import { UsersService } from '../../../users/services/users.service';
 import { InventoryService } from './../../services/inventory.service';
 import { MatTableDataSource, MatDialog } from '@angular/material';
 import { DialogComponent } from 'src/app/modules/shared/components/dialog/dialog.component';
-import { concatMap, map, filter, switchMap, take, toArray } from 'rxjs/operators';
+import { concatMap, map, take, toArray } from 'rxjs/operators';
 
 
 @Component({
@@ -42,18 +42,17 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   public totalLiquidation = 0;
   public returnedProducts = [];
   public existLiquidation = false;
+  public allLiquidations: any;
+  public totalSold: any = 0;
+  public totalSaleWholesale: any = 0;
+  public totalSaleRetail: any = 0;
+  public totalSale: any = 0;
   private _subscription: Subscription;
   private _subscriptionService: any;
   private _subscriptionInventories: Subscription;
   private _subscriptionDevolutions: Subscription;
   private _subscriptionLosses: Subscription;
   private _subscriptionLiquidation: Subscription;
-  allLiquidations: any;
-  _subscriptionSales: Subscription;
-  totalSold: any = 0;
-  totalSaleWholesale: any = 0;
-  totalSaleRetail: any = 0;
-  totalSale: any = 0;
 
   constructor(
     private _route: ActivatedRoute,
@@ -61,7 +60,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     private _inventoryService: InventoryService,
     private _datePipe: DatePipe,
     private _dialog: MatDialog,
-    private _router: Router,
   ) {
     this.today = this._datePipe.transform(this.today, 'yyyy-MM-dd');
   }
@@ -79,7 +77,8 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       this._subscriptionService = this._userService.getUser(this.id).subscribe(
         res => {
           this.dataSource = res;
-          this.userRoute = res.route;
+          console.log(res)
+          this.userRoute = res.route || params['id'];
           this.getInventories();
           this.getLosses();
         });
@@ -87,9 +86,8 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   }
 
   public getInventories() {
-    let wholesaleProducts = []
-    let retailProducts = []
-
+    const wholesaleProducts = [];
+    const retailProducts = [];
     this._subscriptionInventories = this._inventoryService.getSalesFromKeys(this.userRoute)
       .valueChanges()
       .pipe(
@@ -97,6 +95,9 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         concatMap(x => x),
         concatMap((sale: any) => {
           console.log(sale);
+          if (!this.dataSource.name) {
+            this.dataSource = { name: sale.route_name };
+          }
           const keys = Object.keys(sale.Products || {});
           const productsArray = keys.map(k => {
             const product = sale.Products[k];
@@ -118,7 +119,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       ).subscribe(products => {
         products.forEach(product => {
           const wholesaleproductIdx = wholesaleProducts.findIndex(wholesaleProduct => wholesaleProduct.sku === product.sku);
-          const retailproductIdx = retailProducts.findIndex( retailProduct => retailProduct.sku === product.sku);
+          const retailproductIdx = retailProducts.findIndex(retailProduct => retailProduct.sku === product.sku);
           if (wholesaleproductIdx > -1 && product.iswholesale) {
             wholesaleProducts[wholesaleproductIdx].totalPrice += product.number_of_items * product.wholesale_price;
             wholesaleProducts[wholesaleproductIdx].totalItems += product.number_of_items;
@@ -128,12 +129,12 @@ export class LiquidationComponent implements OnInit, OnDestroy {
               wholesaleProducts.push({
                 ...product,
                 totalPrice: product.number_of_items * product.wholesale_price,
-                totalItems : product.number_of_items,
+                totalItems: product.number_of_items,
                 totalCommission: product.commission
               });
             }
           }
-          if (retailproductIdx > -1  && !product.iswholesale) {
+          if (retailproductIdx > -1 && !product.iswholesale) {
             retailProducts[retailproductIdx].totalPrice += product.number_of_items * product.retail_price;
             retailProducts[retailproductIdx].totalItems += product.number_of_items;
             retailProducts[retailproductIdx].totalCommission += product.commission;
@@ -142,14 +143,12 @@ export class LiquidationComponent implements OnInit, OnDestroy {
               retailProducts.push({
                 ...product,
                 totalPrice: product.number_of_items * product.retail_price,
-                totalItems : product.number_of_items,
-                totalCommission: product.commission 
+                totalItems: product.number_of_items,
+                totalCommission: product.commission
               });
             }
           }
         });
-        /* this.dataSourceTableHistoryWholeSale.data = wholesaleProducts;
-        this.dataSourceTableHistory.data = retailProducts; */
         this.dataSourceTable.data = retailProducts;
         this.dataSourceWholesaleTable.data = wholesaleProducts;
       });
@@ -247,7 +246,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       (this.totalSold - this.totalLosses),
       this.totalDevolutions,
       this.totalLosses
-      );
+    );
   }
 
   public getLiquidation() {

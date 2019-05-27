@@ -22,7 +22,6 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
   public currencyMask = CURRENCY_MASK;
   public numberMask = NUMBER_MASK;
   public percentageMask = PERCENTAGE_MASK;
-  public showPricingPerDay = false;
   public baseValue = '0.00';
   public registerProductForm: FormGroup;
   public selectedFiles: FileList;
@@ -68,34 +67,33 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
       wholesaleQuantity: new FormControl(15, [
         Validators.required,
       ]),
-      mondayPrice: new FormControl(this.baseValue, [
-        Validators.required,
-      ]),
-      tuesdayPrice: new FormControl(this.baseValue, [
-        Validators.required,
-      ]),
-      wednesdayPrice: new FormControl(this.baseValue, [
-        Validators.required,
-      ]),
-      thursdayPrice: new FormControl(this.baseValue, [
-        Validators.required,
-      ]),
-      fridayPrice: new FormControl(this.baseValue, [
-        Validators.required,
-      ]),
-      saturdayPrice: new FormControl(this.baseValue, [
-        Validators.required,
-      ]),
-      sundayPrice: new FormControl(this.baseValue, [
-        Validators.required,
-      ]),
+      // mondayPrice: new FormControl(this.baseValue, [
+      //   Validators.required,
+      // ]),
+      // tuesdayPrice: new FormControl(this.baseValue, [
+      //   Validators.required,
+      // ]),
+      // wednesdayPrice: new FormControl(this.baseValue, [
+      //   Validators.required,
+      // ]),
+      // thursdayPrice: new FormControl(this.baseValue, [
+      //   Validators.required,
+      // ]),
+      // fridayPrice: new FormControl(this.baseValue, [
+      //   Validators.required,
+      // ]),
+      // saturdayPrice: new FormControl(this.baseValue, [
+      //   Validators.required,
+      // ]),
+      // sundayPrice: new FormControl(this.baseValue, [
+      //   Validators.required,
+      // ]),
       sellerCommissionRetail: new FormControl(this.baseValue, [
         Validators.required,
       ]),
       sellerCommissionWholesale: new FormControl(this.baseValue, [
         Validators.required,
       ]),
-      isPricedPerDay: new FormControl()
     });
   }
 

@@ -88,6 +88,12 @@
                             img {
                                 cursor: pointer;
                             }
+                            .sa-action-edit-buttons {
+                                width: 240px;
+                                display: flex;
+                                flex-direction: row;
+                                justify-content: space-between;
+                            }
                         }
                         .sa-info {
                             height: 176px;

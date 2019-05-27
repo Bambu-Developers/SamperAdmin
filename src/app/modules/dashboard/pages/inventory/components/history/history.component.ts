@@ -3,9 +3,8 @@ import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit} from '@angular/core';
 import { INVENTORY_LANGUAGE } from './../../data/language';
 import { InventoryService } from '../../services/inventory.service';
-import { DatePipe } from '@angular/common';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { concatMap, map, switchMap, filter, toArray, take } from 'rxjs/operators';
+import { concatMap, toArray, take } from 'rxjs/operators';
 import { ClientsService } from '../../../clients/services/clients.service';
 import { RouteModel } from '../../../clients/models/route.model';
 
@@ -33,7 +32,6 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
-    private _datePipe: DatePipe,
     private _fb: FormBuilder,
     private _clientService: ClientsService,
     private _inventoryService: InventoryService,

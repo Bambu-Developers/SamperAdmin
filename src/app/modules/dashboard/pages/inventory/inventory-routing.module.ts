@@ -17,6 +17,10 @@ const routes: Routes = [
     component: HistoryComponent,
   },
   {
+    path: 'history-liquidation',
+    component: HistoryLiquidationComponent,
+  },
+  {
     path: 'liquidation/:id',
     component: LiquidationComponent,
   },

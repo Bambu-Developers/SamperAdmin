@@ -124,18 +124,19 @@ export class CommissionComponent implements OnInit, OnDestroy {
         take(1),
         concatMap(x => x),
         concatMap((sale: any) => {
+          console.log(sale);
           const keys = Object.keys(sale.Products);
           const productsArray = keys.map(k => {
             const product = sale.Products[k];
             console.log(product)
             if (product.number_of_items >= product.wholesale_quantity) {
               product.commission = ((product.number_of_items * product.wholesale_price)
-                                    * parseFloat(product.seller_commission_wholesale || 0)) / 100.00;
+                * parseFloat(product.seller_commission_wholesale || 0)) / 100.00;
               this.totalCommissionWholesale += product.commission;
               product.iswholesale = true;
             } else {
               product.commission = ((product.number_of_items * product.retail_price)
-                                    * parseFloat(product.seller_commission || 0)) / 100.00;
+                * parseFloat(product.seller_commission || 0)) / 100.00;
               this.totalCommissionRetail += product.commission;
               product.iswholesale = false;
             }
@@ -149,7 +150,7 @@ export class CommissionComponent implements OnInit, OnDestroy {
       ).subscribe(products => {
         products.forEach(product => {
           const wholesaleproductIdx = wholesaleProducts.findIndex(wholesaleProduct => wholesaleProduct.sku === product.sku);
-          const retailproductIdx = retailProducts.findIndex( retailProduct => retailProduct.sku === product.sku);
+          const retailproductIdx = retailProducts.findIndex(retailProduct => retailProduct.sku === product.sku);
           if (wholesaleproductIdx > -1 && product.iswholesale) {
             wholesaleProducts[wholesaleproductIdx].totalPrice += product.number_of_items * product.wholesale_price;
             wholesaleProducts[wholesaleproductIdx].totalItems += product.number_of_items;
@@ -159,12 +160,12 @@ export class CommissionComponent implements OnInit, OnDestroy {
               wholesaleProducts.push({
                 ...product,
                 totalPrice: product.number_of_items * product.wholesale_price,
-                totalItems : product.number_of_items,
+                totalItems: product.number_of_items,
                 totalCommission: product.commission
               });
             }
           }
-          if (retailproductIdx > -1  && !product.iswholesale) {
+          if (retailproductIdx > -1 && !product.iswholesale) {
             retailProducts[retailproductIdx].totalPrice += product.number_of_items * product.retail_price;
             retailProducts[retailproductIdx].totalItems += product.number_of_items;
             retailProducts[retailproductIdx].totalCommission += product.commission;
@@ -173,7 +174,7 @@ export class CommissionComponent implements OnInit, OnDestroy {
               retailProducts.push({
                 ...product,
                 totalPrice: product.number_of_items * product.retail_price,
-                totalItems : product.number_of_items,
+                totalItems: product.number_of_items,
                 totalCommission: product.commission
               });
             }

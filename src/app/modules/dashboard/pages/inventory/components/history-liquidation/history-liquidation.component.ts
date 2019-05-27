@@ -83,10 +83,6 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
     this.dataSourceHistoryLiquidation.filter = value.trim().toLocaleLowerCase();
   }
 
-  public liquidationDetails() {
-    this._router.navigate(['/dashboard/inventory/liquidation/', ]);
-  }
-
   ngOnDestroy() {
     if (this._subscriptionRoutes) {
       this._subscriptionRoutes.unsubscribe();

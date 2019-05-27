@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { MatSnackBar, DateAdapter } from '@angular/material';
+import { MatSnackBar, MatDialog, DateAdapter } from '@angular/material';
 import { ClientsService } from 'src/app/modules/dashboard/pages/clients/services/clients.service';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
@@ -12,6 +12,7 @@ import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/d
 import { DateFormat } from 'src/app/modules/dashboard/data/date-format.data';
 import { RouteModel } from '../../models/route.model';
 import { DAYS } from '../../data/days';
+import { DialogComponent } from 'src/app/modules/shared/components/dialog/dialog.component';
 
 @Component({
   selector: 'app-view-client',
@@ -61,6 +62,7 @@ export class ViewClientComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private _snackBar: MatSnackBar,
+    private _dialog: MatDialog,
     private _clientService: ClientsService,
     private _dateAdapter: DateAdapter<Date>
   ) {
@@ -274,10 +276,54 @@ export class ViewClientComponent implements OnInit {
     });
   }
 
-  OnDestroy() {
-    this._subscription.unsubscribe();
-    this._subscriptionService.unsubscribe();
-    this._subscriptionURL.unsubscribe();
-    this._subscriptionRoutes.unsubscribe();
+  public openDialogDeleteClient() {
+    const dialogRef = this._dialog.open(DialogComponent, {
+      data: {
+        text: CLIENTS_LANGUAGE.dialogDeleteClient,
+        accept: true,
+        action: CLIENTS_LANGUAGE.delete
+      }
+    });
+    dialogRef.afterClosed().subscribe(
+      response => {
+        if (response) {
+          this.deleteClient();
+        }
+      }
+    );
   }
+
+  public deleteClient() {
+    this._clientService.deleteClient(this.id);
+    this.router.navigate(['/dashboard/clients/']);
+    this.openSnackBarClientDeleted();
+  }
+
+  public openSnackBarClientDeleted() {
+    this._snackBar.openFromComponent(SnackbarComponent, {
+      duration: SNACKBAR_CONFIG.duration,
+      verticalPosition: SNACKBAR_CONFIG.verticalPosition,
+      horizontalPosition: SNACKBAR_CONFIG.horizontalPosition,
+      data: {
+        text: CLIENTS_LANGUAGE.snackbarClientDeleted
+      }
+    });
+  }
+
+
+  OnDestroy() {
+    if (this._subscription) {
+      this._subscription.unsubscribe();
+    }
+    if (this._subscriptionService) {
+      this._subscriptionService.unsubscribe();
+    }
+    if (this._subscriptionURL) {
+      this._subscriptionURL.unsubscribe();
+    }
+    if (this._subscriptionRoutes) {
+      this._subscriptionRoutes.unsubscribe();
+    }
+  }
+
 }

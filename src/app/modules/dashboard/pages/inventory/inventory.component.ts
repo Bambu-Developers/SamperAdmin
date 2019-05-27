@@ -6,7 +6,6 @@ import { InventoryService } from './services/inventory.service';
 import { Subscription } from 'rxjs';
 import { RouteModel } from '../clients/models/route.model';
 import { Router } from '@angular/router';
-import { PAGINATION } from 'src/app/modules/shared/components/paginator/data/data';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { take, map, concatMap, toArray } from 'rxjs/operators';
@@ -22,7 +21,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
   public dataSource = new MatTableDataSource();
   public displayedColumns: string[] = ['sku', 'image', 'name', 'quantity', 'brand', 'category'];
   public routes: RouteModel[];
-  public pagination = PAGINATION;
   public routeSelected = false;
   public commissionCalc = false;
   public user: any;
@@ -43,7 +41,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.getInventories();
     this.getRoutes();
     this.form = this._fb.group({
       date: [{ begin: new Date(), end: new Date() }],
@@ -52,27 +49,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
       ]),
     });
     this.getDates();
-  }
-
-  public getInventories() {
-    const inventories = this.dataSource.data;
-    this._subscriptionInventories = this._inventoryService.getInvHis().valueChanges()
-      .pipe(
-        take(1),
-        concatMap(x => x),
-        concatMap(inv => {
-          const keys = Object.keys(inv);
-          const invArray = keys.map(k => {
-            
-          });
-          return invArray;
-        }),
-        toArray()
-      ).subscribe(products => {
-        const prodArray = [];
-        products.forEach(element => {
-        });
-      });
   }
 
   public getRoutes() {
@@ -92,8 +68,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
   }
 
   public doFilter(value: string = 'noSeller') {
-    console.log(value);
-    this.liquidation = value;
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
 
@@ -106,6 +80,29 @@ export class InventoryComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.startDate = this._datePipe.transform(res.begin, 'yyyy-MM-dd');
         this.endDate = this._datePipe.transform(res.end, 'yyyy-MM-dd');
+      });
+  }
+
+  public getInventoryByKey(route) {
+    this.liquidation = route;
+    this._inventoryService.getSalesByKey(route)
+    .valueChanges()
+      .pipe(
+        take(1),
+        concatMap(x => x),
+        concatMap( (inv: any) => {
+          const keys = Object.keys(inv.Products);
+          const productsArray = keys.map(k => {
+            const product = inv.Products[k];
+            return product;
+          });
+          return productsArray;
+        }),
+        toArray()
+      )
+      .subscribe(sales => {
+        this.dataSource.data = sales;
+        console.log(this.dataSource.data);
       });
   }
 

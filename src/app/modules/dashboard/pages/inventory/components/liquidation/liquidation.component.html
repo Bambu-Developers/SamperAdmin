@@ -15,7 +15,6 @@
                     <mat-label>Total devolución:</mat-label>
                     <mat-label> {{totalDevolutions |currency}}</mat-label>
                 </div>
-
                 <div class="sa-values">
                     <mat-label>Total merma:</mat-label>
                     <mat-label> {{totalLosses | currency}}</mat-label>
@@ -132,7 +131,7 @@
         </table>
     </div>
     <div class="sa-daily-sales" *ngIf="dataSourceTable.data.length !== 0">
-        <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Ventas del día</mat-label>
+        <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Ventas Minoristas</mat-label>
         <table mat-table [dataSource]="dataSourceTable">
             <!-- Sku Column -->
             <ng-container matColumnDef="sku">
@@ -220,7 +219,8 @@
                 <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanInv.subtotal}}</th>
                 <td class="sa-subtotal-column" mat-cell *matCellDef="let inventory">
                     {{ inventory.totalPrice | currency }}</td>
-                <td class="sa-subtotal-column" mat-footer-cell *matFooterCellDef> {{totalSaleWholesale | currency}} </td>
+                <td class="sa-subtotal-column" mat-footer-cell *matFooterCellDef> {{totalSaleWholesale | currency}}
+                </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

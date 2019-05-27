@@ -11,13 +11,17 @@
 </div>
 <div class="sa-tracking-map">
     <agm-map [usePanning]="true" [zoom]="15" [latitude]="latitude" [longitude]="longitude">
-        <agm-marker *ngFor="let pin of pinsArray; let i = index" [latitude]="pin.lat" [longitude]="pin.lng">
-            <agm-snazzy-info-window [wrapperClass]="'cz-info-window-container'" [maxWidth]="275" [pointer]="'10px'" [openOnMarkerClick]="true" [closeWhenOthersOpen]="true" [borderRadius]="'4px'" (beforeOpen)="infoWindowOpening()" [backgroundColor]="'#FFF'" [padding]="'0px'"
+        <agm-marker *ngFor="let pin of pinsArray; let i = index" [latitude]="pin.lat" [longitude]="pin.lng" (mouseOver)="onMouseOver(infoWindow, $event)" (mouseOut)="onMouseOut(infoWindow, $event)">
+            <!-- <agm-snazzy-info-window [wrapperClass]="'cz-info-window-container'" [maxWidth]="275" [pointer]="'10px'" [openOnMarkerClick]="true" [closeWhenOthersOpen]="true" [borderRadius]="'4px'" (beforeOpen)="infoWindowOpening()" [backgroundColor]="'#FFF'" [padding]="'0px'"
                 [panOnOpen]="false">
                 <ng-template>
                     {{pin.shop_name}}
                 </ng-template>
-            </agm-snazzy-info-window>
+            </agm-snazzy-info-window> -->
+
+            <agm-info-window #infoWindow>
+                <strong>{{pin.shop_name}}</strong>
+            </agm-info-window>
         </agm-marker>
     </agm-map>
 </div>

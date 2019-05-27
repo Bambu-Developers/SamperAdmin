@@ -25,6 +25,7 @@
     "@angular/platform-browser": "~7.1.0",
     "@angular/platform-browser-dynamic": "~7.1.0",
     "@angular/router": "~7.1.0",
+    "@types/moment": "^2.13.0",
     "angular2-text-mask": "^9.0.0",
     "core-js": "^2.6.5",
     "firebase": "^5.9.1",

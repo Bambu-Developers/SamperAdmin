@@ -36,7 +36,12 @@
                                 <mat-label> {{dataSource?.bender_id}} </mat-label>
                                 <mat-label class="sa-route"> {{dataSource?.route_name}} </mat-label>
                             </div>
-                            <img src="/assets/icons/icon-edit-gray.svg" (click)="isEditClient = true" *ngIf="!isEditClient">
+
+                            <!-- <img src="/assets/icons/icon-edit-gray.svg" (click)="isEditClient = true" *ngIf="!isEditClient"> -->
+                            <div class="sa-action-edit-buttons">
+                                <button class="sa-btn-small" mat-raised-button color="charcoal-grey" (click)="openDialogDeleteClient()">{{lanClient.delete}}</button>
+                                <button class="sa-btn-small" mat-raised-button color="white" (click)="isEditClient = true" *ngIf="!isEditClient">{{lanClient.edit}}</button>
+                            </div>
                         </div>
                         <div *ngIf="!isEditClient; then noEditClientTemplate else editClientTemplate" class="sa-info sa-brownish-grey sa-text-14 sa-roboto"></div>
                         <ng-template #noEditClientTemplate>
@@ -98,7 +103,8 @@
                                 <div class="sa-client-visit-days sa-charcoal-grey sa-roboto">
                                     <mat-label>Días de visita</mat-label>
                                     <div class="sa-days">
-                                        <mat-checkbox *ngFor="let day of days" color="charcoal-grey" [checked]="day.active" (change)="onChange($event.checked, day.id)"> {{day.name}} </mat-checkbox>
+                                        <mat-checkbox *ngFor="let day of days" color="charcoal-grey" [checked]="day.active" (change)="onChange($event.checked, day.id)">
+                                            {{day.name}} </mat-checkbox>
                                     </div>
                                 </div>
                                 <div class="sa-action-butttons-form">
@@ -254,7 +260,8 @@
                     </mat-card> -->
                     <mat-card class="sa-map-location">
                         <agm-map [zoom]="15" [latitude]="dataSource?.latitud" [longitude]="dataSource?.longitud">
-                            <agm-marker [latitude]="dataSource?.latitud" [longitude]="dataSource?.longitud"></agm-marker>
+                            <agm-marker [latitude]="dataSource?.latitud" [longitude]="dataSource?.longitud">
+                            </agm-marker>
                         </agm-map>
                     </mat-card>
                 </div>

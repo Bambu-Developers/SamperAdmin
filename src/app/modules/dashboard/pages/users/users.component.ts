@@ -73,9 +73,16 @@ export class UsersComponent implements OnInit, OnDestroy {
   public getRoutes() {
     this._subscriptionRoutes = this.usersService.getAllRoutes().subscribe(
       res => {
-        this.routes = res;
-      }
-    );
+        this.routes = res.sort((r1, r2) => {
+          if (r1.name < r2.name) {
+            return -1;
+          }
+          if (r1.name > r2.name) {
+            return 1;
+          }
+          return 0;
+        });
+      });
   }
 
   public getsUsersLogged() {
