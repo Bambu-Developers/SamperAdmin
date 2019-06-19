@@ -21,7 +21,7 @@ export const NUMBER_MASK = createNumberMask({
   requireDecimal: false,
   allowNegative: false,
   allowLeadingZeroes: false,
-  integerLimit: 3
+  integerLimit: 4
 });
 
 export const PERCENTAGE_MASK = createNumberMask({

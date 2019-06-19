@@ -16,10 +16,10 @@ export class TicketComponent implements OnInit, OnDestroy {
   public lanInv = INVENTORY_LANGUAGE;
   public dataSourceRetailTable = new MatTableDataSource();
   public dataSourceWholesaleTable = new MatTableDataSource();
+  public dataSourceWholesaleTableG = new MatTableDataSource();
   public dataSourceReturnedTable = new MatTableDataSource();
   public dataSourceLossesTable = new MatTableDataSource();
   public displayedRetailColumns = ['image', 'name', 'route', 'brand', 'quantity', 'price', 'total'];
-  public displayedWholesaleColumns = ['image', 'name', 'route', 'brand', 'quantity', 'price', 'total'];
   public displayedColumnsReturned = ['sku', 'image', 'name', 'quantity', 'brand', 'total'];
   public displayedColumnsLosses = ['sku', 'image', 'name', 'quantity', 'brand', 'total'];
   public totalSold = 0;
@@ -89,18 +89,23 @@ export class TicketComponent implements OnInit, OnDestroy {
       ).subscribe(products => {
         const retailProducts = [];
         const wholesaleProducts = [];
+        const wholesaleProductsG = [];
         products.forEach(product => {
-          product = {...product, route_name: route_name };
-          console.log(product);
-          if (product.number_of_items >= product.wholesale_quantity) {
+          product = { ...product, route_name: route_name };
+          if (product.wholesale_quantityG !== '' && (product.number_of_items >= product.wholesale_quantity)
+            && (product.number_of_items < product.wholesale_quantityG)) {
             wholesaleProducts.push(product);
-          } else {
+          }
+          if (product.wholesale_quantityG !== '' && (product.number_of_items >= product.wholesale_quantityG)) {
+            wholesaleProductsG.push(product);
+          }
+          if (product.number_of_items < product.wholesale_quantity) {
             retailProducts.push(product);
           }
         });
         this.dataSourceRetailTable.data = retailProducts;
-        console.log(this.dataSourceRetailTable.data);
         this.dataSourceWholesaleTable.data = wholesaleProducts;
+        this.dataSourceWholesaleTableG.data = wholesaleProductsG;
       });
   }
 

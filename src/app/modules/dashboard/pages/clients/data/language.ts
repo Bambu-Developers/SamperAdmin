@@ -52,5 +52,9 @@ export const CLIENTS_LANGUAGE = {
     },
     transactions: {
         listOfTransactions: 'Lista de movimientos',
+    },
+    route: {
+        newRoute: 'Nueva Ruta',
+        createRoute: 'Crear ruta',
     }
 };

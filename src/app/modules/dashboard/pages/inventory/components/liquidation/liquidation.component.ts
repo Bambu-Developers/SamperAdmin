@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { INVENTORY_LANGUAGE } from '../../data/language';
 import { Subscription } from 'rxjs';
 import { UsersService } from '../../../users/services/users.service';
@@ -25,6 +25,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   public dataSource: any;
   public dataSourceTable = new MatTableDataSource();
   public dataSourceWholesaleTable = new MatTableDataSource();
+  public dataSourceWholesaleTableG = new MatTableDataSource();
   public dataSourceDevolutions = new MatTableDataSource();
   public dataSourceLosses = new MatTableDataSource();
   public displayedColumns = ['sku', 'image', 'name', 'quantity', 'brand', 'subtotal'];
@@ -45,6 +46,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   public allLiquidations: any;
   public totalSold: any = 0;
   public totalSaleWholesale: any = 0;
+  public totalSaleWholesaleG: any = 0;
   public totalSaleRetail: any = 0;
   public totalSale: any = 0;
   private _subscription: Subscription;
@@ -72,12 +74,10 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
   public getUser() {
     this._subscription = this._route.params.subscribe(params => {
-      console.log(params);
       this.id = params['id'];
       this._subscriptionService = this._userService.getUser(this.id).subscribe(
         res => {
           this.dataSource = res;
-          console.log(res)
           this.userRoute = res.route || params['id'];
           this.getInventories();
           this.getLosses();
@@ -87,6 +87,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
   public getInventories() {
     const wholesaleProducts = [];
+    const wholesaleProductsG = [];
     const retailProducts = [];
     this._subscriptionInventories = this._inventoryService.getSalesFromKeys(this.userRoute)
       .valueChanges()
@@ -94,21 +95,27 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         take(1),
         concatMap(x => x),
         concatMap((sale: any) => {
-          console.log(sale);
           if (!this.dataSource.name) {
             this.dataSource = { name: sale.route_name };
           }
           const keys = Object.keys(sale.Products || {});
           const productsArray = keys.map(k => {
             const product = sale.Products[k];
-            if (product.number_of_items >= product.wholesale_quantity) {
+            if ((product.number_of_items >= product.wholesale_quantity) && (product.number_of_items < product.wholesale_quantityG)) {
               product.subtotal = ((product.number_of_items * product.wholesale_price));
               this.totalSaleWholesale += product.subtotal;
               product.iswholesale = true;
-            } else {
+            }
+            if (product.wholesale_quantityG !== '' && (product.number_of_items >= product.wholesale_quantityG)) {
+              product.subtotal = ((product.number_of_items * product.wholesale_priceG));
+              this.totalSaleWholesaleG += product.subtotal;
+              product.iswholesaleG = true;
+            }
+            if (product.number_of_items < product.wholesale_quantity) {
               product.subtotal = ((product.number_of_items * product.retail_price));
               this.totalSaleRetail += product.subtotal;
               product.iswholesale = false;
+              product.iswholesaleG = false;
             }
             return product;
           });
@@ -119,6 +126,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       ).subscribe(products => {
         products.forEach(product => {
           const wholesaleproductIdx = wholesaleProducts.findIndex(wholesaleProduct => wholesaleProduct.sku === product.sku);
+          const wholesaleproductIdxG = wholesaleProductsG.findIndex(wholesaleProductG => wholesaleProductG.sku === product.sku);
           const retailproductIdx = retailProducts.findIndex(retailProduct => retailProduct.sku === product.sku);
           if (wholesaleproductIdx > -1 && product.iswholesale) {
             wholesaleProducts[wholesaleproductIdx].totalPrice += product.number_of_items * product.wholesale_price;
@@ -134,12 +142,26 @@ export class LiquidationComponent implements OnInit, OnDestroy {
               });
             }
           }
-          if (retailproductIdx > -1 && !product.iswholesale) {
+          if (wholesaleproductIdxG > -1 && product.iswholesaleG) {
+            wholesaleProductsG[wholesaleproductIdxG].totalPrice += product.number_of_items * product.wholesale_priceG;
+            wholesaleProductsG[wholesaleproductIdxG].totalItems += product.number_of_items;
+            wholesaleProductsG[wholesaleproductIdxG].totalCommission += product.commission;
+          } else {
+            if (product.iswholesaleG === true) {
+              wholesaleProductsG.push({
+                ...product,
+                totalPrice: product.number_of_items * product.wholesale_priceG,
+                totalItems: product.number_of_items,
+                totalCommission: product.commission
+              });
+            }
+          }
+          if (retailproductIdx > -1 && !product.iswholesale && !product.iswholesaleG) {
             retailProducts[retailproductIdx].totalPrice += product.number_of_items * product.retail_price;
             retailProducts[retailproductIdx].totalItems += product.number_of_items;
             retailProducts[retailproductIdx].totalCommission += product.commission;
           } else {
-            if (product.iswholesale === false) {
+            if (product.iswholesale === false && product.iswholesaleG === false) {
               retailProducts.push({
                 ...product,
                 totalPrice: product.number_of_items * product.retail_price,
@@ -151,6 +173,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         });
         this.dataSourceTable.data = retailProducts;
         this.dataSourceWholesaleTable.data = wholesaleProducts;
+        this.dataSourceWholesaleTableG.data = wholesaleProductsG;
       });
   }
 

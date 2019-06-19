@@ -45,6 +45,8 @@ export const PRODUCTS_LANGUAGE = {
       retailPrice: 'Precio minorista:',
       wholesalePrice: 'Precio mayorista:',
       wholesaleQuantity: 'Cantidad para mayoreo:',
+      wholesalePriceG: 'Precio gran mayoreo:',
+      wholesaleQuantityG: 'Cantidad para gran mayoreo:',
       units: 'Piezas',
     },
     pricing: {
@@ -60,7 +62,8 @@ export const PRODUCTS_LANGUAGE = {
       saturday: 'Sábado',
       sunday: 'Domingo',
       sellerCommissionRetail: 'Comisión a vendedor por menudeo:',
-      sellerCommissionWholesale: 'Comisión a vendedor por mayoreo:'
+      sellerCommissionWholesale: 'Comisión a vendedor por mayoreo:',
+      sellerCommissionWholesaleG: 'Comisión a vendedor por gran mayoreo:'
     },
     promotion: {
       promotion: 'Promoción',

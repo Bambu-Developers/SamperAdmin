@@ -10,6 +10,8 @@ export class ProductModel {
     retail_price?: string;
     wholesale_price?: string;
     wholesale_quantity?: string;
+    wholesale_priceG?: string;
+    wholesale_quantityG?: string;
     monday_price?: string;
     tuesday_price?: string;
     wednesday_price?: string;
@@ -32,4 +34,5 @@ export class ProductModel {
     end_date_promo?: string;
     seller_commission_retail?: string;
     seller_commission_wholesale?: string;
+    seller_commission_wholesaleG?: string;
 }

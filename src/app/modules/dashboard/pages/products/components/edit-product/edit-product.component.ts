@@ -32,6 +32,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
   public numberMask = NUMBER_MASK;
   public imgChanged = false;
   public loading = false;
+  public permission: any;
 
   constructor(
     private _router: Router,
@@ -41,6 +42,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.permission = JSON.parse(localStorage.getItem('permission'));
     this.getProduct();
     this.editProductForm = new FormGroup({
       image: new FormControl(),
@@ -71,6 +73,12 @@ export class EditProductComponent implements OnInit, OnDestroy {
       wholesaleQuantity: new FormControl('', [
         Validators.required,
       ]),
+      wholesalePriceG: new FormControl('', [
+        Validators.required,
+      ]),
+      wholesaleQuantityG: new FormControl('', [
+        Validators.required,
+      ]),
       // mondayPrice: new FormControl('', [
       //   Validators.required,
       // ]),
@@ -97,6 +105,9 @@ export class EditProductComponent implements OnInit, OnDestroy {
       ]),
       sellerCommissionWholesale: new FormControl('', [
         Validators.required,
+      ]),
+      sellerCommissionWholesaleG: new FormControl('', [
+        Validators.required,
       ])
     });
   }
@@ -117,6 +128,8 @@ export class EditProductComponent implements OnInit, OnDestroy {
           this.editProductForm.get('retailPrice').patchValue(res.retail_price);
           this.editProductForm.get('wholesalePrice').patchValue(res.wholesale_price);
           this.editProductForm.get('wholesaleQuantity').patchValue(res.wholesale_quantity);
+          this.editProductForm.get('wholesalePriceG').patchValue(res.wholesale_priceG);
+          this.editProductForm.get('wholesaleQuantityG').patchValue(res.wholesale_quantityG);
           // this.editProductForm.get('mondayPrice').patchValue(res.monday_price);
           // this.editProductForm.get('tuesdayPrice').patchValue(res.tuesday_price);
           // this.editProductForm.get('wednesdayPrice').patchValue(res.wednesday_price);
@@ -126,6 +139,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
           // this.editProductForm.get('sundayPrice').patchValue(res.sunday_price);
           this.editProductForm.get('sellerCommissionRetail').patchValue(res.seller_commission_retail);
           this.editProductForm.get('sellerCommissionWholesale').patchValue(res.seller_commission_wholesale);
+          this.editProductForm.get('sellerCommissionWholesaleG').patchValue(res.seller_commission_wholesaleG);
         });
     });
   }

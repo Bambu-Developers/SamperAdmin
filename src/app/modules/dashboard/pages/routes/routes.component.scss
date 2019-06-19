@@ -1,0 +1,26 @@
+@import "src/assets/css/colors";
+.sa-dashboard-main-content {
+    width: 500px;
+    margin: 0px auto;
+    .sa-dashboard-actions {
+        margin-top: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .sa-dashboard-routes-content {
+        margin: 22px 0px;
+        th {
+            color: $color-mushroom;
+            font-weight: bold;
+        }
+        .sa-id-column {
+            width: 228px;
+            text-align: center;
+        }
+        .sa-name-column {
+            width: 228px;
+            text-align: center;
+        }
+    }
+}

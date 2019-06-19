@@ -5,13 +5,6 @@
         <mat-form-field class="sa-input-text sa-search sa-no-label sa-client-search">
             <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="{{language.search}}">
         </mat-form-field>
-        <!-- <div class="sa-filter-by-route">
-            <mat-select class="mat-select-trigger" placeholder="Rutas">
-                <mat-option (click)="doFilter('')" [value]="Todas">Todas</mat-option>
-                <mat-option *ngFor="let route of routes" (click)="doFilter(route.name)" [value]="route.name">{{route.name}}</mat-option>
-            </mat-select>
-        </div> -->
-        <!-- <app-paginator [totalItems]="pagination.totalItems" [perPage]="pagination.perPage" [page]="pagination.page" [totalPages]="pagination.totalPages" (nextPage)="nextPage()" (beforePage)="beforePage()"></app-paginator> -->
         <mat-paginator [hidePageSize]="true" [pageSize]="15"></mat-paginator>
     </div>
     <div class="sa-dashboard-clients-content">
@@ -19,17 +12,17 @@
             <!-- BenderID Column -->
             <ng-container matColumnDef="bender_id">
                 <th class="sa-benderID-column" mat-header-cell *matHeaderCellDef> {{ language.client.benderID }} </th>
-                <td class="sa-benderID-column" mat-cell *matCellDef="let client"> {{client.bender_id}} </td>
+                <td class="sa-benderID-column" mat-cell *matCellDef="let client"> {{client?.bender_id}} </td>
             </ng-container>
             <!-- Shop Name Column -->
             <ng-container matColumnDef="shop_name">
                 <th class="sa-shopName-column" mat-header-cell *matHeaderCellDef> {{ language.client.shopName }} </th>
-                <td class="sa-shopName-column" mat-cell *matCellDef="let client">"{{client.shop_name}}"</td>
+                <td class="sa-shopName-column" mat-cell *matCellDef="let client">"{{client?.shop_name}}"</td>
             </ng-container>
             <!-- Name Column -->
             <ng-container matColumnDef="name">
                 <th class="sa-name-column" mat-header-cell *matHeaderCellDef> {{ language.client.name }} </th>
-                <td class="sa-name-column" mat-cell *matCellDef="let client"> {{client.name}} </td>
+                <td class="sa-name-column" mat-cell *matCellDef="let client"> {{client?.name}} </td>
             </ng-container>
             <!-- Route Column -->
             <ng-container matColumnDef="route_id">
@@ -43,16 +36,6 @@
                 </th>
                 <td class="sa-route-column" mat-cell *matCellDef="let client"> {{client.route_name}} </td>
             </ng-container>
-            <!-- Credit Column -->
-            <!-- <ng-container matColumnDef="haveCredit">
-                <th class="sa-credit-column" mat-header-cell *matHeaderCellDef> {{ language.client.credit }} </th>
-                <td class="sa-credit-column" mat-cell *matCellDef="let client"> {{client.haveCredit ? language.credit.withCredit : language.credit.withoutCredit }} </td>
-            </ng-container> -->
-            <!-- Last Conexion Column -->
-            <!-- <ng-container matColumnDef="last_conexion">
-                <th class="sa-lastConexion-column" mat-header-cell *matHeaderCellDef> {{ language.client.lastPurchased }} </th>
-                <td class="sa-lastConexion-column" mat-cell *matCellDef="let client"> {{client.last_purchased}} </td>
-            </ng-container> -->
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/dashboard/clients/view/', row.id]">
             </tr>

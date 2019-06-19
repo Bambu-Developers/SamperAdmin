@@ -1,6 +1,7 @@
+import { ExcelService } from './../../../../../shared/services/excel.service';
 import { Subscription } from 'rxjs';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit} from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { INVENTORY_LANGUAGE } from './../../data/language';
 import { InventoryService } from '../../services/inventory.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -66,14 +67,21 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewInit {
         toArray()
       )
       .subscribe(sales => {
-        this.dataSourceTableHistory.data = sales;
+        this.dataSourceTableHistory.data = sales.sort((r1, r2) => {
+          if (r1.date > r2.date) {
+            return -1;
+          }
+          if (r1.date < r2.date) {
+            return 1;
+          }
+          return 0;
+        });
       });
   }
 
   public getSalesByKeyAndDate(route) {
-
-    this._inventoryService.getSalesByDate(route,  this.date.begin, this.date.end)
-    .valueChanges()
+    this._inventoryService.getSalesByDate(route, this.date.begin, this.date.end)
+      .valueChanges()
       .pipe(
         take(1),
         concatMap(x => x),

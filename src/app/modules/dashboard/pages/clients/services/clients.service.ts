@@ -103,7 +103,6 @@ export class ClientsService {
       name: clientData.name,
       shop_name: clientData.shop_name,
       phone: clientData.phone,
-      email: clientData.email,
       route_id: clientData.route,
       monday: clientData.monday,
       tuesday: clientData.tuesday,
@@ -119,22 +118,39 @@ export class ClientsService {
   }
 
   private _setEditedClientData(clientData, id) {
-    const CLIENT_DATA: ClientModel = {
-      photo: clientData.photo,
-      name: clientData.name,
-      shop_name: clientData.shop_name,
-      phone: clientData.phone,
-      email: clientData.email,
-      route_id: clientData.route,
-      monday: clientData.monday,
-      tuesday: clientData.tuesday,
-      wednesday: clientData.wednesday,
-      thursday: clientData.thursday,
-      friday: clientData.friday,
-      saturday: clientData.saturday,
-      sunday: clientData.sunday,
-    };
-    this.clientsRef.update(id, CLIENT_DATA);
+    if (clientData.photo === undefined) {
+      const CLIENT_DATAP: ClientModel = {
+        photo: '',
+        name: clientData.name,
+        shop_name: clientData.shop_name,
+        phone: clientData.phone,
+        route_id: clientData.route,
+        monday: clientData.monday,
+        tuesday: clientData.tuesday,
+        wednesday: clientData.wednesday,
+        thursday: clientData.thursday,
+        friday: clientData.friday,
+        saturday: clientData.saturday,
+        sunday: clientData.sunday,
+      };
+      this.clientsRef.update(id, CLIENT_DATAP);
+    } else {
+      const CLIENT_DATA: ClientModel = {
+        photo: clientData.photo,
+        name: clientData.name,
+        shop_name: clientData.shop_name,
+        phone: clientData.phone,
+        route_id: clientData.route,
+        monday: clientData.monday,
+        tuesday: clientData.tuesday,
+        wednesday: clientData.wednesday,
+        thursday: clientData.thursday,
+        friday: clientData.friday,
+        saturday: clientData.saturday,
+        sunday: clientData.sunday,
+      };
+      this.clientsRef.update(id, CLIENT_DATA);
+    }
   }
 
   private _setClientCredit(creditData, id) {

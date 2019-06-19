@@ -70,7 +70,7 @@
                             <mat-label class="sa-text-16 sa-roboto-medium sa-charcoal-grey">
                                 {{lanProduct.newProduct.retailPrice}}
                             </mat-label>
-                            <mat-form-field class="sa-input-amount sa-no-label" id="amount">
+                            <mat-form-field class="sa-input-amount sa-no-label" id="amount" *ngIf="permission">
                                 <input matInput placeholder="{{dataSource?.retail_price}}" [textMask]="{mask: currencyMask}" formControlName="retailPrice">
                                 <span matPrefix>{{lanProduct.pricing.currencySymbol}}</span>
                                 <span matSuffix>{{lanProduct.pricing.country}}</span>
@@ -78,6 +78,8 @@
                                     {{language.errorRequired}}
                                 </mat-error>
                             </mat-form-field>
+                            <mat-label *ngIf="!permission" class="sa-text-24 sa-charcoal-grey">
+                                {{dataSource?.retail_price | currency}} {{lanProduct.pricing.country}}</mat-label>
                         </div>
                     </div>
                     <!-- <section class="sa-checkbox-prices sa-text-14 sa-roboto">
@@ -165,13 +167,15 @@
                 <mat-label class="sa-robot-medium sa-text-16 sa-charcoal-grey">{{lanProduct.newProduct.wholesalePrice}}
                 </mat-label>
                 <div class="sa-wholesale-inputs">
-                    <mat-form-field class="sa-input-amount" id="amount">
+                    <mat-form-field class="sa-input-amount" id="amount" *ngIf="permission">
                         <input matInput [textMask]="{mask: currencyMask}" formControlName="wholesalePrice">
                         <span matPrefix>{{lanProduct.pricing.currencySymbol}}</span>
                         <span matSuffix>{{lanProduct.pricing.country}}</span>
                         <mat-error *ngIf="editProductForm.controls.wholesalePrice.hasError('required')">
                             {{language.errorRequired}}</mat-error>
                     </mat-form-field>
+                    <mat-label *ngIf="!permission" class="sa-text-24 sa-charcoal-grey">
+                        {{dataSource?.wholesale_price | currency}} {{lanProduct.pricing.country}}</mat-label>
                     <div class="sa-wholesale-units">
                         <mat-label class="sa-p sa-text-14 sa-roboto sa-gray-medium">
                             {{lanProduct.newProduct.wholesaleQuantity}}
@@ -185,6 +189,34 @@
                     </div>
                 </div>
             </mat-card>
+
+            <mat-card class="sa-wholesale-price">
+                <mat-label class="sa-robot-medium sa-text-16 sa-charcoal-grey">{{lanProduct.newProduct.wholesalePriceG}}
+                </mat-label>
+                <div class="sa-wholesale-inputs">
+                    <mat-form-field class="sa-input-amount" id="amount" *ngIf="permission">
+                        <input matInput [textMask]="{mask: currencyMask}" formControlName="wholesalePriceG">
+                        <span matPrefix>{{lanProduct.pricing.currencySymbol}}</span>
+                        <span matSuffix>{{lanProduct.pricing.country}}</span>
+                        <mat-error *ngIf="editProductForm.controls.wholesalePriceG.hasError('required')">
+                            {{language.errorRequired}}</mat-error>
+                    </mat-form-field>
+                    <mat-label *ngIf="!permission" class="sa-text-24 sa-charcoal-grey">
+                        {{dataSource?.wholesale_priceG | currency}} {{lanProduct.pricing.country}}</mat-label>
+                    <div class="sa-wholesale-units">
+                        <mat-label class="sa-p sa-text-14 sa-roboto sa-gray-medium">
+                            {{lanProduct.newProduct.wholesaleQuantityG}}
+                        </mat-label>
+                        <mat-form-field class="sa-input-amount sa-wq">
+                            <input matInput [textMask]="{mask: numberMask}" formControlName="wholesaleQuantityG">
+                            <mat-error *ngIf="editProductForm.controls.wholesaleQuantityG.hasError('required')">
+                                {{language.errorRequired}}</mat-error>
+                        </mat-form-field>
+                        <p class="sa-p-right sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.units}}</p>
+                    </div>
+                </div>
+            </mat-card>
+
             <mat-card class="sa-seller-commission">
                 <div class="sa-commission">
                     <mat-label class="sa-robot-medium sa-text-16 sa-charcoal-grey">
@@ -206,6 +238,18 @@
                         <input matInput placeholder="{{dataSource?.seller_commission_wholesale}}" [textMask]="{mask: percentageMask}" formControlName="sellerCommissionWholesale">
                         <span matSuffix>{{lanProduct.pricing.percentage}}</span>
                         <mat-error *ngIf="editProductForm.controls.sellerCommissionWholesale.hasError('required')">
+                            {{language.errorRequired}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="sa-commission">
+                    <mat-label class="sa-robot-medium sa-text-16 sa-charcoal-grey">
+                        {{lanProduct.pricing.sellerCommissionWholesaleG}}
+                    </mat-label>
+                    <mat-form-field class="sa-input-amount sa-no-label" id="amount">
+                        <input matInput placeholder="{{dataSource?.seller_commission_wholesaleG}}" [textMask]="{mask: percentageMask}" formControlName="sellerCommissionWholesaleG">
+                        <span matSuffix>{{lanProduct.pricing.percentage}}</span>
+                        <mat-error *ngIf="editProductForm.controls.sellerCommissionWholesaleG.hasError('required')">
                             {{language.errorRequired}}
                         </mat-error>
                     </mat-form-field>

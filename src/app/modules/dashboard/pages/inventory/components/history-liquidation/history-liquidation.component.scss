@@ -1,9 +1,19 @@
 @import "src/assets/css/colors";
 .sa-dashboard-main-content {
+    .sa-download-liquidation {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .sa-button {
+            width: 210px;
+            height: 27px;
+        }
+    }
     .sa-actions {
         display: flex;
         justify-content: flex-end;
         align-items: center;
+        margin: 16px 0;
         .sa-input-text {
             height: 40px;
         }

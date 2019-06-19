@@ -47,9 +47,13 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.clients = res;
         const data = [];
         this.clients.forEach(client => {
-          this.subscriptionClient = this.clientsService.getRouteByID(client['route_id']).subscribe(route => {
-            client['route_name'] = route.name;
-          });
+          if (client.route_id !== '') {
+            this.subscriptionClient = this.clientsService.getRouteByID(client['route_id']).subscribe(route => {
+              if (route !== null) {
+                client['route_name'] = route.name;
+              }
+            });
+          }
         });
         for (let i = 0; i < this.pagination.perPage; i++) {
           if (this.clients[i]) {
@@ -57,10 +61,6 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
             this.indexClients = this.indexClients + i;
           }
         }
-        // this.dataSource.data = data;
-        // this.pagination.perPage = this.clients.length / 15 < 15 ? this.clients.length : this.clients.length / 15;
-        // this.pagination.totalItems = this.clients.length;
-        // this.pagination.totalPages = this.clients.length / 15 < 1 ? 1 : this.clients.length / 15;
       }
     );
   }
@@ -75,9 +75,8 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
           if (r1.name > r2.name) {
             return 1;
           }
-          // a debe ser igual b
           return 0;
-        } );
+        });
       }
     );
   }

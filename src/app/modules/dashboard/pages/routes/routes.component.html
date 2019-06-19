@@ -1,0 +1,23 @@
+<div class="sa-dashboard-main-content sa-roboto sa-charcoal-grey">
+    <mat-label class="sa-text-24 sa-charcoal-grey">{{lanRoute.routes}}</mat-label>
+    <div class="sa-dashboard-actions">
+        <button [routerLink]="['/dashboard/routes/create']" mat-raised-button color="accent">{{lanRoute.createRoute}}</button>
+    </div>
+    <div class="sa-dashboard-routes-content">
+        <table mat-table [dataSource]="routes">
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+                <th class="sa-id-column" mat-header-cell *matHeaderCellDef>{{lanRoute.idRoute}}</th>
+                <td class="sa-id-column" mat-cell *matCellDef="let route">{{route.id}}</td>
+            </ng-container>
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th class="sa-name-column" mat-header-cell *matHeaderCellDef>{{lanRoute.name}}</th>
+                <td class="sa-name-column" mat-cell *matCellDef="let route">{{route.name}}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns" [routerLink]="['/dashboard/routes/edit', row.id ]">
+            </tr>
+        </table>
+    </div>
+</div>

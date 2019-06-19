@@ -243,7 +243,9 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     label {
         color: $color-mushroom !important;
         background-color: $color-white;
+        width: auto !important;
         margin-left: 18px;
+        padding: 0px 10px;
     }
     input {
         width: 90%;
@@ -724,3 +726,21 @@ table {
 
 
 /* END SLIDE-TOGGLE*/
+
+.mat-paginator-container {
+    background-color: $color-white-dark;
+}
+
+.mat-paginator-navigation-previous {
+    order: 1;
+}
+
+.mat-paginator-range-label {
+    order: 2;
+    margin: 0 !important;
+    font-size: 12px;
+}
+
+.mat-paginator-navigation-next {
+    order: 3;
+}

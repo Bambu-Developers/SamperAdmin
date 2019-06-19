@@ -9,6 +9,16 @@ const routes: Routes = [
     loadChildren: './pages/inventory/inventory.module#InventoryModule'
   },
   {
+    path: 'analytics',
+    component: DashboardComponent,
+    loadChildren: './pages/analytics/analytics.module#AnalyticsModule'
+  },
+  {
+    path: 'products',
+    component: DashboardComponent,
+    loadChildren: './pages/products/products.module#ProductsModule'
+  },
+  {
     path: 'users',
     component: DashboardComponent,
     loadChildren: './pages/users/users.module#UsersModule'
@@ -24,9 +34,9 @@ const routes: Routes = [
     loadChildren: './pages/profile/profile.module#ProfileModule'
   },
   {
-    path: 'products',
+    path: 'routes',
     component: DashboardComponent,
-    loadChildren: './pages/products/products.module#ProductsModule'
+    loadChildren: './pages/routes/routes.module#RoutesModule'
   },
   {
     path: '',

@@ -3,6 +3,16 @@
     .sa-history-header {
         display: flex;
         flex-direction: column;
+        .sa-download-history {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            .sa-button {
+                width: 210px;
+                height: 27px !important;
+            }
+        }
         .sa-filter {
             display: flex;
             flex-direction: row;

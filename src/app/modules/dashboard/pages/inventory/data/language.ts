@@ -1,6 +1,6 @@
 export const INVENTORY_LANGUAGE = {
     todaysInventory: 'Inventario de hoy',
-    commissionCalc: 'Cálculo de comisiones',
+    commissionCalc: 'Calcular comisión',
     selectRoute: 'Para realizar una liquidación elige una ruta',
     skuCode: 'Código SKU',
     name: 'Nombre',
@@ -19,9 +19,11 @@ export const INVENTORY_LANGUAGE = {
         quantitySold: 'Piezas vendidas',
         total: 'Total',
         paymentMethod: 'Método de pago',
+        downloadHistory: 'Descargar historial'
     },
     historyLiq: {
         liquidationHistory: 'Historial de liquidaciones',
+        downloadLiquidation: 'Descargar liquidaciones'
     },
     liquidation: {
         liquidation: 'Liquidación',
@@ -37,6 +39,6 @@ export const INVENTORY_LANGUAGE = {
         loss: 'Merma total',
         totalToPay: 'Total a pagar',
         seeHistory: 'Ver historial completo',
-        weekSales: 'Ventas de la semana'
+        downloadCommission: 'Descargar reporte'
     },
 };

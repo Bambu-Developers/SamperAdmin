@@ -99,9 +99,6 @@ export class ViewClientComponent implements OnInit {
       phone: new FormControl('', [
         Validators.required,
       ]),
-      email: new FormControl('', [
-        Validators.required,
-      ]),
       route: new FormControl(''),
       monday: new FormControl(''),
       tuesday: new FormControl(''),
@@ -129,14 +126,20 @@ export class ViewClientComponent implements OnInit {
           for (let i = 0; i < this.days.length; i++) {
             this.days[i].active = this.currentDays[i];
           }
+          if (res.photo !== '' ) {
+            this.editClientForm.get('photo').patchValue(res.photo);
+          }
           this.editClientForm.get('name').patchValue(res.name);
           this.editClientForm.get('shop_name').patchValue(res.shop_name);
           this.editClientForm.get('phone').patchValue(res.phone);
-          this.editClientForm.get('email').patchValue(res.email);
           this.editClientForm.get('route').patchValue(res.route_id);
-          this._clientService.getRouteByID(this.dataSource.route_id).subscribe(route => {
-            this.dataSource.route_name = route.name;
-          });
+          if (res.route_id !== '') {
+            this._clientService.getRouteByID(res['route_id']).subscribe(route => {
+              if (route !== null) {
+                res['route_name'] = route.name;
+              }
+            });
+          }
         }
       );
     });

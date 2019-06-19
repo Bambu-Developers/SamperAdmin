@@ -4,7 +4,7 @@ import { RolModel } from './rol.model';
 export class UserModel {
     id?: string;
     rol?: number;
-    route?: number;
+    route?: string;
     permision?: PermisionsModel;
     name?: string; // firstname and lastname
     email?: string;

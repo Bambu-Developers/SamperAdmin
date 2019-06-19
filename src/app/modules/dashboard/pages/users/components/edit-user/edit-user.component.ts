@@ -37,8 +37,6 @@ export class EditUserComponent implements OnInit {
   public permisions = [
     { name: this.lanUser.permisions.userRegistration, id: PERMISIONS.USER_REGISTRATION },
     { name: this.lanUser.permisions.priceEdition, id: PERMISIONS.PRICE_EDITION },
-    // tslint:disable-next-line: max-line-length
-    { name: this.lanUser.permisions.createEditPromotions, id: PERMISIONS.CREATE_EDIT_PROMOTIONS },
   ];
 
   constructor(
@@ -89,7 +87,6 @@ export class EditUserComponent implements OnInit {
   }
 
   public editUser() {
-    // console.log(this.user);
     if (this.user.rol === 2) {
       this.user.permision = this.selectPermisions;
     }
@@ -97,13 +94,12 @@ export class EditUserComponent implements OnInit {
     this.user.status = this.editUserForm.get('status').value;
     if (this.user.rol === 0) {
       this.user.route = this.editUserForm.get('route').value;
+      this.userService.editUserToRoute(this.user.route, this.user.id);
     }
     this.userService.editUserData(this.user).then(
       res => this._router.navigate(['/dashboard/users']),
       err => console.log(err)
     );
-    console.log(this.user.route, this.user.id);
-    this.userService.editUserToRoute(this.user.route, this.user.id);
   }
 
   public getRoutes() {
@@ -116,16 +112,17 @@ export class EditUserComponent implements OnInit {
 
   public changePermisions(event: any, id: number) {
     if (event.checked) {
-      id === 1 ?
+      id === 0 ?
         this.selectPermisions.user_registration = true :
-        (id === 2) ?
+        (id === 1) ?
           this.selectPermisions.price_edition = true : this.selectPermisions.create_edit_promotions = true;
     } else {
-      id === 1 ?
+      id === 0 ?
         this.selectPermisions.user_registration = false :
-        (id === 2) ?
+        (id === 1) ?
           this.selectPermisions.price_edition = false : this.selectPermisions.create_edit_promotions = false;
     }
+    localStorage.setItem('permission', JSON.stringify(this.selectPermisions.price_edition));
   }
 
   public deleteUser() {

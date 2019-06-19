@@ -182,6 +182,30 @@
                     </div>
                 </div>
             </mat-card>
+            <mat-card class="sa-wholesale-price">
+                <mat-label class="sa-robot-medium sa-text-16 sa-charcoal-grey">{{lanProduct.newProduct.wholesalePriceG}}
+                </mat-label>
+                <div class="sa-wholesale-inputs">
+                    <mat-form-field class="sa-input-amount" id="amount">
+                        <input matInput [textMask]="{mask: currencyMask}" formControlName="wholesalePriceG">
+                        <span matPrefix>{{lanProduct.pricing.currencySymbol}}</span>
+                        <span matSuffix>{{lanProduct.pricing.country}}</span>
+                        <mat-error *ngIf="registerProductForm.controls.wholesalePriceG.hasError('required')">
+                            {{language.errorRequired}}</mat-error>
+                    </mat-form-field>
+                    <div class="sa-wholesale-units">
+                        <mat-label class="sa-p sa-text-14 sa-roboto sa-gray-medium">
+                            {{lanProduct.newProduct.wholesaleQuantityG}}
+                        </mat-label>
+                        <mat-form-field class="sa-input-amount sa-wq">
+                            <input matInput [textMask]="{mask: numberMask}" formControlName="wholesaleQuantityG">
+                            <mat-error *ngIf="registerProductForm.controls.wholesaleQuantityG.hasError('required')">
+                                {{language.errorRequired}}</mat-error>
+                        </mat-form-field>
+                        <p class="sa-p-right sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.units}}</p>
+                    </div>
+                </div>
+            </mat-card>
             <mat-card class="sa-seller-commissions">
                 <div class="sa-commission">
                     <mat-label class="sa-robot-medium sa-text-16 sa-charcoal-grey">
@@ -200,6 +224,16 @@
                         <input matInput [textMask]="{mask: percentageMask}" formControlName="sellerCommissionWholesale">
                         <span matSuffix>{{lanProduct.pricing.percentage}}</span>
                         <mat-error *ngIf="registerProductForm.controls.sellerCommissionWholesale.hasError('required')">
+                            {{language.errorRequired}}</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="sa-commission">
+                    <mat-label class="sa-robot-medium sa-text-16 sa-charcoal-grey">
+                        {{lanProduct.pricing.sellerCommissionWholesaleG}}</mat-label>
+                    <mat-form-field class="sa-input-amount" id="amount">
+                        <input matInput [textMask]="{mask: percentageMask}" formControlName="sellerCommissionWholesaleG">
+                        <span matSuffix>{{lanProduct.pricing.percentage}}</span>
+                        <mat-error *ngIf="registerProductForm.controls.sellerCommissionWholesaleG.hasError('required')">
                             {{language.errorRequired}}</mat-error>
                     </mat-form-field>
                 </div>

@@ -8,8 +8,7 @@ export const ROLES = {
 
 export const PERMISIONS = {
     USER_REGISTRATION: 0,
-    PRICE_EDITION: 1,
-    CREATE_EDIT_PROMOTIONS: 2
+    PRICE_EDITION: 1
 };
 
 export const SNACKBAR_CONFIG: MatSnackBarConfig = {

@@ -65,6 +65,8 @@ export class ProductsService {
       retail_price: product.retailPrice,
       wholesale_price: product.wholesalePrice,
       wholesale_quantity: product.wholesaleQuantity,
+      wholesale_priceG: product.wholesalePrice,
+      wholesale_quantityG: product.wholesaleQuantity,
       // monday_price: product.mondayPrice,
       // tuesday_price: product.tuesdayPrice,
       // wednesday_price: product.wednesdayPrice,
@@ -74,6 +76,7 @@ export class ProductsService {
       // sunday_price: product.sundayPrice,
       seller_commission_retail: product.sellerCommissionRetail,
       seller_commission_wholesale: product.sellerCommissionWholesale,
+      seller_commission_wholesaleG: product.sellerCommissionWholesale,
       is_enabled: true,
     };
     this.productsRef.push(PRODUCT_DATA);
@@ -91,6 +94,8 @@ export class ProductsService {
       retail_price: product.retailPrice,
       wholesale_price: product.wholesalePrice,
       wholesale_quantity: product.wholesaleQuantity,
+      wholesale_priceG: product.wholesalePriceG,
+      wholesale_quantityG: product.wholesaleQuantityG,
       // monday_price: product.mondayPrice,
       // tuesday_price: product.tuesdayPrice,
       // wednesday_price: product.wednesdayPrice,
@@ -100,6 +105,7 @@ export class ProductsService {
       // sunday_price: product.sundayPrice,
       seller_commission_retail: product.sellerCommissionRetail,
       seller_commission_wholesale: product.sellerCommissionWholesale,
+      seller_commission_wholesaleG: product.sellerCommissionWholesaleG,
     };
     this.productsRef.update(id, PRODUCT_DATA);
   }

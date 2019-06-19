@@ -197,11 +197,12 @@
             }
         }
         .sa-seller-commission {
-            height: 98px;
+            height: 212px;
             margin-top: 16px;
             padding: 22px 32px 24px 32px;
             display: flex;
             flex-direction: row;
+            flex-wrap: wrap;
             justify-content: space-between;
             .sa-commission {
                 display: flex;

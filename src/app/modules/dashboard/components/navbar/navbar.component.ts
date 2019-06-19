@@ -25,13 +25,13 @@ export class NavbarComponent {
   public items = [
     {
       icon: 'ic-stock',
-      title: DASHBOARD_LANGUAGE.navbar.stock,
+      title: DASHBOARD_LANGUAGE.navbar.calc,
       route: '/dashboard/inventory'
     },
     // {
     //   icon: 'ic-analytics',
     //   title: DASHBOARD_LANGUAGE.navbar.analitycs,
-    //   route: '/dashboard/analitycs'
+    //   route: '/dashboard/analytics'
     // },
     {
       icon: '',
@@ -57,6 +57,11 @@ export class NavbarComponent {
       icon: 'ic-clients',
       title: DASHBOARD_LANGUAGE.navbar.clients,
       route: '/dashboard/clients'
+    },
+    {
+      icon: '',
+      title: DASHBOARD_LANGUAGE.navbar.routes,
+      route: '/dashboard/routes'
     },
     {
       icon: '',

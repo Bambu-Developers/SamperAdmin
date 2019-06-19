@@ -67,29 +67,23 @@
                         <ng-template #editClientTemplate>
                             <form class="sa-edit-client-form" (ngSubmit)="editClient()" [formGroup]="editClientForm">
                                 <div class="sa-edit-client-content">
-                                    <mat-form-field class="sa-input-text sa-no-label">
+                                    <mat-form-field class="sa-input-text">
                                         <mat-label>{{lanClient.client.name}}</mat-label>
                                         <input matInput formControlName="name">
                                         <!-- <mat-error *ngIf="editClientForm.controls.name.hasError('required')">{{language.errorRequired}}
                                       </mat-error> -->
                                     </mat-form-field>
-                                    <mat-form-field class="sa-input-text sa-no-label">
+                                    <mat-form-field class="sa-input-text">
                                         <mat-label>{{lanClient.client.shopName}}</mat-label>
                                         <input matInput formControlName="shop_name">
                                         <!-- <mat-error *ngIf="editClientForm.controls.name.hasError('required')">{{language.errorRequired}}
                                       </mat-error> -->
                                     </mat-form-field>
-                                    <mat-form-field class="sa-input-text sa-no-label">
+                                    <mat-form-field class="sa-input-text">
                                         <mat-label>{{lanClient.client.phone}}</mat-label>
                                         <input matInput placeholder="{{dataSource?.phone}}" formControlName="phone">
                                         <!-- <mat-error *ngIf="editClientForm.controls.name.hasError('required')">{{language.errorRequired}}
                                       </mat-error> -->
-                                    </mat-form-field>
-                                    <mat-form-field class="sa-input-text sa-no-label">
-                                        <mat-label>{{lanClient.client.emailEdit}}</mat-label>
-                                        <input matInput formControlName="email">
-                                        <!-- <mat-error *ngIf="editClientForm.controls.name.hasError('required')">{{language.errorRequired}}
-                                        </mat-error> -->
                                     </mat-form-field>
                                     <mat-form-field class="sa-edit-client-route sa-no-label">
                                         <mat-select placeholder="{{dataSource?.route_name}}" formControlName="route">

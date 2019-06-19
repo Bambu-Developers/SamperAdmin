@@ -16,7 +16,7 @@ import { PAGINATION } from './../../../shared/components/paginator/data/data';
 export class UsersComponent implements OnInit, OnDestroy {
 
   public language = USERS_LANGUAGE;
-  public displayedColumns: string[] = ['name', 'rol', 'route', 'dateCreated', 'lastConexion', 'status', 'edit'];
+  public displayedColumns: string[] = ['name', 'username', 'rol', 'route', 'dateCreated', 'lastConexion', 'status'];
   public dataSource = new MatTableDataSource();
   public email: string;
   public routes: RouteModel[];
@@ -88,6 +88,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   public getsUsersLogged() {
     this._subscriptionUserLogged = this.usersService.getUserLogged(this.email).subscribe(
       res => {
+        localStorage.setItem('permission', res[0].permision.price_edition);
         this.dataUserLogged = res;
         this.logged = this.dataUserLogged[0];
       });

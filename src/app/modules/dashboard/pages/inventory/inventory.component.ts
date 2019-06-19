@@ -102,7 +102,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
       )
       .subscribe(sales => {
         this.dataSource.data = sales;
-        console.log(this.dataSource.data);
       });
   }
 

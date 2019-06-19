@@ -1,9 +1,10 @@
+import { UsersService } from './../../dashboard/pages/users/services/users.service';
 import { Injectable } from '@angular/core';
 import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
-import { Observable } from 'rxjs';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { Observable, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

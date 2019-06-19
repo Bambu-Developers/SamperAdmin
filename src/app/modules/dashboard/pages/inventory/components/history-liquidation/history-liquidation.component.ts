@@ -1,3 +1,4 @@
+import { ExcelService } from './../../../../../shared/services/excel.service';
 import { ClientsService } from './../../../clients/services/clients.service';
 import { INVENTORY_LANGUAGE } from './../../data/language';
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
@@ -28,7 +29,8 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
   constructor(
     private _clientService: ClientsService,
     private _inventoryService: InventoryService,
-    private _router: Router
+    private _router: Router,
+    private excelService: ExcelService
   ) { }
 
   ngOnInit() {
@@ -53,13 +55,20 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
         }),
         toArray()
       ).subscribe(liquidations => {
-        liquidations.forEach( liquidation => {
+        liquidations.forEach(liquidation => {
           this._subscriptionRoutes = this._clientService.getRouteByID(liquidation.route).subscribe(route => {
             liquidation['route_name'] = route.name;
           });
         });
-        this.dataSourceHistoryLiquidation.data = liquidations;
-          console.log(this.dataSourceHistoryLiquidation.data);
+        this.dataSourceHistoryLiquidation.data = liquidations.sort((r1, r2) => {
+          if (r1.date > r2.date) {
+            return -1;
+          }
+          if (r1.date < r2.date) {
+            return 1;
+          }
+          return 0;
+        });
       });
   }
 
@@ -81,6 +90,20 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
 
   public doFilter = (value: string) => {
     this.dataSourceHistoryLiquidation.filter = value.trim().toLocaleLowerCase();
+  }
+
+  public downloadLiquidation() {
+    const tableToDownload = [];
+    for (const liquidation of this.dataSourceHistoryLiquidation.data) {
+      tableToDownload.push({
+        'Fecha': liquidation['date'],
+        'Ruta': liquidation['route_name'],
+        'Ventas del día': liquidation['date'],
+        'Total liquidado': liquidation['total_liquidation'],
+        'Total liquidado con merma ': liquidation['total_liq_loss']
+      });
+    }
+    this.excelService.exportAsExcelFile(tableToDownload, `${'Historial_liquidaciones_'}`);
   }
 
   ngOnDestroy() {

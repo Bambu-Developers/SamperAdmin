@@ -14,6 +14,7 @@ export const USERS_LANGUAGE = {
     snackbarDisable: 'Usuario deshabilitado exitosamente',
     user: {
         name: 'Nombre',
+        username: 'Nombre de Usuario',
         rol: 'Rol',
         route: 'Ruta',
         dateCreated: 'Creado',
@@ -26,6 +27,7 @@ export const USERS_LANGUAGE = {
         typeRol: 'Tipo de rol',
         route: 'Ruta',
         name: 'Nombre de la persona',
+        username: 'Nombre de usuario',
         email: 'Correo electrónico'
     },
     actions: 'Acciones',

@@ -222,20 +222,40 @@
                 </mat-label>
             </div>
         </mat-card>
-
+        <mat-card class="sa-product-prices-comm">
+            <mat-label class="sa-text-16 sa-roboto-medium sa-charcoal-grey">{{lanProduct.newProduct.wholesalePriceG}}
+            </mat-label>
+            <div class="sa-wp" *ngIf="!dataSource?.has_promo">
+                <span class="sa-text-14 sa-charcoal-grey">${{dataSource?.wholesale_priceG}}
+                    {{lanProduct.pricing.country}}</span>
+                <p class="sa-text-14 sa-gray-medium sa-text-italic">
+                    {{lanProduct.product.startingFrom}}{{dataSource?.wholesale_quantityG}}{{lanProduct.product.units}}
+                </p>
+            </div>
+        </mat-card>
         <mat-card class="sa-product-prices-commission">
             <div class="sa-commission">
-                <mat-label class="sa-text-16 sa-roboto-medium sa-charcoal-grey">{{lanProduct.pricing.sellerCommissionRetail}}
+                <mat-label class="sa-text-16 sa-roboto-medium sa-charcoal-grey">
+                    {{lanProduct.pricing.sellerCommissionRetail}}
                 </mat-label>
                 <div class="sa-wp-c">
                     <span class="sa-text-14 sa-charcoal-grey">{{dataSource?.seller_commission_retail}}%</span>
                 </div>
             </div>
             <div class="sa-commission">
-                <mat-label class="sa-text-16 sa-roboto-medium sa-charcoal-grey">{{lanProduct.pricing.sellerCommissionWholesale}}
+                <mat-label class="sa-text-16 sa-roboto-medium sa-charcoal-grey">
+                    {{lanProduct.pricing.sellerCommissionWholesale}}
                 </mat-label>
                 <div class="sa-wp-c">
                     <span class="sa-text-14 sa-charcoal-grey">{{dataSource?.seller_commission_wholesale}}%</span>
+                </div>
+            </div>
+            <div class="sa-commission">
+                <mat-label class="sa-text-16 sa-roboto-medium sa-charcoal-grey">
+                    {{lanProduct.pricing.sellerCommissionWholesaleG}}
+                </mat-label>
+                <div class="sa-wp-c">
+                    <span class="sa-text-14 sa-charcoal-grey">{{dataSource?.seller_commission_wholesaleG}}%</span>
                 </div>
             </div>
         </mat-card>

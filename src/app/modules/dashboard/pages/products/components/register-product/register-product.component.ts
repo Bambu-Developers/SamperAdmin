@@ -67,6 +67,12 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
       wholesaleQuantity: new FormControl(15, [
         Validators.required,
       ]),
+      wholesalePriceG: new FormControl(this.baseValue, [
+        Validators.required,
+      ]),
+      wholesaleQuantityG: new FormControl(100, [
+        Validators.required,
+      ]),
       // mondayPrice: new FormControl(this.baseValue, [
       //   Validators.required,
       // ]),
@@ -92,6 +98,9 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
         Validators.required,
       ]),
       sellerCommissionWholesale: new FormControl(this.baseValue, [
+        Validators.required,
+      ]),
+      sellerCommissionWholesaleG: new FormControl(this.baseValue, [
         Validators.required,
       ]),
     });
