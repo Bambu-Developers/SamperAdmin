@@ -22,7 +22,7 @@ import { DateFormatPipe } from './pipes/date-format.pipe';
   declarations: [
     AppComponent,
     UiElementsComponent,
-    DateFormatPipe
+    DateFormatPipe,
   ],
   imports: [
     SharedModule,

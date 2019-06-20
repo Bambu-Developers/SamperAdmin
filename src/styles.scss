@@ -21,6 +21,32 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 }
 
 
+/* DISPLAY */
+
+.sa-row-space {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.sa-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.sa-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.sa-align-center {
+    align-items: center;
+}
+
+
+/* END DISPLAY */
+
+
 /* FONTS */
 
 .sa-roboto {
@@ -727,6 +753,9 @@ table {
 
 /* END SLIDE-TOGGLE*/
 
+
+/* PAGINATOR */
+
 .mat-paginator-container {
     background-color: $color-white-dark;
 }
@@ -743,4 +772,11 @@ table {
 
 .mat-paginator-navigation-next {
     order: 3;
+}
+
+
+/* END PAGINATOR */
+
+.sa-bg-white {
+    background-color: $color-white;
 }

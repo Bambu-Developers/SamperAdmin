@@ -1,0 +1,19 @@
+<div class="sa-dashboard-main-content sa-roboto sa-charcoal-grey">
+  <div class="sa-analytics-header">
+    <mat-label class="sa-roboto-medium sa-text-24">{{language.client.clients}}</mat-label>
+    <button class="sa-button" mat-raised-button color="charcoal-grey">{{language.downloadReport}}</button>
+  </div>
+  <div class="sa-clients-route sa-bg-white sa-column">
+    <mat-label class="sa-roboto-medium sa-text-18">{{language.client.totalClientsperRoute}}</mat-label>
+    <div class="sa-clients-route-chart sa-row">
+      <div class="sa-chart">
+        <canvas baseChart [data]="clientsRouteData.data" [labels]="clientsRouteData.labels"
+          [options]="clientsRouteData.options" [colors]="CLIENTS_ROUTE_COLORS" chartType="bar">
+        </canvas>
+      </div>
+      <div class="sa-total-items">
+          <mat-label class="sa-roboto-medium sa-text-18 sa-brownish-grey">{{language.totalItems}}</mat-label>
+      </div>
+    </div>
+  </div>
+</div>

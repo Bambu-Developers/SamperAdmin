@@ -7,6 +7,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextMaskModule } from 'angular2-text-mask';
 import { AgmCoreModule } from '@agm/core';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
+import { MomentModule } from 'ngx-moment';
+import { ChartsModule } from 'ng2-charts';
+
 import 'hammerjs';
 
 /* ANGULAR MATERIAL */
@@ -93,13 +96,13 @@ import { ToastComponent } from '../dashboard/components/toast/toast.component';
     MatFormFieldModule,
     MatPaginatorModule,
     AgmCoreModule.forRoot({
-      // apiKey: 'AIzaSyDeQSZDAnz9i4fDbOyNUi0LJiJ-czWbJMg'
       apiKey: 'AIzaSyAskN-VARhdUaLDaeA9chNu4vpveNjNs4s'
     }),
     AgmSnazzyInfoWindowModule,
     SatDatepickerModule,
     SatNativeDateModule,
-    // MatPaginatorIntl
+    MomentModule,
+    ChartsModule
   ],
   exports: [
     AngularFirestoreModule,
@@ -135,14 +138,14 @@ import { ToastComponent } from '../dashboard/components/toast/toast.component';
     AgmSnazzyInfoWindowModule,
     SatDatepickerModule,
     SatNativeDateModule,
-    // MatPaginatorIntl,
+    MomentModule,
+    ChartsModule
   ],
   providers: [
     AngularFireDatabase,
     { provide: FirestoreSettingsToken, useValue: {} },
     MatDatepickerModule,
     DatePipe,
-    // DateFormatPipe,
     { provide: MatPaginatorIntl, useClass: PaginatorComponent }
   ],
   entryComponents: [
