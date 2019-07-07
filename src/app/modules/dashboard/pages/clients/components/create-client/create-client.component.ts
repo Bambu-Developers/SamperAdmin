@@ -97,11 +97,13 @@ export class CreateClientComponent implements OnInit, OnDestroy {
           this._clientService.createClient(this.createClientForm.value);
           this.openSnackBar();
           this._router.navigate(['/dashboard/clients']);
+          this.loading = false;
         });
     } else {
       this._clientService.createClient(this.createClientForm.value);
       this.openSnackBar();
       this._router.navigate(['/dashboard/clients']);
+      this.loading = false;
     }
 
   }

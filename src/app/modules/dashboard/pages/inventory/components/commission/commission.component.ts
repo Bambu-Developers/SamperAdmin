@@ -92,25 +92,24 @@ export class CommissionComponent implements OnInit, OnDestroy {
         take(1),
         concatMap(x => x),
         map((loss: any) => {
-          this.totalLosses += parseFloat(loss.product.retail_price);
+          this.totalLosses += (parseFloat(loss.product.retail_price) * loss.number_of_piz);
           return { ...loss.product, number_of_piz: loss.number_of_piz };
         }),
         toArray()
       ).subscribe(losses => {
         const lossesProducts = [];
         losses.forEach(loss => {
-
           const lossProductIdx = lossesProducts.findIndex((lp: any) => {
             return loss.sku === lp.sku;
           });
           if (lossProductIdx > -1) {
             lossesProducts[lossProductIdx]['numberItems'] += loss.number_of_piz;
-            lossesProducts[lossProductIdx]['totalPrice'] += parseFloat(lossesProducts[lossProductIdx]['retail_price']);
+            lossesProducts[lossProductIdx]['totalPrice'] += loss.number_of_piz * parseFloat(lossesProducts[lossProductIdx]['retail_price']);
           } else {
             lossesProducts.push({
               ...loss,
               numberItems: loss.number_of_piz,
-              totalPrice: parseFloat(loss.retail_price)
+              totalPrice: loss.number_of_piz * parseFloat(loss.retail_price)
             });
           }
         });
@@ -209,8 +208,6 @@ export class CommissionComponent implements OnInit, OnDestroy {
         this.dataSourceTableHistoryWholeSale.data = wholesaleProducts;
         this.dataSourceTableHistoryWholeSaleG.data = wholesaleProductsG;
         this.dataSourceTableHistory.data = retailProducts;
-        console.log(this.dataSourceTableHistory.data);
-        console.log(this.dataSourceTableHistoryWholeSale.data);
         console.log(this.dataSourceTableHistoryWholeSaleG.data);
       });
   }

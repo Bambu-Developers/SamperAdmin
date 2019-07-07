@@ -39,7 +39,7 @@
             <ng-container matColumnDef="image">
                 <th class="sa-img-column" mat-header-cell *matHeaderCellDef></th>
                 <td class="sa-img-column" mat-cell *matCellDef="let loss">
-                    <img class="sa-img-preview" src="{{loss.img_preview_url}}" alt="N/A">
+                    <img class="sa-img-preview" src="{{loss.img_preview_url}}">
                 </td>
                 <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
@@ -52,25 +52,25 @@
             <!-- Quantity Column -->
             <ng-container matColumnDef="quantity">
                 <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>{{lanInv.quantityP}}</th>
-                <td class="sa-quantity-column sa-roboto-medium" mat-cell *matCellDef="let loss">{{loss.numberItems}} piezas
-                </td>
+                <td class="sa-quantity-column sa-roboto-medium" mat-cell *matCellDef="let loss">{{loss.numberItems}}
+                    piezas</td>
                 <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
             <!-- Brand Column -->
             <ng-container matColumnDef="brand">
                 <th class="sa-brand-column" mat-header-cell *matHeaderCellDef>{{lanInv.brand}}</th>
                 <td class="sa-brand-column" mat-cell *matCellDef="let loss">{{loss.brand}}</td>
-                <td class="sa-total-column" mat-footer-cell *matFooterCellDef> Total: </td>
+                <td class="sa-total-column" mat-footer-cell *matFooterCellDef>TOTAL :</td>
             </ng-container>
             <!-- Subtotal Column -->
             <ng-container matColumnDef="subtotal">
                 <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanInv.subtotal}}</th>
                 <td class="sa-subtotal-column" mat-cell *matCellDef="let loss">{{loss.totalPrice | currency}}</td>
-                <td class="sa-subtotal-column" mat-footer-cell *matFooterCellDef> {{ subtotalLosses | currency}} </td>
+                <td class="sa-subtotal-column" mat-footer-cell *matFooterCellDef> {{ totalLosses | currency}} </td>
             </ng-container>
-            <!-- <tr mat-header-row *matHeaderRowDef="displayedColumnsDevolutions"></tr> -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsLosses"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumnsLosses;"></tr>
-            <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumnsLosses"></tr>
         </table>
     </div>
     <div class="sa-week-sales">
@@ -89,7 +89,7 @@
             <ng-container matColumnDef="image">
                 <th class="sa-img-column" mat-header-cell *matHeaderCellDef></th>
                 <td class="sa-img-column" mat-cell *matCellDef="let history">
-                    <img class="sa-img-preview" src="{{history.img_preview_url}}" alt="N/A">
+                    <img class="sa-img-preview" src="{{history.img_preview_url}}">
                 </td>
                 <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
@@ -115,7 +115,8 @@
             <!-- Commission Column -->
             <ng-container matColumnDef="commission">
                 <th class="sa-commission-column" mat-header-cell *matHeaderCellDef>{{lanCom.commission}}</th>
-                <td class="sa-commission-column" mat-cell *matCellDef="let history"> {{history.seller_commission_retail}}% {{ history.totalCommission | currency}}</td>
+                <td class="sa-commission-column" mat-cell *matCellDef="let history">
+                    {{history.seller_commission_retail}}% {{ history.totalCommission | currency}}</td>
                 <td class="sa-commission-column" mat-footer-cell *matFooterCellDef>
                     {{ totalCommissionRetail | currency}} </td>
             </ng-container>
@@ -141,7 +142,7 @@
             <ng-container matColumnDef="image">
                 <th class="sa-img-column" mat-header-cell *matHeaderCellDef></th>
                 <td class="sa-img-column" mat-cell *matCellDef="let history">
-                    <img class="sa-img-preview" src="{{history.img_preview_url}}" alt="N/A">
+                    <img class="sa-img-preview" src="{{history.img_preview_url}}">
                 </td>
                 <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
@@ -167,7 +168,8 @@
             <!-- Commission Column -->
             <ng-container matColumnDef="commission">
                 <th class="sa-commission-column" mat-header-cell *matHeaderCellDef>{{lanCom.commission}}</th>
-                <td class="sa-commission-column" mat-cell *matCellDef="let history"> {{history.seller_commission_wholesale}}% {{ history.totalCommission | currency}}</td>
+                <td class="sa-commission-column" mat-cell *matCellDef="let history">
+                    {{history.seller_commission_wholesale}}% {{ history.totalCommission | currency}}</td>
                 <td class="sa-commission-column" mat-footer-cell *matFooterCellDef>
                     {{ totalCommissionWholesale | currency}} </td>
             </ng-container>
@@ -193,7 +195,7 @@
             <ng-container matColumnDef="image">
                 <th class="sa-img-column" mat-header-cell *matHeaderCellDef></th>
                 <td class="sa-img-column" mat-cell *matCellDef="let history">
-                    <img class="sa-img-preview" src="{{history.img_preview_url}}" alt="N/A">
+                    <img class="sa-img-preview" src="{{history.img_preview_url}}">
                 </td>
                 <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
@@ -219,7 +221,8 @@
             <!-- Commission Column -->
             <ng-container matColumnDef="commission">
                 <th class="sa-commission-column" mat-header-cell *matHeaderCellDef>{{lanCom.commission}}</th>
-                <td class="sa-commission-column" mat-cell *matCellDef="let history"> {{history.seller_commission}}% {{ history.totalCommission | currency}}</td>
+                <td class="sa-commission-column" mat-cell *matCellDef="let history"> {{history.seller_commission}}%
+                    {{ history.totalCommission | currency}}</td>
                 <td class="sa-commission-column" mat-footer-cell *matFooterCellDef>
                     {{ totalCommissionWholesaleG | currency}} </td>
             </ng-container>

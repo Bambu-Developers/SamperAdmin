@@ -16,547 +16,525 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 /* END CUSTOM THEME */
 
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
-
 
 /* DISPLAY */
 
 .sa-row-space {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .sa-row {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .sa-column {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .sa-align-center {
-    align-items: center;
+  align-items: center;
 }
 
+.sa-justify-center {
+  justify-content: center;
+}
 
 /* END DISPLAY */
-
 
 /* FONTS */
 
 .sa-roboto {
-    font-family: "Roboto";
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
+  font-family: "Roboto";
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
 }
 
 .sa-roboto-medium {
-    font-family: "Roboto";
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.16;
-    letter-spacing: normal;
+  font-family: "Roboto";
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.16;
+  letter-spacing: normal;
 }
 
-
 /* END FONTS */
-
 
 /* TEXT SIZES */
 
 .sa-text-28 {
-    font-size: 28px;
+  font-size: 28px;
 }
 
 .sa-text-24 {
-    font-size: 24px;
+  font-size: 24px;
 }
 
 .sa-text-20 {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .sa-text-18 {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 .sa-text-16 {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 .sa-text-14 {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .sa-text-12 {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .sa-text-10 {
-    font-size: 10px;
+  font-size: 10px;
 }
 
 .sa-text-8 {
-    font-size: 8px;
+  font-size: 8px;
 }
 
-
 /* END TEXT SIZES */
-
 
 /* TEXT WEIGHTS */
 
 .sa-regular {
-    font-weight: normal;
+  font-weight: normal;
 }
 
 .sa-semibold {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .sa-bold {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .sa-uppercase {
-    text-transform: uppercase;
+  text-transform: uppercase;
 }
 
-
 /* END TEXT WEIGHTS */
-
 
 /* TEXT COLORS */
 
 .sa-white {
-    color: $color-white;
+  color: $color-white;
 }
 
 .sa-pinkish-orange {
-    color: $color-pinkish-orange;
+  color: $color-pinkish-orange;
 }
 
 .sa-brownish-grey {
-    color: $color-brownish-grey;
+  color: $color-brownish-grey;
 }
 
 .sa-charcoal-grey {
-    color: $color-charcoal-grey;
+  color: $color-charcoal-grey;
 }
 
 .sa-mushroom {
-    color: $color-mushroom;
+  color: $color-mushroom;
 }
 
 .sa-gray-medium {
-    color: $color-gray-medium;
+  color: $color-gray-medium;
 }
 
-
 /*END TEXT COLORS*/
-
 
 /*ALIGN TEXT*/
 
 .sa-text-left {
-    text-align: left;
+  text-align: left;
 }
 
 .sa-text-center {
-    text-align: center;
+  text-align: center;
 }
 
 .sa-text-right {
-    text-align: right;
+  text-align: right;
 }
 
-
 /*END ALIGN TEXT*/
-
 
 /* TEXT DECORATION*/
 
 .sa-text-linethrough {
-    text-decoration: line-through;
+  text-decoration: line-through;
 }
 
 .sa-text-italic {
-    font-style: italic;
+  font-style: italic;
 }
 
-
 /* END TEXT DECORATION*/
-
 
 /* CURSOR */
 
 .sa-cursor-ponter {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-
 /* END CURSOR */
-
 
 /*BUTTONS*/
 
 .mat-raised-button {
-    line-height: 1 !important;
-    height: 40px;
-    width: 200px;
-    border-radius: 4px !important;
-    box-shadow: none !important;
-    font-family: "Roboto";
-    font-size: 14px;
-    font-weight: bold;
+  line-height: 1 !important;
+  height: 40px;
+  width: 200px;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  font-family: "Roboto";
+  font-size: 14px;
+  font-weight: bold;
+  color: $color-white;
+  &.mat-accent {
     color: $color-white;
-    &.mat-accent {
-        color: $color-white;
+  }
+  &.mat-charcoal-grey {
+    background: $color-charcoal-grey !important;
+    &:hover {
+      background: rgba($color-charcoal-grey, 0.8) !important;
     }
-    &.mat-charcoal-grey {
-        background: $color-charcoal-grey !important;
-        &:hover {
-            background: rgba($color-charcoal-grey, 0.8) !important;
-        }
-    }
-    &.mat-white {
-        border: 1px solid $color-charcoal-grey;
-        color: $color-charcoal-grey;
-        background-color: rgba(0, 0, 0, 0);
-    }
-    &.sa-btn-small {
-        width: 112px;
-        height: 32px;
-    }
-    &.sa-btn-medium {
-        width: 136px;
-        height: 40px;
-    }
-    &:disabled {
-        cursor: not-allowed;
-        background-color: rgba($color-charcoal-grey, 0.7) !important;
-        border: none !important;
-        box-shadow: none !important;
-    }
+  }
+  &.mat-white {
+    border: 1px solid $color-charcoal-grey;
+    color: $color-charcoal-grey;
+    background-color: rgba(0, 0, 0, 0);
+  }
+  &.sa-btn-small {
+    width: 112px;
+    height: 32px;
+  }
+  &.sa-btn-medium {
+    width: 136px;
+    height: 40px;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    background-color: rgba($color-charcoal-grey, 0.7) !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
 }
 
-
 /*END BUTTONS*/
-
 
 /* INPUTS */
 
 .sa-input-text {
-    width: 325px;
-    height: 48px;
-    display: flex !important;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 3px;
-    border: 1px solid $color-mushroom;
-    @media #{$break-mobile} {
-        width: 240px;
+  width: 325px;
+  height: 48px;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 3px;
+  border: 1px solid $color-mushroom;
+  @media #{$break-mobile} {
+    width: 240px;
+  }
+  label {
+    color: $color-mushroom !important;
+    background-color: $color-white;
+    width: auto !important;
+    margin-left: 18px;
+    padding: 0px 10px;
+  }
+  input {
+    width: 90%;
+    color: $color-brownish-grey;
+    font-size: 14px;
+    font-family: "Roboto";
+    line-height: 1.49;
+    margin-left: 18px;
+  }
+  .mat-form-field-wrapper {
+    width: 100%;
+    .mat-form-field-infix {
+      border-top: 23px solid transparent;
     }
+    .mat-form-field-suffix {
+      margin-right: 16px;
+      .mat-icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+    .mat-form-field-underline {
+      display: none;
+    }
+  }
+  &.sa-search {
+    background-color: $color-white-medium;
     label {
-        color: $color-mushroom !important;
-        background-color: $color-white;
-        width: auto !important;
-        margin-left: 18px;
-        padding: 0px 10px;
+      background-color: $color-white-medium;
     }
-    input {
-        width: 90%;
-        color: $color-brownish-grey;
-        font-size: 14px;
-        font-family: "Roboto";
-        line-height: 1.49;
-        margin-left: 18px;
+  }
+  &.mat-focused {
+    label {
+      color: $color-brownish-grey !important;
+      width: auto !important;
+      padding: 0px 10px;
+      margin-left: 8px;
     }
-    .mat-form-field-wrapper {
-        width: 100%;
-        .mat-form-field-infix {
-            border-top: 23px solid transparent;
-        }
-        .mat-form-field-suffix {
-            margin-right: 16px;
-            .mat-icon {
-                width: 24px;
-                height: 24px;
-            }
-        }
-        .mat-form-field-underline {
-            display: none;
-        }
-    }
-    &.sa-search {
-        background-color: $color-white-medium;
-        label {
-            background-color: $color-white-medium;
-        }
+  }
+  &.ng-dirty {
+    border: 1px solid $color-charcoal-grey;
+    label {
+      color: $color-label !important;
+      width: auto !important;
+      padding: 0px 10px;
+      margin-left: 8px;
     }
     &.mat-focused {
-        label {
-            color: $color-brownish-grey !important;
-            width: auto !important;
-            padding: 0px 10px;
-            margin-left: 8px;
-        }
-    }
-    &.ng-dirty {
-        border: 1px solid $color-charcoal-grey;
-        label {
-            color: $color-label !important;
-            width: auto !important;
-            padding: 0px 10px;
-            margin-left: 8px;
-        }
-        &.mat-focused {
-            border: 1px solid $color-mushroom;
-            label {
-                color: $color-brownish-grey !important;
-                width: auto !important;
-                padding: 0px 10px;
-                margin-left: 8px;
-            }
-            input {
-                color: $color-charcoal-grey;
-            }
-        }
-    }
-    &.ng-touched.ng-invalid {
-        border: 1px solid $color-red;
-        label {
-            color: $color-red !important;
-        }
-        input {
-            color: $color-red !important;
-        }
-    }
-    &.sa-no-label {
-        &.mat-form-field-should-float {
-            .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix span .mat-form-field-label {
-                display: none !important;
-            }
-        }
-    }
-    .mat-error {
-        margin-top: 4px;
+      border: 1px solid $color-mushroom;
+      label {
+        color: $color-brownish-grey !important;
+        width: auto !important;
+        padding: 0px 10px;
         margin-left: 8px;
+      }
+      input {
+        color: $color-charcoal-grey;
+      }
     }
+  }
+  &.ng-touched.ng-invalid {
+    border: 1px solid $color-red;
+    label {
+      color: $color-red !important;
+    }
+    input {
+      color: $color-red !important;
+    }
+  }
+  &.sa-no-label {
+    &.mat-form-field-should-float {
+      .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix span .mat-form-field-label {
+        display: none !important;
+      }
+    }
+  }
+  .mat-error {
+    margin-top: 4px;
+    margin-left: 8px;
+  }
 }
 
 .sa-input-amount {
-    width: 144px;
-    height: 46px;
-    color: $color-charcoal-grey;
-    display: flex !important;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 3px;
-    border: 1px solid $color-mushroom;
-    @media #{$break-mobile} {
-        width: 160px;
+  width: 144px;
+  height: 46px;
+  color: $color-charcoal-grey;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 3px;
+  border: 1px solid $color-mushroom;
+  @media #{$break-mobile} {
+    width: 160px;
+  }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+  input {
+    width: 90%;
+    font-size: 14px;
+    font-family: "Roboto";
+    line-height: 1.49;
+    margin-left: 18px;
+  }
+  .sa-amount-prefix {
+    margin-left: 10px;
+  }
+  .mat-form-field-wrapper {
+    width: 100%;
+    margin-left: 10px;
+    .mat-form-field-infix {
+      border-top: 23px solid transparent;
+      margin-left: 2px;
     }
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        margin: 0;
+    .mat-form-field-suffix {
+      margin-right: 20px;
+      .mat-icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+    .mat-form-field-underline {
+      display: none;
+    }
+    .mat-error {
+      margin-top: 4px;
+    }
+  }
+  &.ng-touched.ng-invalid {
+    border: 1px solid $color-red;
+    label {
+      color: $color-red !important;
     }
     input {
-        width: 90%;
-        font-size: 14px;
-        font-family: "Roboto";
-        line-height: 1.49;
-        margin-left: 18px;
+      color: $color-red !important;
     }
-    .sa-amount-prefix {
-        margin-left: 10px;
+  }
+  &.mat-focused {
+    .mat-form-field-infix {
+      margin-left: -8px;
     }
-    .mat-form-field-wrapper {
-        width: 100%;
-        margin-left: 10px;
-        .mat-form-field-infix {
-            border-top: 23px solid transparent;
-            margin-left: 2px;
-        }
-        .mat-form-field-suffix {
-            margin-right: 20px;
-            .mat-icon {
-                width: 24px;
-                height: 24px;
-            }
-        }
-        .mat-form-field-underline {
-            display: none;
-        }
-        .mat-error {
-            margin-top: 4px;
-        }
+  }
+  &.sa-no-label {
+    &.mat-form-field-should-float {
+      .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix span .mat-form-field-label {
+        display: none !important;
+      }
     }
-    &.ng-touched.ng-invalid {
-        border: 1px solid $color-red;
-        label {
-            color: $color-red !important;
-        }
-        input {
-            color: $color-red !important;
-        }
-    }
-    &.mat-focused {
-        .mat-form-field-infix {
-            margin-left: -8px;
-        }
-    }
-    &.sa-no-label {
-        &.mat-form-field-should-float {
-            .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix span .mat-form-field-label {
-                display: none !important;
-            }
-        }
-    }
+  }
 }
 
 .sa-input-date {
-    .mat-input-element {
-        color: $color-mushroom;
+  .mat-input-element {
+    color: $color-mushroom;
+  }
+  .mat-form-field-wrapper {
+    padding-bottom: 0px;
+    .mat-form-field-infix {
+      padding: 0px;
+      border: 0px;
     }
-    .mat-form-field-wrapper {
-        padding-bottom: 0px;
-        .mat-form-field-infix {
-            padding: 0px;
-            border: 0px;
-        }
-        .mat-form-field-flex {
-            width: 144px;
-            height: 50px;
-            border: 1px solid $color-mushroom;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            input {
-                margin-left: 18px;
-            }
-        }
-        .mat-form-field-underline {
-            display: none;
-        }
-        .mat-input-element:disabled {
-            color: $color-charcoal-grey;
-            margin-left: 18px;
-        }
+    .mat-form-field-flex {
+      width: 144px;
+      height: 50px;
+      border: 1px solid $color-mushroom;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      input {
+        margin-left: 18px;
+      }
     }
+    .mat-form-field-underline {
+      display: none;
+    }
+    .mat-input-element:disabled {
+      color: $color-charcoal-grey;
+      margin-left: 18px;
+    }
+  }
 }
 
-
 /*END INPUTS*/
-
 
 /* TOLBAR */
 
 .mat-sidenav {
-    .mat-drawer-inner-container {
-        .mat-toolbar {
-            background: $color-brick !important;
-        }
+  .mat-drawer-inner-container {
+    .mat-toolbar {
+      background: $color-brick !important;
     }
+  }
 }
 
-
 /* END TOLBAR */
-
 
 /*MAT-MENU*/
 
 .mat-menu-content:not(:empty) {
-    padding-top: 0px !important;
-    padding-bottom: 0px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
 }
 
 button.mat-menu-item {
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 }
 
-
 /*END MAT-MENU*/
-
 
 /* CONTENTS */
 
 .mat-drawer-container {
-    background-color: $color-white-dark;
+  background-color: $color-white-dark;
 }
 
 .sa-dashboard-main-content {
-    padding: 34px 64px;
+  padding: 34px 64px;
 }
-
 
 /* END CONTENTS */
 
 // ICON
 .mat-icon {
-    &.icon-color-white {
-        svg {
-            path {
-                fill: $color-white;
-            }
-        }
+  &.icon-color-white {
+    svg {
+      path {
+        fill: $color-white;
+      }
     }
-    &.icon-color-accent {
-        svg {
-            g {
-                fill: #ff6649;
-                path {
-                    fill: $color-pinkish-orange;
-                }
-            }
-            path {
-                fill: $color-pinkish-orange;
-            }
+  }
+  &.icon-color-accent {
+    svg {
+      g {
+        fill: #ff6649;
+        path {
+          fill: $color-pinkish-orange;
         }
+      }
+      path {
+        fill: $color-pinkish-orange;
+      }
     }
+  }
 }
 
 //END ICONS
 // TABLES
 table {
-    width: 100%;
-    font-family: "Roboto";
-    thead {
-        .mat-header-row {
-            background-color: #f5f2f2;
-            color: $color-mushroom;
-            th {
-                font-size: 14px !important;
-            }
-        }
+  width: 100%;
+  font-family: "Roboto";
+  thead {
+    .mat-header-row {
+      background-color: #f5f2f2;
+      color: $color-mushroom;
+      th {
+        font-size: 14px !important;
+      }
     }
-    tbody {
-        tr {
-            border-color: $color-very-light-pink !important;
-            td {
-                font-size: 14px;
-                color: $color-charcoal-grey !important;
-                display: table-cell;
-                align-items: center;
-            }
-        }
-        tr:hover {
-            background-color: $color-very-light-pink;
-            cursor: pointer;
-        }
+  }
+  tbody {
+    tr {
+      border-color: $color-very-light-pink !important;
+      td {
+        font-size: 14px;
+        color: $color-charcoal-grey !important;
+        display: table-cell;
+        align-items: center;
+      }
     }
+    tr:hover {
+      background-color: $color-very-light-pink;
+      cursor: pointer;
+    }
+  }
 }
 
 // END TABLES
@@ -564,219 +542,213 @@ table {
 /* SIDENAV */
 
 .sidenav-container {
-    height: -webkit-fill-available !important;
+  height: -webkit-fill-available !important;
 }
 
 .mat-drawer-content {
-    height: inherit !important;
+  height: inherit !important;
 }
 
-
 /* END SIDENAV */
-
 
 /* SELECTS */
 
 .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
-    color: $color-charcoal-grey;
+  color: $color-charcoal-grey;
 }
 
 .mat-form-field.mat-focused.mat-primary .mat-select-arrow {
-    color: $color-charcoal-grey;
+  color: $color-charcoal-grey;
 }
 
 .mat-form-field-type-mat-select {
-    width: 310px;
-    height: 32px;
-    display: flex !important;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 3px;
-    border: 1px solid #a5a1a1;
-    padding: 8px;
-    .mat-form-field-infix {
-        border-top: none;
-    }
-    .mat-form-field-wrapper {
-        width: 100%;
-        padding-bottom: 0px;
-    }
-    .mat-form-field-underline {
-        display: none;
-    }
-    &.sa-no-label {
-        width: 196px;
-        height: 40px;
-        .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix span {
-            .mat-form-field-label {
-                display: none !important;
-                &.mat-empty {
-                    display: block !important;
-                }
-            }
+  width: 310px;
+  height: 32px;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 3px;
+  border: 1px solid #a5a1a1;
+  padding: 8px;
+  .mat-form-field-infix {
+    border-top: none;
+  }
+  .mat-form-field-wrapper {
+    width: 100%;
+    padding-bottom: 0px;
+  }
+  .mat-form-field-underline {
+    display: none;
+  }
+  &.sa-no-label {
+    width: 196px;
+    height: 40px;
+    .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix span {
+      .mat-form-field-label {
+        display: none !important;
+        &.mat-empty {
+          display: block !important;
         }
-        &.mat-form-field-should-float.mat-focused {
-            .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix span .mat-form-field-label {
-                display: none !important;
-            }
-        }
+      }
     }
-    &.mat-form-field-invalid {
-        border: 1px solid $color-red !important;
+    &.mat-form-field-should-float.mat-focused {
+      .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix span .mat-form-field-label {
+        display: none !important;
+      }
     }
-    .mat-error {
-        margin: 30px 5px;
-    }
+  }
+  &.mat-form-field-invalid {
+    border: 1px solid $color-red !important;
+  }
+  .mat-error {
+    margin: 30px 5px;
+  }
 }
 
-
 /* END SELECTS */
-
 
 /* RADIO GROUP */
 
 .mat-radio-button.mat-charcoal-grey .mat-radio-inner-circle {
-    background-color: $color-charcoal-grey;
+  background-color: $color-charcoal-grey;
 }
 
-
 /* END RADIO GROUP */
-
 
 /* TOOGLE */
 
 .mat-slide-toggle {
-    .mat-slide-toggle-label {
-        justify-content: space-between !important;
-        padding-right: 10px;
-        .mat-slide-toggle-content {
-            color: $color-charcoal-grey;
-            font-size: 14px;
-        }
+  .mat-slide-toggle-label {
+    justify-content: space-between !important;
+    padding-right: 10px;
+    .mat-slide-toggle-content {
+      color: $color-charcoal-grey;
+      font-size: 14px;
     }
+  }
 }
 
-
 /* END TOOGLE */
-
 
 /* CHECKBOX */
 
 .mat-checkbox-checked.mat-charcoal-grey .mat-checkbox-background {
-    background-color: $color-charcoal-grey;
+  background-color: $color-charcoal-grey;
 }
 
-
 /* END CHECKBOX */
-
 
 /* SNACKBAR */
 
 .mat-snack-bar-container {
-    width: 432px;
-    height: 55px;
-    border-radius: 0px;
-    background: $color-charcoal-grey;
-    color: $color-white;
-    font-family: "Roboto";
-    font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
+  width: 432px;
+  height: 55px;
+  border-radius: 0px;
+  background: $color-charcoal-grey;
+  color: $color-white;
+  font-family: "Roboto";
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
 }
 
-
 /* END SNACKBAR */
-
 
 /* DIALOG */
 
 .mat-dialog-container {
-    width: 432px !important;
-    height: 144px !important;
-    font-family: "Roboto";
-    font-size: 14px;
-    background: $color-white;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
+  width: 432px !important;
+  height: 144px !important;
+  font-family: "Roboto";
+  font-size: 14px;
+  background: $color-white;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
 }
 
-
 /* END DIALOG */
-
 
 /* PROGRESS BAR */
 
 .mat-progress-bar {
-    padding: 4px 0;
-    .mat-progress-bar-buffer {
-        background-color: $color-very-light-pink;
-    }
-    .mat-progress-bar-fill::after {
-        background-color: #f5a623;
-    }
+  padding: 4px 0;
+  .mat-progress-bar-buffer {
+    background-color: $color-very-light-pink;
+  }
+  .mat-progress-bar-fill::after {
+    background-color: #f5a623;
+  }
 }
 
-
 /* END PROGRESS BAR */
-
 
 /* SLIDE-TOGGLE*/
 
 .mat-slide-toggle {
-    .mat-slide-toggle-label {
-        flex-direction: row-reverse;
-        justify-content: space-between;
-    }
-    .mat-slide-toggle-bar {
-        margin-left: 8px;
-        // background-color: $color-pinkish-orange;
-    }
-    .mat-slide-toggle-thumb {
-        background: $color-white;
-    }
+  .mat-slide-toggle-label {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+  .mat-slide-toggle-bar {
+    margin-left: 8px;
+    // background-color: $color-pinkish-orange;
+  }
+  .mat-slide-toggle-thumb {
+    background: $color-white;
+  }
 }
 
 .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
-    background-color: $color-white;
+  background-color: $color-white;
 }
 
 .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
-    background-color: $color-pinkish-orange;
+  background-color: $color-pinkish-orange;
 }
 
-
 /* END SLIDE-TOGGLE*/
-
 
 /* PAGINATOR */
 
 .mat-paginator-container {
-    background-color: $color-white-dark;
+  background-color: $color-white-dark;
 }
 
 .mat-paginator-navigation-previous {
-    order: 1;
+  order: 1;
 }
 
 .mat-paginator-range-label {
-    order: 2;
-    margin: 0 !important;
-    font-size: 12px;
+  order: 2;
+  margin: 0 !important;
+  font-size: 12px;
 }
 
 .mat-paginator-navigation-next {
-    order: 3;
+  order: 3;
 }
-
 
 /* END PAGINATOR */
 
 .sa-bg-white {
-    background-color: $color-white;
+  background-color: $color-white;
 }
+
+/* LOADER */
+.sa-loading {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: auto;
+  left: 0;
+  opacity: 1;
+  z-index: 3;
+  background-color: rgba($color: #ffbdb7, $alpha: 0.2)
+}
+/* END LOADER */

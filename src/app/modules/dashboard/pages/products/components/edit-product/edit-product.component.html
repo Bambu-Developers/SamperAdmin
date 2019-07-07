@@ -1,5 +1,7 @@
+<div class="sa-loading sa-column sa-justify-center sa-align-center" *ngIf="loading">
+    <img src="assets/images/sanper-loader.gif">
+</div>
 <div class="sa-dashboard-main-content">
-    <img class="sa-loader" *ngIf="loading" src="assets/images/sanper-loader.gif">
     <div class="sa-edit-product-content">
         <form (ngSubmit)="editProduct()" [formGroup]="editProductForm">
             <div class="sa-product-tittle">

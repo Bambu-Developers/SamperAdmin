@@ -38,16 +38,16 @@ export class NavbarComponent {
       title: DASHBOARD_LANGUAGE.navbar.historyLiquidation,
       route: '/dashboard/inventory/history-liquidation'
     },
-    {
-      icon: 'ic-analytics',
-      title: DASHBOARD_LANGUAGE.navbar.analitycs,
-      route: '/dashboard/analytics'
-    },
-    {
-      icon: '',
-      title: DASHBOARD_LANGUAGE.navbar.clients,
-      route: '/dashboard/analytics/clients'
-    },
+    // {
+    //   icon: 'ic-analytics',
+    //   title: DASHBOARD_LANGUAGE.navbar.analitycs,
+    //   route: '/dashboard/analytics'
+    // },
+    // {
+    //   icon: '',
+    //   title: DASHBOARD_LANGUAGE.navbar.clients,
+    //   route: '/dashboard/analytics/clients'
+    // },
     {
       icon: 'ic-products',
       title: DASHBOARD_LANGUAGE.navbar.products,
