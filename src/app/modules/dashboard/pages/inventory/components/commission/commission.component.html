@@ -115,7 +115,7 @@
             <!-- Commission Column -->
             <ng-container matColumnDef="commission">
                 <th class="sa-commission-column" mat-header-cell *matHeaderCellDef>{{lanCom.commission}}</th>
-                <td class="sa-commission-column" mat-cell *matCellDef="let history"> {{history.seller_commission}}% {{ history.totalCommission | currency}}</td>
+                <td class="sa-commission-column" mat-cell *matCellDef="let history"> {{history.seller_commission_retail}}% {{ history.totalCommission | currency}}</td>
                 <td class="sa-commission-column" mat-footer-cell *matFooterCellDef>
                     {{ totalCommissionRetail | currency}} </td>
             </ng-container>
@@ -167,7 +167,7 @@
             <!-- Commission Column -->
             <ng-container matColumnDef="commission">
                 <th class="sa-commission-column" mat-header-cell *matHeaderCellDef>{{lanCom.commission}}</th>
-                <td class="sa-commission-column" mat-cell *matCellDef="let history"> {{history.seller_commission}}% {{ history.totalCommission | currency}}</td>
+                <td class="sa-commission-column" mat-cell *matCellDef="let history"> {{history.seller_commission_wholesale}}% {{ history.totalCommission | currency}}</td>
                 <td class="sa-commission-column" mat-footer-cell *matFooterCellDef>
                     {{ totalCommissionWholesale | currency}} </td>
             </ng-container>

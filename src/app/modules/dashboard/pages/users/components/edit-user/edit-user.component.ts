@@ -64,6 +64,8 @@ export class EditUserComponent implements OnInit {
       status: new FormControl(1, [
         Validators.required
       ]),
+      userRegistration: new FormControl(''),
+      editPrices: new FormControl(''),
     }, Validators.required);
   }
 
@@ -80,6 +82,8 @@ export class EditUserComponent implements OnInit {
         this.editUserForm.get('route').patchValue(this.user.route);
         this.editUserForm.get('name').patchValue(this.user.name);
         this.editUserForm.get('status').patchValue(this.user.status);
+        this.editUserForm.get('userRegistration').patchValue(res.permision.user_registration);
+        this.editUserForm.get('editPrices').patchValue(res.permision.price_edition);
         this.selectPermisions = this.user.permision;
       },
       err => console.error(err)

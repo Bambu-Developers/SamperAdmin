@@ -118,6 +118,13 @@ export class ClientsService {
   }
 
   private _setEditedClientData(clientData, id) {
+    const monday = clientData.monday === undefined ? false : clientData.monday;
+    const tuesday = clientData.tuesday === undefined ? false : clientData.tuesday;
+    const wednesday = clientData.wednesday === undefined ? false : clientData.wednesday;
+    const thursday = clientData.thursday === undefined ? false : clientData.thursday;
+    const friday = clientData.friday === undefined ? false : clientData.friday;
+    const saturday = clientData.saturday === undefined ? false : clientData.saturday;
+    const sunday = clientData.sunday === undefined ? false : clientData.sunday;
     if (clientData.photo === undefined) {
       const CLIENT_DATAP: ClientModel = {
         photo: '',
@@ -125,13 +132,13 @@ export class ClientsService {
         shop_name: clientData.shop_name,
         phone: clientData.phone,
         route_id: clientData.route,
-        monday: clientData.monday,
-        tuesday: clientData.tuesday,
-        wednesday: clientData.wednesday,
-        thursday: clientData.thursday,
-        friday: clientData.friday,
-        saturday: clientData.saturday,
-        sunday: clientData.sunday,
+        monday: monday,
+        tuesday: tuesday,
+        wednesday: wednesday,
+        thursday: thursday,
+        friday: friday,
+        saturday: saturday,
+        sunday: sunday,
       };
       this.clientsRef.update(id, CLIENT_DATAP);
     } else {
@@ -141,13 +148,13 @@ export class ClientsService {
         shop_name: clientData.shop_name,
         phone: clientData.phone,
         route_id: clientData.route,
-        monday: clientData.monday,
-        tuesday: clientData.tuesday,
-        wednesday: clientData.wednesday,
-        thursday: clientData.thursday,
-        friday: clientData.friday,
-        saturday: clientData.saturday,
-        sunday: clientData.sunday,
+        monday: monday,
+        tuesday: tuesday,
+        wednesday: wednesday,
+        thursday: thursday,
+        friday: friday,
+        saturday: saturday,
+        sunday: sunday,
       };
       this.clientsRef.update(id, CLIENT_DATA);
     }

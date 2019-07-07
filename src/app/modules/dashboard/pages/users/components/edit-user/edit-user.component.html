@@ -10,7 +10,8 @@
             </div>
             <div class="sa-edit-user-information-text">
                 <p class="sa-charcoal-grey sa-text-12 sa-roboto">{{lanUser.edit.created}} {{user.create_at | date }}</p>
-                <p class="sa-charcoal-grey sa-text-12 sa-roboto"> {{lanUser.user.lastConexion}} {{user.last_conexion | date }}</p>
+                <p class="sa-charcoal-grey sa-text-12 sa-roboto"> {{lanUser.user.lastConexion}}
+                    {{user.last_conexion | date }}</p>
             </div>
         </div>
         <form class="sa-edit-user-form" [formGroup]="editUserForm">
@@ -20,15 +21,10 @@
                     <input matInput placeholder="Nombre de usuario" formControlName="name">
                 </mat-form-field>
             </div>
-            <!-- <div class="sa-edit-user-form-group">
-                <p class="sa-charcoal-grey sa-text-14 sa-roboto sa-edit-user-form-label">{{lanUser.edit.password}}</p>
-                <mat-form-field class="sa-edit-user-form-input sa-no-label sa-input-text">
-                    <input matInput placeholder="Contraseña" formControlName="password">
-                </mat-form-field>
-            </div> -->
             <div *ngIf="user.rol == 0" class="sa-edit-user-form-group">
                 <p class="sa-charcoal-grey sa-text-14 sa-roboto sa-edit-user-form-label">{{lanUser.edit.route}}</p>
-                <mat-form-field class="sa-edit-user-route mat-select-trigger sa-no-label mat-form-field-type-mat-select">
+                <mat-form-field
+                    class="sa-edit-user-route mat-select-trigger sa-no-label mat-form-field-type-mat-select">
                     <mat-select class="mat-select-trigger" placeholder="{{user.route_name}}" formControlName="route">
                         <mat-option *ngFor="let route of routes" [value]="route.id">{{route.name}}</mat-option>
                     </mat-select>
@@ -37,12 +33,15 @@
             <div *ngIf="user.rol == 2" class="sa-edit-user-admin">
                 <p class="sa-charcoal-grey sa-text-14 sa-roboto">{{lanUser.edit.actions}}</p>
                 <div class="sa-edit-user-checkbox-group">
-                    <mat-checkbox [checked]="permision.name" (change)="changePermisions($event, permision.id)" color="charcoal-grey" *ngFor="let permision of permisions">{{permision.name}}</mat-checkbox>
+                    <mat-checkbox formControlName="userRegistration" (change)="changePermisions($event, 0)" color="charcoal-grey">{{lanUser.edit.userRegistration}}</mat-checkbox>
+                    <mat-checkbox formControlName="editPrices" (change)="changePermisions($event, 1)" color="charcoal-grey">{{lanUser.edit.editPrices}}</mat-checkbox>
                 </div>
             </div>
             <div *ngIf="user.rol != 2" class="sa-edit-user-form-group">
                 <p class="sa-charcoal-grey sa-text-14 sa-roboto sa-edit-user-form-label">{{lanUser.edit.status}}</p>
-                <mat-slide-toggle [checked]="editUserForm.get('status').value == 0 ? true : false" (change)="setDisponibility($event)" class="sa-edit-user-form-input" labelPosition="before" color="accent">
+                <mat-slide-toggle [checked]="editUserForm.get('status').value == 0 ? true : false"
+                    (change)="setDisponibility($event)" class="sa-edit-user-form-input" labelPosition="before"
+                    color="accent">
                     {{editUserForm.get('status').value == 0 ? lanUser.edit.enabled : lanUser.edit.disabled}}
                 </mat-slide-toggle>
             </div>
@@ -50,8 +49,10 @@
                 {{lanUser.edit.deleteUser}}
             </p>
             <div class="sa-edit-user-actions">
-                <button [routerLink]="['/dashboard/users/']" class="sa-btn-small" mat-raised-button color="white">{{lanUser.cancel}}</button>
-                <button (click)="editUser()" class="sa-btn-small" mat-raised-button color="charcoal-grey">{{lanUser.edit.saveUser}}</button>
+                <button [routerLink]="['/dashboard/users/']" class="sa-btn-small" mat-raised-button
+                    color="white">{{lanUser.cancel}}</button>
+                <button (click)="editUser()" class="sa-btn-small" mat-raised-button
+                    color="charcoal-grey">{{lanUser.edit.saveUser}}</button>
             </div>
         </form>
     </div>

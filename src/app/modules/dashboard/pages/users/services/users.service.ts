@@ -123,8 +123,8 @@ export class UsersService {
       );
   }
 
-  public getUserLogged(email): any {
-    return this.db.list('Users', ref => ref.orderByChild('email').equalTo(email))
+  public getUserLogged(id): any {
+    return this.db.list('Users', ref => ref.orderByChild('id').equalTo(id))
       .snapshotChanges()
       .pipe(
         map(changes =>

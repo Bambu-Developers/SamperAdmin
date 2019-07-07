@@ -35,6 +35,7 @@
                         justify-content: center;
                         .sa-current-photo {
                             height: 100%;
+                            max-width: 240px;
                         }
                         .sa-edit-image {
                             height: 160px;
@@ -50,6 +51,7 @@
                         }
                         #preview {
                             height: 100%;
+                            max-width: 240px;
                         }
                     }
                     .sa-bender-type-card {

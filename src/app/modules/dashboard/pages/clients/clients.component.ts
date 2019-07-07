@@ -38,6 +38,7 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.setRouteNames();
   }
 
   public getClients() {
@@ -45,24 +46,30 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
       res => {
         this.dataSource.data = res;
         this.clients = res;
-        const data = [];
-        this.clients.forEach(client => {
-          if (client.route_id !== '') {
-            this.subscriptionClient = this.clientsService.getRouteByID(client['route_id']).subscribe(route => {
-              if (route !== null) {
-                client['route_name'] = route.name;
-              }
-            });
-          }
-        });
-        for (let i = 0; i < this.pagination.perPage; i++) {
-          if (this.clients[i]) {
-            data.push(this.clients[i]);
-            this.indexClients = this.indexClients + i;
-          }
-        }
+        this.setRouteNames();
       }
     );
+    this.setDataPaginator();
+  }
+
+  public setDataPaginator() {
+    for (let i = 0; i < this.pagination.perPage; i++) {
+      if (this.clients[i]) {
+        this.indexClients = this.indexClients + i;
+      }
+    }
+  }
+
+  public setRouteNames() {
+    this.clients.forEach(client => {
+      if (client.route_id !== '') {
+        this.subscriptionClient = this.clientsService.getRouteByID(client['route_id']).subscribe(route => {
+          if (route !== null) {
+            client['route_name'] = route.name;
+          }
+        });
+      }
+    });
   }
 
   public getRoutes() {

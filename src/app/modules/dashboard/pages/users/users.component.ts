@@ -18,7 +18,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   public language = USERS_LANGUAGE;
   public displayedColumns: string[] = ['name', 'username', 'rol', 'route', 'dateCreated', 'lastConexion', 'status'];
   public dataSource = new MatTableDataSource();
-  public email: string;
+  public id: string;
   public routes: RouteModel[];
   public users;
   public user;
@@ -39,7 +39,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getsUsers();
     this.getRoutes();
-    this.email = this.authService.getUser();
+    this.id = this.authService.getUserData();
     this.logged = this.getsUsersLogged();
   }
 
@@ -86,7 +86,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   public getsUsersLogged() {
-    this._subscriptionUserLogged = this.usersService.getUserLogged(this.email).subscribe(
+    this._subscriptionUserLogged = this.usersService.getUserLogged(this.id).subscribe(
       res => {
         localStorage.setItem('permission', res[0].permision.price_edition);
         this.dataUserLogged = res;

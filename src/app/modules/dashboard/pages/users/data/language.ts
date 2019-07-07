@@ -48,5 +48,7 @@ export const USERS_LANGUAGE = {
         disabled: 'Deshabilitado',
         deleteUser: 'Eliminar usuario',
         saveUser: 'Guardar usuario',
+        userRegistration: 'Alta de usuarios',
+        editPrices: 'Edición de precios'
     },
 };

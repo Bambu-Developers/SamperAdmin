@@ -110,7 +110,7 @@ export class CommissionComponent implements OnInit, OnDestroy {
             lossesProducts.push({
               ...loss,
               numberItems: loss.number_of_piz,
-              totalPrice: loss.retail_price
+              totalPrice: parseFloat(loss.retail_price)
             });
           }
         });
@@ -131,21 +131,22 @@ export class CommissionComponent implements OnInit, OnDestroy {
           const keys = Object.keys(sale.Products);
           const productsArray = keys.map(k => {
             const product = sale.Products[k];
-            if ((product.number_of_items >= product.wholesale_quantity) && (product.number_of_items < product.wholesale_quantityG)) {
-              product.commission = ((product.number_of_items * product.wholesale_price)
+            if ((product.number_of_items >= parseFloat(product.wholesale_quantity))
+              && (product.number_of_items < parseFloat(product.wholesale_quantityG))) {
+              product.commission = ((product.number_of_items * parseFloat(product.wholesale_price))
                 * parseFloat(product.seller_commission_wholesale || 0)) / 100.00;
               this.totalCommissionWholesale += product.commission;
               product.iswholesale = true;
             }
-            if (product.wholesale_quantityG !== '' && (product.number_of_items >= product.wholesale_quantityG)) {
-              product.commission = ((product.number_of_items * product.wholesale_priceG)
+            if (product.wholesale_quantityG !== '' && (product.number_of_items >= parseFloat(product.wholesale_quantityG))) {
+              product.commission = ((product.number_of_items * parseFloat(product.wholesale_priceG))
                 * parseFloat(product.seller_commission_wholesaleG || 0)) / 100.00;
               this.totalCommissionWholesaleG += product.commission;
               product.iswholesaleG = true;
             }
-            if (product.number_of_items < product.wholesale_quantity) {
-              product.commission = ((product.number_of_items * product.retail_price)
-                * parseFloat(product.seller_commission || 0)) / 100.00;
+            if (product.number_of_items < parseFloat(product.wholesale_quantity)) {
+              product.commission = ((product.number_of_items * parseFloat(product.retail_price))
+                * parseFloat(product.seller_commission_retail || 0)) / 100.00;
               this.totalCommissionRetail += product.commission;
               product.iswholesale = false;
               product.iswholesaleG = false;
@@ -170,35 +171,35 @@ export class CommissionComponent implements OnInit, OnDestroy {
             if (product.iswholesale === true) {
               wholesaleProducts.push({
                 ...product,
-                totalPrice: product.number_of_items * product.wholesale_price,
+                totalPrice: product.number_of_items * parseFloat(product.wholesale_price),
                 totalItems: product.number_of_items,
                 totalCommission: product.commission
               });
             }
           }
           if (wholesaleproductIdxG > -1 && product.iswholesaleG) {
-            wholesaleProductsG[wholesaleproductIdxG].totalPrice += product.number_of_items * product.wholesale_priceG;
+            wholesaleProductsG[wholesaleproductIdxG].totalPrice += product.number_of_items * parseFloat(product.wholesale_priceG);
             wholesaleProductsG[wholesaleproductIdxG].totalItems += product.number_of_items;
             wholesaleProductsG[wholesaleproductIdxG].totalCommission += product.commission;
           } else {
             if (product.iswholesaleG === true) {
               wholesaleProductsG.push({
                 ...product,
-                totalPrice: product.number_of_items * product.wholesale_priceG,
+                totalPrice: product.number_of_items * parseFloat(product.wholesale_priceG),
                 totalItems: product.number_of_items,
                 totalCommission: product.commission
               });
             }
           }
           if (retailproductIdx > -1 && !product.iswholesale && !product.iswholesaleG) {
-            retailProducts[retailproductIdx].totalPrice += product.number_of_items * product.retail_price;
+            retailProducts[retailproductIdx].totalPrice += product.number_of_items * parseFloat(product.retail_price);
             retailProducts[retailproductIdx].totalItems += product.number_of_items;
             retailProducts[retailproductIdx].totalCommission += product.commission;
           } else {
             if (product.iswholesale === false && product.iswholesaleG === false) {
               retailProducts.push({
                 ...product,
-                totalPrice: product.number_of_items * product.retail_price,
+                totalPrice: product.number_of_items * parseFloat(product.retail_price),
                 totalItems: product.number_of_items,
                 totalCommission: product.commission
               });
@@ -208,6 +209,9 @@ export class CommissionComponent implements OnInit, OnDestroy {
         this.dataSourceTableHistoryWholeSale.data = wholesaleProducts;
         this.dataSourceTableHistoryWholeSaleG.data = wholesaleProductsG;
         this.dataSourceTableHistory.data = retailProducts;
+        console.log(this.dataSourceTableHistory.data);
+        console.log(this.dataSourceTableHistoryWholeSale.data);
+        console.log(this.dataSourceTableHistoryWholeSaleG.data);
       });
   }
 

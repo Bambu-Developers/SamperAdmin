@@ -116,17 +116,17 @@ export class ViewClientComponent implements OnInit {
       this._subscriptionService = this._clientService.getClient(this.id).subscribe(
         res => {
           this.dataSource = res;
-          this.currentDays.push(res.monday);
-          this.currentDays.push(res.tuesday);
-          this.currentDays.push(res.wednesday);
-          this.currentDays.push(res.thursday);
-          this.currentDays.push(res.friday);
-          this.currentDays.push(res.saturday);
-          this.currentDays.push(res.sunday);
-          for (let i = 0; i < this.days.length; i++) {
-            this.days[i].active = this.currentDays[i];
-          }
-          if (res.photo !== '' ) {
+          // this.currentDays.push(res.monday);
+          // this.currentDays.push(res.tuesday);
+          // this.currentDays.push(res.wednesday);
+          // this.currentDays.push(res.thursday);
+          // this.currentDays.push(res.friday);
+          // this.currentDays.push(res.saturday);
+          // this.currentDays.push(res.sunday);
+          // for (let i = 0; i < this.days.length; i++) {
+          //   this.days[i].active = this.currentDays[i];
+          // }
+          if (res.photo !== '') {
             this.editClientForm.get('photo').patchValue(res.photo);
           }
           this.editClientForm.get('name').patchValue(res.name);
@@ -140,15 +140,38 @@ export class ViewClientComponent implements OnInit {
               }
             });
           }
+          this.getDays();
         }
       );
     });
   }
 
+  public getDays() {
+    this.currentDays = [];
+    this.currentDays.push(this.dataSource.monday);
+    this.currentDays.push(this.dataSource.tuesday);
+    this.currentDays.push(this.dataSource.wednesday);
+    this.currentDays.push(this.dataSource.thursday);
+    this.currentDays.push(this.dataSource.friday);
+    this.currentDays.push(this.dataSource.saturday);
+    this.currentDays.push(this.dataSource.sunday);
+    for (let i = 0; i < this.days.length; i++) {
+      this.days[i].active = this.currentDays[i];
+    }
+  }
+
   public getRoutes() {
     this._subscriptionRoutes = this._clientService.getAllRoutes().subscribe(
       res => {
-        this.routes = res;
+        this.routes = res.sort((r1, r2) => {
+          if (r1.name < r2.name) {
+            return -1;
+          }
+          if (r1.name > r2.name) {
+            return 1;
+          }
+          return 0;
+        });
       }
     );
   }
@@ -156,6 +179,7 @@ export class ViewClientComponent implements OnInit {
   public editCredit() {
     if (this.creditEditForm.valid) {
       this._clientService.editCredit(this.creditEditForm.value, this.id);
+      this.getDays();
       this.openSnackBarEdited();
       this.router.navigate(['/dashboard/clients/view/' + this.id]);
     }

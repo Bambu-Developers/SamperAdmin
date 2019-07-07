@@ -74,6 +74,11 @@ export class AuthService {
     return user.email;
   }
 
+  public getUserData(): string {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user.uid;
+  }
+
 
   /* Setting up user data */
   private updateUserData(user: any) {

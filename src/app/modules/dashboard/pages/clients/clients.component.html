@@ -30,8 +30,7 @@
                     <!-- {{ language.client.route }} -->
                     <mat-select class="mat-select-trigger" placeholder="Rutas">
                         <mat-option (click)="doFilter('')" [value]="Todas">Todas</mat-option>
-                        <mat-option *ngFor="let route of routes" (click)="doFilter(route.name)" [value]="route.name">{{route.name}}</mat-option>
-                        <!-- <mat-option (click)="doFilter(null)" [value]="Todas">Sin ruta</mat-option> -->
+                        <mat-option *ngFor="let route of routes" (click)="doFilter(route.name)" [value]="route.name">{{route?.name}}</mat-option>
                     </mat-select>
                 </th>
                 <td class="sa-route-column" mat-cell *matCellDef="let client"> {{client.route_name}} </td>
