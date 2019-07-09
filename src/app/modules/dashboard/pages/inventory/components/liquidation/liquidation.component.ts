@@ -8,6 +8,7 @@ import { InventoryService } from './../../services/inventory.service';
 import { MatTableDataSource, MatDialog } from '@angular/material';
 import { DialogComponent } from 'src/app/modules/shared/components/dialog/dialog.component';
 import { concatMap, map, take, toArray } from 'rxjs/operators';
+import moment from 'moment';
 
 
 @Component({
@@ -89,7 +90,10 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     const wholesaleProducts = [];
     const wholesaleProductsG = [];
     const retailProducts = [];
-    this._subscriptionInventories = this._inventoryService.getSalesFromKeys(this.userRoute)
+    let startDate = new Date;
+    const SD = moment(startDate).format('YYYYMMDD');
+    startDate = moment(SD, 'YYYYMMDD').toDate();
+    this._subscriptionInventories = this._inventoryService.getSalesByDate(this.userRoute, startDate, startDate)
       .valueChanges()
       .pipe(
         take(1),
@@ -188,7 +192,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
             d.date = this._datePipe.transform(d.date, 'yyyy-MM-dd');
             return d;
           })
-          .filter(d => d.seller === this.id && d.date === this.today);
+          .filter(d => d.route === this.id && d.date === this.today);
         this.devolutions.forEach(dev => {
           const returnedProductIdx = returnedProducts.findIndex((rp: any) => {
             return rp.sku === dev.sku;
@@ -205,11 +209,15 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           });
         });
         this.returnedProducts = returnedProducts;
+        console.log(this.returnedProducts);
       });
   }
 
   public getLosses() {
-    this._subscriptionLosses = this._inventoryService.getLossesByDate(this.userRoute, new Date(), new Date())
+    let startDate = new Date;
+    const SD = moment(startDate).format('YYYYMMDD');
+    startDate = moment(SD, 'YYYYMMDD').toDate();
+    this._subscriptionLosses = this._inventoryService.getLossesByDate(this.userRoute, startDate, startDate)
       .valueChanges()
       .pipe(
         take(1),
