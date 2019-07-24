@@ -1,3 +1,4 @@
+import { ClientsService } from './../../../clients/services/clients.service';
 import { InventoryService } from './../../services/inventory.service';
 import { ActivatedRoute } from '@angular/router';
 import { INVENTORY_LANGUAGE } from './../../data/language';
@@ -25,12 +26,17 @@ export class TicketComponent implements OnInit, OnDestroy {
   public totalSold = 0;
   public date: Date;
   public ticket: any;
+  public client: any;
+  public clientID: any;
+  public route_name = '';
   private _subscriptionTicket: Subscription;
   private _subscriptionDevolutions: Subscription;
+  private _subscriptionClient: Subscription;
 
   constructor(
     private _route: ActivatedRoute,
     private _inventoryService: InventoryService,
+    private _clientService: ClientsService
   ) { }
 
   ngOnInit() {
@@ -74,13 +80,13 @@ export class TicketComponent implements OnInit, OnDestroy {
   }
 
   public getTicketData(route, ticket) {
-    let route_name = '';
     this._subscriptionTicket = this._inventoryService.getSaleByTicket(route, ticket)
       .valueChanges()
       .pipe(
         map(sale => {
+          this.clientID = sale[1];
           this.date = sale[2] as Date;
-          route_name = sale[6] as string;
+          this.route_name = sale[6] as string;
           const products = sale[0];
           const productKeys = Object.keys(products);
           this.totalSold = sale[10] as number;
@@ -91,7 +97,7 @@ export class TicketComponent implements OnInit, OnDestroy {
         const wholesaleProducts = [];
         const wholesaleProductsG = [];
         products.forEach(product => {
-          product = { ...product, route_name: route_name };
+          product = { ...product, route_name: this.route_name };
           if (product.wholesale_quantityG !== '' && (product.number_of_items >= product.wholesale_quantity)
             && (product.number_of_items < product.wholesale_quantityG)) {
             wholesaleProducts.push(product);
@@ -106,7 +112,14 @@ export class TicketComponent implements OnInit, OnDestroy {
         this.dataSourceRetailTable.data = retailProducts;
         this.dataSourceWholesaleTable.data = wholesaleProducts;
         this.dataSourceWholesaleTableG.data = wholesaleProductsG;
+        this.getClient();
       });
+  }
+
+  public getClient() {
+    this._subscriptionClient = this._clientService.getClient(this.clientID).subscribe(client => {
+      this.client = client;
+    });
   }
 
   ngOnDestroy() {
@@ -115,6 +128,9 @@ export class TicketComponent implements OnInit, OnDestroy {
     }
     if (this._subscriptionTicket) {
       this._subscriptionTicket.unsubscribe();
+    }
+    if (this._subscriptionClient) {
+      this._subscriptionClient.unsubscribe();
     }
   }
 

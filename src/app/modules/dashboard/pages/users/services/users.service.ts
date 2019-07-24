@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { UserModel } from '../models/user.model';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
@@ -118,6 +118,19 @@ export class UsersService {
         map(user => {
           const data = user.payload.val() as UserModel;
           const id = user.payload.key;
+          return { id, ...data };
+        })
+      );
+  }
+
+  public getUserByRoute(route) {
+    return this.db.list(`${this._basePath}`,
+      ref => ref.orderByChild('route').equalTo(route))
+      .snapshotChanges()
+      .pipe(
+        map((user: any) => {
+          const data = user[0].payload.val();
+          const id = user[0].payload.key;
           return { id, ...data };
         })
       );

@@ -10,6 +10,19 @@
             <mat-label> {{totalSold | currency}}</mat-label>
         </div>
     </div>
+    <div class="sa-sale-date sa-column">
+        <div>
+            Cliente:
+            <mat-label class="sa-brownish-grey">{{client?.name | titlecase}}</mat-label>
+            <mat-label class="sa-bold"> ({{route_name}})</mat-label>
+        </div>
+        <div>
+            Tienda: "<mat-label class="sa-brownish-grey">{{client?.shop_name | titlecase}}</mat-label>"
+        </div>
+        <div>
+            Teléfono: <mat-label class="sa-brownish-grey">{{client?.phone}}</mat-label>
+        </div>
+    </div>
     <div class="sa-sale-date">
         <mat-label>Fecha de la venta </mat-label>
         <mat-label class="date sa-roboto-medium">{{date | date }}</mat-label>
@@ -32,7 +45,8 @@
             <!-- Name Column -->
             <ng-container matColumnDef="name">
                 <th class="sa-name-column" mat-header-cell *matHeaderCellDef>Producto</th>
-                <td class="sa-name-column" mat-cell *matCellDef="let devolution">{{devolution.name}} {{devolution.content}}
+                <td class="sa-name-column" mat-cell *matCellDef="let devolution">{{devolution.name}}
+                    {{devolution.content}}
                 </td>
             </ng-container>
             <!-- Quantity Column -->

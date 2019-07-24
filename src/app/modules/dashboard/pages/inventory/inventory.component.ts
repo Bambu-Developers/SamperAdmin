@@ -83,26 +83,8 @@ export class InventoryComponent implements OnInit, OnDestroy {
       });
   }
 
-  public getInventoryByKey(route) {
+  public setRoute(route) {
     this.liquidation = route;
-    this._inventoryService.getSalesByKey(route)
-    .valueChanges()
-      .pipe(
-        take(1),
-        concatMap(x => x),
-        concatMap( (inv: any) => {
-          const keys = Object.keys(inv.Products);
-          const productsArray = keys.map(k => {
-            const product = inv.Products[k];
-            return product;
-          });
-          return productsArray;
-        }),
-        toArray()
-      )
-      .subscribe(sales => {
-        this.dataSource.data = sales;
-      });
   }
 
   public calculateCommission() {

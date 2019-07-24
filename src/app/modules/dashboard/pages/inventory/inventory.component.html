@@ -32,7 +32,7 @@
             <div class="sa-liquidation-actions">
                 <div class="sa-route-selection">
                     <mat-select class="mat-select-trigger" placeholder="Selecciona una ruta">
-                        <mat-option *ngFor="let route of routes" (click)="routeSelected = true" (click)="getInventoryByKey(route.id)" [value]="route.name">{{route.name}}</mat-option>
+                        <mat-option *ngFor="let route of routes" (click)="routeSelected = true" (click)="setRoute(route.id)" [value]="route.name">{{route.name}}</mat-option>
                     </mat-select>
                 </div>
                 <mat-label *ngIf="!routeSelected" class="sa-text-italic sa-text-14">{{lanInv.selectRoute}}</mat-label>

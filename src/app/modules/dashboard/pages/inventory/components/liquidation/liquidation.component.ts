@@ -50,6 +50,8 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   public totalSaleWholesaleG: any = 0;
   public totalSaleRetail: any = 0;
   public totalSale: any = 0;
+  public dateParam: any;
+  public user_name: any;
   private _subscription: Subscription;
   private _subscriptionService: any;
   private _subscriptionInventories: Subscription;
@@ -74,12 +76,13 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   }
 
   public getUser() {
+    this.dateParam = this._route.snapshot.queryParams.date;
     this._subscription = this._route.params.subscribe(params => {
       this.id = params['id'];
-      this._subscriptionService = this._userService.getUser(this.id).subscribe(
-        res => {
+      this._subscriptionService = this._userService.getUserByRoute(this.id)
+        .subscribe((res: any) => {
           this.dataSource = res;
-          this.userRoute = res.route || params['id'];
+          this.userRoute = res.route || this.id;
           this.getInventories();
           this.getLosses();
         });
@@ -91,7 +94,12 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     const wholesaleProductsG = [];
     const retailProducts = [];
     let startDate = new Date;
-    const SD = moment(startDate).format('YYYYMMDD');
+    let SD = '';
+    if (this.dateParam !== undefined) {
+      SD = moment(this.dateParam).format('YYYYMMDD');
+    } else {
+      SD = moment(startDate).format('YYYYMMDD');
+    }
     startDate = moment(SD, 'YYYYMMDD').toDate();
     this._subscriptionInventories = this._inventoryService.getSalesByDate(this.userRoute, startDate, startDate)
       .valueChanges()
@@ -192,7 +200,13 @@ export class LiquidationComponent implements OnInit, OnDestroy {
             d.date = this._datePipe.transform(d.date, 'yyyy-MM-dd');
             return d;
           })
-          .filter(d => d.route === this.id && d.date === this.today);
+          .filter(d => {
+            if (this.dateParam !== undefined) {
+              return d.route === this.id && d.date === this.dateParam;
+            } else {
+              return d.route === this.id && d.date === this.today;
+            }
+          });
         this.devolutions.forEach(dev => {
           const returnedProductIdx = returnedProducts.findIndex((rp: any) => {
             return rp.sku === dev.sku;
@@ -209,13 +223,17 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           });
         });
         this.returnedProducts = returnedProducts;
-        console.log(this.returnedProducts);
       });
   }
 
   public getLosses() {
     let startDate = new Date;
-    const SD = moment(startDate).format('YYYYMMDD');
+    let SD = '';
+    if (this.dateParam !== undefined) {
+      SD = moment(this.dateParam).format('YYYYMMDD');
+    } else {
+      SD = moment(startDate).format('YYYYMMDD');
+    }
     startDate = moment(SD, 'YYYYMMDD').toDate();
     this._subscriptionLosses = this._inventoryService.getLossesByDate(this.userRoute, startDate, startDate)
       .valueChanges()
@@ -269,7 +287,8 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
   public approveLiquidation() {
     this._inventoryService.approveLiquidation(
-      this.id,
+      this.dataSource.id,
+      this.dataSource.name,
       this.today,
       this.userRoute,
       this.totalSold,
@@ -289,8 +308,12 @@ export class LiquidationComponent implements OnInit, OnDestroy {
             this.allLiquidations = this._inventoryService.getLiquidationsFromKeys(liquidation.key).valueChanges();
             this.allLiquidations.subscribe(res => {
               res.forEach(element => {
+                if (this.dateParam !== undefined) {
+                  this.today = this.dateParam;
+                }
                 if (element.date === this.today) {
                   this.existLiquidation = true;
+                  this.user_name = element.user_name || this.dataSource.name;
                 }
               });
             });

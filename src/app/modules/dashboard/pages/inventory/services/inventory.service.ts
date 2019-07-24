@@ -58,10 +58,11 @@ export class InventoryService {
     return this.lossRef = this._db.list<any>(this._basePathLoss);
   }
 
-  public approveLiquidation(userId, date, userRoute, totalSale, totalLiquidation, totalWithLoss, totalDevolutions, totalLosses) {
+  public approveLiquidation(userId, userName, date, userRoute, totalSale, totalLiquidation, totalWithLoss, totalDevolutions, totalLosses) {
     this.liquidationRef = this._db.list<any>(`${this._basePathLiq + userRoute}`);
     const LIQUIDATION_DATA = {
       uid: userId,
+      user_name: userName,
       date: date,
       route: userRoute,
       total_sale: totalSale,

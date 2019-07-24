@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { ClientsService } from 'src/app/modules/dashboard/pages/clients/services/clients.service';
 import { UsersService } from '../users/services/users.service';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { RouteModel } from '../users/models/routes.model';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { CLIENTS_LANGUAGE } from 'src/app/modules/dashboard/pages/clients/data/language';
 import { PAGINATION } from 'src/app/modules/shared/components/paginator/data/data';
+import { mergeMap, concatMap, map, take, toArray } from 'rxjs/operators';
 
 @Component({
   selector: 'app-clients',
@@ -18,6 +19,7 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
   public pagination = PAGINATION;
   public indexClients = 0;
   public clients = [];
+  public loading = true;
   public routes: RouteModel[];
   public displayedColumns: string[] = ['bender_id', 'shop_name', 'name', 'route_id'];
   public subscriptionClient: Subscription;
@@ -38,15 +40,25 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-    this.setRouteNames();
   }
 
   public getClients() {
-    this.subscriptionClients = this.clientsService.getAllClients().subscribe(
+    this.subscriptionClients = this.clientsService.getAllClients().pipe(
+      take(1),
+      concatMap(x => x),
+      mergeMap(client => {
+        return this.clientsService.getRouteByID(client['route_id'])
+          .pipe(
+            take(1),
+            map(route => Object.assign({}, { ...client, route_name: route.name }))
+          );
+      }),
+      toArray()
+    ).subscribe(
       res => {
         this.dataSource.data = res;
         this.clients = res;
-        this.setRouteNames();
+        this.loading = false;
       }
     );
     this.setDataPaginator();
@@ -89,7 +101,7 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public doFilter = (value: string) => {
-    this.dataSource.filter = value.trim().toLocaleLowerCase();
+    this.dataSource.filter = value.trim().toLowerCase();
   }
 
   public nextPage() {
