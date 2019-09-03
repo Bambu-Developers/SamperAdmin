@@ -82,6 +82,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       this._subscriptionService = this._userService.getUserByRoute(this.id)
         .subscribe((res: any) => {
           this.dataSource = res;
+          // May occurre problem ^
           this.userRoute = res.route || this.id;
           this.getInventories();
           this.getLosses();
@@ -101,7 +102,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       SD = moment(startDate).format('YYYYMMDD');
     }
     startDate = moment(SD, 'YYYYMMDD').toDate();
-    this._subscriptionInventories = this._inventoryService.getSalesByDate(this.userRoute, startDate, startDate)
+    this._subscriptionInventories = this._inventoryService.getSalesByDateLiq(this.userRoute, startDate, startDate)
       .valueChanges()
       .pipe(
         take(1),
@@ -313,6 +314,8 @@ export class LiquidationComponent implements OnInit, OnDestroy {
                 }
                 if (element.date === this.today) {
                   this.existLiquidation = true;
+                  this.user_name = element.user_name || this.dataSource.name;
+                } else {
                   this.user_name = element.user_name || this.dataSource.name;
                 }
               });

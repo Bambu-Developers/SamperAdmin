@@ -17,7 +17,7 @@ export const CLIENTS_LANGUAGE = {
     client: {
         benderID: 'No. de cliente',
         shopName: 'Nombre de la sucursal',
-        name: 'Nombre',
+        name: 'Nombre de encaragado',
         route: 'Ruta',
         type: 'Tipo',
         credit: 'Crédito',

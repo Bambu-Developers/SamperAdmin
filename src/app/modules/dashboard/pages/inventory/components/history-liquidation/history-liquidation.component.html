@@ -43,7 +43,7 @@
                 <td class="sa-subtotal-column" mat-cell *matCellDef="let sale">{{sale.total_liq_loss | currency}}</td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumnsHistoryLiquidation"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumnsHistoryLiquidation;" [routerLink]="['/dashboard/inventory/liquidation/',row.uid]" [queryParams]="{  date: row.date }"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsHistoryLiquidation;" [routerLink]="['/dashboard/inventory/liquidation/',row.route]" [queryParams]="{  date: row.date }"></tr>
         </table>
     </div>
 </div>

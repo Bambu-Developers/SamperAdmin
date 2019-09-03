@@ -29,6 +29,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   private _subscriptionRoutes: Subscription;
   private _allInventories: any;
   public form: FormGroup;
+  public liquidationForm: FormGroup;
   public startDate;
   public endDate;
 
@@ -47,6 +48,11 @@ export class InventoryComponent implements OnInit, OnDestroy {
       route: new FormControl('', [
         Validators.required,
       ]),
+    });
+    this.liquidationForm = new FormGroup({
+      date: new FormControl('', [
+        Validators.required
+      ])
     });
     this.getDates();
   }
@@ -72,7 +78,8 @@ export class InventoryComponent implements OnInit, OnDestroy {
   }
 
   public doLiquidation() {
-    this._router.navigate(['/dashboard/inventory/liquidation/' + this.liquidation]);
+    const date = { date: moment(this.liquidationForm.value['date']).format('YYYY-MM-DD') };
+    this._router.navigate(['/dashboard/inventory/liquidation/' + this.liquidation], { queryParams: date });
   }
 
   public getDates() {

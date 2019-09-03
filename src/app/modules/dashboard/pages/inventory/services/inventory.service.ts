@@ -21,6 +21,7 @@ export class InventoryService {
   private _basePathLiq = 'Staging/Liquidations/';
   private _basePathHis = 'Staging/HistoryRoutes/';
   private _basePathInvHis = 'Staging/HistoryInventory/';
+  private _basePathRouteStorer = 'Staging/HistoryRoutesStorer/';
 
   constructor(
     private _db: AngularFireDatabase,
@@ -105,6 +106,13 @@ export class InventoryService {
   public getSalesByDate(key, startDate: Date, endDate: Date) {
     endDate = moment(endDate).add(1, 'day').toDate();
     return this._db.list(`${this._basePathHis + key}`,
+      ref => ref.orderByChild('timesatamp').startAt(startDate.getTime()).endAt(endDate.getTime())
+    );
+  }
+
+  public getSalesByDateLiq(key, startDate: Date, endDate: Date) {
+    endDate = moment(endDate).add(1, 'day').toDate();
+    return this._db.list(`${this._basePathRouteStorer + key}`,
       ref => ref.orderByChild('timesatamp').startAt(startDate.getTime()).endAt(endDate.getTime())
     );
   }

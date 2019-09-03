@@ -127,7 +127,7 @@ export class CommissionComponent implements OnInit, OnDestroy {
         take(1),
         concatMap(x => x),
         concatMap((sale: any) => {
-          const keys = Object.keys(sale.Products);
+          const keys = Object.keys(sale.Products || {});
           const productsArray = keys.map(k => {
             const product = sale.Products[k];
             if ((product.number_of_items >= parseFloat(product.wholesale_quantity))
