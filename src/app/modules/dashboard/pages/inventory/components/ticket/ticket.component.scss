@@ -1,77 +1,86 @@
 @import "src/assets/css/colors";
 .sa-dashboard-main-content {
-    .sa-ticket-header {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-start;
-        .sa-ticket-details {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            mat-label {
-                margin-left: 8px
-            }
-        }
-        .sa-ticket-total-sold {}
+  .sa-ticket-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    .sa-ticket-details {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      mat-label {
+        margin-left: 8px;
+      }
     }
-    .sa-sale-date {
-        margin: 20px 0px;
-        margin-left: 35px;
-        .date {
-            margin-left: 8px;
-        }
+    .sa-ticket-total-sold {
+      width: 300px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
     }
-    .sa-devolutions {
-        margin-top: 16px;
-        .sa-img-column {
-            width: 40px;
-            .sa-img-preview {
-                width: 30px;
-                height: 30px;
-            }
-        }
+  }
+  .sa-sale-date {
+    margin: 20px 0px;
+    margin-left: 35px;
+    .date {
+      margin-left: 8px;
     }
-    .sa-losses {
-        margin-top: 16px;
-        .sa-img-column {
-            width: 40px;
-            .sa-img-preview {
-                width: 30px;
-                height: 30px;
-            }
-        }
+  }
+  .sa-devolutions {
+    margin-top: 16px;
+    .sa-card-title {
+      margin-bottom: 16px;
+      margin-left: 16px;
     }
-    .sa-retail-sales {
-        margin-top: 16px;
-        .sa-img-column {
-            width: 40px;
-            .sa-img-preview {
-                width: 30px;
-                height: 30px;
-            }
-            .sa-subtotal-column {
-                text-align: center;
-            }
-            .sa-quantity-column {
-                text-align: center;
-            }
-        }
+    .sa-img-column {
+      width: 40px;
+      .sa-img-preview {
+        width: 30px;
+        height: 30px;
+      }
     }
-    .sa-wholesale-sales {
-        margin-top: 16px;
-        .sa-img-column {
-            width: 40px;
-            .sa-img-preview {
-                width: 30px;
-                height: 30px;
-            }
-            .sa-subtotal-column {
-                text-align: center;
-            }
-            .sa-quantity-column {
-                text-align: center;
-            }
-        }
+  }
+  .sa-losses {
+    margin-top: 16px;
+    .sa-img-column {
+      width: 40px;
+      .sa-img-preview {
+        width: 30px;
+        height: 30px;
+      }
     }
+  }
+  .sa-retail-sales {
+    margin-top: 16px;
+    .sa-img-column {
+      width: 40px;
+      .sa-img-preview {
+        width: 30px;
+        height: 30px;
+      }
+      .sa-subtotal-column {
+        text-align: center;
+      }
+      .sa-quantity-column {
+        text-align: center;
+      }
+    }
+  }
+  .sa-wholesale-sales {
+    margin-top: 16px;
+    .sa-img-column {
+      width: 40px;
+      .sa-img-preview {
+        width: 30px;
+        height: 30px;
+      }
+      .sa-subtotal-column {
+        text-align: center;
+      }
+      .sa-quantity-column {
+        text-align: center;
+      }
+    }
+  }
 }

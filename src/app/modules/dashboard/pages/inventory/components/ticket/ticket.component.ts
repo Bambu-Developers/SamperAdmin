@@ -24,6 +24,7 @@ export class TicketComponent implements OnInit, OnDestroy {
   public displayedColumnsReturned = ['sku', 'image', 'name', 'quantity', 'brand', 'total'];
   public displayedColumnsLosses = ['sku', 'image', 'name', 'quantity', 'brand', 'total'];
   public totalSold = 0;
+  public totalReturned = 0;
   public date: Date;
   public ticket: any;
   public client: any;
@@ -47,49 +48,73 @@ export class TicketComponent implements OnInit, OnDestroy {
     const params = this._route.snapshot.queryParams;
     this.ticket = params['ticket'];
     const routeId = params['route'];
-    this.getDevolutions(this.ticket);
+    this.getDevolutions(routeId, this.ticket);
     this.getTicketData(routeId, this.ticket);
   }
 
-  public getDevolutions(ticket) {
-    const returnedProducts = [];
-    this._subscriptionDevolutions = this._inventoryService.getDevolutions()
+  public getDevolutions(route, ticket) {
+    this._inventoryService.getSaleByTicket(route, ticket)
       .valueChanges()
       .pipe(
-        take(1),
         concatMap(x => x),
-        filter((product: any) => product.orderId === ticket),
-        toArray()
-      ).subscribe(products => {
-        products.forEach(dev => {
-          const returnedProductIdx = returnedProducts.findIndex((rp: any) => {
-            return rp.sku === dev.sku;
+        filter((t: any) => {
+          return t.id === ticket;
+        })
+      )
+      .subscribe(devolutions => {
+        let returnedProducts = [];
+        if (devolutions.Devolutions) {
+          returnedProducts = Object.values(devolutions.Devolutions);
+          returnedProducts.map(dev => {
+            dev['totalPrice'] = dev.number_of_items * dev.retail_price;
+            this.totalReturned += dev.totalPrice;
           });
-          if (returnedProductIdx > -1) {
-            returnedProducts[returnedProductIdx]['numberItems'] += 1;
-            returnedProducts[returnedProductIdx]['totalPrice'] += parseFloat(dev.retail_price);
-          }
-          returnedProducts.push({
-            ...dev,
-            numberItems: 1,
-            totalPrice: parseFloat(dev.retail_price)
-          });
-        });
+        }
         this.dataSourceReturnedTable.data = returnedProducts;
       });
+    // this._subscriptionDevolutions = this._inventoryService.getDevolutions()
+    //   .valueChanges()
+    //   .pipe(
+    //     take(1),
+    //     concatMap(x => x),
+    //     filter((product: any) => product.orderId === ticket),
+    //     toArray()
+    //   ).subscribe(products => {
+    //     console.log(products);
+    //     products.forEach(dev => {
+    //       const returnedProductIdx = returnedProducts.findIndex((rp: any) => {
+    //         return rp.sku === dev.sku;
+    //       });
+    //       if (returnedProductIdx > -1) {
+    //         returnedProducts[returnedProductIdx]['numberItems'] += 1;
+    //         returnedProducts[returnedProductIdx]['totalPrice'] += parseFloat(dev.retail_price);
+    //       }
+    //       returnedProducts.push({
+    //         ...dev,
+    //         numberItems: 1,
+    //         totalPrice: parseFloat(dev.retail_price)
+    //       });
+    //     });
+    //     this.dataSourceReturnedTable.data = returnedProducts;
+    //   });
   }
 
   public getTicketData(route, ticket) {
     this._subscriptionTicket = this._inventoryService.getSaleByTicket(route, ticket)
       .valueChanges()
       .pipe(
+        concatMap(x => x),
+        filter((t: any) => {
+          return t.id === ticket;
+        }),
         map(sale => {
-          this.clientID = sale[1];
-          this.date = sale[2] as Date;
-          this.route_name = sale[6] as string;
-          const products = sale[0];
+          console.log(sale);
+          this.clientID = sale.customerId;
+          this.date = sale.date as Date;
+          this.route_name = sale.route_name as string;
+          const products = sale.Products || '';
           const productKeys = Object.keys(products);
-          this.totalSold = sale[10] as number;
+          this.totalSold = sale.total;
           return productKeys.map(pkey => products[pkey]);
         })
       ).subscribe(products => {

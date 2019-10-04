@@ -1,144 +1,144 @@
 @import "src/assets/css/colors";
 .sa-dashboard-main-content {
-    .sa-liquidation-header {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-start;
-        .sa-liquidation-title {
-            display: flex;
-            align-items: center;
-            mat-icon {
-                margin-right: 8px;
-            }
-            .sa-user-name {
-                margin-left: 12px;
-            }
-        }
-        .sa-liq-right {
-            display: flex;
-            flex-direction: row;
-            .sa-sales-details {
-                display: flex;
-                flex-direction: column;
-                .sa-values {
-                    width: 300px;
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-between
-                }
-            }
-            .sa-button-approve-liquidation {
-                width: 168px;
-                height: 32px;
-                margin-left: 32px;
-            }
-        }
+  .sa-liquidation-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    .sa-liquidation-title {
+      display: flex;
+      align-items: center;
+      mat-icon {
+        margin-right: 8px;
+      }
+      .sa-user-name {
+        margin-left: 12px;
+      }
     }
-    .sa-devolutions {
+    .sa-liq-right {
+      display: flex;
+      flex-direction: row;
+      .sa-sales-details {
         display: flex;
         flex-direction: column;
-        margin-bottom: 24px;
-        td.mat-cell {
-            border-bottom-style: none;
+        .sa-values {
+          width: 300px;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
         }
-        .sa-sku-column {
-            width: 187px;
-        }
-        .sa-img-column {
-            width: 40px;
-            .sa-img-preview {
-                width: 30px;
-                height: 30px;
-            }
-        }
-        .sa-name-column {
-            width: 300px;
-        }
-        .sa-quantity-column {
-            width: 90px;
-            text-align: right;
-        }
-        .sa-brand-column {
-            width: 250px;
-            text-align: center;
-        }
-        .sa-subtotal-column {
-            width: 130px;
-        }
+      }
+      .sa-button-approve-liquidation {
+        width: 168px;
+        height: 32px;
+        margin-left: 32px;
+      }
     }
-    .sa-losses {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 32px;
-        td.mat-cell {
-            border-bottom-style: none;
-        }
-        .sa-sku-column {
-            width: 210px;
-        }
-        .sa-img-column {
-            width: 40px;
-            .sa-img-preview {
-                width: 30px;
-                height: 30px;
-            }
-        }
-        .sa-name-column {
-            width: 350px;
-        }
-        .sa-quantity-column {
-            width: 100px;
-            text-align: right;
-        }
-        .sa-brand-column {
-            width: 280px;
-            text-align: center;
-        }
-        .sa-total-column {
-            text-align: center;
-        }
-        .sa-subtotal-column {
-            width: 140px;
-            text-align: center;
-        }
+  }
+  .sa-devolutions {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+    td.mat-cell {
+      border-bottom-style: none;
     }
-    .sa-card-title {
-        margin-left: 16px;
-        margin-bottom: 8px;
+    .sa-sku-column {
+      width: 187px;
     }
-    .sa-daily-sales {
-        margin-top: 16px;
-        .sa-sku-column {
-            width: 250px;
-        }
-        .sa-img-column {
-            width: 40px;
-            .sa-img-preview {
-                width: 30px;
-                height: 30px;
-            }
-        }
-        .sa-name-column {
-            width: 350px;
-        }
-        .sa-quantity-column {
-            width: 200px;
-            text-align: center;
-        }
-        .sa-brand-column {
-            width: 350px;
-            text-align: center;
-        }
-        .sa-total-column {
-            text-align: center;
-        }
-        .sa-subtotal-column {
-            width: 200px;
-            text-align: center;
-            border-left-style: solid;
-            border-left-width: 1px;
-            border-left-color: $color-very-light-pink;
-        }
+    .sa-img-column {
+      width: 40px;
+      .sa-img-preview {
+        width: 30px;
+        height: 30px;
+      }
     }
+    .sa-name-column {
+      width: 300px;
+    }
+    .sa-quantity-column {
+      width: 90px;
+      text-align: right;
+    }
+    .sa-brand-column {
+      width: 250px;
+      text-align: center;
+    }
+    .sa-subtotal-column {
+      width: 130px;
+    }
+  }
+  .sa-losses {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 32px;
+    td.mat-cell {
+      border-bottom-style: none;
+    }
+    .sa-sku-column {
+      width: 210px;
+    }
+    .sa-img-column {
+      width: 40px;
+      .sa-img-preview {
+        width: 30px;
+        height: 30px;
+      }
+    }
+    .sa-name-column {
+      width: 350px;
+    }
+    .sa-quantity-column {
+      width: 100px;
+      text-align: right;
+    }
+    .sa-brand-column {
+      width: 280px;
+      text-align: center;
+    }
+    .sa-total-column {
+      text-align: center;
+    }
+    .sa-subtotal-column {
+      width: 140px;
+      text-align: center;
+    }
+  }
+  .sa-card-title {
+    margin-left: 16px;
+    margin-bottom: 8px;
+  }
+  .sa-daily-sales {
+    margin-top: 16px;
+    .sa-sku-column {
+      width: 250px;
+    }
+    .sa-img-column {
+      width: 40px;
+      .sa-img-preview {
+        width: 30px;
+        height: 30px;
+      }
+    }
+    .sa-name-column {
+      width: 350px;
+    }
+    .sa-quantity-column {
+      width: 200px;
+      text-align: center;
+    }
+    .sa-brand-column {
+      width: 350px;
+      text-align: center;
+    }
+    .sa-total-column {
+      text-align: center;
+    }
+    .sa-subtotal-column {
+      width: 200px;
+      text-align: center;
+      border-left-style: solid;
+      border-left-width: 1px;
+      border-left-color: $color-very-light-pink;
+    }
+  }
 }

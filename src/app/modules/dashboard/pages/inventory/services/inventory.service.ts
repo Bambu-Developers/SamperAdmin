@@ -85,8 +85,7 @@ export class InventoryService {
   }
 
   public getSales() {
-    const sales = this.histroyRef;
-    return sales;
+    return this.histroyRef;
   }
 
   public getSalesFromKeys(key) {
@@ -95,7 +94,7 @@ export class InventoryService {
   }
 
   public getSaleByTicket(route, ticket) {
-    return this._db.list(`${this._basePathHis}/${route}/${ticket}`);
+    return this._db.list(this._basePathHis + '/' + route);
   }
 
   public getProductsSold(key, id) {

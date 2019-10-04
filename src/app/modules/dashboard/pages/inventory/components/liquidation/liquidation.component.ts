@@ -102,12 +102,13 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       SD = moment(startDate).format('YYYYMMDD');
     }
     startDate = moment(SD, 'YYYYMMDD').toDate();
-    this._subscriptionInventories = this._inventoryService.getSalesByDateLiq(this.userRoute, startDate, startDate)
+    this._subscriptionInventories = this._inventoryService.getSalesByDate(this.userRoute, startDate, startDate)
       .valueChanges()
       .pipe(
         take(1),
         concatMap(x => x),
         concatMap((sale: any) => {
+          console.log(sale);
           if (!this.dataSource.name) {
             this.dataSource = { name: sale.route_name };
           }
@@ -208,20 +209,25 @@ export class LiquidationComponent implements OnInit, OnDestroy {
               return d.route === this.id && d.date === this.today;
             }
           });
+        console.log(this.devolutions);
         this.devolutions.forEach(dev => {
           const returnedProductIdx = returnedProducts.findIndex((rp: any) => {
             return rp.sku === dev.sku;
           });
-          this.totalDevolutions += parseFloat(dev.retail_price);
           if (returnedProductIdx > -1) {
-            returnedProducts[returnedProductIdx]['numberItems'] += 1;
-            returnedProducts[returnedProductIdx]['totalPrice'] += parseFloat(dev.retail_price);
+            returnedProducts[returnedProductIdx]['numberItems'] += parseFloat(returnedProducts[returnedProductIdx].number_of_items);
+            returnedProducts[returnedProductIdx]['totalPrice'] =
+              parseFloat(returnedProducts[returnedProductIdx].numberItems) * parseFloat(dev.retail_price);
+          } else {
+            returnedProducts.push({
+              ...dev,
+              numberItems: parseFloat(dev.number_of_items),
+              totalPrice: parseFloat(dev.number_of_items) * parseFloat(dev.retail_price)
+            });
           }
-          returnedProducts.push({
-            ...dev,
-            numberItems: 1,
-            totalPrice: parseFloat(dev.retail_price)
-          });
+        });
+        returnedProducts.map(devo => {
+          this.totalDevolutions += devo.totalPrice;
         });
         this.returnedProducts = returnedProducts;
       });

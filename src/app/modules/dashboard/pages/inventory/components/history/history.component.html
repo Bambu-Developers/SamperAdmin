@@ -1,3 +1,6 @@
+<div class="sa-loading sa-column sa-justify-center sa-align-center" *ngIf="loading">
+    <img src="assets/images/sanper-loader.gif">
+</div>
 <div class="sa-dashboard-main-content sa-roboto sa-charcoal-grey">
     <div class="sa-history-header">
         <div class="sa-download-history">
@@ -15,7 +18,7 @@
             <!-- Ticket Column -->
             <ng-container matColumnDef="ticket">
                 <th class="sa-sku-column" mat-header-cell *matHeaderCellDef>{{lanHis.ticket}}</th>
-                <td class="sa-sku-column sa-roboto-medium" mat-cell *matCellDef="let sale">{{sale.id | slice:0:8}}</td>
+                <td class="sa-sku-column sa-roboto-medium" mat-cell *matCellDef="let sale">{{sale.id}}</td>
             </ng-container>
             <!-- Date Column -->
             <ng-container matColumnDef="date">
@@ -33,7 +36,8 @@
                 <td class="sa-subtotal-column" mat-cell *matCellDef="let sale">{{sale.total}}</td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumnsSales"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumnsSales;" [routerLink]="['/dashboard/inventory/ticket/']" [queryParams]="{ route: row.route_id, ticket: row.id }">
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsSales;"
+                [routerLink]="['/dashboard/inventory/ticket/']" [queryParams]="{ route: row.route_id, ticket: row.id }">
             </tr>
         </table>
     </div>

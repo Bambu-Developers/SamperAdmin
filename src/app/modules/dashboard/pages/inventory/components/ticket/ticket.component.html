@@ -3,18 +3,24 @@
         <div class="sa-ticket-details">
             <mat-icon svgIcon="ic-back" [routerLink]="['/dashboard/inventory/history']"></mat-icon>
             <mat-label class="sa-commission-title sa-text-24">Ticket</mat-label>
-            <mat-label class="sa-user-name sa-text-16">{{ticket | slice:0:8}}</mat-label>
+            <mat-label class="sa-user-name sa-text-16">{{ticket}}</mat-label>
         </div>
-        <div class="sa-ticket-total-sold">
-            <mat-label>Total vendido: </mat-label>
-            <mat-label> {{totalSold | currency}}</mat-label>
+        <div class="sa-column">
+            <div class="sa-ticket-total-sold">
+                <mat-label>Total vendido: </mat-label>
+                <mat-label>{{totalSold}}</mat-label>
+            </div>
+            <div class="sa-ticket-total-sold">
+                <mat-label>Total en devoluciones: </mat-label>
+                <mat-label>{{totalReturned | currency}}</mat-label>
+            </div>
         </div>
     </div>
     <div class="sa-sale-date sa-column">
         <div>
             Cliente:
             <mat-label class="sa-brownish-grey">{{client?.name | titlecase}}</mat-label>
-            <mat-label class="sa-bold"> ({{route_name}})</mat-label>
+            <mat-label class="sa-bold">({{route_name}})</mat-label>
         </div>
         <div>
             Tienda: "<mat-label class="sa-brownish-grey">{{client?.shop_name | titlecase}}</mat-label>"
@@ -52,7 +58,8 @@
             <!-- Quantity Column -->
             <ng-container matColumnDef="quantity">
                 <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>Vendido</th>
-                <td class="sa-quantity-column " mat-cell *matCellDef="let devolution">{{devolution.numberItems}} piezas
+                <td class="sa-quantity-column " mat-cell *matCellDef="let devolution">{{devolution.number_of_items}}
+                    piezas
                 </td>
             </ng-container>
             <!-- Brand Column -->

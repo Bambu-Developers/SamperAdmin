@@ -28,6 +28,7 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewInit {
   public routes: RouteModel[];
   public productsSold: any;
   public totalSold: any;
+  public loading = true;
   private _subscriptionSales: Subscription;
   private _subscriptionRoutes: Subscription;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -65,8 +66,7 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewInit {
           return salesArray;
         }),
         toArray()
-      )
-      .subscribe(sales => {
+      ).subscribe((sales: any) => {
         this.dataSourceTableHistory.data = sales.sort((r1, r2) => {
           if (r1.date > r2.date) {
             return -1;
@@ -74,6 +74,7 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewInit {
           if (r1.date < r2.date) {
             return 1;
           }
+          this.loading = false;
           return 0;
         });
       });

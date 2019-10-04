@@ -1,10 +1,11 @@
 <div class="sa-loading sa-column sa-justify-center sa-align-center" *ngIf="loading">
-        <img src="assets/images/sanper-loader.gif">
-    </div>
+    <img src="assets/images/sanper-loader.gif">
+</div>
 <div class="sa-dashboard-main-content">
     <h3 class="sa-text-24 sa-charcoal-grey sa-roboto">{{language.clients}}</h3>
     <div class="sa-dashboard-actions">
-        <button [routerLink]="['/dashboard/clients/create']" mat-raised-button color="accent">{{language.createClient}}</button>
+        <button [routerLink]="['/dashboard/clients/create']" mat-raised-button
+            color="accent">{{language.createClient}}</button>
         <mat-form-field class="sa-input-text sa-search sa-no-label sa-client-search">
             <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="{{language.search}}">
         </mat-form-field>
@@ -33,13 +34,15 @@
                     <!-- {{ language.client.route }} -->
                     <mat-select class="mat-select-trigger" placeholder="Rutas">
                         <mat-option (click)="doFilter('')" [value]="Todas">Todas</mat-option>
-                        <mat-option *ngFor="let route of routes" (click)="doFilter(route.name)" [value]="route.name">{{route?.name}}</mat-option>
+                        <mat-option *ngFor="let route of routes" (click)="doFilter(route.name)" [value]="route.name">
+                            {{route?.name}}</mat-option>
                     </mat-select>
                 </th>
                 <td class="sa-route-column" mat-cell *matCellDef="let client"> {{client.route_name}} </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/dashboard/clients/view/', row.id]">
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                [routerLink]="['/dashboard/clients/view/', row.id]">
             </tr>
         </table>
     </div>
