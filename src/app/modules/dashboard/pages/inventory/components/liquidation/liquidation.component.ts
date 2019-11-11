@@ -209,7 +209,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
               return d.route === this.id && d.date === this.today;
             }
           });
-        console.log(this.devolutions);
+        // console.log(this.devolutions);
         this.devolutions.forEach(dev => {
           const returnedProductIdx = returnedProducts.findIndex((rp: any) => {
             return rp.sku === dev.sku;
@@ -300,7 +300,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       this.userRoute,
       this.totalSold,
       (this.totalSold - this.totalDevolutions),
-      (this.totalSold - this.totalLosses),
+      (this.totalSold + this.totalLosses),
       this.totalDevolutions,
       this.totalLosses
     );

@@ -114,7 +114,7 @@ export class TicketComponent implements OnInit, OnDestroy {
           this.route_name = sale.route_name as string;
           const products = sale.Products || '';
           const productKeys = Object.keys(products);
-          this.totalSold = sale.total;
+          this.totalSold = sale.totalOnSalle;
           return productKeys.map(pkey => products[pkey]);
         })
       ).subscribe(products => {

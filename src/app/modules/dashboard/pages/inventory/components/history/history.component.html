@@ -33,7 +33,7 @@
             <!-- Total Column -->
             <ng-container matColumnDef="total">
                 <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanHis.total}}</th>
-                <td class="sa-subtotal-column" mat-cell *matCellDef="let sale">{{sale.total}}</td>
+                <td class="sa-subtotal-column" mat-cell *matCellDef="let sale">{{sale.totalOnSalle | currency}}</td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumnsSales"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumnsSales;"

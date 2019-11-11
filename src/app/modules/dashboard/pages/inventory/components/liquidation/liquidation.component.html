@@ -26,7 +26,7 @@
                 <div class="sa-values">
                     <mat-label>{{existLiquidation? 'Total liquidado con merma:' : 'Total a liquidar con merma:'}}
                     </mat-label>
-                    <mat-label>{{totalSold - totalLosses | currency}}</mat-label>
+                    <mat-label>{{totalSold + totalLosses | currency}}</mat-label>
                 </div>
             </div>
             <button mat-raised-button class="sa-button-approve-liquidation" color="charcoal-grey" (click)="openDialogApproveLiquidation()" *ngIf="!existLiquidation">
