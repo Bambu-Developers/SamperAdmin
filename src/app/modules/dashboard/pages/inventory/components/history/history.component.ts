@@ -8,6 +8,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { concatMap, toArray, take } from 'rxjs/operators';
 import { ClientsService } from '../../../clients/services/clients.service';
 import { RouteModel } from '../../../clients/models/route.model';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-history',
@@ -40,6 +41,8 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewInit {
   ) { }
 
   ngOnInit() {
+    // ONLY WHEN DELETE TICKETS
+    // this.testDelete();
     this.getRoutes();
     this.getAllSales();
     this.form = this._fb.group({
@@ -52,6 +55,21 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSourceTableHistory.paginator = this.paginator;
+  }
+
+  testDelete() {
+    console.log('To delete');
+    const fecha = moment('20191220', 'YYYYMMDD').toDate();
+    console.log(fecha);
+    this._inventoryService.getSalesToDelete('id de la ruta')
+      .valueChanges().subscribe(res => {
+        res.forEach(ticket => {
+          if (moment(ticket['timesatamp']).toDate() < fecha) {
+            console.log(ticket);
+            this._inventoryService.deleteTicket('id de la ruta', ticket['id']);
+          }
+        });
+      });
   }
 
   public getAllSales() {

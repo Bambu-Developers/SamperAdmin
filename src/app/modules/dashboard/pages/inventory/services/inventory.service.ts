@@ -37,6 +37,20 @@ export class InventoryService {
     return inventories;
   }
 
+  public getLimitedSales() {
+    const startDate = moment('20191220', 'YYYYMMDD').toDate().getTime();
+    console.log(startDate);
+    return this._db.list(this._basePathHis, ref => ref.orderByChild('timesatamp').startAt(1577978773055));
+  }
+
+  public getSalesToDelete(route) {
+    return this._db.list(this._basePathHis + route);
+  }
+
+  public deleteTicket(route, idTicket) {
+    return this._db.list(this._basePathHis + route + '/').remove(idTicket);
+  }
+
   public getDevolutionsL(): Observable<any[]> {
     return this.devolutionsRef
       .snapshotChanges()
