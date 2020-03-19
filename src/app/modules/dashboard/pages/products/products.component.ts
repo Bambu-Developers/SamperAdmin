@@ -15,7 +15,6 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
   public language = PRODUCTS_LANGUAGE;
   public displayedColumns: string[] = ['img', 'name', 'has_promo', 'brand', 'content', 'quantity', 'retailPrice', 'wholesalePrice'];
   public dataSource = new MatTableDataSource();
-  public products = [];
   public indexProducts = 0;
   public subscriptionProducts: Subscription;
   public pagination = PAGINATION;
@@ -37,7 +36,6 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptionProducts = this.productsService.getAllProducts().subscribe(
       res => {
         this.dataSource.data = res;
-        this.products = res;
         const data = [];
         for (let i = 0; i < this.pagination.perPage; i++) {
           if (res[i]) {
@@ -45,34 +43,12 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
             this.indexProducts = this.indexProducts + i;
           }
         }
-        // this.dataSource.data = data;
-        this.pagination.perPage = res.length / 15 < 15 ? res.length : res.length / 15;
-        this.pagination.totalItems = res.length;
-        this.pagination.totalPages = res.length / 15 < 1 ? 1 : res.length / 15;
       }
     );
   }
 
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
-  }
-
-  public nextPage() {
-    this.pagination.page++;
-    this.dataSource.data = [];
-    for (let i = this.indexProducts; i < this.pagination.perPage * this.pagination.page; i++) {
-        this.dataSource.data.push(this.products[i]);
-        this.indexProducts++;
-    }
-  }
-
-  public beforePage() {
-    this.pagination.page--;
-    this.dataSource.data = [];
-    for (let i = this.indexProducts; i > this.pagination.perPage * this.pagination.page; i--) {
-        this.dataSource.data.push(this.products[i]);
-        this.indexProducts--;
-    }
   }
 
   ngOnDestroy() {
