@@ -45,7 +45,7 @@ export class UsersService {
   // Create user
   public createUser(userData) {
     const email: string = userData.email.concat('@sanper.com');
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, userData.password)
+    return this.afAuth.createUserWithEmailAndPassword(email, userData.password)
       .then(result => {
         this.setUserData(userData, result.user);
         this.setUserToRoute(userData, result.user);
@@ -152,10 +152,10 @@ export class UsersService {
 
   public updateUserPassword(email, form): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.afAuth.auth.signInWithEmailAndPassword(email, form.currentPassword).then(
-        result => {
-          const user = this.afAuth.auth.currentUser;
-          user.updatePassword(form.newPassword).then(
+      this.afAuth.signInWithEmailAndPassword(email, form.currentPassword).then(
+        async result => {
+          const user = this.afAuth.currentUser;
+          (await user).updatePassword(form.newPassword).then(
             res => resolve(res),
             error => reject(error)
           );

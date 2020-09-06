@@ -2,7 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { MatSnackBar, MatDialog, DateAdapter } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 import { ClientsService } from 'src/app/modules/dashboard/pages/clients/services/clients.service';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
@@ -12,6 +13,7 @@ import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/d
 import { DateFormat } from 'src/app/modules/dashboard/data/date-format.data';
 import { RouteModel } from '../../models/route.model';
 import { DAYS } from '../../data/days';
+import { DateAdapter } from '@angular/material/core';
 import { DialogComponent } from 'src/app/modules/shared/components/dialog/dialog.component';
 
 @Component({

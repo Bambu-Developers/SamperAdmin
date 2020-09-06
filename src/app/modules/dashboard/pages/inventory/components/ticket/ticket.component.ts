@@ -3,7 +3,7 @@ import { InventoryService } from './../../services/inventory.service';
 import { ActivatedRoute } from '@angular/router';
 import { INVENTORY_LANGUAGE } from './../../data/language';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { take, concatMap, toArray, filter, map } from 'rxjs/operators';
 

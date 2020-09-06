@@ -1,10 +1,10 @@
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ROUTE_LANGUAGE } from './../../data/language';
 import { ACCOUNT_LANGUAGE } from './../../../../../account/data/language';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { UsersService } from '../../../users/services/users.service';
 import { RoutesService } from '../../services/routes.service';

@@ -1,6 +1,6 @@
 import { SNACKBAR_CONFIG } from './../../../users/data/data';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { UsersService } from './../../../users/services/users.service';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';

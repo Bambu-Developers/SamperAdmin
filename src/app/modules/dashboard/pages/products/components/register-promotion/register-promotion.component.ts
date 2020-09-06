@@ -7,8 +7,9 @@ import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 import { CURRENCY_MASK } from 'src/app/directives/currency-mask.directive';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
 import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/data';
-import { MatSnackBar, DateAdapter } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DateFormat } from 'src/app/modules/dashboard/data/date-format.data';
+import { DateAdapter } from '@angular/material/core';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -16,7 +17,7 @@ import { Router } from '@angular/router';
   selector: 'app-register-promotion',
   templateUrl: './register-promotion.component.html',
   styleUrls: ['./register-promotion.component.scss'],
-  providers: [{provide: DateAdapter, useClass: DateFormat}],
+  providers: [{ provide: DateAdapter, useClass: DateFormat }],
 })
 export class RegisterPromotionComponent implements OnInit, OnDestroy {
 

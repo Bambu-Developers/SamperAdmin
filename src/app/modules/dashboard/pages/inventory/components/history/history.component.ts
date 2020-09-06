@@ -1,6 +1,6 @@
-import { ExcelService } from './../../../../../shared/services/excel.service';
 import { Subscription } from 'rxjs';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { INVENTORY_LANGUAGE } from './../../data/language';
 import { InventoryService } from '../../services/inventory.service';
@@ -59,7 +59,7 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewInit {
 
   testDelete() {
     console.log('To delete');
-    const fecha = moment('20191220', 'YYYYMMDD').toDate();
+    const fecha = moment('20200701', 'YYYYMMDD').toDate();
     console.log(fecha);
     this._inventoryService.getSalesToDelete('id de la ruta')
       .valueChanges().subscribe(res => {

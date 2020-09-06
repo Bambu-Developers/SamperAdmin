@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { USERS_LANGUAGE } from './data/language';
 import { UsersService } from './services/users.service';
 import { Subscription } from 'rxjs';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from './../../../account/services/auth.service';
 import { RouteModel } from './models/routes.model';
 import { PAGINATION } from './../../../shared/components/paginator/data/data';

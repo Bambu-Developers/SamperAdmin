@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { MatPaginatorIntl } from '@angular/material';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-paginator',

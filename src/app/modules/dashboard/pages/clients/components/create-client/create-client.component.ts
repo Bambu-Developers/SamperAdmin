@@ -8,7 +8,7 @@ import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/d
 import { RouteModel } from './../../../users/models/routes.model';
 import { PHONE_MASK } from 'src/app/directives/currency-mask.directive';
 import { EMAIL_REGEX } from 'src/app/modules/account/data/data';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DAYS } from '../../data/days';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';

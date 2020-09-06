@@ -2,7 +2,7 @@ import { UsersService } from './../users/services/users.service';
 import { ClientsService } from 'src/app/modules/dashboard/pages/clients/services/clients.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ROUTE_LANGUAGE } from './data/language';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 
 @Component({

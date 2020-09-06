@@ -8,7 +8,8 @@ import { PermisionsModel } from '../../models/permisions.model';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 import { USERS_LANGUAGE } from '../../data/language';
 import { PERMISIONS, SNACKBAR_CONFIG } from '../../data/data';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/modules/shared/components/dialog/dialog.component';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
 

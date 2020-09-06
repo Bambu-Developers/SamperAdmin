@@ -1,4 +1,4 @@
-import { NativeDateAdapter } from '@angular/material';
+import { NativeDateAdapter } from '@angular/material/core';
 
 export class DateFormat extends NativeDateAdapter {
     parse(value: any): Date | null {

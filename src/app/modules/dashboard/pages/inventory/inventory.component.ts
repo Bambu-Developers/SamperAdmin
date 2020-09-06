@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { INVENTORY_LANGUAGE } from './data/language';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { ClientsService } from './../clients/services/clients.service';
 import { InventoryService } from './services/inventory.service';
 import { Subscription } from 'rxjs';

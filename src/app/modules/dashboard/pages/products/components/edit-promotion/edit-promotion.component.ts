@@ -7,7 +7,7 @@ import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 import { CURRENCY_MASK } from 'src/app/directives/currency-mask.directive';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
 import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/data';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -97,7 +97,7 @@ export class EditPromotionComponent implements OnInit, OnDestroy {
       // this.loading = true;
       this._productService.editPromotion(this.editPromotionForm.value, this.id);
       this.openSnackBar();
-      this._router.navigate(['/dashboard/products/view/' +  this.id]);
+      this._router.navigate(['/dashboard/products/view/' + this.id]);
     }
   }
 

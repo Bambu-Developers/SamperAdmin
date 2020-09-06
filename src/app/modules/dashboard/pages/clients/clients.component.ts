@@ -3,7 +3,8 @@ import { ClientsService } from 'src/app/modules/dashboard/pages/clients/services
 import { UsersService } from '../users/services/users.service';
 import { Subscription, of } from 'rxjs';
 import { RouteModel } from '../users/models/routes.model';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { CLIENTS_LANGUAGE } from 'src/app/modules/dashboard/pages/clients/data/language';
 import { PAGINATION } from 'src/app/modules/shared/components/paginator/data/data';
 import { mergeMap, concatMap, map, take, toArray } from 'rxjs/operators';

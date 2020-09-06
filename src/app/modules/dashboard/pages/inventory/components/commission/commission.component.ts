@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { INVENTORY_LANGUAGE } from '../../data/language';
 import { UsersService } from './../../../users/services/users.service';
 import { Subscription } from 'rxjs';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { InventoryService } from '../../services/inventory.service';
 import * as moment from 'moment';
 

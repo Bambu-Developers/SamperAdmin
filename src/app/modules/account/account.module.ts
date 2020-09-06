@@ -6,11 +6,11 @@ import { AccountRoutingModule } from './account-routing.module';
 
 /*MATERIAL & ANGULAR*/
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  MatInputModule,
-  MatIconModule,
-  MatButtonModule,
-} from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+
+
 
 /*COMPONENTS*/
 import { AccountComponent } from './account.component';

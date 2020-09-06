@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { MatSnackBar } from '@angular/material';
-import { MatDialog } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from 'src/app/modules/dashboard/pages/products/services/products.service';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';

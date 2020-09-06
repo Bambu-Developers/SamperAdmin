@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { ProductsService } from 'src/app/modules/dashboard/pages/products/services/products.service';
 import { Subscription } from 'rxjs';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 import { PRODUCTS_LANGUAGE } from 'src/app/modules/dashboard/pages/products/data/language';
 import { PAGINATION } from 'src/app/modules/shared/components/paginator/data/data';
 

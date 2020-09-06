@@ -1,4 +1,3 @@
-import { DateFormatPipe } from './../../pipes/date-format.pipe';
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -13,38 +12,33 @@ import { ChartsModule } from 'ng2-charts';
 import 'hammerjs';
 
 /* ANGULAR MATERIAL */
-import {
-  MatButtonModule,
-  MatInputModule,
-  MatIconModule,
-  MatTableModule,
-  MatToolbarModule,
-  MatSidenavModule,
-  MatListModule,
-  MatMenuModule,
-  MatSelectModule,
-  MatRadioModule,
-  MatSlideToggleModule,
-  MatCheckboxModule,
-  MatCardModule,
-  MatSnackBarModule,
-  MatDialogModule,
-  MatProgressBarModule,
-  MatDatepickerModule,
-  MatNativeDateModule,
-  MatFormFieldModule,
-  MatPaginatorModule,
-  MatPaginatorIntl
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
+
 import { LayoutModule } from '@angular/cdk/layout';
-import {
-  SatDatepickerModule,
-  SatNativeDateModule
-} from 'saturn-datepicker';
+import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
 
 /* FIREBASE */
 import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
+import { AngularFirestoreModule, SETTINGS } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
@@ -143,7 +137,7 @@ import { ToastComponent } from '../dashboard/components/toast/toast.component';
   ],
   providers: [
     AngularFireDatabase,
-    { provide: FirestoreSettingsToken, useValue: {} },
+    { provide: SETTINGS, useValue: {} },
     MatDatepickerModule,
     DatePipe,
     { provide: MatPaginatorIntl, useClass: PaginatorComponent }
