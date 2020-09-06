@@ -2,13 +2,22 @@ export const CLIENTS_LANGUAGE = {
     clients: 'Clientes',
     purchasedProducts: 'Productos que consume:',
     ticketAvarage: 'Ticket promedio por compra:',
+    createClient: 'Crear Cliente',
+    edit: 'Editar',
     save: 'Guardar',
+    delete: 'Eliminar',
+    search: 'Buscar...',
+    snackbarCreate: 'Cliente creado exitosamente',
     snackbarEdited: 'Crédito editado exitosamente',
+    snackbarClientEdited: 'Cliente editado exitosamente',
     snackbarAssignedCredit: 'Crédito asignado exitosamente',
+    snackbarClientDeleted: 'Cliente eliminado exitosamente',
+    dialogDeleteClient: '¿Estás seguro que deseas eliminar a este cliente?',
+    uploadImage: 'Sube una imagen',
     client: {
         benderID: 'No. de cliente',
         shopName: 'Nombre de la sucursal',
-        name: 'Nombre',
+        name: 'Nombre de encaragado',
         route: 'Ruta',
         type: 'Tipo',
         credit: 'Crédito',
@@ -16,6 +25,7 @@ export const CLIENTS_LANGUAGE = {
         address: 'Dirección:',
         phone: 'Teléfono:',
         email: 'Correo electrónico:',
+        emailEdit: 'Correo electrónico',
         createdBy: 'Creado por:',
     },
     credit: {
@@ -32,7 +42,19 @@ export const CLIENTS_LANGUAGE = {
         currencySymbol: '$',
         country: 'MXN',
     },
+    create: {
+        newClient: 'Nuevo cliente',
+        uploadImage: 'Sube una foto',
+        route: 'Ruta',
+        phone: 'Teléfono',
+        email: 'Correo electrónico',
+        visitDays: 'Días de visita',
+    },
     transactions: {
         listOfTransactions: 'Lista de movimientos',
+    },
+    route: {
+        newRoute: 'Nueva Ruta',
+        createRoute: 'Crear ruta',
     }
-}
+};

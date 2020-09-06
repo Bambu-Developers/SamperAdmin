@@ -1,0 +1,44 @@
+<div class="sa-loading sa-column sa-justify-center sa-align-center" *ngIf="loading">
+    <img src="assets/images/sanper-loader.gif">
+</div>
+<div class="sa-dashboard-main-content sa-roboto sa-charcoal-grey">
+    <div class="sa-history-header">
+        <div class="sa-download-history">
+            <mat-label class="sa-text-24 sa-roboto-medium">{{lanInv.history.salesHistory}}</mat-label>
+        </div>
+        <div class="sa-filter">
+            <mat-form-field class="sa-user-search sa-input-text sa-search sa-no-label">
+                <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Buscar...">
+            </mat-form-field>
+            <mat-paginator [hidePageSize]="true" [pageSize]="15"></mat-paginator>
+        </div>
+    </div>
+    <div>
+        <table mat-table [dataSource]="dataSourceTableHistory">
+            <!-- Ticket Column -->
+            <ng-container matColumnDef="ticket">
+                <th class="sa-sku-column" mat-header-cell *matHeaderCellDef>{{lanHis.ticket}}</th>
+                <td class="sa-sku-column sa-roboto-medium" mat-cell *matCellDef="let sale">{{sale.id}}</td>
+            </ng-container>
+            <!-- Date Column -->
+            <ng-container matColumnDef="date">
+                <th class="sa-img-column" mat-header-cell *matHeaderCellDef>{{lanHis.dateSold}}</th>
+                <td class="sa-img-column" mat-cell *matCellDef="let sale"> {{sale.date | date:'dd/MMM/yyyy' }}</td>
+            </ng-container>
+            <!-- Route Column -->
+            <ng-container matColumnDef="route">
+                <th class="sa-name-column" mat-header-cell *matHeaderCellDef>{{lanHis.route}}</th>
+                <td class="sa-name-column" mat-cell *matCellDef="let sale">{{sale.route_name}}</td>
+            </ng-container>
+            <!-- Total Column -->
+            <ng-container matColumnDef="total">
+                <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanHis.total}}</th>
+                <td class="sa-subtotal-column" mat-cell *matCellDef="let sale">{{sale.totalOnSalle | currency}}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsSales"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsSales;"
+                [routerLink]="['/dashboard/inventory/ticket/']" [queryParams]="{ route: row.route_id, ticket: row.id }">
+            </tr>
+        </table>
+    </div>
+</div>

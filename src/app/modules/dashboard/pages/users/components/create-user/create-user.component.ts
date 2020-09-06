@@ -34,7 +34,6 @@ export class CreateUserComponent implements OnInit, OnDestroy {
   public permisions = [
     { name: this.lanUser.permisions.userRegistration, id: PERMISIONS.USER_REGISTRATION },
     { name: this.lanUser.permisions.priceEdition, id: PERMISIONS.PRICE_EDITION },
-    { name: this.lanUser.permisions.createEditPromotions, id: PERMISIONS.CREATE_EDIT_PROMOTIONS }
   ];
   public roles = [
     { name: this.lanUser.admin, id: ROLES.ADMIN },
@@ -46,7 +45,8 @@ export class CreateUserComponent implements OnInit, OnDestroy {
   public subscriptionRoutes: Subscription;
 
   constructor(
-    private usersService: UsersService
+    private usersService: UsersService,
+    private _router: Router,
   ) { }
 
   ngOnInit() {
@@ -61,13 +61,11 @@ export class CreateUserComponent implements OnInit, OnDestroy {
       ]),
       email: new FormControl('', [
         Validators.required,
-        Validators.email,
-        Validators.pattern(EMAIL_REGEX),
       ]),
       password: new FormControl('', [
         Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(16),
+        Validators.minLength(6),
+        Validators.maxLength(14),
       ])
     }, Validators.required);
     this.getRoutes();
@@ -75,13 +73,15 @@ export class CreateUserComponent implements OnInit, OnDestroy {
 
   public createUser() {
     this.createUserForm.get('permision').patchValue(this.selectPermisions);
+    this.createUserForm.get('rol').patchValue(this.selectedRol);
     if (this.createUserForm.valid) {
       this.usersService.createUser(this.createUserForm.value).then(
         error => {
-          if (error && error.code === 'auth/email-already-in-use') {
+          if (error.code === 'auth/email-already-in-use') {
             this.createUserForm.get('email').setErrors({ 'exists': true });
           }
         });
+      this._router.navigate(['/dashboard/users']);
     }
   }
 
@@ -102,7 +102,15 @@ export class CreateUserComponent implements OnInit, OnDestroy {
   public getRoutes() {
     this.subscriptionRoutes = this.usersService.getAllRoutes().subscribe(
       res => {
-        this.routes = res;
+        this.routes = res.sort((r1, r2) => {
+          if (r1.name < r2.name) {
+            return -1;
+          }
+          if (r1.name > r2.name) {
+            return 1;
+          }
+          return 0;
+        });
       }
     );
   }

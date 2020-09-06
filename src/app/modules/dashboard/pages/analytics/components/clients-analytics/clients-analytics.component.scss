@@ -1,0 +1,32 @@
+@import "src/assets/css/colors";
+.sa-dashboard-main-content {
+  margin: 0px auto;
+  .sa-analytics-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .sa-button {
+      width: 144px;
+      height: 32px;
+    }
+  }
+  .sa-clients-route {
+    padding: 30px;
+    margin-top: 24px;
+    .sa-clients-route-chart {
+      padding-top: 54px;
+      .sa-chart {
+        width: 75%;
+        height: auto;
+      }
+      .sa-total-items {
+        width: 126px;
+        height: 54px;
+        margin-left: 32px;
+        padding: 20px 28px;
+        border: 1px solid $color-yellow;
+        border-radius: 3px;
+      }
+    }
+  }
+}

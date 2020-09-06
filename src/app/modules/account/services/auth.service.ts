@@ -1,9 +1,10 @@
+import { UsersService } from './../../dashboard/pages/users/services/users.service';
 import { Injectable } from '@angular/core';
 import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
-import { Observable } from 'rxjs';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { Observable, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,14 +20,14 @@ export class AuthService {
     public router: Router
   ) {
     this.user = afAuth.authState;
-    const user = this.afAuth.auth.currentUser;
+    const user = this.afAuth.currentUser;
     this.usersRef = db.list('Users');
   }
 
   // Sign in with email/password
   public login(email: string, password: string): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      this.afAuth.auth.signInWithEmailAndPassword(email, password)
+      this.afAuth.signInWithEmailAndPassword(email, password)
         .then((result) => {
           resolve(result);
           localStorage.setItem('user', JSON.stringify(result.user));
@@ -39,7 +40,7 @@ export class AuthService {
   // Reset Forggot password
   public ForgotPassword(passwordResetEmail: string): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail)
+      this.afAuth.sendPasswordResetEmail(passwordResetEmail)
         .then((result) => resolve(result))
         .catch((error) => reject(error));
     });
@@ -48,7 +49,7 @@ export class AuthService {
   // reset password
   public updateUserPassword(password: string, oob: string): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      this.afAuth.auth.confirmPasswordReset(oob, password)
+      this.afAuth.confirmPasswordReset(oob, password)
         .then((result) => resolve(result))
         .catch((error) => reject(error));
     });
@@ -62,7 +63,7 @@ export class AuthService {
 
   // Sign out
   public async logout() {
-    await this.afAuth.auth.signOut();
+    await this.afAuth.signOut();
     localStorage.removeItem('user');
     this.router.navigate(['/']);
   }
@@ -71,6 +72,11 @@ export class AuthService {
   public getUser(): string {
     const user = JSON.parse(localStorage.getItem('user'));
     return user.email;
+  }
+
+  public getUserData(): string {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user.uid;
   }
 
 

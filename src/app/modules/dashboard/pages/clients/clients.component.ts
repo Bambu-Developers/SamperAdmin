@@ -1,45 +1,126 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { ClientsService } from 'src/app/modules/dashboard/pages/clients/services/clients.service';
-import { Subscription } from 'rxjs';
+import { UsersService } from '../users/services/users.service';
+import { Subscription, of } from 'rxjs';
+import { RouteModel } from '../users/models/routes.model';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { CLIENTS_LANGUAGE } from 'src/app/modules/dashboard/pages/clients/data/language';
-import { CONST_PAGINATOR } from 'src/app/modules/dashboard/data/paginator.data';
-
+import { PAGINATION } from 'src/app/modules/shared/components/paginator/data/data';
+import { mergeMap, concatMap, map, take, toArray } from 'rxjs/operators';
 
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.scss']
 })
-export class ClientsComponent implements OnInit, OnDestroy {
+export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public language = CLIENTS_LANGUAGE;
-  public pagintor = CONST_PAGINATOR;
-  public displayedColumns: string[] = ['bender_id', 'shop_name', 'name', 'route_id', 'isMayoreo', 'haveCredit', 'last_conexion'];
+  public pagination = PAGINATION;
+  public indexClients = 0;
+  public clients = [];
+  public loading = true;
+  public routes: RouteModel[];
+  public displayedColumns: string[] = ['bender_id', 'shop_name', 'name', 'route_id'];
   public subscriptionClient: Subscription;
   public subscriptionClients: Subscription;
   public subscriptionRoutes: Subscription;
-  public dataSource: any;
-
+  public dataSource = new MatTableDataSource();
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private clientsService: ClientsService,
+    private usersService: UsersService
   ) { }
 
   ngOnInit() {
     this.getClients();
+    this.getRoutes();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
 
   public getClients() {
-    this.subscriptionClients = this.clientsService.getAllClients().subscribe(
+    this.subscriptionClients = this.clientsService.getAllClients().pipe(
+      take(1),
+      concatMap(x => x),
+      mergeMap(client => {
+        return this.clientsService.getRouteByID(client['route_id'])
+          .pipe(
+            take(1),
+            map(route => Object.assign({}, { ...client, route_name: route.name }))
+          );
+      }),
+      toArray()
+    ).subscribe(
       res => {
-        this.dataSource = res;
-        this.dataSource.forEach(customer => {
-          this.subscriptionClient = this.clientsService.getRouteByID(customer.route_id).subscribe(route => {
-            customer.route_name = route.name;
-          });
+        this.dataSource.data = res;
+        this.clients = res;
+        this.loading = false;
+      }
+    );
+    this.setDataPaginator();
+  }
+
+  public setDataPaginator() {
+    for (let i = 0; i < this.pagination.perPage; i++) {
+      if (this.clients[i]) {
+        this.indexClients = this.indexClients + i;
+      }
+    }
+  }
+
+  public setRouteNames() {
+    this.clients.forEach(client => {
+      if (client.route_id !== '') {
+        this.subscriptionClient = this.clientsService.getRouteByID(client['route_id']).subscribe(route => {
+          if (route !== null) {
+            client['route_name'] = route.name;
+          }
+        });
+      }
+    });
+  }
+
+  public getRoutes() {
+    this.subscriptionRoutes = this.usersService.getAllRoutes().subscribe(
+      res => {
+        this.routes = res.sort((r1, r2) => {
+          if (r1.name < r2.name) {
+            return -1;
+          }
+          if (r1.name > r2.name) {
+            return 1;
+          }
+          return 0;
         });
       }
     );
+  }
+
+  public doFilter = (value: string) => {
+    this.dataSource.filter = value.trim().toLowerCase();
+  }
+
+  public nextPage() {
+    this.pagination.page++;
+    this.dataSource.data = [];
+    for (let i = this.indexClients; i < this.pagination.perPage * this.pagination.page; i++) {
+      this.dataSource.data.push(this.clients[i]);
+      this.indexClients++;
+    }
+  }
+
+  public beforePage() {
+    this.pagination.page--;
+    this.dataSource.data = [];
+    for (let i = this.indexClients; i > this.pagination.perPage * this.pagination.page; i--) {
+      this.dataSource.data.push(this.clients[i]);
+      this.indexClients--;
+    }
   }
 
   ngOnDestroy() {

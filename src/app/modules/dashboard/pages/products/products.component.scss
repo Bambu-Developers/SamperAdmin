@@ -1,46 +1,52 @@
 @import "src/assets/css/colors";
-
 .sa-dashboard-main-content {
-    h3{
+    h3 {
         margin-bottom: 24px;
     }
     .sa-dashboard-actions {
         display: flex;
         justify-content: space-between;
+        align-items: center;
+        .sa-product-search {
+            height: 40px;
+        }
     }
     .sa-dashboard-content {
         margin: 16px 0px;
         .sa-center-text {
-          text-align: center;
+            text-align: center;
         }
         .sa-img-column {
-          width: 8%;
-          .sa-img-preview {
-              height: 40px;
-              width: 40px;
-          }
+            width: 8%;
+            .sa-img-preview {
+                height: 40px;
+                width: 40px;
+            }
         }
         .sa-name-column {
-          width: 14%;
-          font-weight: 500;
+            width: 14%;
+            font-weight: 500;
         }
         .sa-status-column {
-          width: 10%;
+            width: 10%;
+            .sa-img-promotion {
+                width: 64px;
+            }
         }
         .sa-brand-column {
-          width: 10%;
+            width: 10%;
         }
         .sa-content-column {
-          width: 10%;
+            width: 10%;
         }
         .sa-quantity-column {
-          width: 14%;
+            width: 14%;
         }
         .sa-retailPrice-column {
-          width: 14%;
+            width: 14%;
         }
         .sa-wholesalePrice-column {
-          width: 14%;
+            width: 14%;
         }
     }
 }

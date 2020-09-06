@@ -1,0 +1,80 @@
+<div class="sa-dashboard-main-content sa-roboto sa-charcoal-grey">
+    <div class="sa-analytics-header">
+        <mat-label class="sa-roboto-medium sa-text-24">{{language.sales}}</mat-label>
+        <button class="sa-button" mat-raised-button color="charcoal-grey">
+            {{language.downloadReport}}
+        </button>
+    </div>
+    <div class="sa-buttons-filter sa-row">
+        <button class="sa-text-14 {{!filterByPeriod ? 'sa-underline sa-roboto-medium' : 'sa-brownish-grey'}}"
+            (click)="changeFilterPeriod(FILTER.WEEK)">
+            {{language.week}}
+        </button>
+        <button class="sa-text-14 {{filterByPeriod == 1 ? 'sa-underline sa-roboto-medium' : 'sa-brownish-grey'}}"
+            (click)="changeFilterPeriod(FILTER.MONTH)">
+            {{language.month}}
+        </button>
+        <button class="sa-text-14 {{filterByPeriod == 2 ? 'sa-underline sa-roboto-medium' : 'sa-brownish-grey'}}"
+            (click)="changeFilterPeriod(FILTER.YEAR)">
+            {{language.year}}
+        </button>
+    </div>
+    <div class="sa-period-selection sa-row sa-align-center">
+        <mat-label class="sa-text-14 sa-brownish-grey"> {{language.result}}: </mat-label>
+        <mat-icon svgIcon="ic-before"></mat-icon>
+        <mat-label class="sa-text-14" *ngIf="filterByPeriod == FILTER.WEEK">
+            {{ startWeek | amDateFormat: 'DD MMMM' | titlecase }} - {{ endWeek | amDateFormat: 'DD MMMM' | titlecase }}
+        </mat-label>
+        <mat-label class="sa-text-14" *ngIf="filterByPeriod == FILTER.MONTH">
+            {{ dateSales | amDateFormat:'MMMM' | titlecase }} </mat-label>
+        <mat-label class="sa-text-14" *ngIf="filterByPeriod == FILTER.YEAR">{{ dateSales | amDateFormat:'Y' }}
+        </mat-label>
+        <mat-icon svgIcon="ic-next"></mat-icon>
+    </div>
+    <div class="sa-total-sales sa-bg-white sa-column">
+        <mat-label class="sa-title">{{language.totalSalesWeek}}</mat-label>
+        <div class="sa-sales-chart sa-row">
+            <div class="sa-chart">
+                <canvas baseChart
+                        [datasets]="salesData.barChartData"
+                        [labels]="salesData.labels"
+                        [options]="salesData.options"
+                        [colors]="SALES_COLORS"
+                        chartType="bar">
+                </canvas>
+            </div>
+            <div class="sa-total-items">
+                <mat-label class="sa-roboto-medium sa-text-18 sa-brownish-grey">{{language.totalItems}}</mat-label>
+            </div>
+        </div>
+    </div>
+    <div class="sa-total-sales-route sa-bg-white sa-column">
+        <mat-label class="sa-title">{{language.totalSalesRoute}}</mat-label>
+        <div class="sa-sales-route-chart sa-row">
+            <div class="sa-chart">
+                <canvas baseChart
+                        [data]="salesRouteData.data"
+                        [labels]="salesRouteData.labels"
+                        [options]="salesRouteData.options"
+                        [colors]="SALES_ROUTE_COLORS"
+                        chartType="bar">
+                </canvas>
+            </div>
+            <div class="sa-total-items">
+                <mat-label class="sa-roboto-medium sa-text-18 sa-brownish-grey">{{language.totalItems}}</mat-label>
+            </div>
+        </div>
+    </div>
+    <div class="sa-products-sold sa-bg-white sa-column">
+        <mat-label class="sa-title">{{language.productsSold}}</mat-label>
+        <div class="sa-chart">
+            <canvas baseChart
+                    [data]="productsData.data"
+                    [labels]="productsData.labels"
+                    [options]="productsData.options"
+                    [colors]="PRODUCTS_COLORS"
+                    chartType="horizontalBar">
+            </canvas>
+        </div>
+    </div>
+</div>

@@ -10,6 +10,8 @@ export class ProductModel {
     retail_price?: string;
     wholesale_price?: string;
     wholesale_quantity?: string;
+    wholesale_priceG?: string;
+    wholesale_quantityG?: string;
     monday_price?: string;
     tuesday_price?: string;
     wednesday_price?: string;
@@ -19,5 +21,18 @@ export class ProductModel {
     sunday_price?: string;
     is_enabled?: boolean;
     is_priced_per_day?: boolean;
-    seller_commission?: string;
+    has_promo?: boolean;
+    monday_price_promo?: string;
+    tuesday_price_promo?: string;
+    wednesday_price_promo?: string;
+    thursday_price_promo?: string;
+    friday_price_promo?: string;
+    saturday_price_promo?: string;
+    sunday_price_promo?: string;
+    wholesale_price_promo?: string;
+    start_date_promo?: string;
+    end_date_promo?: string;
+    seller_commission_retail?: string;
+    seller_commission_wholesale?: string;
+    seller_commission_wholesaleG?: string;
 }

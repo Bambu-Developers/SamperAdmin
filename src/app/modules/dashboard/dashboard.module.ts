@@ -11,10 +11,11 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 /*MODULES*/
 import { SharedModule } from '../shared/shared.module';
 
+
 @NgModule({
   declarations: [
     DashboardComponent,
-    NavbarComponent,
+    NavbarComponent
   ],
   imports: [
     CommonModule,

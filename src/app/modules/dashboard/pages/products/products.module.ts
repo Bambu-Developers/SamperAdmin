@@ -12,9 +12,11 @@ import { ProductsComponent } from 'src/app/modules/dashboard/pages/products/prod
 import { RegisterProductComponent } from 'src/app/modules/dashboard/pages/products/components/register-product/register-product.component';
 import { ViewProductComponent } from 'src/app/modules/dashboard/pages/products/components/view-product/view-product.component';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
+import { RegisterPromotionComponent } from './components/register-promotion/register-promotion.component';
+import { EditPromotionComponent } from './components/edit-promotion/edit-promotion.component';
 
 @NgModule({
-  declarations: [ProductsComponent, RegisterProductComponent, ViewProductComponent, EditProductComponent],
+  declarations: [ProductsComponent, RegisterProductComponent, ViewProductComponent, EditProductComponent, RegisterPromotionComponent, EditPromotionComponent],
   imports: [
     CommonModule,
     ProductsRoutingModule,

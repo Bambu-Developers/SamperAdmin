@@ -1,9 +1,23 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
-import { UsersComponent } from './pages/users/users.component';
 
 const routes: Routes = [
+  {
+    path: 'inventory',
+    component: DashboardComponent,
+    loadChildren: './pages/inventory/inventory.module#InventoryModule'
+  },
+  {
+    path: 'analytics',
+    component: DashboardComponent,
+    loadChildren: './pages/analytics/analytics.module#AnalyticsModule'
+  },
+  {
+    path: 'products',
+    component: DashboardComponent,
+    loadChildren: './pages/products/products.module#ProductsModule'
+  },
   {
     path: 'users',
     component: DashboardComponent,
@@ -20,9 +34,9 @@ const routes: Routes = [
     loadChildren: './pages/profile/profile.module#ProfileModule'
   },
   {
-    path: 'products',
+    path: 'routes',
     component: DashboardComponent,
-    loadChildren: './pages/products/products.module#ProductsModule'
+    loadChildren: './pages/routes/routes.module#RoutesModule'
   },
   {
     path: '',

@@ -1,0 +1,279 @@
+<div class="sa-dashboard-main-content sa-roboto-medium sa-charcoal-grey">
+    <div class="sa-liquidation-header">
+        <div class="sa-liquidation-title">
+            <mat-icon svgIcon="ic-back" [routerLink]="['/dashboard/inventory/history-liquidation']"></mat-icon>
+            <mat-label class="sa-text-24">{{lanLiq.liquidation}} - {{dataSource?.route_name}}</mat-label>
+            <mat-label class="sa-user-name sa-text-16 sa-brownish-grey">({{user_name}})</mat-label>
+        </div>
+        <div class="sa-liq-right">
+            <div class="sa-sales-details">
+                <div class="sa-values">
+                    <mat-label>Ventas del día:</mat-label>
+                    <mat-label>{{totalSold | currency}}</mat-label>
+                </div>
+                <div class="sa-values">
+                    <mat-label>Total devolución:</mat-label>
+                    <mat-label> {{totalDevolutions |currency}}</mat-label>
+                </div>
+                <div class="sa-values">
+                    <mat-label>Total merma:</mat-label>
+                    <mat-label> {{totalLosses | currency}}</mat-label>
+                </div>
+                <div class="sa-values">
+                    <mat-label>{{existLiquidation? 'Total liquidado:' : lanLiq.totalLiq}}</mat-label>
+                    <mat-label>{{totalSold - totalDevolutions | currency}} </mat-label>
+                </div>
+                <div class="sa-values">
+                    <mat-label>{{existLiquidation? 'Total liquidado con merma:' : 'Total a liquidar con merma:'}}
+                    </mat-label>
+                    <mat-label>{{totalSold + totalLosses | currency}}</mat-label>
+                </div>
+            </div>
+            <button mat-raised-button class="sa-button-approve-liquidation" color="charcoal-grey" (click)="openDialogApproveLiquidation()" *ngIf="!existLiquidation">
+                {{lanLiq.approveLiq}}
+            </button>
+        </div>
+    </div>
+    <div class="sa-devolutions" *ngIf="returnedProducts.length !== 0">
+        <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Devoluciones</mat-label>
+        <table mat-table [dataSource]="returnedProducts">
+            <!-- Sku Column -->
+            <ng-container matColumnDef="sku">
+                <th class="sa-sku-column" mat-header-cell *matHeaderCellDef>{{lanInv.skuCode}}</th>
+                <td class="sa-sku-column sa-roboto-medium" mat-cell *matCellDef="let devolution">{{devolution.sku}}</td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Image Column -->
+            <ng-container matColumnDef="image">
+                <th class="sa-img-column" mat-header-cell *matHeaderCellDef></th>
+                <td class="sa-img-column" mat-cell *matCellDef="let devolution">
+                    <img class="sa-img-preview" src="{{devolution.img_preview_url}}" alt="N/A">
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th class="sa-name-column" mat-header-cell *matHeaderCellDef>{{lanInv.name}}</th>
+                <td class="sa-name-column" mat-cell *matCellDef="let devolution">{{devolution.name}} {{devolution.content}}
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Quantity Column -->
+            <ng-container matColumnDef="quantity">
+                <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>{{lanInv.quantityP}}</th>
+                <td class="sa-quantity-column " mat-cell *matCellDef="let devolution">{{devolution.numberItems}} piezas
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Brand Column -->
+            <ng-container matColumnDef="brand">
+                <th class="sa-brand-column" mat-header-cell *matHeaderCellDef>{{lanInv.brand}}</th>
+                <td class="sa-brand-column" mat-cell *matCellDef="let devolution">{{devolution.brand}}</td>
+                <td class="sa-total-column" mat-footer-cell *matFooterCellDef> Total: </td>
+            </ng-container>
+            <!-- Subtotal Column -->
+            <ng-container matColumnDef="subtotal">
+                <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanInv.subtotal}}</th>
+                <td class="sa-subtotal-column" mat-cell *matCellDef="let devolution">
+                    {{devolution.totalPrice | currency}}</td>
+                <td class="sa-subtotal-column" mat-footer-cell *matFooterCellDef> {{ totalDevolutions | currency}} </td>
+            </ng-container>
+            <!-- <tr mat-header-row *matHeaderRowDef="displayedColumnsDevolutions"></tr> -->
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsDevolutions;"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumnsDevolutions"></tr>
+        </table>
+    </div>
+    <div class="sa-losses" *ngIf="dataSourceLosses.data.length !== 0">
+        <!-- <div class="sa-losses"> -->
+        <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Mermas</mat-label>
+        <table mat-table [dataSource]="dataSourceLosses">
+            <!-- Sku Column -->
+            <ng-container matColumnDef="sku">
+                <th class="sa-sku-column" mat-header-cell *matHeaderCellDef>{{lanInv.skuCode}}</th>
+                <td class="sa-sku-column sa-roboto-medium" mat-cell *matCellDef="let loss">{{loss.sku}}</td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Image Column -->
+            <ng-container matColumnDef="image">
+                <th class="sa-img-column" mat-header-cell *matHeaderCellDef></th>
+                <td class="sa-img-column" mat-cell *matCellDef="let loss">
+                    <img class="sa-img-preview" src="{{loss.img_preview_url}}" alt="N/A">
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th class="sa-name-column" mat-header-cell *matHeaderCellDef>{{lanInv.name}}</th>
+                <td class="sa-name-column" mat-cell *matCellDef="let loss">{{loss.name}} {{loss.content}}</td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Quantity Column -->
+            <ng-container matColumnDef="quantity">
+                <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>{{lanInv.quantityP}}</th>
+                <td class="sa-quantity-column sa-roboto-medium" mat-cell *matCellDef="let loss">{{loss.numberItems}} piezas
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Brand Column -->
+            <ng-container matColumnDef="brand">
+                <th class="sa-brand-column" mat-header-cell *matHeaderCellDef>{{lanInv.brand}}</th>
+                <td class="sa-brand-column" mat-cell *matCellDef="let loss">{{loss.brand}}</td>
+                <td class="sa-total-column" mat-footer-cell *matFooterCellDef> Total: </td>
+            </ng-container>
+            <!-- Subtotal Column -->
+            <ng-container matColumnDef="subtotal">
+                <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanInv.subtotal}}</th>
+                <td class="sa-subtotal-column" mat-cell *matCellDef="let loss">{{loss.totalPrice | currency}}</td>
+                <td class="sa-subtotal-column" mat-footer-cell *matFooterCellDef> {{totalLosses | currency}} </td>
+            </ng-container>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsLosses;"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+        </table>
+    </div>
+    <div class="sa-daily-sales" *ngIf="dataSourceTable.data.length !== 0">
+        <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Ventas Minoristas</mat-label>
+        <table mat-table [dataSource]="dataSourceTable">
+            <!-- Sku Column -->
+            <ng-container matColumnDef="sku">
+                <th class="sa-sku-column" mat-header-cell *matHeaderCellDef>{{lanInv.skuCode}}</th>
+                <td class="sa-sku-column sa-roboto-medium" mat-cell *matCellDef="let inventory">{{inventory.sku}}</td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Image Column -->
+            <ng-container matColumnDef="image">
+                <th class="sa-img-column" mat-header-cell *matHeaderCellDef></th>
+                <td class="sa-img-column" mat-cell *matCellDef="let inventory">
+                    <img class="sa-img-preview" src="{{inventory.img_preview_url}}" alt="N/A">
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th class="sa-name-column" mat-header-cell *matHeaderCellDef>{{lanInv.name}}</th>
+                <td class="sa-name-column" mat-cell *matCellDef="let inventory">{{inventory.name}} {{inventory.content}}
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Quantity Column -->
+            <ng-container matColumnDef="quantity">
+                <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>{{lanInv.quantityP}}</th>
+                <td class="sa-quantity-column" mat-cell *matCellDef="let inventory">{{inventory.totalItems}}</td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Brand Column -->
+            <ng-container matColumnDef="brand">
+                <th class="sa-brand-column" mat-header-cell *matHeaderCellDef>{{lanInv.brand}}</th>
+                <td class="sa-brand-column" mat-cell *matCellDef="let inventory">{{inventory.brand}}</td>
+                <td class="sa-total-column" mat-footer-cell *matFooterCellDef> TOTAL : </td>
+            </ng-container>
+            <!-- Subtotal Column -->
+            <ng-container matColumnDef="subtotal">
+                <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanInv.subtotal}}</th>
+                <td class="sa-subtotal-column" mat-cell *matCellDef="let inventory">
+                    {{ inventory.totalPrice | currency }}</td>
+                <td class="sa-subtotal-column" mat-footer-cell *matFooterCellDef> {{ totalSaleRetail | currency}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+        </table>
+    </div>
+    <div class="sa-daily-sales" *ngIf="dataSourceWholesaleTable.data.length !== 0">
+        <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Ventas Mayorista</mat-label>
+        <table mat-table [dataSource]="dataSourceWholesaleTable">
+            <!-- Sku Column -->
+            <ng-container matColumnDef="sku">
+                <th class="sa-sku-column" mat-header-cell *matHeaderCellDef>{{lanInv.skuCode}}</th>
+                <td class="sa-sku-column sa-roboto-medium" mat-cell *matCellDef="let inventory">{{inventory.sku}}</td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Image Column -->
+            <ng-container matColumnDef="image">
+                <th class="sa-img-column" mat-header-cell *matHeaderCellDef></th>
+                <td class="sa-img-column" mat-cell *matCellDef="let inventory">
+                    <img class="sa-img-preview" src="{{inventory.img_preview_url}}" alt="N/A">
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th class="sa-name-column" mat-header-cell *matHeaderCellDef>{{lanInv.name}}</th>
+                <td class="sa-name-column" mat-cell *matCellDef="let inventory">{{inventory.name}} {{inventory.content}}
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Quantity Column -->
+            <ng-container matColumnDef="quantity">
+                <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>{{lanInv.quantityP}}</th>
+                <td class="sa-quantity-column" mat-cell *matCellDef="let inventory">{{inventory.totalItems}}</td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Brand Column -->
+            <ng-container matColumnDef="brand">
+                <th class="sa-brand-column" mat-header-cell *matHeaderCellDef>{{lanInv.brand}}</th>
+                <td class="sa-brand-column" mat-cell *matCellDef="let inventory">{{inventory.brand}}</td>
+                <td class="sa-total-column" mat-footer-cell *matFooterCellDef> TOTAL : </td>
+            </ng-container>
+            <!-- Subtotal Column -->
+            <ng-container matColumnDef="subtotal">
+                <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanInv.subtotal}}</th>
+                <td class="sa-subtotal-column" mat-cell *matCellDef="let inventory">
+                    {{ inventory.totalPrice | currency }}</td>
+                <td class="sa-subtotal-column" mat-footer-cell *matFooterCellDef> {{totalSaleWholesale | currency}}
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+        </table>
+    </div>
+    <div class="sa-daily-sales" *ngIf="dataSourceWholesaleTableG.data.length !== 0">
+        <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Ventas Gran Mayoreo</mat-label>
+        <table mat-table [dataSource]="dataSourceWholesaleTableG">
+            <!-- Sku Column -->
+            <ng-container matColumnDef="sku">
+                <th class="sa-sku-column" mat-header-cell *matHeaderCellDef>{{lanInv.skuCode}}</th>
+                <td class="sa-sku-column sa-roboto-medium" mat-cell *matCellDef="let inventory">{{inventory.sku}}</td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Image Column -->
+            <ng-container matColumnDef="image">
+                <th class="sa-img-column" mat-header-cell *matHeaderCellDef></th>
+                <td class="sa-img-column" mat-cell *matCellDef="let inventory">
+                    <img class="sa-img-preview" src="{{inventory.img_preview_url}}" alt="N/A">
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th class="sa-name-column" mat-header-cell *matHeaderCellDef>{{lanInv.name}}</th>
+                <td class="sa-name-column" mat-cell *matCellDef="let inventory">{{inventory.name}} {{inventory.content}}
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Quantity Column -->
+            <ng-container matColumnDef="quantity">
+                <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>{{lanInv.quantityP}}</th>
+                <td class="sa-quantity-column" mat-cell *matCellDef="let inventory">{{inventory.totalItems}}</td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- Brand Column -->
+            <ng-container matColumnDef="brand">
+                <th class="sa-brand-column" mat-header-cell *matHeaderCellDef>{{lanInv.brand}}</th>
+                <td class="sa-brand-column" mat-cell *matCellDef="let inventory">{{inventory.brand}}</td>
+                <td class="sa-total-column" mat-footer-cell *matFooterCellDef> TOTAL : </td>
+            </ng-container>
+            <!-- Subtotal Column -->
+            <ng-container matColumnDef="subtotal">
+                <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanInv.subtotal}}</th>
+                <td class="sa-subtotal-column" mat-cell *matCellDef="let inventory">
+                    {{ inventory.totalPrice | currency }}</td>
+                <td class="sa-subtotal-column" mat-footer-cell *matFooterCellDef> {{totalSaleWholesaleG | currency}}
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+        </table>
+    </div>
+</div>

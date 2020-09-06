@@ -1,14 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ProductsService } from 'src/app/modules/dashboard/pages/products/services/products.service';
-import { ProductModel } from 'src/app/modules/dashboard/pages/products/models/product.model';
-import { UploadModel } from 'src/app/modules/dashboard/pages/products/models/upload.model';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
 import { PRODUCTS_LANGUAGE } from 'src/app/modules/dashboard/pages/products/data/language';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
-import { CURRENCY_MASK, NUMBER_MASK } from 'src/app/directives/currency-mask.directive';
+import { CURRENCY_MASK, NUMBER_MASK, PERCENTAGE_MASK } from 'src/app/directives/currency-mask.directive';
 import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/data';
 
 @Component({
@@ -22,20 +21,20 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
   public language = ACCOUNT_LANGUAGE;
   public currencyMask = CURRENCY_MASK;
   public numberMask = NUMBER_MASK;
-  public showPricingPerDay = false;
+  public percentageMask = PERCENTAGE_MASK;
   public baseValue = '0.00';
   public registerProductForm: FormGroup;
-  public currentProduct: ProductModel;
   public selectedFiles: FileList;
-  public currentUpload: UploadModel;
   public imgURL: any;
   public base64textString: any;
   public imagePath: any;
   public loading = false;
   private _subscriptionURL: Subscription;
 
-  constructor(private _productService: ProductsService,
+  constructor(
+    private _productService: ProductsService,
     private _snackBar: MatSnackBar,
+    private _router: Router,
   ) { }
 
   ngOnInit() {
@@ -68,31 +67,42 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
       wholesaleQuantity: new FormControl(15, [
         Validators.required,
       ]),
-      mondayPrice: new FormControl(this.baseValue, [
+      wholesalePriceG: new FormControl(this.baseValue, [
         Validators.required,
       ]),
-      tuesdayPrice: new FormControl(this.baseValue, [
+      wholesaleQuantityG: new FormControl(100, [
         Validators.required,
       ]),
-      wednesdayPrice: new FormControl(this.baseValue, [
+      // mondayPrice: new FormControl(this.baseValue, [
+      //   Validators.required,
+      // ]),
+      // tuesdayPrice: new FormControl(this.baseValue, [
+      //   Validators.required,
+      // ]),
+      // wednesdayPrice: new FormControl(this.baseValue, [
+      //   Validators.required,
+      // ]),
+      // thursdayPrice: new FormControl(this.baseValue, [
+      //   Validators.required,
+      // ]),
+      // fridayPrice: new FormControl(this.baseValue, [
+      //   Validators.required,
+      // ]),
+      // saturdayPrice: new FormControl(this.baseValue, [
+      //   Validators.required,
+      // ]),
+      // sundayPrice: new FormControl(this.baseValue, [
+      //   Validators.required,
+      // ]),
+      sellerCommissionRetail: new FormControl(this.baseValue, [
         Validators.required,
       ]),
-      thursdayPrice: new FormControl(this.baseValue, [
+      sellerCommissionWholesale: new FormControl(this.baseValue, [
         Validators.required,
       ]),
-      fridayPrice: new FormControl(this.baseValue, [
+      sellerCommissionWholesaleG: new FormControl(this.baseValue, [
         Validators.required,
       ]),
-      saturdayPrice: new FormControl(this.baseValue, [
-        Validators.required,
-      ]),
-      sundayPrice: new FormControl(this.baseValue, [
-        Validators.required,
-      ]),
-      sellerCommission: new FormControl(this.baseValue, [
-        Validators.required,
-      ]),
-      isPricedPerDay: new FormControl()
     });
   }
 
@@ -104,6 +114,7 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
           this.registerProductForm.get('image').patchValue(response);
           this._productService.registerProduct(this.registerProductForm.value);
           this.openSnackBar();
+          this._router.navigate(['/dashboard/products']);
         }, error => console.error(error)
       );
     }
@@ -165,7 +176,7 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if ( this._subscriptionURL ) {
+    if (this._subscriptionURL) {
       this._subscriptionURL.unsubscribe();
     }
   }

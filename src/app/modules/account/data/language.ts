@@ -6,7 +6,7 @@ export const ACCOUNT_LANGUAGE = {
     },
     recoverPassword: {
         title: 'Restablecer contraseña',
-        subtitle: 'Ingresa tu correo electrónico para que te ayudemos a recuperarla',
+        subtitle: 'Ingresa tu nombre de usuario para que te ayudemos a recuperarla',
         button: 'Envíar correo',
         backTo: 'Regresar a',
         login: 'Inicio de sesión'
@@ -19,13 +19,13 @@ export const ACCOUNT_LANGUAGE = {
         errorMatchPassword: 'La contraseña no coincide con la anterior',
         button: 'Cambiar contraseña'
     },
-    placeholderEmail: 'Correo electrónico',
+    placeholderEmail: 'Nombre de usuario',
     placeholderPass: 'Contraseña',
     errorRequired: 'Este campo es requerido',
     errorFormatEmail: 'Utiliza un formato válido como: correo@ejemplo.com',
-    errorEmailNotRegister: 'Correo no registrado en Sanper',
-    errorEmailRegister: 'Este correo ya esta registrado',
-    errorLengthPass: 'La contraseña debe contener entre 10 y 16 caracteres alfanuméricos',
+    errorEmailNotRegister: 'Usuario no registrado en Sanper',
+    errorEmailRegister: 'Este nombre de usuario ya esta registrado',
+    errorLengthPass: 'La contraseña debe contener entre 6 y 14 caracteres alfanuméricos',
     errorPassword: 'Contraseña incorrecta',
     cancel: 'Cancelar'
 };

@@ -1,14 +1,41 @@
 @import "src/assets/css/colors";
-
-.sa-dashboard-main-content{
-    h3{
+.sa-dashboard-main-content {
+    h3 {
         margin-bottom: 24px;
     }
-    .sa-dashboard-actions{
+    .sa-dashboard-actions {
         display: flex;
         justify-content: space-between;
+        align-items: center;
+        .sa-user-search {
+            height: 40px;
+        }
     }
-    .sa-dashboard-content{
+    .sa-dashboard-content {
         margin: 16px 0px;
+        .sa-name-column {
+            width: 15%;
+        }
+        .sa-username-column {
+            width: 25%;
+        }
+        .sa-rol-column {
+            width: 15%;
+        }
+        .sa-route-column {
+            width: 15%;
+        }
+        .sa-dateCreated-column {
+            width: 15%;
+        }
+        .sa-lastConexion-column {
+            width: 15%;
+        }
+        .sa-status-column {
+            width: 10%;
+        }
+        .mat-select-trigger {
+            width: 100px;
+        }
     }
-} 
+}

@@ -1,7 +1,7 @@
 <!-- PAGINATOR -->
 <div *ngIf="pages" class="sa-paginator">
-  <p class="sa-roboto sa-text-14 sa-label-paginator">{{itemsPerPage}}/{{totalItems}}</p>
-  <mat-icon (click)="before()" svgIcon="ic-before"></mat-icon>
-  <p [ngClass]="{'active': currentPage == i + 1}" *ngFor="let page of pages;let i = index" class="sa-mushroom sa-roboto sa-text-14 sa-paginator-pages">{{i + 1}}</p>
-  <mat-icon (click)="next()" svgIcon="ic-next"></mat-icon>
+    <p class="sa-roboto sa-text-14 sa-label-paginator">{{itemsPerPage}}/{{totalItems}}</p>
+    <mat-icon (click)="before()" svgIcon="ic-before"></mat-icon>
+    <p [ngClass]="{'active': currentPage == i + 1}" *ngFor="let page of pages;let i = index" class="sa-mushroom sa-roboto sa-text-14 sa-paginator-pages">{{i + 1}}</p>
+    <mat-icon (click)="next()" svgIcon="ic-next"></mat-icon>
 </div>

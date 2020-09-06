@@ -5,7 +5,7 @@
 }
 
 .sidenav {
-  width: 200px;
+  width: 232px;
 }
 
 .sidenav .mat-toolbar {
@@ -13,15 +13,13 @@
   display: flex;
   justify-content: center;
 }
-
-.mat-toolbar.mat-primary {
-  position: sticky;
-  top: 0;
-  z-index: 2;
-}
 .sa-navbar-toolbar {
+  width: calc(100vw - 233px);
   display: flex;
+  top: 0;
+  position: fixed;
   justify-content: flex-end;
+  z-index: 2;
 }
 
 .mat-nav-list {

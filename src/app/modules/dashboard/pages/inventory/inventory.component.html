@@ -1,0 +1,68 @@
+<mat-card class="sa-commission-card sa-charcoal-grey" *ngIf="commissionCalc">
+    <div class="sa-commission-header">
+        <mat-label class="sa-text-24 sa-roboto-medium">{{lanInv.commissionCalc}}</mat-label>
+        <mat-icon svgIcon="ic-close-grey" (click)="commissionCalc = false"></mat-icon>
+    </div>
+    <div class="sa-select-date-route">
+        <form class="sa-calculate-commission-form" (ngSubmit)="calculateCommission()" [formGroup]="form">
+            <mat-form-field>
+                <input matInput [satDatepicker]="picker2" formControlName="date">
+                <sat-datepicker #picker2 [rangeMode]="true">
+                </sat-datepicker>
+                <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
+            </mat-form-field>
+            <div class="sa-route-selection">
+                <mat-select class="mat-select-trigger" placeholder="Elige una ruta" formControlName="route">
+                    <mat-option (click)="routeSelectedCommision = false" [value]="">. . .
+                    </mat-option>
+                    <mat-option *ngFor="let route of routes" (click)="routeSelectedCommission = true"
+                        [value]="route.id">{{route.name}}
+                    </mat-option>
+                </mat-select>
+            </div>
+            <button mat-raised-button class="sa-button-calc-commission" [disabled]="!form.valid" type="submit"
+                color="accent">Calcular</button>
+        </form>
+    </div>
+</mat-card>
+<div class="sa-dashboard-main-content sa-roboto sa-charcoal-grey">
+    <div class="sa-inventory-header">
+    </div>
+    <div class="sa-inventory-content">
+        <div class="sa-do-liquidation">
+            <mat-label class="sa-text-24">Realiza una liquidación</mat-label>
+            <div class="sa-liquidation-actions">
+                <div class="sa-route-selection">
+                    <mat-select class="mat-select-trigger" placeholder="Selecciona una ruta">
+                        <mat-option *ngFor="let route of routes" (click)="routeSelected = true"
+                            (click)="setRoute(route.id)" [value]="route.name">{{route.name}}</mat-option>
+                    </mat-select>
+                </div>
+                <mat-label *ngIf="!routeSelected" class="sa-text-italic sa-text-14">{{lanInv.selectRoute}}</mat-label>
+                <div *ngIf="routeSelected">
+                    <form class="sa-calculate-liquidation-form sa-column sa-justify-between sa-align-center"
+                        [formGroup]="liquidationForm">
+                        Selecciona una fecha
+                        <mat-form-field>
+                            <input matInput [satDatepicker]="picker2" formControlName="date">
+                            <sat-datepicker #picker2 [rangeMode]="false">
+                            </sat-datepicker>
+                            <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
+                        </mat-form-field>
+                        <button mat-raised-button class="sa-button-liquidation" color="accent" (click)="doLiquidation()"
+                            [disabled]="!liquidationForm.valid">
+                            {{lanInv.doLiquidation}}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="sa-calc-commission">
+            <mat-label class="sa-text-24">Calcula una comisión</mat-label>
+            <div class="sa-button">
+                <button mat-raised-button class="sa-button-calc" (click)="commissionCalc = true"
+                    color="charcoal-grey">{{lanInv.commissionCalc}}</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,148 +1,255 @@
 @import "src/assets/css/colors";
 @import "src/assets/css/sizes.scss";
-
 .sa-dashboard-main-content {
-  .sa-view-product-content {
-    margin: 0px auto;
-    width: 824px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
-    .sa-viewproduct-header {
-      width: 824px;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      .sa-viewproduct-tittle {
-        width: 143px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        margin-left: -34px;
-      }
-      .sa-product-actions {
-        width: 263px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-      }
-    }
-    .sa-product-card {
-      width: 792px;
-      margin-top: 16px;
-      padding: 32px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      .sa-product-image {
-        width: 208px;
-        height: 184px;
-        display: flex;
-        border: 1px #cacaca solid;
-        border-radius: 4px;
-        justify-content: center;
-        .sa-image {
-          height: 100%;
-        }
-      }
-      .sa-product-info {
-        height: 184px;
-        width: 540px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        .sa-info-column {
-          height: 184px;
-          display: flex;
-          flex-direction: column;
-          flex-wrap: wrap;
-          justify-content: space-between;
-          .sa-product-data {
-            height: 48px;
-            display: flex;
-            flex-flow: column;
-            justify-content: space-between;
-          }
-        }
-        #right {
-          padding-right: 60px;
-        }
-      }
-    }
-    .sa-promotion {
-      margin-top: 16px;
-    }
-    .sa-product-prices-perday {
-      width: 792px;
-      height: 171px;
-      margin-top: 16px;
-      padding: 21px 32px 0px 0px;
-      .sa-product-retailprice {
+    .sa-view-product-content {
+        margin: 0px auto;
+        width: 824px;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        .sa-tittle {
-          padding-left: 33px;
+        justify-content: flex-end;
+        align-items: flex-end;
+        .sa-viewproduct-header {
+            width: 824px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            .sa-viewproduct-tittle {
+                width: 143px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                margin-left: -34px;
+            }
+            .sa-product-actions {
+                width: 263px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
         }
-        .sa-price-per-day {
-          width: 400px;
-          height: 140px;
-          padding-top: 14px;
-          display: flex;
-          flex-direction: column;
-          flex-wrap: wrap;
-          .sa-day {
-            width: 160px;
+        .sa-product-card {
+            width: 792px;
+            margin-top: 16px;
+            padding: 32px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .sa-product-image {
+                width: 208px;
+                height: 184px;
+                display: flex;
+                border: 1px #cacaca solid;
+                border-radius: 4px;
+                justify-content: center;
+                .sa-image {
+                    height: 100%;
+                }
+                .sa-promo-img {
+                    height: 32px;
+                    position: absolute;
+                    padding-right: 125px;
+                    padding-top: 8px;
+                }
+            }
+            .sa-product-info {
+                height: 184px;
+                width: 540px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                .sa-info-column {
+                    height: 184px;
+                    display: flex;
+                    flex-direction: column;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    .sa-product-data {
+                        height: 48px;
+                        display: flex;
+                        flex-flow: column;
+                        justify-content: space-between;
+                    }
+                }
+                #right {
+                    padding-right: 60px;
+                }
+            }
+        }
+        .sa-promotion {
+            margin-top: 16px;
+        }
+        .sa-promotion-card {
+            width: 747px;
+            height: 51px;
+            padding: 21px 45px 32px 32px;
+            margin-top: 16px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            .sa-promotion-left-column {
+                width: 24%;
+                height: inherit;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                .sa-promotion-startdate {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                }
+            }
+            .sa-promotion-center-column {
+                width: 24%;
+                height: inherit;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-end;
+            }
+            .sa-promotion-right-column {
+                width: 25%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: flex-end;
+            }
+        }
+        .sa-product-prices-perday {
+            width: 792px;
+            height: 171px;
+            margin-top: 16px;
+            padding: 21px 32px 0px 0px;
+            .sa-product-retailprice {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                .sa-tittle {
+                    padding-left: 33px;
+                }
+                .sa-price-per-day {
+                    width: 400px;
+                    height: 140px;
+                    padding-top: 14px;
+                    display: flex;
+                    flex-direction: column;
+                    flex-wrap: wrap;
+                    .sa-day {
+                        width: 160px;
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        justify-content: space-between;
+                        padding-bottom: 16px;
+                        padding-left: 33px;
+                    }
+                }
+            }
+            .sa-product_wholesaleprice {
+                display: flex;
+                flex-direction: row;
+                .sa-wholesale-column {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    margin-right: 170px;
+                    .sa-wp {
+                        height: 40px;
+                        margin-left: 11px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                    }
+                }
+            }
+        }
+        .sa-product-prices-promotion {
+            width: 760px;
+            margin-top: 16px;
+            padding: 21px 32px 24px 32px;
+            .sa-prices-perday {
+                margin-top: 16px;
+                display: flex;
+                flex-direction: row;
+                li {
+                    list-style-type: none;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                .sa-prices-left-column {
+                    width: 30%;
+                    height: 112px;
+                    ul {
+                        height: inherit;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                    }
+                }
+                .sa-prices-right-column {
+                    width: 30%;
+                    height: 80px;
+                    margin-left: 57px;
+                    ul {
+                        height: inherit;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                    }
+                }
+            }
+        }
+        .sa-product-prices-comm {
+            margin-top: 16px;
+            padding: 21px 32px 24px 32px;
+            width: 760px;
+            height: 51px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .sa-wp {
+                width: 40%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+        .sa-product-prices-commission {
+            margin-top: 16px;
+            padding: 21px 32px 24px 32px;
+            width: 760px;
+            height: 140px;
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             justify-content: space-between;
-            padding-bottom: 16px;
-            padding-left: 33px;
-          }
+            align-items: center;
+            .sa-commission {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                mat-label {
+                    margin-bottom: 10px;
+                }
+                .sa-wp-c {
+                    width: 40%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                }
+            }
         }
-      }
-      .sa-product_wholesaleprice {
-        display: flex;
-        flex-direction: row;
-        .sa-wholesale-column {
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          margin-right: 170px;
-          .sa-wp {
-            height: 40px;
-            margin-left: 11px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-          }
+        #delete {
+            margin-top: 16px;
+            cursor: pointer;
         }
-      }
     }
-    .sa-product-prices-comm {
-      margin-top: 16px;
-      padding: 21px 32px 24px 32px;
-      width: 760px;
-      height: 51px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      .sa-wp {
-        width: 220px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-      }
-    }
-    #delete {
-      margin-top: 16px;
-      cursor: pointer;
-    }
-  }
 }

@@ -4,7 +4,7 @@ import { UsersService } from '../users/services/users.service';
 import { AuthService } from 'src/app/modules/account/services/auth.service';
 import { matchingPasswords } from 'src/app/directives/equal-to-validator.directive';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ToastComponent } from '../../components/toast/toast.component';
 
 @Component({
@@ -66,7 +66,7 @@ export class ProfileComponent implements OnInit {
   openSnackBar() {
     this.snackBar.openFromComponent(ToastComponent, {
       duration: 50000,
-      data: {message: 'Se ha cambiado la contraseña exitosamente'}
+      data: { message: 'Se ha cambiado la contraseña exitosamente' }
     });
   }
 

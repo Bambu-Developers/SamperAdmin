@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { UserModel } from '../models/user.model';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
@@ -15,6 +15,8 @@ export class UsersService {
 
   public usersRef: AngularFireList<UserModel>;
   public routesRef: AngularFireList<RouteModel>;
+  public _basePath = 'Users/';
+  private _baseRoutesPath = 'Staging/Routes/';
 
   constructor(
     public db: AngularFireDatabase,
@@ -22,7 +24,7 @@ export class UsersService {
     private router: Router,
   ) {
     this.usersRef = this.db.list<UserModel>('Users');
-    this.routesRef = this.db.list<RouteModel>('Developer/Routes');
+    this.routesRef = this.db.list<RouteModel>(this._baseRoutesPath);
   }
 
   // Get all users
@@ -42,9 +44,11 @@ export class UsersService {
 
   // Create user
   public createUser(userData) {
-    return this.afAuth.auth.createUserWithEmailAndPassword(userData.email, userData.password)
-      .then((result: any) => {
+    const email: string = userData.email.concat('@sanper.com');
+    return this.afAuth.createUserWithEmailAndPassword(email, userData.password)
+      .then(result => {
         this.setUserData(userData, result.user);
+        this.setUserToRoute(userData, result.user);
         this.router.navigate(['/dashboard/users']);
         return true;
       }).catch((error) => {
@@ -55,7 +59,7 @@ export class UsersService {
   /* Setting up user data */
   public setUserData(user, result) {
     const userData: UserModel = {
-      id: user.uid,
+      id: result.uid,
       rol: user.rol,
       route: user.route ? user.route : 0,
       permision: user.permision,
@@ -65,9 +69,23 @@ export class UsersService {
       timestamp_create_at: result.metadata.a,
       last_conexion: result.metadata.lastSignInTime,
       timestamp_last_conexion: result.metadata.b,
-      status: user.status ? user.status : 0
+      status: 0
     };
-    this.usersRef.push(userData);
+    this.usersRef.set(userData.id, userData);
+  }
+
+  public setUserToRoute(data, uid) {
+    const USER_ROUTE: RouteModel = {
+      seller: uid.uid
+    };
+    this.routesRef.update(data.route, USER_ROUTE);
+  }
+
+  public editUserToRoute(data, uid) {
+    const USER_ROUTE: RouteModel = {
+      seller: uid
+    };
+    this.routesRef.update(data, USER_ROUTE);
   }
 
   // Get all router
@@ -105,12 +123,39 @@ export class UsersService {
       );
   }
 
+  public getUserByRoute(route) {
+    return this.db.list(`${this._basePath}`,
+      ref => ref.orderByChild('route').equalTo(route))
+      .snapshotChanges()
+      .pipe(
+        map((user: any) => {
+          const data = user[0].payload.val();
+          const id = user[0].payload.key;
+          return { id, ...data };
+        })
+      );
+  }
+
+  public getUserLogged(id): any {
+    return this.db.list('Users', ref => ref.orderByChild('id').equalTo(id))
+      .snapshotChanges()
+      .pipe(
+        map(changes =>
+          changes.map(c => {
+            const data = c.payload.val() as UserModel;
+            const id = c.payload.key;
+            return { id, ...data };
+          })
+        )
+      );
+  }
+
   public updateUserPassword(email, form): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.afAuth.auth.signInWithEmailAndPassword(email, form.currentPassword).then(
-        result => {
-          const user = this.afAuth.auth.currentUser;
-          user.updatePassword(form.newPassword).then(
+      this.afAuth.signInWithEmailAndPassword(email, form.currentPassword).then(
+        async result => {
+          const user = this.afAuth.currentUser;
+          (await user).updatePassword(form.newPassword).then(
             res => resolve(res),
             error => reject(error)
           );
@@ -118,6 +163,31 @@ export class UsersService {
         error => reject(error)
       );
     });
+  }
+
+  public deleteUser(uid): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.db.object(this._basePath + uid).remove().then(
+        result => resolve(result),
+        error => reject(error)
+      );
+    });
+  }
+
+  public setDisponibility(id: string, disponibility: boolean) {
+    const newStatus = disponibility === true ? 0 : 1;
+    const USER_DATA: UserModel = {
+      status: newStatus
+    };
+    this.usersRef.update(id, USER_DATA);
+  }
+
+  public getRouteByID(id: string) {
+    return this.db.object<RouteModel>(this._baseRoutesPath + id)
+      .snapshotChanges()
+      .pipe(
+        map(res => res.payload.val())
+      );
   }
 
 }

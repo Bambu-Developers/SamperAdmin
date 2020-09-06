@@ -25,14 +25,29 @@ export class NavbarComponent {
   public items = [
     {
       icon: 'ic-stock',
-      title: DASHBOARD_LANGUAGE.navbar.stock,
-      route: '/dashboard/stock'
+      title: DASHBOARD_LANGUAGE.navbar.calc,
+      route: '/dashboard/inventory'
     },
     {
-      icon: 'ic-analytics',
-      title: DASHBOARD_LANGUAGE.navbar.analitycs,
-      route: '/dashboard/analitycs'
+      icon: '',
+      title: DASHBOARD_LANGUAGE.navbar.history,
+      route: '/dashboard/inventory/history'
     },
+    {
+      icon: '',
+      title: DASHBOARD_LANGUAGE.navbar.historyLiquidation,
+      route: '/dashboard/inventory/history-liquidation'
+    },
+    // {
+    //   icon: 'ic-analytics',
+    //   title: DASHBOARD_LANGUAGE.navbar.analitycs,
+    //   route: '/dashboard/analytics'
+    // },
+    // {
+    //   icon: '',
+    //   title: DASHBOARD_LANGUAGE.navbar.clients,
+    //   route: '/dashboard/analytics/clients'
+    // },
     {
       icon: 'ic-products',
       title: DASHBOARD_LANGUAGE.navbar.products,
@@ -47,7 +62,17 @@ export class NavbarComponent {
       icon: 'ic-clients',
       title: DASHBOARD_LANGUAGE.navbar.clients,
       route: '/dashboard/clients'
-    }
+    },
+    {
+      icon: '',
+      title: DASHBOARD_LANGUAGE.navbar.routes,
+      route: '/dashboard/routes'
+    },
+    {
+      icon: '',
+      title: DASHBOARD_LANGUAGE.navbar.tracking,
+      route: '/dashboard/clients/tracking'
+    },
   ];
   public date = new Date;
   public email: string;

@@ -1,206 +1,216 @@
 @import "src/assets/css/colors";
 @import "src/assets/css/sizes.scss";
-
 .sa-dashboard-main-content {
-  margin: 0px auto;
-  width: 824px;
-  .sa-loader {
-    z-index: 100;
-    margin: 0 auto;
-    display: flex;
-    justify-items: center;
-  }
-  .sa-register-product-content {
-    #amount {
-      width: 288px;
-    }
-    .sa-product-tittle {
-      width: 824px;
-      height: 32px;
-      margin-bottom: 16px;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      .sa-register-product-actions-top {
-        width: 240px;
+    margin: 64px auto;
+    width: 824px;
+    .sa-loader {
+        z-index: 100;
+        margin: 0 auto;
         display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-      }
+        justify-items: center;
     }
-    .sa-product-content {
-      margin-top: 16px;
-      margin-bottom: 16px;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      width: 100;
-      height: 100;
-      justify-content: space-around;
-
-      .sa-upload-image {
-        width: 208px;
-        height: 184px;
-        border-radius: 4px;
-        border: 1px solid;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        #preview {
-          height: 100%;
-        }
-        #hidden {
-          display: none;
-        }
-      }
-      .sa-info-column {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        .sa-input-text {
-          width: 336px;
-        }
-      }
-      .sa-info-column-right {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        .sa-input-text {
-          width: 176px;
-        }
-        .sa-p {
-          margin-top: 20px;
-        }
-        .sa-info-unitsPackage {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          @media #{$break-tablet-down} {
-            flex-direction: column-reverse;
-            align-items: flex-start;
-          }
-          .sa-p-right {
-            margin-left: 6px;
-          }
-        }
-        #unitsPackage {
-          width: 72px;
-        }
-      }
-    }
-    .sa-register-product-actions {
-      width: 240px;
-      margin-top: 24px;
-      padding-left: 584px;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-    }
-    .sa-product-price-info {
-      margin-top: 16px;
-      padding: 21px 32px 24px 0px;
-      .sa-product-price-expand {
-        .sa-product-info-top {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          margin-left: 32px;
-          .sa-product-retail-pricing {
-            height: 100px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-          }
-          .sa-product-wholesale-pricing {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            margin-right: 36px;
-            .sa-wholesale {
-              margin-right: 66px;
-            }
-            .sa-wholesale-quantity {
-              display: flex;
-              flex-direction: column;
-              .sa-wholesale-units {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                .sa-p-right {
-                  margin-left: 8px;
-                }
-              }
-            }
-          }
-        }
-        .sa-checkbox-prices {
-          margin-top: 19px;
-          margin-left: 32px;
-          ::ng-deep .mat-checkbox .mat-checkbox-frame {
-            border-color: $color-mushroom;
-          }
-          ::ng-deep .mat-checkbox-checked .mat-checkbox-background {
-            background-color: $color-charcoal-grey !important;
-          }
-        }
-        .sa-product-price-per-day {
-          height: 352px;
-          width: 576px;
-          display: flex;
-          flex-direction: column;
-          flex-wrap: wrap;
-          justify-content: flex-start;
-          li {
+    .sa-register-product-content {
+        #amount {
             width: 288px;
-            height: 88px;
-            margin-left: 32px;
+        }
+        .sa-product-tittle {
+            width: 824px;
+            height: 32px;
+            margin-bottom: 16px;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-            list-style-type: none;
-          }
-          .sa-input-amount {
-            width: 216px;
-          }
+            .sa-register-product-actions-top {
+                width: 240px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
         }
-      }
-    }
-    .sa-wholesale-price {
-      height: 98px;
-      margin-top: 16px;
-      padding: 22px 32px 24px 32px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      .sa-wholesale-inputs {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        .sa-wholesale-units {
-          width: 300px;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-between;
-          margin-left: 64px;
-          .sa-wq {
-            width: 96px;
-          }
+        .sa-product-content {
+            margin-top: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 100;
+            height: 100;
+            justify-content: space-around;
+            .sa-upload-image {
+                width: 208px;
+                height: 184px;
+                border-radius: 4px;
+                border: 1px solid;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                #preview {
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                #hidden {
+                    display: none;
+                }
+            }
+            .sa-info-column {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                .sa-input-text {
+                    width: 336px;
+                }
+            }
+            .sa-info-column-right {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                .sa-input-text {
+                    width: 176px;
+                }
+                .sa-p {
+                    margin-top: 20px;
+                }
+                .sa-info-unitsPackage {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    @media #{$break-tablet-down} {
+                        flex-direction: column-reverse;
+                        align-items: flex-start;
+                    }
+                    .sa-p-right {
+                        margin-left: 6px;
+                    }
+                }
+                #unitsPackage {
+                    width: 72px;
+                }
+            }
         }
-      }
+        .sa-register-product-actions {
+            width: 240px;
+            margin-top: 24px;
+            padding-left: 584px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .sa-product-price-info {
+            margin-top: 16px;
+            padding: 21px 32px 24px 0px;
+            .sa-product-price-expand {
+                .sa-product-info-top {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+                    margin-left: 32px;
+                    .sa-product-retail-pricing {
+                        height: 100px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                    }
+                    .sa-product-wholesale-pricing {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        margin-right: 36px;
+                        .sa-wholesale {
+                            margin-right: 66px;
+                        }
+                        .sa-wholesale-quantity {
+                            display: flex;
+                            flex-direction: column;
+                            .sa-wholesale-units {
+                                display: flex;
+                                flex-direction: row;
+                                align-items: center;
+                                .sa-p-right {
+                                    margin-left: 8px;
+                                }
+                            }
+                        }
+                    }
+                }
+                .sa-checkbox-prices {
+                    margin-top: 19px;
+                    margin-left: 32px;
+                     ::ng-deep .mat-checkbox .mat-checkbox-frame {
+                        border-color: $color-mushroom;
+                    }
+                     ::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+                        background-color: $color-charcoal-grey !important;
+                    }
+                }
+                .sa-product-price-per-day {
+                    height: 352px;
+                    width: 576px;
+                    display: flex;
+                    flex-direction: column;
+                    flex-wrap: wrap;
+                    justify-content: flex-start;
+                    li {
+                        width: 288px;
+                        height: 88px;
+                        margin-left: 32px;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        align-items: center;
+                        list-style-type: none;
+                    }
+                    .sa-input-amount {
+                        width: 216px;
+                    }
+                }
+            }
+        }
+        .sa-wholesale-price {
+            height: 98px;
+            margin-top: 16px;
+            padding: 22px 32px 24px 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .sa-wholesale-inputs {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                .sa-wholesale-units {
+                    width: 300px;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin-left: 64px;
+                    .sa-wq {
+                        width: 96px;
+                    }
+                }
+            }
+        }
+        .sa-seller-commissions {
+            height: 212px;
+            margin-top: 16px;
+            padding: 22px 32px 24px 32px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            .sa-commission {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                mat-label {
+                    margin-bottom: 10px;
+                }
+            }
+        }
     }
-    .sa-seller-commission {
-      height: 98px;
-      margin-top: 16px;
-      padding: 22px 32px 24px 32px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-  }
 }

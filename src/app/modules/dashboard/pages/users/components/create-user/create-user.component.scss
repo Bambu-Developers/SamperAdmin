@@ -1,46 +1,48 @@
 @import "src/assets/css/colors";
-
 .sa-dashboard-main-content {
-  .sa-create-user-content {
-    width: 344px;
-    border-radius: 3px;
-    background-color: $color-white;
-    margin: 0px auto;
-    padding: 24px;
-    justify-content: center;
-    h1 {
-      margin-bottom: 8px;
-      text-align: center;
-    }
-    .sa-create-user-form {
-      display: flex;
-      flex-direction: column;
-      .sa-input-text {
-        margin: 14px auto;
-      }
-      .sa-create-user-select {
-        margin: 14px auto;
-      }
-      .sa-create-user-admin {
-        margin: 14px 14px 0px 14px;
-        .sa-create-user-checkbox-group {
-          display: inline-flex;
-          flex-direction: column;
-          margin-top: 12px;
-          .mat-checkbox{
+    .sa-create-user-content {
+        width: 344px;
+        border-radius: 3px;
+        background-color: $color-white;
+        margin: 0px auto;
+        padding: 24px;
+        justify-content: center;
+        h1 {
             margin-bottom: 8px;
-          }
+            text-align: center;
         }
-      }
-      .sa-create-user-actions {
-        margin-top: 24px;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        button {
-          margin: 4px;
+        .sa-create-user-form {
+            display: flex;
+            flex-direction: column;
+            .sa-input-text {
+                margin: 14px auto;
+            }
+            .sa-create-user-select {
+                width: 289px;
+                height: 48px;
+                margin: 14px auto;
+                padding: 0px 18px;
+            }
+            .sa-create-user-admin {
+                margin: 14px 14px 0px 14px;
+                .sa-create-user-checkbox-group {
+                    display: inline-flex;
+                    flex-direction: column;
+                    margin-top: 12px;
+                    .mat-checkbox {
+                        margin-bottom: 8px;
+                    }
+                }
+            }
+            .sa-create-user-actions {
+                margin-top: 24px;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+                button {
+                    margin: 4px;
+                }
+            }
         }
-      }
     }
-  }
 }

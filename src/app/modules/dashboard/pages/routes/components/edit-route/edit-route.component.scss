@@ -1,0 +1,36 @@
+.sa-dashboard-main-content {
+    margin: 64px auto;
+    width: 392px;
+    .sa-edit-route-card {
+        height: 234px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        .sa-edit-route-form {
+            height: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-end;
+            .sa-edit-route-info {
+                height: 130px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+                .sa-edit-route-select {
+                    width: 289px;
+                    height: 32px;
+                    padding: 8px 18px;
+                }
+            }
+        }
+        .sa-header-actions {
+            width: 240px;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}

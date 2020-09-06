@@ -1,0 +1,154 @@
+<div class="sa-dashboard-main-content">
+  <div class="sa-register-promotion-content sa-roboto sa-charcoal-grey">
+    <form (ngSubmit)="registerPromotion()" [formGroup]="registerPromotionForm">
+      <div class="sa-register-promotion-header">
+        <div class="sa-register-promotion-tittle">
+          <img src="/assets/icons/icon-vendedor-back-gray.svg" [routerLink]="['/dashboard/products/']">
+          <h3 class="sa-text-24 sa-charcoal-grey sa-roboto-medium">{{lanProduct.promotion.createPromotion}}</h3>
+        </div>
+        <div class="sa-register-promotion-actions-top">
+          <button [routerLink]="['/dashboard/products/']" class="sa-btn-small" mat-raised-button
+            color="white">{{language.cancel}}</button>
+          <button type="submit" [disabled]="!registerPromotionForm.valid" class="sa-btn-small" mat-raised-button
+            color="charcoal-grey">{{lanProduct.save}}</button>
+        </div>
+      </div>
+      <mat-card class="sa-product-info">
+        <div class="sa-product-image">
+          <img src="{{dataSource?.img_preview_url}}" alt="N/A">
+        </div>
+        <div class="sa-product-name">
+          <p class="sa-text-14 sa-gray-medium">{{lanProduct.newProduct.name}}</p>
+          <span class="sa-text-18 sa-bold sa-charcoal-grey"> {{dataSource?.name}}</span>
+        </div>
+      </mat-card>
+      <mat-card class="sa-promotion-validity">
+        <mat-label class="sa-roboto-medium sa-text-16 sa-charcoal-grey">{{lanProduct.promotion.promotion}}</mat-label>
+        <div class="sa-promotion-dates">
+          <div class="sa-promotion-start-date">
+            <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.promotion.startDate}}</mat-label>
+            <mat-form-field class="sa-input-date">
+              <input class="sa-gray-medium" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="dp"
+                formControlName="startDate">
+              <mat-error *ngIf="registerPromotionForm.controls.startDate.hasError('required')">
+                {{language.errorRequired}}</mat-error>
+              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+              <mat-datepicker #dp disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="sa-promotion-end-date">
+            <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.promotion.endDate}}</mat-label>
+            <mat-form-field class="sa-input-date">
+              <input class="sa-gray-medium" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="dpTo"
+                formControlName="endDate">
+              <mat-error *ngIf="registerPromotionForm.controls.endDate.hasError('required')">
+                {{language.errorRequired}}</mat-error>
+              <mat-datepicker-toggle matSuffix [for]="dpTo"></mat-datepicker-toggle>
+              <mat-datepicker #dpTo disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card>
+      <mat-card class="sa-promotion-retailprice sa-roboto sa-charcoal-grey">
+        <mat-label class="sa-roboto-medium sa-text-16">{{lanProduct.product.retailPrice}}:</mat-label>
+        <div class="sa-promotion-retailprice-content">
+          <div class="sa-promtion-left-column">
+            <ul class="sa-gray-medium">
+              <li>
+                <mat-label class="sa-text-14">{{lanProduct.pricing.monday}}</mat-label>
+                <mat-form-field class="sa-input-amount">
+                  <input matInput class="sa-mushroom" [textMask]="{mask: currencyMask}" formControlName="mondayPrice">
+                  <span matPrefix class="sa-mushroom">{{lanProduct.pricing.currencySymbol}}</span>
+                  <span matSuffix class="sa-mushroom">{{lanProduct.pricing.country}}</span>
+                  <mat-error *ngIf="registerPromotionForm.controls.mondayPrice.hasError('required')">
+                    {{language.errorRequired}}</mat-error>
+                </mat-form-field>
+              </li>
+              <li>
+                <mat-label class="sa-text-14">{{lanProduct.pricing.tuesday}}</mat-label>
+                <mat-form-field class="sa-input-amount">
+                  <input matInput class="sa-mushroom" [textMask]="{mask: currencyMask}" formControlName="tuesdayPrice">
+                  <span matPrefix class="sa-mushroom">{{lanProduct.pricing.currencySymbol}}</span>
+                  <span matSuffix class="sa-mushroom">{{lanProduct.pricing.country}}</span>
+                  <mat-error *ngIf="registerPromotionForm.controls.tuesdayPrice.hasError('required')">
+                    {{language.errorRequired}}</mat-error>
+                </mat-form-field>
+              </li>
+              <li>
+                <mat-label class="sa-text-14">{{lanProduct.pricing.wednesday}}</mat-label>
+                <mat-form-field class="sa-input-amount">
+                  <input matInput class="sa-mushroom" [textMask]="{mask: currencyMask}"
+                    formControlName="wednesdayPrice">
+                  <span matPrefix class="sa-mushroom">{{lanProduct.pricing.currencySymbol}}</span>
+                  <span matSuffix class="sa-mushroom">{{lanProduct.pricing.country}}</span>
+                  <mat-error *ngIf="registerPromotionForm.controls.wednesdayPrice.hasError('required')">
+                    {{language.errorRequired}}</mat-error>
+                </mat-form-field>
+              </li>
+              <li>
+                <mat-label class="sa-text-14">{{lanProduct.pricing.thursday}}</mat-label>
+                <mat-form-field class="sa-input-amount">
+                  <input matInput class="sa-mushroom" [textMask]="{mask: currencyMask}" formControlName="thursdayPrice">
+                  <span matPrefix class="sa-mushroom">{{lanProduct.pricing.currencySymbol}}</span>
+                  <span matSuffix class="sa-mushroom">{{lanProduct.pricing.country}}</span>
+                  <mat-error *ngIf="registerPromotionForm.controls.thursdayPrice.hasError('required')">
+                    {{language.errorRequired}}</mat-error>
+                </mat-form-field>
+              </li>
+            </ul>
+          </div>
+          <div class="sa-promtion-right-column">
+            <ul class="sa-gray-medium">
+              <li>
+                <mat-label class="sa-text-14">{{lanProduct.pricing.friday}}</mat-label>
+                <mat-form-field class="sa-input-amount">
+                  <input matInput class="sa-mushroom" [textMask]="{mask: currencyMask}" formControlName="fridayPrice">
+                  <span matPrefix class="sa-mushroom">{{lanProduct.pricing.currencySymbol}}</span>
+                  <span matSuffix class="sa-mushroom">{{lanProduct.pricing.country}}</span>
+                  <mat-error *ngIf="registerPromotionForm.controls.fridayPrice.hasError('required')">
+                    {{language.errorRequired}}</mat-error>
+                </mat-form-field>
+              </li>
+              <li>
+                <mat-label class="sa-text-14">{{lanProduct.pricing.saturday}}</mat-label>
+                <mat-form-field class="sa-input-amount">
+                  <input matInput class="sa-mushroom" [textMask]="{mask: currencyMask}" formControlName="saturdayPrice">
+                  <span matPrefix class="sa-mushroom">{{lanProduct.pricing.currencySymbol}}</span>
+                  <span matSuffix class="sa-mushroom">{{lanProduct.pricing.country}}</span>
+                  <mat-error *ngIf="registerPromotionForm.controls.saturdayPrice.hasError('required')">
+                    {{language.errorRequired}}</mat-error>
+                </mat-form-field>
+              </li>
+              <li>
+                <mat-label class="sa-text-14">{{lanProduct.pricing.sunday}}</mat-label>
+                <mat-form-field class="sa-input-amount">
+                  <input matInput class="sa-mushroom" [textMask]="{mask: currencyMask}" formControlName="sundayPrice">
+                  <span matPrefix class="sa-mushroom">{{lanProduct.pricing.currencySymbol}}</span>
+                  <span matSuffix class="sa-mushroom">{{lanProduct.pricing.country}}</span>
+                  <mat-error *ngIf="registerPromotionForm.controls.sundayPrice.hasError('required')">
+                    {{language.errorRequired}}</mat-error>
+                </mat-form-field>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </mat-card>
+      <mat-card class="sa-promotion-wholsaleprice sa-charcoal-grey">
+        <mat-label class="sa-roboto-medium sa-text-16">{{lanProduct.product.wholesalePrice}}:</mat-label>
+        <mat-form-field class="sa-input-amount">
+          <input matInput class="sa-mushroom" [textMask]="{mask: currencyMask}" formControlName="wholesalePrice">
+          <span matPrefix class="sa-mushroom">{{lanProduct.pricing.currencySymbol}}</span>
+          <span matSuffix class="sa-mushroom">{{lanProduct.pricing.country}}</span>
+          <mat-error *ngIf="registerPromotionForm.controls.wholesalePrice.hasError('required')">
+            {{language.errorRequired}}</mat-error>
+        </mat-form-field>
+      </mat-card>
+      <div class="sa-register-product-actions">
+        <button [routerLink]="['/dashboard/products/']" class="sa-btn-small" mat-raised-button
+          color="white">{{language.cancel}}</button>
+        <button type="submit" [disabled]="!registerPromotionForm.valid" class="sa-btn-small" mat-raised-button
+          color="charcoal-grey">{{lanProduct.save}}</button>
+      </div>
+    </form>
+  </div>
+</div>

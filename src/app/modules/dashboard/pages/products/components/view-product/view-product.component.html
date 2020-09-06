@@ -1,129 +1,264 @@
 <div class="sa-dashboard-main-content">
-  <div class="sa-view-product-content">
-    <div class="sa-viewproduct-header">
-      <div class="sa-viewproduct-tittle">
-        <img src="/assets/icons/icon-vendedor-back-gray.svg" [routerLink]="['/dashboard/products/']">
-        <h3 class="sa-text-24 sa-charcoal-grey sa-roboto">{{lanProduct.products}}</h3>
-      </div>
-      <div class="sa-product-actions">
-        <mat-slide-toggle [ngModel]="dataSource?.is_enabled"
-                          (change)="setDisponibility($event)">
-                          {{dataSource?.is_enabled === true ? lanProduct.enabled : lanProduct.disabled}}
-                        </mat-slide-toggle>
-        <button class="sa-btn-small sa-edit-button" mat-raised-button color="white"
-          (click)="editProduct()">{{lanProduct.edit}}</button>
-      </div>
+    <div class="sa-view-product-content">
+        <div class="sa-viewproduct-header">
+            <div class="sa-viewproduct-tittle">
+                <img src="/assets/icons/icon-vendedor-back-gray.svg" [routerLink]="['/dashboard/products/']">
+                <h3 class="sa-text-24 sa-charcoal-grey sa-roboto">{{lanProduct.products}}</h3>
+            </div>
+            <div class="sa-product-actions">
+                <mat-slide-toggle [ngModel]="dataSource?.is_enabled" (change)="setDisponibility($event)">
+                    {{dataSource?.is_enabled === true ? lanProduct.enabled : lanProduct.disabled}}
+                </mat-slide-toggle>
+                <button class="sa-btn-small sa-edit-button" mat-raised-button color="white" (click)="editProduct()">{{lanProduct.edit}}</button>
+            </div>
+        </div>
+        <mat-card class="sa-product-card">
+            <div class="sa-product-image">
+                <img class="sa-image" src="{{dataSource?.img_preview_url}}" alt="N/A">
+                <img class="sa-promo-img" src="assets/images/group-5.png" *ngIf="dataSource?.has_promo">
+            </div>
+            <div class="sa-product-info">
+                <div class="sa-info-column">
+                    <div class="sa-product-data">
+                        <p class="sa-top-p sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.name}}</p>
+                        <span class="sa-text-18 sa-bold sa-charcoal-grey"> {{dataSource?.name}} </span>
+                    </div>
+                    <div class="sa-product-data">
+                        <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.sku}}</p>
+                        <span class="sa-text-18 sa-bold sa-uppercase sa-charcoal-grey">{{dataSource?.sku}}</span>
+                    </div>
+                    <div class="sa-product-data">
+                        <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.brand}}</p>
+                        <span class="sa-text-18 sa-bold sa-charcoal-grey">{{dataSource?.brand}}</span>
+                    </div>
+                </div>
+                <div class="sa-info-column" id="right">
+                    <div class="sa-product-data">
+                        <p class="sa-top-p sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.unitsPackage}}
+                        </p>
+                        <span class="sa-text-18 sa-bold sa-charcoal-grey">{{dataSource?.units_package}}</span>
+                    </div>
+                    <div class="sa-product-data">
+                        <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.category}}</p>
+                        <span class="sa-text-18 sa-bold sa-charcoal-grey">{{dataSource?.category}}</span>
+                    </div>
+                    <div class="sa-product-data">
+                        <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.content}}</p>
+                        <span class="sa-text-18 sa-bold sa-charcoal-grey">{{dataSource?.content}}</span>
+                    </div>
+                </div>
+            </div>
+        </mat-card>
+        <!-- <button class="sa-promotion sa-btn-medium sa-text-14" mat-raised-button color="accent"
+      *ngIf="dataSource?.is_enabled && !dataSource?.has_promo"
+      (click)="registerPromotion()">{{lanProduct.promotion.createPromotion}}
+    </button> -->
+        <mat-card class="sa-promotion-card sa-charcoal-grey" *ngIf="dataSource?.has_promo">
+            <div class="sa-promotion-left-column">
+                <mat-label class="sa-roboto-medium sa-text-16">{{lanProduct.promotion.promotion}}</mat-label>
+                <div class="sa-promotion-startdate">
+                    <p class="sa-text-14 sa-gray-medium">{{lanProduct.promotion.startDate}}</p>
+                    <span class="sa-roboto-medium sa-text-14">{{dataSource?.start_date_promo}}</span>
+                </div>
+            </div>
+            <div class="sa-promotion-center-column">
+                <p class="sa-text-14 sa-gray-medium">{{lanProduct.promotion.endDate}}</p>
+                <span class="sa-roboto-medium sa-text-14">{{dataSource?.end_date_promo}}</span>
+            </div>
+            <div class="sa-promotion-right-column">
+                <mat-label class="sa-text-14 sa-cursor-ponter" (click)="editPromotion()">
+                    {{lanProduct.promotion.editPromotion}}</mat-label>
+                <mat-label class="sa-text-14 sa-pinkish-orange sa-cursor-ponter" (click)="openDialogDeletePromo()">
+                    {{lanProduct.promotion.deletePromotion}}</mat-label>
+            </div>
+        </mat-card>
+        <mat-card class="sa-product-prices-perday" *ngIf="dataSource?.is_priced_per_day && !dataSource?.has_promo">
+            <div class="sa-product-retailprice">
+                <mat-label class="sa-tittle sa-text-16 sa-roboto-medium sa-charcoal-grey">
+                    {{lanProduct.newProduct.retailPrice}}
+                </mat-label>
+                <mat-list class="sa-price-per-day">
+                    <li class="sa-day">
+                        <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.monday}}</p>
+                        <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.monday_price}}
+                            {{lanProduct.pricing.country}}</span>
+                    </li>
+                    <li class="sa-day">
+                        <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.tuesday}}</p>
+                        <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.tuesday_price}}
+                            {{lanProduct.pricing.country}}</span>
+                    </li>
+                    <li class="sa-day">
+                        <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.wednesday}}</p>
+                        <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.wednesday_price}}
+                            {{lanProduct.pricing.country}}</span>
+                    </li>
+                    <li class="sa-day">
+                        <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.thursday}}</p>
+                        <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.thursday_price}}
+                            {{lanProduct.pricing.country}}</span>
+                    </li>
+                    <li class="sa-day">
+                        <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.friday}}</p>
+                        <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.friday_price}}
+                            {{lanProduct.pricing.country}}</span>
+                    </li>
+                    <li class="sa-day">
+                        <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.saturday}}</p>
+                        <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.saturday_price}}
+                            {{lanProduct.pricing.country}}</span>
+                    </li>
+                    <li class="sa-day">
+                        <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.sunday}}</p>
+                        <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.sunday_price}}
+                            {{lanProduct.pricing.country}}</span>
+                    </li>
+                </mat-list>
+            </div>
+        </mat-card>
+        <mat-card class="sa-product-prices-promotion sa-charcoal-grey" *ngIf="dataSource?.has_promo">
+            <mat-label>{{lanProduct.newProduct.retailPrice}}</mat-label>
+            <div class="sa-prices-perday">
+                <div class="sa-prices-left-column">
+                    <ul>
+                        <li>
+                            <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.pricing.monday}}</mat-label>
+                            <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey" *ngIf="dataSource?.is_priced_per_day">
+                                {{lanProduct.pricing.currencySymbol}}{{dataSource?.monday_price}}{{lanProduct.pricing.country}}
+                            </mat-label>
+                            <mat-label class="sa-roboto-medium sa-text-14">
+                                {{lanProduct.pricing.currencySymbol}}{{dataSource?.monday_price_promo}}{{lanProduct.pricing.country}}
+                            </mat-label>
+                        </li>
+                        <li>
+                            <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.pricing.tuesday}}</mat-label>
+                            <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey" *ngIf="dataSource?.is_priced_per_day">
+                                {{lanProduct.pricing.currencySymbol}}{{dataSource?.tuesday_price}}{{lanProduct.pricing.country}}
+                            </mat-label>
+                            <mat-label class="sa-roboto-medium sa-text-14">
+                                {{lanProduct.pricing.currencySymbol}}{{dataSource?.tuesday_price_promo}}{{lanProduct.pricing.country}}
+                            </mat-label>
+                        </li>
+                        <li>
+                            <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.pricing.wednesday}}</mat-label>
+                            <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey" *ngIf="dataSource?.is_priced_per_day">
+                                {{lanProduct.pricing.currencySymbol}}{{dataSource?.wednesday_price}}{{lanProduct.pricing.country}}
+                            </mat-label>
+                            <mat-label class="sa-roboto-medium sa-text-14">
+                                {{lanProduct.pricing.currencySymbol}}{{dataSource?.wednesday_price_promo}}{{lanProduct.pricing.country}}
+                            </mat-label>
+                        </li>
+                        <li>
+                            <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.pricing.thursday}}</mat-label>
+                            <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey" *ngIf="dataSource?.is_priced_per_day">
+                                {{lanProduct.pricing.currencySymbol}}{{dataSource?.thursday_price}}{{lanProduct.pricing.country}}
+                            </mat-label>
+                            <mat-label class="sa-roboto-medium sa-text-14">
+                                {{lanProduct.pricing.currencySymbol}}{{dataSource?.thursday_price_promo}}{{lanProduct.pricing.country}}
+                            </mat-label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sa-prices-right-column">
+                    <ul>
+                        <li>
+                            <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.pricing.friday}}</mat-label>
+                            <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey" *ngIf="dataSource?.is_priced_per_day">
+                                {{lanProduct.pricing.currencySymbol}}{{dataSource?.friday_price}}{{lanProduct.pricing.country}}
+                            </mat-label>
+                            <mat-label class="sa-roboto-medium sa-text-14">
+                                {{lanProduct.pricing.currencySymbol}}{{dataSource?.friday_price_promo}}{{lanProduct.pricing.country}}
+                            </mat-label>
+                        </li>
+                        <li>
+                            <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.pricing.saturday}}</mat-label>
+                            <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey" *ngIf="dataSource?.is_priced_per_day">
+                                {{lanProduct.pricing.currencySymbol}}{{dataSource?.saturday_price}}{{lanProduct.pricing.country}}
+                            </mat-label>
+                            <mat-label class="sa-roboto-medium sa-text-14">
+                                {{lanProduct.pricing.currencySymbol}}{{dataSource?.saturday_price_promo}}{{lanProduct.pricing.country}}
+                            </mat-label>
+                        </li>
+                        <li>
+                            <mat-label class="sa-text-14 sa-gray-medium">{{lanProduct.pricing.sunday}}</mat-label>
+                            <mat-label class="sa-text-12 sa-text-linethrough sa-brownish-grey" *ngIf="dataSource?.is_priced_per_day">
+                                {{lanProduct.pricing.currencySymbol}}{{dataSource?.sunday_price}}{{lanProduct.pricing.country}}
+                            </mat-label>
+                            <mat-label class="sa-roboto-medium sa-text-14">
+                                {{lanProduct.pricing.currencySymbol}}{{dataSource?.sunday_price_promo}}{{lanProduct.pricing.country}}
+                            </mat-label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </mat-card>
+        <mat-card class="sa-product-prices-comm" *ngIf="!dataSource?.is_priced_per_day && !dataSource?.has_promo">
+            <mat-label class="sa-text-16 sa-roboto-medium sa-charcoal-grey">{{lanProduct.newProduct.retailPrice}}
+            </mat-label>
+            <div class="sa-wp">
+                <span class="sa-text-14 sa-charcoal-grey">${{dataSource?.retail_price}}
+                    {{lanProduct.pricing.country}}
+                </span>
+            </div>
+        </mat-card>
+        <mat-card class="sa-product-prices-comm">
+            <mat-label class="sa-text-16 sa-roboto-medium sa-charcoal-grey">{{lanProduct.newProduct.wholesalePrice}}
+            </mat-label>
+            <div class="sa-wp" *ngIf="!dataSource?.has_promo">
+                <span class="sa-text-14 sa-charcoal-grey">${{dataSource?.wholesale_price}}
+                    {{lanProduct.pricing.country}}</span>
+                <p class="sa-text-14 sa-gray-medium sa-text-italic">
+                    {{lanProduct.product.startingFrom}}{{dataSource?.wholesale_quantity}}{{lanProduct.product.units}}
+                </p>
+            </div>
+            <div class="sa-wp" *ngIf="dataSource?.has_promo">
+                <mat-label class="sa-text-12 sa-brownish-grey sa-text-linethrough">${{dataSource?.wholesale_price}} {{lanProduct.pricing.country}}
+                </mat-label>
+                <mat-label class="sa-roboto-medium sa-text-14">
+                    {{lanProduct.pricing.currencySymbol}}{{dataSource?.wholesale_price_promo}}{{lanProduct.pricing.country}}
+                </mat-label>
+                <mat-label class="sa-text-14 sa-gray-medium sa-text-italic">
+                    {{lanProduct.product.startingFrom}}{{dataSource?.wholesale_quantity}}{{lanProduct.product.units}}
+                </mat-label>
+            </div>
+        </mat-card>
+        <mat-card class="sa-product-prices-comm">
+            <mat-label class="sa-text-16 sa-roboto-medium sa-charcoal-grey">{{lanProduct.newProduct.wholesalePriceG}}
+            </mat-label>
+            <div class="sa-wp" *ngIf="!dataSource?.has_promo">
+                <span class="sa-text-14 sa-charcoal-grey">${{dataSource?.wholesale_priceG}}
+                    {{lanProduct.pricing.country}}</span>
+                <p class="sa-text-14 sa-gray-medium sa-text-italic">
+                    {{lanProduct.product.startingFrom}}{{dataSource?.wholesale_quantityG}}{{lanProduct.product.units}}
+                </p>
+            </div>
+        </mat-card>
+        <mat-card class="sa-product-prices-commission">
+            <div class="sa-commission">
+                <mat-label class="sa-text-16 sa-roboto-medium sa-charcoal-grey">
+                    {{lanProduct.pricing.sellerCommissionRetail}}
+                </mat-label>
+                <div class="sa-wp-c">
+                    <span class="sa-text-14 sa-charcoal-grey">{{dataSource?.seller_commission_retail}}%</span>
+                </div>
+            </div>
+            <div class="sa-commission">
+                <mat-label class="sa-text-16 sa-roboto-medium sa-charcoal-grey">
+                    {{lanProduct.pricing.sellerCommissionWholesale}}
+                </mat-label>
+                <div class="sa-wp-c">
+                    <span class="sa-text-14 sa-charcoal-grey">{{dataSource?.seller_commission_wholesale}}%</span>
+                </div>
+            </div>
+            <div class="sa-commission">
+                <mat-label class="sa-text-16 sa-roboto-medium sa-charcoal-grey">
+                    {{lanProduct.pricing.sellerCommissionWholesaleG}}
+                </mat-label>
+                <div class="sa-wp-c">
+                    <span class="sa-text-14 sa-charcoal-grey">{{dataSource?.seller_commission_wholesaleG}}%</span>
+                </div>
+            </div>
+        </mat-card>
+        <span class="sa-roboto-medium sa-text-14 sa-pinkish-orange" (click)="openDialogDelete()" *ngIf="!dataSource?.is_enabled" id="delete">{{lanProduct.removeProduct}}</span>
     </div>
-    <mat-card class="sa-product-card">
-      <div class="sa-product-image">
-        <img class="sa-image" src="{{dataSource?.img_preview_url}}" alt="N/A">
-      </div>
-      <div class="sa-product-info">
-        <div class="sa-info-column">
-          <div class="sa-product-data">
-            <p class="sa-top-p sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.name}}</p>
-            <span class="sa-text-18 sa-bold sa-charcoal-grey"> {{dataSource?.name}} </span>
-          </div>
-          <div class="sa-product-data">
-            <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.sku}}</p>
-            <span class="sa-text-18 sa-bold sa-uppercase sa-charcoal-grey">{{dataSource?.sku}}</span>
-          </div>
-          <div class="sa-product-data">
-            <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.brand}}</p>
-            <span class="sa-text-18 sa-bold sa-charcoal-grey">{{dataSource?.brand}}</span>
-          </div>
-        </div>
-        <div class="sa-info-column" id="right">
-          <div class="sa-product-data">
-            <p class="sa-top-p sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.unitsPackage}}</p>
-            <span class="sa-text-18 sa-bold sa-charcoal-grey">{{dataSource?.units_package}}</span>
-          </div>
-          <div class="sa-product-data">
-            <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.category}}</p>
-            <span class="sa-text-18 sa-bold sa-charcoal-grey">{{dataSource?.category}}</span>
-          </div>
-          <div class="sa-product-data">
-            <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.newProduct.content}}</p>
-            <span class="sa-text-18 sa-bold sa-charcoal-grey">{{dataSource?.content}}</span>
-          </div>
-        </div>
-      </div>
-    </mat-card>
-    <button class="sa-promotion sa-btn-medium sa-text-14" mat-raised-button
-      color="accent" *ngIf="dataSource?.is_enabled">{{lanProduct.createPromo}}</button>
-    <mat-card *ngIf="dataSource?.is_priced_per_day === true" class="sa-product-prices-perday">
-      <div class="sa-product-retailprice">
-        <mat-label class="sa-tittle sa-text-16 sa-roboto-medium sa-charcoal-grey">{{lanProduct.newProduct.retailPrice}}
-        </mat-label>
-        <mat-list class="sa-price-per-day">
-          <li class="sa-day">
-            <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.monday}}</p>
-            <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.monday_price}}
-              {{lanProduct.pricing.country}}</span>
-          </li>
-          <li class="sa-day">
-            <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.tuesday}}</p>
-            <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.tuesday_price}}
-              {{lanProduct.pricing.country}}</span>
-          </li>
-          <li class="sa-day">
-            <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.wednesday}}</p>
-            <span
-              class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.wednesday_price}}
-              {{lanProduct.pricing.country}}</span>
-          </li>
-          <li class="sa-day">
-            <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.thursday}}</p>
-            <span
-              class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.thursday_price}}
-              {{lanProduct.pricing.country}}</span>
-          </li>
-          <li class="sa-day">
-            <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.friday}}</p>
-            <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.friday_price}}
-              {{lanProduct.pricing.country}}</span>
-          </li>
-          <li class="sa-day">
-            <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.saturday}}</p>
-            <span
-              class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.saturday_price}}
-              {{lanProduct.pricing.country}}</span>
-          </li>
-          <li class="sa-day">
-            <p class="sa-text-14 sa-roboto sa-gray-medium">{{lanProduct.pricing.sunday}}</p>
-            <span class="sa-text-14 sa-charcoal-grey">{{lanProduct.pricing.currencySymbol}}{{dataSource?.sunday_price}}
-              {{lanProduct.pricing.country}}</span>
-          </li>
-        </mat-list>
-      </div>
-    </mat-card>
-    <mat-card class="sa-product-prices-comm">
-      <mat-label class="sa-text-16 sa-roboto-medium sa-charcoal-grey">{{lanProduct.newProduct.retailPrice}}</mat-label>
-      <div class="sa-wp">
-        <span class="sa-text-14 sa-charcoal-grey">${{dataSource?.retail_price}}
-          {{lanProduct.pricing.country}}
-        </span>
-      </div>
-    </mat-card>
-    <mat-card class="sa-product-prices-comm">
-      <mat-label class="sa-text-16 sa-roboto-medium sa-charcoal-grey">{{lanProduct.newProduct.wholesalePrice}}
-      </mat-label>
-      <div class="sa-wp">
-        <span class="sa-text-14 sa-charcoal-grey">${{dataSource?.wholesale_price}}
-          {{lanProduct.pricing.country}}</span>
-        <p class="sa-text-14 sa-gray-medium">
-          {{lanProduct.product.startingFrom}}{{dataSource?.wholesale_quantity}}{{lanProduct.product.units}}</p>
-      </div>
-    </mat-card>
-    <mat-card class="sa-product-prices-comm">
-      <mat-label class="sa-text-16 sa-roboto-medium sa-charcoal-grey">{{lanProduct.pricing.sellerCommission}}
-      </mat-label>
-      <div class="sa-wp">
-        <span class="sa-text-14 sa-charcoal-grey">${{dataSource?.seller_commission}}
-          {{lanProduct.pricing.country}}
-        </span>
-      </div>
-    </mat-card>
-    <span class="sa-roboto-medium sa-text-14 sa-pinkish-orange" (click)="openDialogDelete()" *ngIf="!dataSource?.is_enabled" id="delete">{{lanProduct.remove}}</span>
-  </div>
 </div>

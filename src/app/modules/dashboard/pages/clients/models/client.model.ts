@@ -1,7 +1,6 @@
 export class ClientModel {
     id?: string;
     name?: string;
-    owner?: string;
     phone?: string;
     photo?: string;
     shop_name?: string;
@@ -16,4 +15,12 @@ export class ClientModel {
     route_id?: string;
     status?: number; // 0 habilitado, 1 inhabilitado
     type?: number;
+    route_name?: string;
+    monday?: boolean;
+    tuesday?: boolean;
+    wednesday?: boolean;
+    thursday?: boolean;
+    friday?: boolean;
+    saturday?: boolean;
+    sunday?: boolean;
 }

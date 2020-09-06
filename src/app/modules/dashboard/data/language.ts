@@ -1,13 +1,17 @@
 export const DASHBOARD_LANGUAGE = {
     navbar: {
-        stock: 'Inventario',
+        calc: 'Cálculo',
         analitycs: 'Analytics',
+        tracking: 'Tracking rutas',
+        history: 'Historial de ventas',
+        historyLiquidation: 'Historial de liquidaciones',
         products: 'Productos',
         users: 'Usuarios',
         vendors: 'Vendedores',
         storers: 'Almacenistas',
         administrators: 'Administradores',
         clients: 'Clientes',
+        routes: 'Rutas',
         menu: {
             logout: 'Cerrar sesión',
             account: 'Cuenta'
