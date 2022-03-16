@@ -6,7 +6,7 @@
         justify-content: space-between;
         .sa-button {
             width: 210px;
-            height: 27px;
+            height: 40px;
         }
     }
     .sa-actions {
@@ -38,4 +38,24 @@
             width: 90px;
         }
     }
+}
+
+.sa-top-filter{
+  display: flex;
+  justify-content: space-between;
+  .sa-top-filter-button{
+    display: flex;
+    flex-direction: column;
+    margin: auto 10px auto 20px ;
+  }
+  .sa-top-filter-date{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .sa-top-filter-date-input{
+      width: 180px;
+      height: 42px;
+      margin: 20px 20px ;
+    }
+  }
 }

@@ -37,8 +37,10 @@ export class LoginComponent implements OnInit {
   }
 
   public submit(value: { email: string; password: string; }) {
-    this.authService.login(value.email, value.password).then(
-      res => this.router.navigate(['/dashboard']),
+    this.authService.login(value.email, value.password).then((res) => {
+        this.router.navigate(['/dashboard']);
+      }
+      ,
       error => {
         if (error.code === 'auth/user-not-found') {
           this.loginForm.controls['email'].setErrors({ 'unauthorized': true });

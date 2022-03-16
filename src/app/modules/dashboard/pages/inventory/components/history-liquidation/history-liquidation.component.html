@@ -8,6 +8,34 @@
     <div class="sa-actions">
         <mat-paginator [hidePageSize]="true" [pageSize]="15"></mat-paginator>
     </div>
+
+    <mat-label class="sa-text-24 sa-roboto-meduim">Rutas</mat-label>
+    <div class="sa-top-filter"[formGroup]="formSearch" >
+      <div class="sa-top-filter-button">
+        <button (click)="getRoutes()"  mat-raised-button color="accent"> Buscar </button>
+      </div>
+
+      <div class="sa-top-filter-date">
+        <mat-form-field color="primary" appearance="legacy"
+        class="sa-top-filter-date-input">
+          <mat-label>  </mat-label>
+          <input matInput [matDatepicker]="picker1" [max]="maxDate" disabled formControlName="dateStart"
+            (dateChange)="onStartDay($event)"  name="dateStart">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker disabled="false" #picker1 color="primary"></mat-datepicker>
+          </mat-form-field>
+
+        <mat-form-field color="primary" appearance="legacy"
+        class="sa-top-filter-date-input">
+          <mat-label>  </mat-label>
+          <input matInput [matDatepicker]="picker2" [max]="maxDate" disabled formControlName="dateEnd" (dateChange)="onEndDay($event)"
+            name="dateEnd">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker disabled="false" #picker2 color="primary"></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
     <div class="sa-history-liquidation-table">
         <table mat-table [dataSource]="dataSourceHistoryLiquidation">
             <!-- Date Column -->
@@ -20,7 +48,7 @@
                 <th class="sa-route-column-select" mat-header-cell *matHeaderCellDef>
                     <mat-select class="mat-select-trigger" placeholder="Ruta">
                         <mat-option (click)="doFilter('')" [value]="Todas">Todas</mat-option>
-                        <mat-option *ngFor="let route of routes" (click)="doFilter(route.name)" [value]="route.name">
+                        <mat-option *ngFor="let route of routes" (click)="doFilter(route.id)" [value]="route.name">
                             {{route.name}}</mat-option>
                     </mat-select>
                 </th>
@@ -46,4 +74,8 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumnsHistoryLiquidation;" [routerLink]="['/dashboard/inventory/liquidation/',row.route]" [queryParams]="{  date: row.date }"></tr>
         </table>
     </div>
+</div>
+
+<div class="sa-loading sa-column sa-justify-center sa-align-center" *ngIf="loading">
+  <img src="assets/images/sanper-loader.gif">
 </div>

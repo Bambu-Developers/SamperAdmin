@@ -80,7 +80,6 @@ export class TicketComponent implements OnInit, OnDestroy {
     //     filter((product: any) => product.orderId === ticket),
     //     toArray()
     //   ).subscribe(products => {
-    //     console.log(products);
     //     products.forEach(dev => {
     //       const returnedProductIdx = returnedProducts.findIndex((rp: any) => {
     //         return rp.sku === dev.sku;
@@ -108,7 +107,6 @@ export class TicketComponent implements OnInit, OnDestroy {
           return t.id === ticket;
         }),
         map(sale => {
-          console.log(sale);
           this.clientID = sale.customerId;
           this.date = sale.date as Date;
           this.route_name = sale.route_name as string;

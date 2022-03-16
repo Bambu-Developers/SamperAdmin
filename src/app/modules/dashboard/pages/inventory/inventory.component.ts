@@ -34,17 +34,18 @@ export class InventoryComponent implements OnInit, OnDestroy {
   public endDate;
 
   constructor(
-    private _inventoryService: InventoryService,
+    // private _inventoryService: InventoryService,
     private _clientService: ClientsService,
     private _router: Router,
     private _fb: FormBuilder,
     private _datePipe: DatePipe,
-  ) { }
+  ) {}
 
   ngOnInit() {
+
     this.getRoutes();
     this.form = this._fb.group({
-      date: [{ begin: new Date(), end: new Date() }],
+    date: [{ begin: new Date(), end: new Date() }],
       route: new FormControl('', [
         Validators.required,
       ]),
@@ -55,6 +56,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
       ])
     });
     this.getDates();
+
   }
 
   public getRoutes() {

@@ -15,9 +15,9 @@ export class ClientsService {
   public clientsRef: AngularFireList<ClientModel>;
   public routesRef: AngularFireList<RouteModel>;
   public NEW_NAME: any;
-  private _baseClientsPath = 'Staging/Customers/';
-  private _baseClientsImagePath = 'Staging/Customer/';
-  private _baseRoutesPath = 'Staging/Routes/';
+  private _baseClientsPath = 'Developer/Customers/';
+  private _baseClientsImagePath = 'Developer/Customer/';
+  private _baseRoutesPath = 'Developer/Routes/';
 
   constructor(
     private db: AngularFireDatabase,
@@ -56,7 +56,7 @@ export class ClientsService {
       .snapshotChanges()
       .pipe(
         map(res => res.payload.val())
-      );
+    );
   }
 
   public createClient(clientData) {

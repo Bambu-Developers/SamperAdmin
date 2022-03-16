@@ -35,3 +35,38 @@
         text-align: center;
     }
 }
+
+.sa-route-selection {
+  width: 180px;
+  height: 42px;
+  margin: 20px auto 20px 20px;
+  background-color: $color-white-medium;
+  border: 1px solid $color-mushroom;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  .mat-select-trigger {
+    margin-left: 8px;
+  }
+}
+
+.sa-top-filter{
+  display: flex;
+  .sa-top-filter-button{
+    display: flex;
+    flex-direction: column;
+    margin: auto 10px auto 20px ;
+  }
+  .sa-top-filter-date{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .sa-top-filter-date-input{
+      width: 180px;
+      height: 42px;
+      margin: 20px 20px ;
+    }
+  }
+}

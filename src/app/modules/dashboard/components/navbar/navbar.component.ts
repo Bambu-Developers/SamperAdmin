@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,11 +11,13 @@ import { Router } from '@angular/router';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
-      map(result => result.matches)
+      map( (result) => {
+        return result.matches;
+      })
     );
 
   public language = DASHBOARD_LANGUAGE.navbar;
@@ -75,8 +77,9 @@ export class NavbarComponent {
     },
   ];
   public date = new Date;
-  public email: string;
+  public email = '';
   public current: string;
+  public login = false;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -85,6 +88,15 @@ export class NavbarComponent {
   ) {
     this.email = this.authService.getUser();
     this.current = this.router.url;
+
+     window.setTimeout(() => {
+      this.login = true;
+    }, 1000);
+
+  }
+
+  ngOnInit() {
+
   }
 
   public logout() {

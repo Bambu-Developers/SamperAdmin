@@ -33,6 +33,7 @@ export class AnalyticsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
     this.salesData.barChartData = [
       { data: [1, 2, 3, 5, 4, 7, 6], label: SALES_LABELS, type: 'line', fill: 'false' },
       { data: [1, 2, 3, 5, 4, 7, 6], label: SALES_LABELS, type: 'bar' },

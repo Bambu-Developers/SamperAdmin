@@ -28,6 +28,6 @@
         <button [routerLink]="['/dashboard/profile']"  mat-menu-item>{{language.menu.account}}</button>
       </mat-menu>
     </mat-toolbar>
-    <router-outlet></router-outlet>
+    <router-outlet *ngIf="login" ></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

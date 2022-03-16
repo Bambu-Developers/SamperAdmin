@@ -73,7 +73,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getUser();
     this.getDevolutions();
-    this.getLiquidation();
+    // this.getLiquidation();
   }
 
   public getUser() {
@@ -109,7 +109,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         take(1),
         concatMap(x => x),
         concatMap((sale: any) => {
-          console.log(sale);
           if (!this.dataSource.name) {
             this.dataSource = { name: sale.route_name };
           }
@@ -210,7 +209,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
               return d.route === this.id && d.date === this.today;
             }
           });
-        // console.log(this.devolutions);
         this.devolutions.forEach(dev => {
           const returnedProductIdx = returnedProducts.findIndex((rp: any) => {
             return rp.sku === dev.sku;
@@ -307,30 +305,30 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     );
   }
 
-  public getLiquidation() {
-    this._subscriptionLiquidation = this._inventoryService.getLiquidation()
-      .snapshotChanges()
-      .subscribe(liquidations => {
-        liquidations.forEach(liquidation => {
-          if (liquidation.key === this.userRoute) {
-            this.allLiquidations = this._inventoryService.getLiquidationsFromKeys(liquidation.key).valueChanges();
-            this.allLiquidations.subscribe(res => {
-              res.forEach(element => {
-                if (this.dateParam !== undefined) {
-                  this.today = this.dateParam;
-                }
-                if (element.date === this.today) {
-                  this.existLiquidation = true;
-                  this.user_name = element.user_name || this.dataSource.name;
-                } else {
-                  this.user_name = element.user_name || this.dataSource.name;
-                }
-              });
-            });
-          }
-        });
-      });
-  }
+  // public getLiquidation() {
+  //   this._subscriptionLiquidation = this._inventoryService.getLiquidation()
+  //     .snapshotChanges()
+  //     .subscribe(liquidations => {
+  //       liquidations.forEach(liquidation => {
+  //         if (liquidation.key === this.userRoute) {
+  //           this.allLiquidations = this._inventoryService.getLiquidationsFromKeys(liquidation.key).valueChanges();
+  //           this.allLiquidations.subscribe(res => {
+  //             res.forEach(element => {
+  //               if (this.dateParam !== undefined) {
+  //                 this.today = this.dateParam;
+  //               }
+  //               if (element.date === this.today) {
+  //                 this.existLiquidation = true;
+  //                 this.user_name = element.user_name || this.dataSource.name;
+  //               } else {
+  //                 this.user_name = element.user_name || this.dataSource.name;
+  //               }
+  //             });
+  //           });
+  //         }
+  //       });
+  //     });
+  // }
 
   ngOnDestroy() {
     if (this._subscription) {

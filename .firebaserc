@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "sanper-stable"
+  },
+  "targets": {
+    "sanper-stable": {
+      "hosting": {
+        "dev": [
+          "sanper-dev"
+        ],
+        "prod": [
+          "sanper-stable"
+        ]
+      }
+    }
   }
 }

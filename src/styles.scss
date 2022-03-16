@@ -244,7 +244,7 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 
 .sa-input-text {
   width: 325px;
-  height: 48px;
+  height: 42px;
   display: flex !important;
   align-items: center;
   justify-content: space-between;
@@ -759,4 +759,11 @@ table {
 
 .mat-select-value {
   width: 88.8% !important;
+}
+
+.mat-menu-panel {
+  min-width: 200px !important;
+  button.mat-menu-item {
+    text-align: center;
+  }
 }

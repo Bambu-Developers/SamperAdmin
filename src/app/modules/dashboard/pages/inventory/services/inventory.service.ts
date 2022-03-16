@@ -15,13 +15,13 @@ export class InventoryService {
   public lossRef: AngularFireList<any>;
   public histroyRef: AngularFireList<any>;
   public hisInvRef: AngularFireList<any>;
-  private _basePathInv = 'Staging/Inventory/';
-  private _basePathDev = 'Staging/Devolutions/';
-  private _basePathLoss = 'Staging/LostProduct/';
-  private _basePathLiq = 'Staging/Liquidations/';
-  private _basePathHis = 'Staging/HistoryRoutes/';
-  private _basePathInvHis = 'Staging/HistoryInventory/';
-  private _basePathRouteStorer = 'Staging/HistoryRoutesStorer/';
+  private _basePathInv = 'Developer/Inventory/';
+  private _basePathDev = 'Developer/Devolutions/';
+  private _basePathLoss = 'Developer/LostProduct/';
+  private _basePathLiq = 'Developer/Liquidations/';
+  private _basePathHis = 'Developer/HistoryRoutes/';
+  private _basePathInvHis = 'Developer/HistoryInventory/';
+  private _basePathRouteStorer = 'Developer/HistoryRoutesStorer/';
 
   constructor(
     private _db: AngularFireDatabase,
@@ -39,7 +39,6 @@ export class InventoryService {
 
   public getLimitedSales() {
     const startDate = moment('20191220', 'YYYYMMDD').toDate().getTime();
-    console.log(startDate);
     return this._db.list(this._basePathHis, ref => ref.orderByChild('timesatamp').startAt(1577978773055));
   }
 
@@ -89,17 +88,23 @@ export class InventoryService {
     this.liquidationRef.push(LIQUIDATION_DATA);
   }
 
-  public getLiquidation() {
-    return this.liquidationRef = this._db.list<any>(this._basePathLiq);
+  public getLiquidation(id: string , dataStart , dataEnd) {
+    console.log( dataStart , dataEnd);
+    return this._db.list<any>('Developer/Liquidations/' +  id , res  =>
+      res.limitToFirst(10000).orderByChild('date').startAt(dataStart).endAt(dataEnd)
+      ).valueChanges();
   }
 
+
   public getLiquidationsFromKeys(key) {
-    const rest = this._db.list(this._basePathLiq + key);
+    const rest = this._db.list(this._basePathLiq + key );
     return rest;
   }
 
-  public getSales() {
-    return this.histroyRef;
+  public getSales(id: string , dataStart , dataEnd ) {
+      return ( this._db.list<any>( 'Developer/HistoryRoutes/' + id  , res =>
+      res.limitToFirst(10000).orderByChild('date').startAt(dataStart).endAt(dataEnd)
+      ).valueChanges());
   }
 
   public getSalesFromKeys(key) {

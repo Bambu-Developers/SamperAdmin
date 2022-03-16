@@ -9,6 +9,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { InventoryService } from '../../services/inventory.service';
 import { concatMap, take, toArray } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import * as moment from 'moment';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-history-liquidation',
@@ -21,21 +24,42 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
   public lanInv = INVENTORY_LANGUAGE;
   public lanLiq = INVENTORY_LANGUAGE.historyLiq;
   public dataSourceHistoryLiquidation = new MatTableDataSource();
+  public dataLiquidation = [];
   public displayedColumnsHistoryLiquidation = ['dateSold', 'route', 'saleOfDay', 'totalLiq', 'totalLiqLoss'];
   private _subscriptionRoutes: Subscription;
   private _subscriptionLiquidation: Subscription;
   public allLiquidations: any;
+  public formSearch: FormGroup;
+  public maxDate: Date;
+  public endDate: any = new Date();
+  public startDate: any = new Date();
+  public loading = true;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private _clientService: ClientsService,
     private _inventoryService: InventoryService,
     private _router: Router,
-    private excelService: ExcelService
-  ) { }
+    private excelService: ExcelService,
+    private _fb: FormBuilder,
+  ) {
+    this.formSearch = _fb.group({
+      dateStart: [''],
+      dateEnd: ['']
+    });
+  }
 
   ngOnInit() {
-    this.getLiquidations();
+    this.maxDate = new Date();
+    const dateEnd = this.maxDate.getTime();
+    const dateAuxEnd = new Date( dateEnd + 86400000);
+    const dateStart = this.maxDate.getTime();
+    const dateAuxStart = new Date( dateStart - (86400000 * 7 ));
+    this.endDate = moment(dateAuxEnd).format('YYYY-MM-DD');
+    this.formSearch.controls[('dateEnd')].setValue( new Date(dateEnd) );
+    this.formSearch.controls[('dateStart')].setValue(new Date(dateAuxStart));
+    const dataAuxStart =  moment(this.formSearch.controls[('dateStart')].value).format('YYYY-MM-DD');
+    this.startDate = dataAuxStart;
     this.getRoutes();
   }
 
@@ -43,39 +67,52 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
     this.dataSourceHistoryLiquidation.paginator = this.paginator;
   }
 
-  public getLiquidations() {
-    this._subscriptionLiquidation = this._inventoryService.getLiquidation()
-      .valueChanges()
-      .pipe(
-        take(1),
-        concatMap(x => x),
-        concatMap(liquidations => {
-          const keys = Object.keys(liquidations);
-          const liquidationsArray = keys.map(k => liquidations[k]);
-          return liquidationsArray;
-        }),
-        toArray()
-      ).subscribe(liquidations => {
+  public getLiquidations( id: string , endItem: boolean ) {
+    this._subscriptionLiquidation = this._inventoryService.getLiquidation(id , this.startDate , this.endDate).subscribe(liquidations => {
         liquidations.forEach(liquidation => {
           this._subscriptionRoutes = this._clientService.getRouteByID(liquidation.route).subscribe(route => {
             liquidation['route_name'] = route.name;
           });
         });
-        this.dataSourceHistoryLiquidation.data = liquidations.sort((r1, r2) => {
-          if (r1.date > r2.date) {
-            return -1;
-          }
-          if (r1.date < r2.date) {
-            return 1;
-          }
-          return 0;
-        });
+        this.dataLiquidation = this.dataLiquidation.concat(liquidations);
+        console.log(liquidations);
+        if (endItem) {
+          this.dataSourceHistoryLiquidation.data = this.dataLiquidation.sort((r1: any, r2: any) => {
+            if (r1.date > r2.date) {
+              return -1;
+            }
+            if (r1.date < r2.date) {
+              return 1;
+            }
+            return 0;
+          });
+          this.loading = false;
+        }
       });
+    return ( this.dataLiquidation.sort((r1: any, r2: any) => {
+      if (r1.date > r2.date) {
+        return -1;
+      }
+      if (r1.date < r2.date) {
+        return 1;
+      }
+      return 0;
+    }));
   }
 
-  public getRoutes() {
+  public  getRoutes() {
+    this.dataLiquidation = [];
     this._subscriptionRoutes = this._clientService.getAllRoutes().subscribe(
-      res => {
+      async (res) => {
+        console.log(res);
+        res.forEach( (element , index) => {
+          if ( index === res.length - 1 ) {
+            this.getLiquidations(element.id , true);
+          } else {
+            this.getLiquidations(element.id , false);
+          }
+        });
+
         this.routes = res.sort((r1, r2) => {
           if (r1.name < r2.name) {
             return -1;
@@ -87,6 +124,7 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
         });
       }
     );
+
   }
 
   public doFilter = (value: string) => {
@@ -115,4 +153,36 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
       this._subscriptionLiquidation.unsubscribe();
     }
   }
+
+  public onStartDay(event: MatDatepickerInputEvent<Date>) {
+    const date = event.value.getTime();
+    const dateAux = new Date( date);
+    this.startDate = moment(dateAux).format('YYYY-MM-DD');
+
+    // this.enableButton = false;
+    if (this.startDate !== undefined && this.endDate !== undefined) {
+      if (this.startDate > this.endDate) {
+        // this.dataError = true;
+      } else {
+        // this.dataError = false;
+      }
+    }
+  }
+
+
+  public onEndDay(event: MatDatepickerInputEvent<Date>) {
+    const date = event.value.getTime();
+    const dateAux = new Date( date + 86400000);
+    this.endDate = moment(dateAux).format('YYYY-MM-DD');
+
+    // this.enableButton = false;
+    if (this.startDate !== undefined && this.endDate !== undefined) {
+      if (this.startDate > this.endDate) {
+        // this.dataError = true;
+      } else {
+        // this.dataError = false;
+      }
+    }
+  }
+
 }

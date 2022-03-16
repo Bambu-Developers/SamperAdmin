@@ -45,6 +45,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   public getsUsers() {
     this._subscriptrionUsers = this.usersService.getAllUsers().subscribe(
+
       res => {
         this.dataSource.data = res;
         this.users = res;
@@ -52,7 +53,9 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.users.forEach(user => {
           if (user['rol'] === 0) {
             this._subscriptrionUser = this.usersService.getRouteByID(user['route']).subscribe(route => {
-              user['route_name'] = route.name;
+              if (route !== null) {
+                user['route_name'] = route.name;
+              }
             });
           }
         });
