@@ -15,9 +15,9 @@ export class ClientsService {
   public clientsRef: AngularFireList<ClientModel>;
   public routesRef: AngularFireList<RouteModel>;
   public NEW_NAME: any;
-  private _baseClientsPath = 'Developer/Customers/';
-  private _baseClientsImagePath = 'Developer/Customer/';
-  private _baseRoutesPath = 'Developer/Routes/';
+  private _baseClientsPath = 'Staging/Customers/';
+  private _baseClientsImagePath = 'Staging/Customer/';
+  private _baseRoutesPath = 'Staging/Routes/';
 
   constructor(
     private db: AngularFireDatabase,

@@ -15,13 +15,13 @@ export class InventoryService {
   public lossRef: AngularFireList<any>;
   public histroyRef: AngularFireList<any>;
   public hisInvRef: AngularFireList<any>;
-  private _basePathInv = 'Developer/Inventory/';
-  private _basePathDev = 'Developer/Devolutions/';
-  private _basePathLoss = 'Developer/LostProduct/';
-  private _basePathLiq = 'Developer/Liquidations/';
-  private _basePathHis = 'Developer/HistoryRoutes/';
-  private _basePathInvHis = 'Developer/HistoryInventory/';
-  private _basePathRouteStorer = 'Developer/HistoryRoutesStorer/';
+  private _basePathInv = 'Staging/Inventory/';
+  private _basePathDev = 'Staging/Devolutions/';
+  private _basePathLoss = 'Staging/LostProduct/';
+  private _basePathLiq = 'Staging/Liquidations/';
+  private _basePathHis = 'Staging/HistoryRoutes/';
+  private _basePathInvHis = 'Staging/HistoryInventory/';
+  private _basePathRouteStorer = 'Staging/HistoryRoutesStorer/';
 
   constructor(
     private _db: AngularFireDatabase,
@@ -89,10 +89,13 @@ export class InventoryService {
   }
 
   public getLiquidation(id: string , dataStart , dataEnd) {
-    console.log( dataStart , dataEnd);
-    return this._db.list<any>('Developer/Liquidations/' +  id , res  =>
-      res.limitToFirst(10000).orderByChild('date').startAt(dataStart).endAt(dataEnd)
+    return this._db.list<any>('Staging/Liquidations/' +  id , res  =>
+      res.orderByChild('date').startAt(dataStart).endAt(dataEnd)
       ).valueChanges();
+  }
+
+  public getLiquidationAux( id: string ) {
+    return this._db.list<any>('Staging/Liquidations/' + id).valueChanges();
   }
 
 
@@ -102,8 +105,11 @@ export class InventoryService {
   }
 
   public getSales(id: string , dataStart , dataEnd ) {
-      return ( this._db.list<any>( 'Developer/HistoryRoutes/' + id  , res =>
-      res.limitToFirst(10000).orderByChild('date').startAt(dataStart).endAt(dataEnd)
+      return ( this._db.list<any>( 'Staging/HistoryRoutes/' + id  , res => {
+        return res.orderByChild('date').startAt(dataStart).endAt(dataEnd);
+        return res;
+      }
+
       ).valueChanges());
   }
 
@@ -113,7 +119,9 @@ export class InventoryService {
   }
 
   public getSaleByTicket(route, ticket) {
-    return this._db.list(this._basePathHis + '/' + route);
+    return this._db.list('Staging/HistoryRoutes/' + '/' + route , res =>
+      res.orderByChild('id').equalTo(ticket)
+    );
   }
 
   public getProductsSold(key, id) {

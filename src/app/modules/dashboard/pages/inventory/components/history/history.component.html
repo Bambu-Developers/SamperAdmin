@@ -10,7 +10,7 @@
             <mat-form-field class="sa-user-search sa-input-text sa-search sa-no-label">
                 <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Buscar...">
             </mat-form-field>
-            <mat-paginator [hidePageSize]="true" [pageSize]="15"></mat-paginator>
+            <mat-paginator [hidePageSize]="true"  [pageSize]="100"></mat-paginator>
         </div>
     </div>
 
@@ -77,7 +77,7 @@
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumnsSales"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumnsSales;"
-                [routerLink]="['/dashboard/inventory/ticket/']" [queryParams]="{ route: row.route_id, ticket: row.id }">
+                [routerLink]="['/dashboard/inventory/ticket/']" [queryParams]="{ route: row.route_id, ticket: row.id ,  client: row.customerId }">
             </tr>
         </table>
     </div>

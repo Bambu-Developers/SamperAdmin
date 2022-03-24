@@ -1,3 +1,8 @@
+<div class="sa-loading sa-column sa-justify-center sa-align-center" *ngIf="loading">
+  <img src="assets/images/sanper-loader.gif">
+</div>
+
+
 <div class="sa-dashboard-main-content sa-roboto sa-charcoal-grey">
     <div class="sa-download-liquidation">
         <mat-label class="sa-text-24 sa-roboto-medium">{{lanLiq.liquidationHistory}}</mat-label>
@@ -6,7 +11,7 @@
         </button>
     </div>
     <div class="sa-actions">
-        <mat-paginator [hidePageSize]="true" [pageSize]="15"></mat-paginator>
+        <mat-paginator [hidePageSize]="true" [pageSize]="100"></mat-paginator>
     </div>
 
     <mat-label class="sa-text-24 sa-roboto-meduim">Rutas</mat-label>
@@ -76,6 +81,4 @@
     </div>
 </div>
 
-<div class="sa-loading sa-column sa-justify-center sa-align-center" *ngIf="loading">
-  <img src="assets/images/sanper-loader.gif">
-</div>
+

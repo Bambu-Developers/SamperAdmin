@@ -13,7 +13,7 @@ export class RoutesService {
   public route: Observable<RouteModel>;
   public routesRef: AngularFireList<RouteModel>;
   public usersRef: AngularFireList<UserModel>;
-  private _baseRoutesPath = 'Developer/Routes/';
+  private _baseRoutesPath = 'Staging/Routes/';
   private _baseUsersPath = 'Users/';
 
   constructor(

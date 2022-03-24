@@ -53,12 +53,13 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   public totalSale: any = 0;
   public dateParam: any;
   public user_name: any;
-  private _subscription: Subscription;
-  private _subscriptionService: any;
-  private _subscriptionInventories: Subscription;
-  private _subscriptionDevolutions: Subscription;
-  private _subscriptionLosses: Subscription;
-  private _subscriptionLiquidation: Subscription;
+  public loading = true;
+  // private _subscription: Subscription;
+  // private _subscriptionService: any;
+  // private _subscriptionInventories: Subscription;
+  // private _subscriptionDevolutions: Subscription;
+  // private _subscriptionLosses: Subscription;
+  // private _subscriptionLiquidation: Subscription;
 
   constructor(
     private _route: ActivatedRoute,
@@ -73,18 +74,18 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getUser();
     this.getDevolutions();
-    // this.getLiquidation();
   }
 
   public getUser() {
     this.dateParam = this._route.snapshot.queryParams.date;
-    this._subscription = this._route.params.subscribe(params => {
+    this._route.params.subscribe(params => {
       this.id = params['id'];
-      this._subscriptionService = this._userService.getUserByRoute(this.id)
+      this._userService.getUserByRoute(this.id)
         .subscribe((res: any) => {
           this.dataSource = res;
           // May occurre problem ^
           this.userRoute = res.route || this.id;
+          this.getLiquidation();
           this.getInventories();
           this.getLosses();
         });
@@ -103,7 +104,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       SD = moment(startDate).format('YYYYMMDD');
     }
     startDate = moment(SD, 'YYYYMMDD').toDate();
-    this._subscriptionInventories = this._inventoryService.getSalesByDate(this.userRoute, startDate, startDate)
+    this._inventoryService.getSalesByDate(this.userRoute, startDate, startDate)
       .valueChanges()
       .pipe(
         take(1),
@@ -188,13 +189,14 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         this.dataSourceTable.data = retailProducts;
         this.dataSourceWholesaleTable.data = wholesaleProducts;
         this.dataSourceWholesaleTableG.data = wholesaleProductsG;
+        this.loading = false;
       });
   }
 
 
   public getDevolutions() {
     const returnedProducts = new Array();
-    this._subscriptionDevolutions = this._inventoryService.getDevolutionsL().subscribe(
+    this._inventoryService.getDevolutionsL().subscribe(
       res => {
         this.devolutions = res;
         this.devolutions = this.devolutions
@@ -241,7 +243,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       SD = moment(startDate).format('YYYYMMDD');
     }
     startDate = moment(SD, 'YYYYMMDD').toDate();
-    this._subscriptionLosses = this._inventoryService.getLossesByDate(this.userRoute, startDate, startDate)
+    this._inventoryService.getLossesByDate(this.userRoute, startDate, startDate)
       .valueChanges()
       .pipe(
         take(1),
@@ -305,50 +307,41 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     );
   }
 
-  // public getLiquidation() {
-  //   this._subscriptionLiquidation = this._inventoryService.getLiquidation()
-  //     .snapshotChanges()
-  //     .subscribe(liquidations => {
-  //       liquidations.forEach(liquidation => {
-  //         if (liquidation.key === this.userRoute) {
-  //           this.allLiquidations = this._inventoryService.getLiquidationsFromKeys(liquidation.key).valueChanges();
-  //           this.allLiquidations.subscribe(res => {
-  //             res.forEach(element => {
-  //               if (this.dateParam !== undefined) {
-  //                 this.today = this.dateParam;
-  //               }
-  //               if (element.date === this.today) {
-  //                 this.existLiquidation = true;
-  //                 this.user_name = element.user_name || this.dataSource.name;
-  //               } else {
-  //                 this.user_name = element.user_name || this.dataSource.name;
-  //               }
-  //             });
-  //           });
-  //         }
-  //       });
-  //     });
-  // }
+  public getLiquidation() {
+    this._inventoryService.getLiquidationsFromKeys(this.userRoute).valueChanges().subscribe(res => {
+      res.forEach((element: any ) => {
+        if (this.dateParam !== undefined) {
+          this.today = this.dateParam;
+        }
+        if (element.date === this.today) {
+          this.existLiquidation = true;
+          this.user_name = element.user_name || this.dataSource.name;
+        } else {
+          this.user_name = element.user_name || this.dataSource.name;
+        }
+      });
+    });
+  }
 
   ngOnDestroy() {
-    if (this._subscription) {
-      this._subscription.unsubscribe();
-    }
-    if (this._subscriptionService) {
-      this._subscriptionService.unsubscribe();
-    }
-    if (this._subscriptionInventories) {
-      this._subscriptionInventories.unsubscribe();
-    }
-    if (this._subscriptionDevolutions) {
-      this._subscriptionDevolutions.unsubscribe();
-    }
-    if (this._subscriptionLosses) {
-      this._subscriptionLosses.unsubscribe();
-    }
-    if (this._subscriptionLiquidation) {
-      this._subscriptionLiquidation.unsubscribe();
-    }
+    // if (this._subscription) {
+    //   this._subscription.unsubscribe();
+    // }
+    // if (this._subscriptionService) {
+    //   this._subscriptionService.unsubscribe();
+    // }
+    // if (this._subscriptionInventories) {
+    //   this._subscriptionInventories.unsubscribe();
+    // }
+    // if (this._subscriptionDevolutions) {
+    //   this._subscriptionDevolutions.unsubscribe();
+    // }
+    // if (this._subscriptionLosses) {
+    //   this._subscriptionLosses.unsubscribe();
+    // }
+    // if (this._subscriptionLiquidation) {
+    //   this._subscriptionLiquidation.unsubscribe();
+    // }
   }
 
 }

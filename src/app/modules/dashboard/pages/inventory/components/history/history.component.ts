@@ -35,8 +35,8 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewInit {
   public loading = true;
   public maxDate: Date;
   public dataId = '';
-  private _subscriptionSales: Subscription;
-  private _subscriptionRoutes: Subscription;
+  // private _subscriptionSales: Subscription;
+  // private _subscriptionRoutes: Subscription;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
@@ -53,6 +53,9 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     // ONLY WHEN DELETE TICKETS
     // this.testDelete();
+
+
+    this.testDataRoute();
 
     this.form = this._fb.group({
       date: [{ begin: new Date(), end: new Date() }],
@@ -77,33 +80,41 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dataSourceTableHistory.paginator = this.paginator;
   }
 
-  testDelete() {
+  // testDelete() {
+  //   const fecha = moment('20200701', 'YYYYMMDD').toDate();
+  //   this._inventoryService.getSalesToDelete('id de la ruta')
+  //     .valueChanges().subscribe(res => {
+  //       res.forEach(ticket => {
+  //         if (moment(ticket['timesatamp']).toDate() < fecha) {
+  //           this._inventoryService.deleteTicket('id de la ruta', ticket['id']);
+  //         }
+  //       });
+  //     });
+  // }
+
+  testDataRoute() {
     const fecha = moment('20200701', 'YYYYMMDD').toDate();
-    this._inventoryService.getSalesToDelete('id de la ruta')
+    this._inventoryService.getSalesToDelete('1038623014')
       .valueChanges().subscribe(res => {
-        res.forEach(ticket => {
-          if (moment(ticket['timesatamp']).toDate() < fecha) {
-            this._inventoryService.deleteTicket('id de la ruta', ticket['id']);
-          }
-        });
+
       });
   }
 
   public getAllSales(id: string , dataStart , dataEnd ) {
     this.loading = true;
-    this._subscriptionSales = this._inventoryService.getSales(id ,  dataStart , dataEnd ).subscribe((sales: any) => {
+    this._inventoryService.getSales(id ,  dataStart , dataEnd ).subscribe((sales: any) => {
+
         this.dataSourceTableHistory.data = sales.map( ress => {
           return { date: ress.date , id: ress.id , route_id: ress.route_id , route_name: ress.route_name
-          , total: ress.total , totalOnSalle: ress.totalOnSalle };
-          }
-        ).sort((r1, r2) => {
-          if (r1.date > r2.date) {
-            return -1;
-          }
-          if (r1.date < r2.date) {
-            return 1;
-          }
-          return 0;
+          , total: ress.total , totalOnSalle: ress.totalOnSalle , customerId: ress.customerId};
+          }).sort((r1, r2) => {
+            if (r1.date > r2.date) {
+              return -1;
+            }
+            if (r1.date < r2.date) {
+              return 1;
+            }
+            return 0;
         });
         this.loading = false;
     });
@@ -123,7 +134,7 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public getRoutes() {
-    this._subscriptionRoutes = this._clientService.getAllRoutes().subscribe(
+    this._clientService.getAllRoutes().subscribe(
       (res) => {
         this.dataId = res[0].id;
         this.getAllSales( res[3].id , this.startDate , this.endDate );
@@ -145,12 +156,12 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    if (this._subscriptionSales) {
-      this._subscriptionSales.unsubscribe();
-    }
-    if (this._subscriptionRoutes) {
-      this._subscriptionRoutes.unsubscribe();
-    }
+    // if (this._subscriptionSales) {
+    //   this._subscriptionSales.unsubscribe();
+    // }
+    // if (this._subscriptionRoutes) {
+    //   this._subscriptionRoutes.unsubscribe();
+    // }
   }
 
   public onStartDay(event: MatDatepickerInputEvent<Date>) {

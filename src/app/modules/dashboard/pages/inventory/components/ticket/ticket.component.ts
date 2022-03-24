@@ -30,6 +30,7 @@ export class TicketComponent implements OnInit, OnDestroy {
   public client: any;
   public clientID: any;
   public route_name = '';
+  public loading = true;
   private _subscriptionTicket: Subscription;
   private _subscriptionDevolutions: Subscription;
   private _subscriptionClient: Subscription;
@@ -47,21 +48,25 @@ export class TicketComponent implements OnInit, OnDestroy {
   public getParams() {
     const params = this._route.snapshot.queryParams;
     this.ticket = params['ticket'];
+    this.clientID = params['client'];
     const routeId = params['route'];
     this.getDevolutions(routeId, this.ticket);
     this.getTicketData(routeId, this.ticket);
+    this.getClient( this.clientID );
   }
 
   public getDevolutions(route, ticket) {
     this._inventoryService.getSaleByTicket(route, ticket)
       .valueChanges()
       .pipe(
-        concatMap(x => x),
+        concatMap( (x) => {
+          return x;
+        }),
         filter((t: any) => {
           return t.id === ticket;
         })
       )
-      .subscribe(devolutions => {
+      .subscribe((devolutions: any) => {
         let returnedProducts = [];
         if (devolutions.Devolutions) {
           returnedProducts = Object.values(devolutions.Devolutions);
@@ -70,7 +75,8 @@ export class TicketComponent implements OnInit, OnDestroy {
             this.totalReturned += dev.totalPrice;
           });
         }
-        this.dataSourceReturnedTable.data = returnedProducts;
+
+        return this.dataSourceReturnedTable.data = returnedProducts;
       });
     // this._subscriptionDevolutions = this._inventoryService.getDevolutions()
     //   .valueChanges()
@@ -102,11 +108,13 @@ export class TicketComponent implements OnInit, OnDestroy {
     this._subscriptionTicket = this._inventoryService.getSaleByTicket(route, ticket)
       .valueChanges()
       .pipe(
-        concatMap(x => x),
+        concatMap( (x) => {
+          return x;
+        }),
         filter((t: any) => {
           return t.id === ticket;
         }),
-        map(sale => {
+        map(( sale: any ) => {
           this.clientID = sale.customerId;
           this.date = sale.date as Date;
           this.route_name = sale.route_name as string;
@@ -135,13 +143,13 @@ export class TicketComponent implements OnInit, OnDestroy {
         this.dataSourceRetailTable.data = retailProducts;
         this.dataSourceWholesaleTable.data = wholesaleProducts;
         this.dataSourceWholesaleTableG.data = wholesaleProductsG;
-        this.getClient();
       });
   }
 
-  public getClient() {
-    this._subscriptionClient = this._clientService.getClient(this.clientID).subscribe(client => {
+  public getClient(clientID) {
+    this._clientService.getClient( clientID ).subscribe(client => {
       this.client = client;
+      this.loading = false;
     });
   }
 

@@ -50,6 +50,7 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
   }
 
   ngOnInit() {
+    this.loading = true;
     this.maxDate = new Date();
     const dateEnd = this.maxDate.getTime();
     const dateAuxEnd = new Date( dateEnd + 86400000);
@@ -75,7 +76,6 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
           });
         });
         this.dataLiquidation = this.dataLiquidation.concat(liquidations);
-        console.log(liquidations);
         if (endItem) {
           this.dataSourceHistoryLiquidation.data = this.dataLiquidation.sort((r1: any, r2: any) => {
             if (r1.date > r2.date) {
@@ -86,7 +86,10 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
             }
             return 0;
           });
-          this.loading = false;
+
+          setTimeout( () => {
+            this.loading = false;
+          }, 600);
         }
       });
     return ( this.dataLiquidation.sort((r1: any, r2: any) => {
@@ -100,11 +103,11 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
     }));
   }
 
-  public  getRoutes() {
+  public getRoutes() {
+
     this.dataLiquidation = [];
     this._subscriptionRoutes = this._clientService.getAllRoutes().subscribe(
       async (res) => {
-        console.log(res);
         res.forEach( (element , index) => {
           if ( index === res.length - 1 ) {
             this.getLiquidations(element.id , true);

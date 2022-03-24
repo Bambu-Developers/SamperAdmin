@@ -18,8 +18,8 @@ export class TrackingComponent implements OnInit, OnDestroy {
   // public longitude = -99.16890953528679;
   public latitude = 20.348254;
   public longitude = -102.030706;
-  private _subscriptionRoutes: Subscription;
-  private _subscriptionClients: Subscription;
+  // private _subscriptionRoutes: Subscription;
+  // private _subscriptionClients: Subscription;
 
 
   constructor(
@@ -27,6 +27,7 @@ export class TrackingComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+
     this.getRoutes();
     this.getPinsByRoute('');
     this.getAllPins();
@@ -35,7 +36,7 @@ export class TrackingComponent implements OnInit, OnDestroy {
   public getPinsByRoute(route) {
     this.pinsArray = [];
     let array = <any>[];
-    this._subscriptionClients = this._clientsService.getAllClients().subscribe(clients => {
+    this._clientsService.getAllClients().subscribe(clients => {
       clients.forEach(client => {
         if (client.route_id === route) {
           array = {
@@ -55,7 +56,7 @@ export class TrackingComponent implements OnInit, OnDestroy {
   public getAllPins() {
     this.pinsArray = [];
     let array = <any>[];
-    this._subscriptionClients = this._clientsService.getAllClients().subscribe(clients => {
+    this._clientsService.getAllClients().subscribe(clients => {
       clients.forEach(client => {
         array = {
           id: client.route_id,
@@ -71,7 +72,7 @@ export class TrackingComponent implements OnInit, OnDestroy {
   }
 
   public getRoutes() {
-    this._subscriptionRoutes = this._clientsService.getAllRoutes().subscribe(
+    this._clientsService.getAllRoutes().subscribe(
       res => {
         this.routes = res.sort((r1, r2) => {
           if (r1.name < r2.name) {
@@ -94,11 +95,11 @@ export class TrackingComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    if (this._subscriptionRoutes) {
-      this._subscriptionRoutes.unsubscribe();
-    }
-    if (this._subscriptionClients) {
-      this._subscriptionClients.unsubscribe();
-    }
+    // if (this._subscriptionRoutes) {
+    //   this._subscriptionRoutes.unsubscribe();
+    // }
+    // if (this._subscriptionClients) {
+    //   this._subscriptionClients.unsubscribe();
+    // }
   }
 }
