@@ -228,7 +228,7 @@ export class ViewClientComponent implements OnInit {
       this.isEditClient = false;
       this.loading = false;
     }
-    console.log(dataAux , 'sdasdsadasdasdasdasdasdds');
+    console.log(dataAux);
     this.getClient();
   }
 
