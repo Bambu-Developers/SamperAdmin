@@ -10,14 +10,13 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 
 /*MODULES*/
 import { SharedModule } from '../shared/shared.module';
-import { CreditComponent } from './pages/credit/credit.component';
+// import { CreditComponent } from './pages/credit/credit.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
     NavbarComponent,
-    CreditComponent,
   ],
   imports: [
     CommonModule,

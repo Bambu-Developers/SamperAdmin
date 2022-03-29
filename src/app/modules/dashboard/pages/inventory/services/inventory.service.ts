@@ -106,7 +106,7 @@ export class InventoryService {
 
   public getSales(id: string , dataStart , dataEnd ) {
       return ( this._db.list<any>( 'Developer/HistoryRoutes/' + id  , res => {
-        return res.orderByChild('date').startAt(dataStart).endAt(dataEnd);
+        // return res.orderByChild('date').startAt(dataStart).endAt(dataEnd);
         return res;
       }
 

@@ -44,7 +44,8 @@ export class HistoryComponent implements OnInit, AfterViewInit {
   ) {
     this.formSearch = _fb.group({
       dateStart: [''],
-      dateEnd: ['']
+      dateEnd: [''],
+      routes: [''],
     });
    }
 
@@ -57,9 +58,7 @@ export class HistoryComponent implements OnInit, AfterViewInit {
 
     this.form = this._fb.group({
       date: [{ begin: new Date(), end: new Date() }],
-      route: new FormControl('', [
-        Validators.required,
-      ]),
+      route: new FormControl('', [Validators.required, ]),
     });
     this.maxDate = new Date();
     const dateEnd = this.maxDate.getTime();
@@ -98,9 +97,30 @@ export class HistoryComponent implements OnInit, AfterViewInit {
       });
   }
 
+  public getRoutes() {
+    this._clientService.getAllRoutes().subscribe(
+      (res) => {
+        this.formSearch.controls[('routes')].setValue( res[0].id );
+        this.dataId = res[0].id;
+        this.getAllSales( res[0].id , this.startDate , this.endDate );
+        this.routes = res.sort((r1, r2) => {
+          if (r1.name < r2.name) {
+            return -1;
+          }
+          if (r1.name > r2.name) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+    );
+  }
+
   public getAllSales(id: string , dataStart , dataEnd ) {
     this.loading = true;
     this._inventoryService.getSales(id ,  dataStart , dataEnd ).subscribe((sales: any) => {
+
+      console.log(sales);
 
         this.dataSourceTableHistory.data = sales.map( ress => {
           return { date: ress.date , id: ress.id , route_id: ress.route_id , route_name: ress.route_name
@@ -129,24 +149,6 @@ export class HistoryComponent implements OnInit, AfterViewInit {
       .subscribe(sales => {
         this.dataSourceTableHistory.data = sales;
       });
-  }
-
-  public getRoutes() {
-    this._clientService.getAllRoutes().subscribe(
-      (res) => {
-        this.dataId = res[0].id;
-        this.getAllSales( res[3].id , this.startDate , this.endDate );
-        this.routes = res.sort((r1, r2) => {
-          if (r1.name < r2.name) {
-            return -1;
-          }
-          if (r1.name > r2.name) {
-            return 1;
-          }
-          return 0;
-        });
-      }
-    );
   }
 
   public doFilter = (value: string) => {

@@ -45,11 +45,11 @@ export class NavbarComponent implements OnInit {
       title: DASHBOARD_LANGUAGE.navbar.analitycs,
       route: '/dashboard/analytics'
     },
-    {
-      icon: 'ic-analytics',
-      title:  'credit',
-      route: '/dashboard/credit'
-    },
+    // {
+    //   icon: 'ic-analytics',
+    //   title:  'credit',
+    //   route: '/dashboard/credit'
+    // },
     // {
     //   icon: '',
     //   title: DASHBOARD_LANGUAGE.navbar.clients,

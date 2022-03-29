@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
-import { CreditComponent } from './pages/credit/credit.component';
+// import { CreditComponent } from './pages/credit/credit.component';
 
 const routes: Routes = [
   {
@@ -39,9 +39,9 @@ const routes: Routes = [
     component: DashboardComponent,
     loadChildren: './pages/routes/routes.module#RoutesModule'
   },
-  {
-    path: 'credit', component: DashboardComponent,
-    loadChildren: './pages/credit/credit.module#CreditModule' },
+  // {
+  //   path: 'credit', component: DashboardComponent,
+  //   loadChildren: './pages/credit/credit.module#CreditModule' },
   {
     path: '',
     redirectTo: 'users',
