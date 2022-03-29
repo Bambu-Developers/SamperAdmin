@@ -110,6 +110,25 @@
                             </form>
                         </ng-template>
                     </mat-card>
+
+
+
+                    <mat-card [formGroup]="editClientFormCredit" class="sa-client-info-credit">
+
+                      <p class="sa-roboto-medium sa-text-18 sa-charcoal-grey">
+                        Habilitar credito
+                      </p>
+                      <mat-slide-toggle formControlName="haveCredit" [disabled]="!isEditClient" >Activa crédito</mat-slide-toggle>
+                      <p class="sa-roboto-medium sa-text-18 sa-charcoal-grey">
+                        Saldo a credito $ {{ this.dataSource?.haveCredit?.debt }}
+                      </p>
+                      <p class="sa-roboto-medium sa-text-18 sa-charcoal-grey">
+                        Saldo abonado $ {{ this.dataSource?.haveCredit?.paid }}
+                      </p>
+
+                    </mat-card>
+
+
                     <!-- <mat-card class="sa-credit-info">
                         <div *ngIf="dataSource?.haveCredit; then withCredit else withoutCredit">
                             {{dataSource?.haveCredit}}</div>

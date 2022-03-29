@@ -28,6 +28,7 @@ export class ViewClientComponent implements OnInit {
   public creditEditForm: FormGroup;
   public creditAssignForm: FormGroup;
   public editClientForm: FormGroup;
+  public editClientFormCredit: FormGroup;
   public id: string;
   public language = ACCOUNT_LANGUAGE;
   public currencyMask = CURRENCY_MASK;
@@ -110,13 +111,20 @@ export class ViewClientComponent implements OnInit {
       saturday: new FormControl(''),
       sunday: new FormControl(''),
     });
+
+    this.editClientFormCredit = new FormGroup({
+      haveCredit: new FormControl(''),
+    });
   }
 
   public getClient() {
     this._subscription = this.route.params.subscribe(params => {
       this.id = params['id'];
       this._subscriptionService = this._clientService.getClient(this.id).subscribe(
-        res => {
+        (res: any ) => {
+
+          console.log( res );
+
           this.dataSource = res;
           // this.currentDays.push(res.monday);
           // this.currentDays.push(res.tuesday);
@@ -128,6 +136,8 @@ export class ViewClientComponent implements OnInit {
           // for (let i = 0; i < this.days.length; i++) {
           //   this.days[i].active = this.currentDays[i];
           // }
+          this.editClientFormCredit.get('haveCredit').patchValue(res.haveCredit.credit === false || res.haveCredit.credit === true
+            ? res.haveCredit.credit : false );
           if (res.photo !== '') {
             this.editClientForm.get('photo').patchValue(res.photo);
           }
@@ -196,22 +206,29 @@ export class ViewClientComponent implements OnInit {
     this.editClientForm.get('friday').patchValue(this.days[4].active);
     this.editClientForm.get('saturday').patchValue(this.days[5].active);
     this.editClientForm.get('sunday').patchValue(this.days[6].active);
+    const dataAux: any = this.editClientForm.value;
+    dataAux.haveCredit = {
+      credit: this.editClientFormCredit.get('haveCredit').value,
+      debt: this.dataSource.haveCredit.debt ? this.dataSource.haveCredit.debt : 0,
+      paid: this.dataSource.haveCredit.paid ? this.dataSource.haveCredit.paid : 0
+    };
     if (this.imgChanged) {
       this.savePhoto().then(
         response => {
           this.editClientForm.get('photo').patchValue(response);
-          this._clientService.editClient(this.editClientForm.value, this.id);
+          this._clientService.editClient(dataAux, this.id);
           this.openSnackBarClientEdited();
           this.isEditClient = false;
           this.loading = false;
         }, error => console.error(error)
       );
     } else {
-      this._clientService.editClient(this.editClientForm.value, this.id);
+      this._clientService.editClient(dataAux, this.id);
       this.openSnackBarClientEdited();
       this.isEditClient = false;
       this.loading = false;
     }
+    console.log(dataAux , 'sdasdsadasdasdasdasdasdds');
     this.getClient();
   }
 

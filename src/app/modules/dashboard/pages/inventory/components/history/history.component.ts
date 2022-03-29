@@ -1,5 +1,3 @@
-import { async } from '@angular/core/testing';
-import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
@@ -17,7 +15,7 @@ import * as moment from 'moment';
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.scss']
 })
-export class HistoryComponent implements OnInit, OnDestroy, AfterViewInit {
+export class HistoryComponent implements OnInit, AfterViewInit {
 
   public lanInv = INVENTORY_LANGUAGE;
   public lanHis = INVENTORY_LANGUAGE.history;
@@ -153,15 +151,6 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public doFilter = (value: string) => {
     this.dataSourceTableHistory.filter = value.trim().toLocaleLowerCase();
-  }
-
-  ngOnDestroy() {
-    // if (this._subscriptionSales) {
-    //   this._subscriptionSales.unsubscribe();
-    // }
-    // if (this._subscriptionRoutes) {
-    //   this._subscriptionRoutes.unsubscribe();
-    // }
   }
 
   public onStartDay(event: MatDatepickerInputEvent<Date>) {

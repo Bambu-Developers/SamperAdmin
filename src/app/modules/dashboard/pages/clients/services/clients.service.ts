@@ -15,9 +15,9 @@ export class ClientsService {
   public clientsRef: AngularFireList<ClientModel>;
   public routesRef: AngularFireList<RouteModel>;
   public NEW_NAME: any;
-  private _baseClientsPath = 'Staging/Customers/';
-  private _baseClientsImagePath = 'Staging/Customer/';
-  private _baseRoutesPath = 'Staging/Routes/';
+  private _baseClientsPath = 'Developer/Customers/';
+  private _baseClientsImagePath = 'Developer/Customer/';
+  private _baseRoutesPath = 'Developer/Routes/';
 
   constructor(
     private db: AngularFireDatabase,
@@ -125,6 +125,7 @@ export class ClientsService {
     const friday = clientData.friday === undefined ? false : clientData.friday;
     const saturday = clientData.saturday === undefined ? false : clientData.saturday;
     const sunday = clientData.sunday === undefined ? false : clientData.sunday;
+    const haveCredit = clientData.haveCredit = clientData.haveCredit;
     if (clientData.photo === undefined) {
       const CLIENT_DATAP: ClientModel = {
         photo: '',
@@ -139,6 +140,7 @@ export class ClientsService {
         friday: friday,
         saturday: saturday,
         sunday: sunday,
+        haveCredit : haveCredit
       };
       this.clientsRef.update(id, CLIENT_DATAP);
     } else {
@@ -155,6 +157,7 @@ export class ClientsService {
         friday: friday,
         saturday: saturday,
         sunday: sunday,
+        haveCredit : haveCredit
       };
       this.clientsRef.update(id, CLIENT_DATA);
     }

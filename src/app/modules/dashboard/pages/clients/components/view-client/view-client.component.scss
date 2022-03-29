@@ -73,7 +73,25 @@
                 }
                 .sa-right-column {
                     width: 649px;
+
+                    .sa-client-info-credit {
+
+                      margin-bottom: 16px;
+                      padding: 24px;
+                      // height: 224px;
+                      min-height: 195px;
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: space-between;
+                      mat-slide-toggle{
+                        width: 180px;
+                      }
+                  }
+
+
                     .sa-client-info {
+
+                        margin-bottom: 16px;
                         padding: 24px;
                         // height: 224px;
                         min-height: 224px;

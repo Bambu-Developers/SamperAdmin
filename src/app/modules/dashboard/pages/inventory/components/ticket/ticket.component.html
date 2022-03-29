@@ -38,6 +38,12 @@
         <mat-label>Fecha de la venta </mat-label>
         <mat-label class="date sa-roboto-medium">{{date | date }}</mat-label>
     </div>
+
+
+    <div class="sa-pdf-button">
+      <button color="charcoal-grey" (click)="getPdf()" mat-button > Descarga Ticket </button>
+    </div>
+
     <div class="sa-devolutions" *ngIf="dataSourceReturnedTable.data.length !== 0">
         <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Devoluciones</mat-label>
         <table mat-table [dataSource]="dataSourceReturnedTable">

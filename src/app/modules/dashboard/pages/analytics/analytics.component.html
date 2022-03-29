@@ -1,5 +1,5 @@
 <div class="sa-dashboard-main-content sa-roboto sa-charcoal-grey">
-    <div class="sa-analytics-header">
+    <!-- <div class="sa-analytics-header">
         <mat-label class="sa-roboto-medium sa-text-24">{{language.sales}}</mat-label>
         <button class="sa-button" mat-raised-button color="charcoal-grey">
             {{language.downloadReport}}
@@ -18,8 +18,8 @@
             (click)="changeFilterPeriod(FILTER.YEAR)">
             {{language.year}}
         </button>
-    </div>
-    <div class="sa-period-selection sa-row sa-align-center">
+    </div> -->
+    <!-- <div class="sa-period-selection sa-row sa-align-center">
         <mat-label class="sa-text-14 sa-brownish-grey"> {{language.result}}: </mat-label>
         <mat-icon svgIcon="ic-before"></mat-icon>
         <mat-label class="sa-text-14" *ngIf="filterByPeriod == FILTER.WEEK">
@@ -30,7 +30,18 @@
         <mat-label class="sa-text-14" *ngIf="filterByPeriod == FILTER.YEAR">{{ dateSales | amDateFormat:'Y' }}
         </mat-label>
         <mat-icon svgIcon="ic-next"></mat-icon>
-    </div>
+    </div> -->
+
+    <mat-form-field appearance="fill">
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Start date">
+        <input matEndDate placeholder="End date">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+
     <div class="sa-total-sales sa-bg-white sa-column">
         <mat-label class="sa-title">{{language.totalSalesWeek}}</mat-label>
         <div class="sa-sales-chart sa-row">
@@ -43,9 +54,9 @@
                         chartType="bar">
                 </canvas>
             </div>
-            <div class="sa-total-items">
+            <!-- <div class="sa-total-items">
                 <mat-label class="sa-roboto-medium sa-text-18 sa-brownish-grey">{{language.totalItems}}</mat-label>
-            </div>
+            </div> -->
         </div>
     </div>
     <div class="sa-total-sales-route sa-bg-white sa-column">
@@ -60,9 +71,9 @@
                         chartType="bar">
                 </canvas>
             </div>
-            <div class="sa-total-items">
+            <!-- <div class="sa-total-items">
                 <mat-label class="sa-roboto-medium sa-text-18 sa-brownish-grey">{{language.totalItems}}</mat-label>
-            </div>
+            </div> -->
         </div>
     </div>
     <div class="sa-products-sold sa-bg-white sa-column">
@@ -78,3 +89,4 @@
         </div>
     </div>
 </div>
+
