@@ -8,6 +8,7 @@ import { ANALYTICS_LANGUAGE } from './data/language';
 import { Component, OnInit } from '@angular/core';
 import { createChart } from './object-chart';
 import * as moment from 'moment';
+import { ClientsService } from '../clients/services/clients.service';
 moment.locale('es');
 
 @Component({
@@ -29,10 +30,28 @@ export class AnalyticsComponent implements OnInit {
   public salesData = createChart(CHART_TYPES.BAR, SALES_LABELS, [], SALES_TITLE, '');
   public salesRouteData = createChart(CHART_TYPES.BAR, SALES_ROUTE_LABELS, [], SALES_ROUTE_TITLE, '');
   public productsData = createChart(CHART_TYPES.BAR, PRODUCTS_LABELS, [], PRODUCTS_TITLE, '');
-
-  constructor() { }
+  public clientMonth = createChart(CHART_TYPES.BAR, SALES_LABELS, [], SALES_TITLE, '');
+  public clientYear = '';
+  public years = [];
+  constructor(
+    private _clientService: ClientsService,
+  ) { }
 
   ngOnInit() {
+
+    console.log(this.clientMonth);
+
+    this._clientService._getlistClientAnalyticsKey().subscribe( res => {
+      const dataAux = new Date().getFullYear();
+      res.forEach(element => {
+        this.years.push(element.key);
+        if (parseInt( element.key , 10) === dataAux ) {
+          this.clientYear = element.key;
+          this.getAnalyticsclient(element.key);
+        }
+      });
+    });
+
 
     this.salesData.barChartData = [
       { data: [1, 2, 3, 5, 4, 7, 6], label: SALES_LABELS, type: 'line', fill: 'false' },
@@ -63,6 +82,18 @@ export class AnalyticsComponent implements OnInit {
         ];
         break;
     }
+  }
+
+  public getAnalyticsclient(key) {
+    this.clientYear = key;
+    this._clientService._getlistClientAnalytics(key).subscribe( data => {
+      this.clientMonth.labels = data[1];
+      this.clientMonth.barChartData = [
+        { data: data[0], label: data[1], type: 'line', fill: 'false' },
+        { data: data[0], label: data[1], type: 'bar' },
+      ];
+      console.log(data);
+    });
   }
 
 }

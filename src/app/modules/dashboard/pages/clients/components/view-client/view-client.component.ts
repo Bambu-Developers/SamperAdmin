@@ -123,8 +123,6 @@ export class ViewClientComponent implements OnInit {
       this._subscriptionService = this._clientService.getClient(this.id).subscribe(
         (res: any ) => {
 
-          console.log( res );
-
           this.dataSource = res;
           // this.currentDays.push(res.monday);
           // this.currentDays.push(res.tuesday);
@@ -228,7 +226,6 @@ export class ViewClientComponent implements OnInit {
       this.isEditClient = false;
       this.loading = false;
     }
-    console.log(dataAux);
     this.getClient();
   }
 

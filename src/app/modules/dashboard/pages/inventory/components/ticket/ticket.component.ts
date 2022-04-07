@@ -70,7 +70,7 @@ export class TicketComponent implements OnInit, OnDestroy {
     this.ticket = params['ticket'];
     this.clientID = params['client'];
     const routeId = params['route'];
-    this.getDevolutions(routeId, this.ticket);
+    // this.getDevolutions(routeId, this.ticket);
     this.getTicketData(routeId, this.ticket);
     this.getClient(this.clientID);
   }
@@ -99,30 +99,7 @@ export class TicketComponent implements OnInit, OnDestroy {
 
         return (this.dataSourceReturnedTable.data = returnedProducts);
       });
-    // this._subscriptionDevolutions = this._inventoryService.getDevolutions()
-    //   .valueChanges()
-    //   .pipe(
-    //     take(1),
-    //     concatMap(x => x),
-    //     filter((product: any) => product.orderId === ticket),
-    //     toArray()
-    //   ).subscribe(products => {
-    //     products.forEach(dev => {
-    //       const returnedProductIdx = returnedProducts.findIndex((rp: any) => {
-    //         return rp.sku === dev.sku;
-    //       });
-    //       if (returnedProductIdx > -1) {
-    //         returnedProducts[returnedProductIdx]['numberItems'] += 1;
-    //         returnedProducts[returnedProductIdx]['totalPrice'] += parseFloat(dev.retail_price);
-    //       }
-    //       returnedProducts.push({
-    //         ...dev,
-    //         numberItems: 1,
-    //         totalPrice: parseFloat(dev.retail_price)
-    //       });
-    //     });
-    //     this.dataSourceReturnedTable.data = returnedProducts;
-    //   });
+
   }
 
   public getTicketData(route, ticket) {
@@ -146,10 +123,22 @@ export class TicketComponent implements OnInit, OnDestroy {
           return productKeys.map((pkey) => products[pkey]);
         })
       )
-      .subscribe((products) => {
+      .subscribe((products: any) => {
         const retailProducts = [];
         const wholesaleProducts = [];
         const wholesaleProductsG = [];
+
+
+        let returnedProducts = [];
+        if (products.Devolutions) {
+          returnedProducts = Object.values(products.Devolutions);
+          returnedProducts.map((dev) => {
+            dev['totalPrice'] = dev.number_of_items * dev.retail_price;
+            this.totalReturned += dev.totalPrice;
+          });
+        }
+
+
         products.forEach((product) => {
           product = { ...product, route_name: this.route_name };
           if (
@@ -172,6 +161,9 @@ export class TicketComponent implements OnInit, OnDestroy {
         this.dataSourceRetailTable.data = retailProducts;
         this.dataSourceWholesaleTable.data = wholesaleProducts;
         this.dataSourceWholesaleTableG.data = wholesaleProductsG;
+
+        this.dataSourceReturnedTable.data = returnedProducts;
+
       });
   }
 
@@ -214,12 +206,6 @@ export class TicketComponent implements OnInit, OnDestroy {
   }
 
   public getPdf() {
-
-
-
-
-
-
     let tableStart = false;
     const doc = new jsPDF();
 
@@ -352,8 +338,6 @@ export class TicketComponent implements OnInit, OnDestroy {
       tableStart = true;
     }
     doc.save( `Ticket-${this.ticket}.pdf` );
-
-
   }
 
 }

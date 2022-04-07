@@ -1,3 +1,4 @@
+import { async } from '@angular/core/testing';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
@@ -53,8 +54,6 @@ export class HistoryComponent implements OnInit, AfterViewInit {
     // ONLY WHEN DELETE TICKETS
     // this.testDelete();
 
-
-    this.testDataRoute();
 
     this.form = this._fb.group({
       date: [{ begin: new Date(), end: new Date() }],
@@ -116,26 +115,43 @@ export class HistoryComponent implements OnInit, AfterViewInit {
     );
   }
 
-  public getAllSales(id: string , dataStart , dataEnd ) {
+  public async getAllSales(id: string , dataStart , dataEnd ) {
+    console.log( dataStart , dataEnd );
     this.loading = true;
-    this._inventoryService.getSales(id ,  dataStart , dataEnd ).subscribe((sales: any) => {
 
-      console.log(sales);
+    try {
 
-        this.dataSourceTableHistory.data = sales.map( ress => {
-          return { date: ress.date , id: ress.id , route_id: ress.route_id , route_name: ress.route_name
-          , total: ress.total , totalOnSalle: ress.totalOnSalle , customerId: ress.customerId};
-          }).sort((r1, r2) => {
-            if (r1.date > r2.date) {
-              return -1;
-            }
-            if (r1.date < r2.date) {
-              return 1;
-            }
-            return 0;
+      await this._inventoryService.getSales(id ,  dataStart , dataEnd ).then( sales => {
+        const keys = Object.keys(sales.data);
+        const arrayAux = [];
+        keys.forEach( ( element , index ) => {
+          arrayAux.push(
+            { date: sales.data[element].date , id: sales.data[element].id , route_id: sales.data[element].route_id ,
+              route_name: sales.data[element].route_name, total: sales.data[element].total ,
+              totalOnSalle: sales.data[element].totalOnSalle , customerId: sales.data[element].customerId}
+          );
+          if (index + 1 === arrayAux.length) {
+            arrayAux.sort((r1, r2) => {
+              if (r1.date > r2.date) {
+                return -1;
+              }
+              if (r1.date < r2.date) {
+                return 1;
+              }
+            });
+          }
         });
+        this.dataSourceTableHistory.data = arrayAux;
         this.loading = false;
-    });
+      });
+
+    } catch (error) {
+      console.log( error , 'asdsadasdsadasdsa');
+      this.loading = false;
+      throw error;
+    }
+
+
   }
 
   public getSalesByKeyAndDate(route) {

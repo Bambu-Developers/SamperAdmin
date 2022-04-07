@@ -1,46 +1,30 @@
 <div class="sa-dashboard-main-content sa-roboto sa-charcoal-grey">
-    <!-- <div class="sa-analytics-header">
-        <mat-label class="sa-roboto-medium sa-text-24">{{language.sales}}</mat-label>
-        <button class="sa-button" mat-raised-button color="charcoal-grey">
-            {{language.downloadReport}}
-        </button>
-    </div>
-    <div class="sa-buttons-filter sa-row">
-        <button class="sa-text-14 {{!filterByPeriod ? 'sa-underline sa-roboto-medium' : 'sa-brownish-grey'}}"
-            (click)="changeFilterPeriod(FILTER.WEEK)">
-            {{language.week}}
-        </button>
-        <button class="sa-text-14 {{filterByPeriod == 1 ? 'sa-underline sa-roboto-medium' : 'sa-brownish-grey'}}"
-            (click)="changeFilterPeriod(FILTER.MONTH)">
-            {{language.month}}
-        </button>
-        <button class="sa-text-14 {{filterByPeriod == 2 ? 'sa-underline sa-roboto-medium' : 'sa-brownish-grey'}}"
-            (click)="changeFilterPeriod(FILTER.YEAR)">
-            {{language.year}}
-        </button>
-    </div> -->
-    <!-- <div class="sa-period-selection sa-row sa-align-center">
-        <mat-label class="sa-text-14 sa-brownish-grey"> {{language.result}}: </mat-label>
-        <mat-icon svgIcon="ic-before"></mat-icon>
-        <mat-label class="sa-text-14" *ngIf="filterByPeriod == FILTER.WEEK">
-            {{ startWeek | amDateFormat: 'DD MMMM' | titlecase }} - {{ endWeek | amDateFormat: 'DD MMMM' | titlecase }}
-        </mat-label>
-        <mat-label class="sa-text-14" *ngIf="filterByPeriod == FILTER.MONTH">
-            {{ dateSales | amDateFormat:'MMMM' | titlecase }} </mat-label>
-        <mat-label class="sa-text-14" *ngIf="filterByPeriod == FILTER.YEAR">{{ dateSales | amDateFormat:'Y' }}
-        </mat-label>
-        <mat-icon svgIcon="ic-next"></mat-icon>
-    </div> -->
 
-    <mat-form-field appearance="fill">
-      <mat-label>Enter a date range</mat-label>
-      <mat-date-range-input [rangePicker]="picker">
-        <input matStartDate placeholder="Start date">
-        <input matEndDate placeholder="End date">
-      </mat-date-range-input>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-date-range-picker #picker></mat-date-range-picker>
-    </mat-form-field>
+
+
+    <div *ngIf="clientMonth" class="sa-total-sales sa-bg-white sa-column">
+      <mat-label class="sa-title"> Clientes nuevos por mes {{clientYear}}</mat-label>
+
+      <div class="sa-route-selection">
+        <mat-select class="mat-select-trigger" placeholder="Años">
+            <mat-option *ngFor="let year of years" (click)=" getAnalyticsclient(year) " [value]="year" >
+                {{year}}
+            </mat-option>
+        </mat-select>
+      </div>
+
+      <div class="sa-sales-chart sa-row">
+        <div class="sa-chart">
+          <canvas baseChart
+                  [datasets]="clientMonth.barChartData"
+                  [labels]="clientMonth.labels"
+                  [options]="clientMonth.options"
+                  [colors]="SALES_COLORS"
+                  chartType="bar">
+          </canvas>
+      </div>
+      </div>
+  </div>
 
     <div class="sa-total-sales sa-bg-white sa-column">
         <mat-label class="sa-title">{{language.totalSalesWeek}}</mat-label>
@@ -54,11 +38,9 @@
                         chartType="bar">
                 </canvas>
             </div>
-            <!-- <div class="sa-total-items">
-                <mat-label class="sa-roboto-medium sa-text-18 sa-brownish-grey">{{language.totalItems}}</mat-label>
-            </div> -->
         </div>
     </div>
+
     <div class="sa-total-sales-route sa-bg-white sa-column">
         <mat-label class="sa-title">{{language.totalSalesRoute}}</mat-label>
         <div class="sa-sales-route-chart sa-row">
@@ -71,15 +53,14 @@
                         chartType="bar">
                 </canvas>
             </div>
-            <!-- <div class="sa-total-items">
-                <mat-label class="sa-roboto-medium sa-text-18 sa-brownish-grey">{{language.totalItems}}</mat-label>
-            </div> -->
         </div>
     </div>
+
     <div class="sa-products-sold sa-bg-white sa-column">
         <mat-label class="sa-title">{{language.productsSold}}</mat-label>
         <div class="sa-chart">
-            <canvas baseChart
+            <canvas class="sa-items-table"
+                    baseChart
                     [data]="productsData.data"
                     [labels]="productsData.labels"
                     [options]="productsData.options"

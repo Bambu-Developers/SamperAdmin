@@ -36,6 +36,7 @@ export class CreateClientComponent implements OnInit, OnDestroy {
   public numberMask = PHONE_MASK;
   public days = DAYS;
   public imgChanged: boolean;
+  public clientArray = null;
 
   constructor(
     private _clientService: ClientsService,
@@ -44,6 +45,19 @@ export class CreateClientComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this._clientService._getlistClientAnalyticsKey().subscribe( res => {
+      const dataAux = new Date().getFullYear();
+      res.forEach(element => {
+        if (parseInt( element.key , 10) === dataAux ) {
+          this._clientService._getlistClientAnalytics(element.key).subscribe( data => {
+            this.clientArray = data[0];
+          });
+        }
+      });
+    });
+
+   // this._clientService._setClientAnalytics( [ 0 , 2 , 0 , 0 , 0 , 0 , 0 , 0, 0 , 0, 0 , 0 ] , true );
+
     this.getRoutes();
     this.createClientForm = new FormGroup({
       photo: new FormControl(),
@@ -94,13 +108,13 @@ export class CreateClientComponent implements OnInit, OnDestroy {
       this.savePhoto().then(
         response => {
           this.createClientForm.get('photo').patchValue(response);
-          this._clientService.createClient(this.createClientForm.value);
+          this._clientService.createClient(this.createClientForm.value , this.clientArray);
           this.openSnackBar();
           this._router.navigate(['/dashboard/clients']);
           this.loading = false;
         });
     } else {
-      this._clientService.createClient(this.createClientForm.value);
+      this._clientService.createClient(this.createClientForm.value , this.clientArray);
       this.openSnackBar();
       this._router.navigate(['/dashboard/clients']);
       this.loading = false;

@@ -14,10 +14,11 @@ export class ClientsService {
   public client: Observable<ClientModel>;
   public clientsRef: AngularFireList<ClientModel>;
   public routesRef: AngularFireList<RouteModel>;
+  public analytic: AngularFireList<any>;
   public NEW_NAME: any;
-  private _baseClientsPath = 'Developer/Customers/';
-  private _baseClientsImagePath = 'Developer/Customer/';
-  private _baseRoutesPath = 'Developer/Routes/';
+  private _baseClientsPath = 'Staging/Customers/';
+  private _baseClientsImagePath = 'Staging/Customer/';
+  private _baseRoutesPath = 'Staging/Routes/';
 
   constructor(
     private db: AngularFireDatabase,
@@ -59,8 +60,9 @@ export class ClientsService {
     );
   }
 
-  public createClient(clientData) {
+  public createClient(clientData , clientArray) {
     this._setClientData(clientData);
+    this._setClientAnalytics(clientArray);
   }
 
   public editClient(clientData, id) {
@@ -96,6 +98,7 @@ export class ClientsService {
   }
 
   private _setClientData(clientData) {
+    const create =  JSON.parse(localStorage.getItem('user'));
     const CLIENT_DATA: ClientModel = {
       bender_id: (Math.floor(100000 + Math.random() * 9000000000000)).toString(),
       id: 'sanper_' + clientData.phone,
@@ -113,8 +116,43 @@ export class ClientsService {
       sunday: clientData.sunday,
       haveCredit: false,
       create_at: new Date().toString(),
+      email: clientData.email,
     };
     this.clientsRef.set('sanper_' + clientData.phone, CLIENT_DATA);
+  }
+
+  public _getlistClientAnalyticsKey() {
+    // this.db.object('Analytic/Clients/2022').remove();
+    return  this.db.list<any>('Analytic/Clients/').snapshotChanges()
+    .pipe(
+      map( (res: any) => {
+        return res;
+      })
+    );
+  }
+
+  public _getlistClientAnalytics(id) {
+    return this.db.list<any>('Analytic/Clients/' +  id , res  => res ).valueChanges();
+  }
+
+  public _setClientAnalytics( clientDate ) {
+    const dataAux = new Date();
+    if ( clientDate === null ) {
+      clientDate = [ 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0, 0 , 0, 0 , 0 ];
+      clientDate[dataAux.getMonth()] = clientDate[dataAux.getMonth()] + 1;
+      this.db.list<any>('Analytic/Clients/').set( `${ dataAux.getFullYear() }` ,
+        {
+          month: [ 'Enero', 'Febrero', 'Marzo' , 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ],
+          clients: clientDate
+        });
+    } else {
+      clientDate[dataAux.getMonth()] = clientDate[dataAux.getMonth()] + 1;
+      this.db.list<any>('Analytic/Clients/').update( `${ dataAux.getFullYear() }` ,
+        {
+          month: [ 'Enero', 'Febrero', 'Marzo' , 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ],
+          clients: clientDate
+        });
+    }
   }
 
   private _setEditedClientData(clientData, id) {

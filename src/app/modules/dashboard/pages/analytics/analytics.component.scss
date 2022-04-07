@@ -33,13 +33,36 @@
     }
     .sa-total-sales {
         height: auto;
-        padding: 30px 45px;
+        padding: 30px 125px;
         margin-top: 24px;
+
+        .sa-route-selection {
+          width: 166px;
+          height: 30px;
+          margin-right: 20px;
+          margin-left: 20px;
+          margin-top: 20px;
+          background-color: $color-white-medium;
+          border: 1px solid $color-mushroom;
+          border-radius: 3px;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          .mat-select-trigger {
+            margin-left: 8px;
+          }
+        }
         .sa-sales-chart {
+            justify-content: center;
             padding-top: 54px;
             .sa-chart {
                 width: 600px;
                 height: auto;
+                canvas{
+                  height: 350px !important;
+                  width: 700px !important;
+                }
             }
             .sa-total-items {
                 width: 126px;
@@ -57,6 +80,7 @@
         margin-top: 16px;
         .sa-sales-route-chart {
             padding-top: 54px;
+            justify-content: center;
             .sa-chart {
                 width: 700px;
                 height: auto;
@@ -76,11 +100,14 @@
         padding: 30px 45px;
         margin-top: 16px;
         .sa-chart {
-            width: 800px;
+          justify-content: center;
             padding-top: 54px;
         }
     }
     .sa-title {
         padding-left: 18px;
+    }
+    .sa-items-table{
+      max-height: 700px !important;
     }
 }

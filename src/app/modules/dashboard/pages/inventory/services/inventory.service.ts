@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,15 +17,16 @@ export class InventoryService {
   public lossRef: AngularFireList<any>;
   public histroyRef: AngularFireList<any>;
   public hisInvRef: AngularFireList<any>;
-  private _basePathInv = 'Developer/Inventory/';
-  private _basePathDev = 'Developer/Devolutions/';
-  private _basePathLoss = 'Developer/LostProduct/';
-  private _basePathLiq = 'Developer/Liquidations/';
-  private _basePathHis = 'Developer/HistoryRoutes/';
-  private _basePathInvHis = 'Developer/HistoryInventory/';
-  private _basePathRouteStorer = 'Developer/HistoryRoutesStorer/';
+  private _basePathInv = 'Staging/Inventory/';
+  private _basePathDev = 'Staging/Devolutions/';
+  private _basePathLoss = 'Staging/LostProduct/';
+  private _basePathLiq = 'Staging/Liquidations/';
+  private _basePathHis = 'Staging/HistoryRoutes/';
+  private _basePathInvHis = 'Staging/HistoryInventory/';
+  private _basePathRouteStorer = 'Staging/HistoryRoutesStorer/';
 
   constructor(
+    private http: HttpClient,
     private _db: AngularFireDatabase,
   ) {
     this.inventoryRef = this._db.list<any>(this._basePathInv);
@@ -88,14 +91,17 @@ export class InventoryService {
     this.liquidationRef.push(LIQUIDATION_DATA);
   }
 
-  public getLiquidation(id: string , dataStart , dataEnd) {
-    return this._db.list<any>('Developer/Liquidations/' +  id , res  =>
-      res.orderByChild('date').startAt(dataStart).endAt(dataEnd)
-      ).valueChanges();
+  public getLiquidation(id: string , dataStart , dataEnd): Promise<any> {
+    try {
+      return this.http.get(`${environment.urlService}/liquidations?dateStart=${dataStart}&dateEnd=${dataEnd}&route=${id}`, { }).toPromise();
+    } catch (error) {
+      throw error;
+    }
+
   }
 
   public getLiquidationAux( id: string ) {
-    return this._db.list<any>('Developer/Liquidations/' + id).valueChanges();
+    return this._db.list<any>('Staging/Liquidations/' + id).valueChanges();
   }
 
 
@@ -104,13 +110,13 @@ export class InventoryService {
     return rest;
   }
 
-  public getSales(id: string , dataStart , dataEnd ) {
-      return ( this._db.list<any>( 'Developer/HistoryRoutes/' + id  , res => {
-        // return res.orderByChild('date').startAt(dataStart).endAt(dataEnd);
-        return res;
-      }
+  public getSales(id: string , dataStart , dataEnd ): Promise<any> {
 
-      ).valueChanges());
+    return this.http.get(`${environment.urlService}/shopping?dateStart=${dataStart}&dateEnd=${dataEnd}&route=${id}`, { }).toPromise();
+
+
+      // return this._db.list<any>( 'Staging/HistoryRoutes/' + id , res => res.orderByChild('date').startAt(dataStart).endAt(dataEnd)
+      // ).valueChanges();
   }
 
   public getSalesFromKeys(key) {
@@ -119,7 +125,7 @@ export class InventoryService {
   }
 
   public getSaleByTicket(route, ticket) {
-    return this._db.list('Developer/HistoryRoutes/' + '/' + route , res =>
+    return this._db.list('Staging/HistoryRoutes/' + '/' + route , res =>
       res.orderByChild('id').equalTo(ticket)
     );
   }

@@ -61,10 +61,14 @@
                                 <mat-label> {{lanClient.client.email}} </mat-label>
                                 <mat-label class="sa-charcoal-grey"> {{dataSource?.email}} </mat-label>
                             </div>
-                            <div>
+                            <!-- <div>
                                 <mat-label> {{lanClient.client.createdBy}} </mat-label>
                                 <mat-label class="sa-charcoal-grey"> {{dataSource?.owner}} </mat-label>
-                            </div>
+                            </div> -->
+                            <div *ngIf="create_at !== ''">
+                              <mat-label> Creado el </mat-label>
+                              <mat-label class="sa-charcoal-grey"> {{dataSource?.create_at | date: "yyyy/MM/dd" }} </mat-label>
+                          </div>5
                         </ng-template>
                         <ng-template #editClientTemplate>
                             <form class="sa-edit-client-form" (ngSubmit)="editClient()" [formGroup]="editClientForm">

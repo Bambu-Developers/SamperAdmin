@@ -2,8 +2,10 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+// PROD
 // export const environment = {
 //   production: false,
+//   urlService: `https://us-central1-sanper-stable.cloudfunctions.net/SanperAPI`,
 //   firebase: {
 //     apiKey: 'AIzaSyDD-tm3jhua8kIaHbSPkl-TXeTQDBvSoDA',
 //     authDomain: 'sanper-stable.firebaseapp.com',
@@ -14,8 +16,10 @@
 //   },
 // };
 
+// DEV
 export const environment = {
   production: false,
+  urlService: `https://us-central1-sanper-stable.cloudfunctions.net/SanperAPI`,
   firebase: {
       apiKey: 'AIzaSyD-EogtUgTPasSE26IeNVp2jaoqv4Oxh1g',
       authDomain: 'sanper-dev1.firebaseapp.com',
