@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/modules/shared/components/dialog/dialog.component';
 import { concatMap, map, take, toArray } from 'rxjs/operators';
 import moment from 'moment';
+import { ClientsService } from '../../../clients/services/clients.service';
 
 
 @Component({
@@ -30,9 +31,9 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   public dataSourceWholesaleTableG = new MatTableDataSource();
   public dataSourceDevolutions = new MatTableDataSource();
   public dataSourceLosses = new MatTableDataSource();
-  public displayedColumns = ['sku', 'image', 'name', 'quantity', 'brand', 'subtotal'];
-  public displayedColumnsDevolutions = ['sku', 'image', 'name', 'quantity', 'brand', 'subtotal'];
-  public displayedColumnsLosses = ['sku', 'image', 'name', 'quantity', 'brand', 'subtotal'];
+  public displayedColumns = ['sku', 'image', 'name', 'quantity', 'customer', 'brand', 'subtotal'];
+  public displayedColumnsDevolutions = ['sku', 'image', 'name', 'quantity', 'customer', 'brand', 'subtotal'];
+  public displayedColumnsLosses = ['sku', 'image', 'name', 'quantity', 'customer', 'brand', 'subtotal'];
   public userRoute;
   public devolutions;
   public devolutionsArray = new Array();
@@ -62,6 +63,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     private _inventoryService: InventoryService,
     private _datePipe: DatePipe,
     private _dialog: MatDialog,
+    private _clientService: ClientsService,
   ) {
     this.today = this._datePipe.transform(this.today, 'yyyy-MM-dd');
   }
@@ -76,16 +78,13 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     this._route.params.subscribe(params => {
       this.id = params['id'];
       this._userService.getUserByRoute(this.id).subscribe((res: any) => {
-        console.log(this.id , this.dateParam , res);
+
         this.dataSource = res;
         this.userRoute = res.route;
         this.getLiquidation();
         this.getInventories();
       });
     });
-
-
-
         //   this.dataSource = res;
         //   // May occurre problem ^
         //   this.userRoute = res.route || this.id;
@@ -99,204 +98,133 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     const wholesaleProducts = [];
     const wholesaleProductsG = [];
     const retailProducts = [];
-    // let startDate = new Date;
-    // let SD = '';
-    // if (this.dateParam !== undefined) {
-    //   SD = moment(this.dateParam).format('YYYYMMDD');
-    // } else {
-    //   SD = moment(startDate).format('YYYYMMDD');
-    // }
-    // startDate = moment(SD, 'YYYYMMDD').toDate();
 
-    console.log('emtra');
 
-    this._inventoryService.getSales(this.userRoute,  this.dateParam, this.dateParam).then( res => {
+    this._inventoryService.getSales(this.userRoute,  this.dateParam, this.dateParam).then(async (res) => {
+      console.log(res);
       const data = [];
       const keys = Object.keys(res.data);
       keys.forEach( ( element , index ) => {
-        const dataAux = res.data[element];
-        dataAux.route_name = name;
         data.push(res.data[element]);
       } );
       console.log(data);
-    } );
-      // .pipe(
-      //   take(1),
-      //   concatMap(x => x),
-      //   concatMap((sale: any) => {
-      //     if (!this.dataSource.name) {
-      //       this.dataSource = { name: sale.route_name };
-      //     }
-      //     const keys = Object.keys(sale.Products || {});
-      //     const productsArray = keys.map(k => {
-      //       const product = sale.Products[k];
-      //       if ((product.number_of_items >= product.wholesale_quantity) && (product.number_of_items < product.wholesale_quantityG)) {
-      //         product.subtotal = ((product.number_of_items * product.wholesale_price));
-      //         this.totalSaleWholesale += product.subtotal;
-      //         product.iswholesale = true;
-      //       }
-      //       if (product.wholesale_quantityG !== '' && (product.number_of_items >= product.wholesale_quantityG)) {
-      //         product.subtotal = ((product.number_of_items * product.wholesale_priceG));
-      //         this.totalSaleWholesaleG += product.subtotal;
-      //         product.iswholesaleG = true;
-      //       }
-      //       if (product.number_of_items < product.wholesale_quantity) {
-      //         product.subtotal = ((product.number_of_items * product.retail_price));
-      //         this.totalSaleRetail += product.subtotal;
-      //         product.iswholesale = false;
-      //         product.iswholesaleG = false;
-      //       }
-      //       return product;
-      //     });
-      //     this.totalSold += sale.totalOnSalle;
-      //     return productsArray;
-      //   }),
-      //   toArray()
-      // )
-      // .subscribe(products => {
-      //   products.forEach(product => {
-      //     const wholesaleproductIdx = wholesaleProducts.findIndex(wholesaleProduct => wholesaleProduct.sku === product.sku);
-      //     const wholesaleproductIdxG = wholesaleProductsG.findIndex(wholesaleProductG => wholesaleProductG.sku === product.sku);
-      //     const retailproductIdx = retailProducts.findIndex(retailProduct => retailProduct.sku === product.sku);
-      //     if (wholesaleproductIdx > -1 && product.iswholesale) {
-      //       wholesaleProducts[wholesaleproductIdx].totalPrice += product.number_of_items * product.wholesale_price;
-      //       wholesaleProducts[wholesaleproductIdx].totalItems += product.number_of_items;
-      //       wholesaleProducts[wholesaleproductIdx].totalCommission += product.commission;
-      //     } else {
-      //       if (product.iswholesale === true) {
-      //         wholesaleProducts.push({
-      //           ...product,
-      //           totalPrice: product.number_of_items * product.wholesale_price,
-      //           totalItems: product.number_of_items,
-      //           totalCommission: product.commission
-      //         });
-      //       }
-      //     }
-      //     if (wholesaleproductIdxG > -1 && product.iswholesaleG) {
-      //       wholesaleProductsG[wholesaleproductIdxG].totalPrice += product.number_of_items * product.wholesale_priceG;
-      //       wholesaleProductsG[wholesaleproductIdxG].totalItems += product.number_of_items;
-      //       wholesaleProductsG[wholesaleproductIdxG].totalCommission += product.commission;
-      //     } else {
-      //       if (product.iswholesaleG === true) {
-      //         wholesaleProductsG.push({
-      //           ...product,
-      //           totalPrice: product.number_of_items * product.wholesale_priceG,
-      //           totalItems: product.number_of_items,
-      //           totalCommission: product.commission
-      //         });
-      //       }
-      //     }
-      //     if (retailproductIdx > -1 && !product.iswholesale && !product.iswholesaleG) {
-      //       retailProducts[retailproductIdx].totalPrice += product.number_of_items * product.retail_price;
-      //       retailProducts[retailproductIdx].totalItems += product.number_of_items;
-      //       retailProducts[retailproductIdx].totalCommission += product.commission;
-      //     } else {
-      //       if (product.iswholesale === false && product.iswholesaleG === false) {
-      //         retailProducts.push({
-      //           ...product,
-      //           totalPrice: product.number_of_items * product.retail_price,
-      //           totalItems: product.number_of_items,
-      //           totalCommission: product.commission
-      //         });
-      //       }
-      //     }
-      //   });
-
-        // this.dataSourceTable.data = retailProducts;
-        // this.dataSourceWholesaleTable.data = wholesaleProducts;
-        // this.dataSourceWholesaleTableG.data = wholesaleProductsG;
-        // this.loading = false;
-
-     // });
-  }
+      const dataItems = [];
 
 
-  public getDevolutions() {
-    const returnedProducts = new Array();
-    this._inventoryService.getDevolutionsL().subscribe(
-      res => {
-        console.log(res);
-        this.devolutions = res;
-        this.devolutions = this.devolutions
-          .map(d => {
-            console.log( d );
-            d.date_of_assignment = this._datePipe.transform(d.date_of_assignment, 'yyyy-MM-dd');
-            return d;
-          })
-          .filter(d => {
-            if (this.dateParam !== undefined) {
-              return d.route === this.id && d.date_of_assignment === this.dateParam;
-            } else {
-              return d.route === this.id && d.date_of_assignment === this.today;
-            }
-          });
 
-          console.log(this.devolutions);
+      for await (const iterator of data) {
 
-          this.devolutions.forEach(dev => {
+        if (iterator.Devolutions) {
 
-          const returnedProductIdx = returnedProducts.findIndex((rp: any) => {
-            return rp.sku === dev.sku;
-          });
-          if (returnedProductIdx > -1) {
-            returnedProducts[returnedProductIdx]['numberItems'] += parseFloat(returnedProducts[returnedProductIdx].number_of_items);
-            returnedProducts[returnedProductIdx]['totalPrice'] =
-              parseFloat(returnedProducts[returnedProductIdx].numberItems) * parseFloat(dev.retail_price);
-          } else {
-            returnedProducts.push({
-              ...dev,
-              numberItems: parseFloat(dev.number_of_items),
-              totalPrice: parseFloat(dev.number_of_items) * parseFloat(dev.retail_price)
-            });
-          }
-        });
-        returnedProducts.map(devo => {
-          this.totalDevolutions += devo.totalPrice;
-        });
-        this.returnedProducts = returnedProducts;
+          const evolutionKeys = Object.keys(iterator.Devolutions);
+          console.log('entra', iterator , evolutionKeys  );
+          this.getDevolutions( iterator , evolutionKeys );
+        }
+
+        if ( iterator.Products ) {
+
+          const keysItems = Object.keys(iterator.Products);
+          keysItems.forEach( ( element2 , index2 ) => {
+            iterator.Products[element2].customer =  iterator.customerId;
+            dataItems.push(iterator.Products[element2]);
+          } );
+
+        }
+      }
+
+      dataItems.forEach(( items ) => {
+        if (
+          items.wholesale_quantityG !== '' &&
+          items.number_of_items >= items.wholesale_quantity &&
+          items.number_of_items < items.wholesale_quantityG
+        ) {
+          wholesaleProducts.push(items);
+          this.totalSaleWholesale = this.totalSaleWholesale +  (items.number_of_items *  parseFloat(items.wholesale_price));
+        }
+        if (
+          items.wholesale_quantityG !== '' &&
+          items.number_of_items >= items.wholesale_quantityG
+        ) {
+          wholesaleProductsG.push(items);
+          this.totalSaleWholesaleG =  this.totalSaleWholesaleG  + (items.number_of_items *  parseFloat(items.wholesale_priceG));
+        }
+        if (items.number_of_items < items.wholesale_quantity) {
+          retailProducts.push(items);
+
+          this.totalSaleRetail =  this.totalSaleRetail + (items.number_of_items * parseFloat(items.retail_price));
+        }
       });
+
+      this.dataSourceTable.data = retailProducts;
+      this.dataSourceWholesaleTable.data = wholesaleProducts;
+      this.dataSourceWholesaleTableG.data = wholesaleProductsG;
+      this.loading = false;
+
+
+
+    } );
   }
+
+  public getDevolutions( data, evolutionKeys) {
+    this.totalDevolutions = data.totalForDevolution;
+    evolutionKeys.forEach(( element , index ) => {
+      this.dataSourceDevolutions.data.push(data.Devolutions[element]);
+      console.log(data.Devolutions[element]);
+    });
+  }
+
+
+  // public getDevolutions() {
+  //   const returnedProducts = new Array();
+  //   this._inventoryService.getDevolutionsL().subscribe(
+  //     res => {
+  //       ;
+  //       this.devolutions = res;
+  //       this.devolutions = this.devolutions
+  //         .map(d => {
+
+  //           d.date_of_assignment = this._datePipe.transform(d.date_of_assignment, 'yyyy-MM-dd');
+  //           return d;
+  //         })
+  //         .filter(d => {
+  //           if (this.dateParam !== undefined) {
+  //             return d.route === this.id && d.date_of_assignment === this.dateParam;
+  //           } else {
+  //             return d.route === this.id && d.date_of_assignment === this.today;
+  //           }
+  //         });
+
+  //         console.log(this.devolutions);
+
+  //         this.devolutions.forEach(dev => {
+
+  //         const returnedProductIdx = returnedProducts.findIndex((rp: any) => {
+  //           return rp.sku === dev.sku;
+  //         });
+  //         if (returnedProductIdx > -1) {
+  //           returnedProducts[returnedProductIdx]['numberItems'] += parseFloat(returnedProducts[returnedProductIdx].number_of_items);
+  //           returnedProducts[returnedProductIdx]['totalPrice'] =
+  //             parseFloat(returnedProducts[returnedProductIdx].numberItems) * parseFloat(dev.retail_price);
+  //         } else {
+  //           returnedProducts.push({
+  //             ...dev,
+  //             numberItems: parseFloat(dev.number_of_items),
+  //             totalPrice: parseFloat(dev.number_of_items) * parseFloat(dev.retail_price)
+  //           });
+  //         }
+  //       });
+  //       returnedProducts.map(devo => {
+  //         this.totalDevolutions += devo.totalPrice;
+  //       });
+  //       this.returnedProducts = returnedProducts;
+  //     });
+  // }
 
   public getLosses() {
-    let startDate = new Date;
-    let SD = '';
-    if (this.dateParam !== undefined) {
-      SD = moment(this.dateParam).format('YYYYMMDD');
-    } else {
-      SD = moment(startDate).format('YYYYMMDD');
-    }
-    startDate = moment(SD, 'YYYYMMDD').toDate();
-    this._inventoryService.getLossesByDate(this.userRoute, startDate, startDate)
-      .valueChanges()
-      .pipe(
-        take(1),
-        concatMap(x => x),
-        map((loss: any) => {
-          const product = loss.product;
-          product.number_of_piz = loss.number_of_piz;
-          return loss.product;
-        }),
-        toArray()
-      ).subscribe(losses => {
-        const lossesProducts = [];
-        losses.forEach(loss => {
-          const lossProductIdx = lossesProducts.findIndex((lp: any) => {
-            return loss.sku === lp.sku;
-          });
-          this.totalLosses += loss.retail_price * loss.number_of_piz;
-          if (lossProductIdx > -1) {
-            lossesProducts[lossProductIdx]['numberItems'] += loss.number_of_piz;
-            lossesProducts[lossProductIdx]['totalPrice'] += loss.retail_price * loss.number_of_piz;
-          } else {
-            lossesProducts.push({
-              ...loss,
-              numberItems: loss.number_of_piz,
-              totalPrice: loss.retail_price * loss.number_of_piz
-            });
-          }
-        });
-        this.dataSourceLosses.data = lossesProducts;
-      });
+
+
+      const lossesProducts = [];
+      this.dataSourceLosses.data = lossesProducts;
   }
 
   public openDialogApproveLiquidation() {
@@ -339,12 +267,11 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         dataAux.route_name = name;
         data.push(res.data[element]);
       } );
-      console.log(data);
 
       if ( data.length > 0 ) {
         this.user_name = data[0].user_name;
       }
-      console.log(this.user_name);
+
 
       // res.forEach((element: any ) => {
       //   if (this.dateParam !== undefined) {
@@ -361,24 +288,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // if (this._subscription) {
-    //   this._subscription.unsubscribe();
-    // }
-    // if (this._subscriptionService) {
-    //   this._subscriptionService.unsubscribe();
-    // }
-    // if (this._subscriptionInventories) {
-    //   this._subscriptionInventories.unsubscribe();
-    // }
-    // if (this._subscriptionDevolutions) {
-    //   this._subscriptionDevolutions.unsubscribe();
-    // }
-    // if (this._subscriptionLosses) {
-    //   this._subscriptionLosses.unsubscribe();
-    // }
-    // if (this._subscriptionLiquidation) {
-    //   this._subscriptionLiquidation.unsubscribe();
-    // }
   }
 
 }

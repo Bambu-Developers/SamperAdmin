@@ -53,11 +53,11 @@
       }
     }
     .sa-name-column {
-      width: 300px;
+      width: 250px;
     }
     .sa-quantity-column {
       width: 90px;
-      text-align: right;
+      text-align: center;
     }
     .sa-brand-column {
       width: 250px;
@@ -141,4 +141,8 @@
       border-left-color: $color-very-light-pink;
     }
   }
+}
+
+.sa-brand-column-test-align{
+  text-align: center !important;
 }

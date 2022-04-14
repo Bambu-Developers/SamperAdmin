@@ -73,6 +73,7 @@ export class ViewClientComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.getClient();
     this.getRoutes();
     this.creditEditForm = new FormGroup({

@@ -68,55 +68,56 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
     this.dataSourceHistoryLiquidation.paginator = this.paginator;
   }
 
-  public async getLiquidations( id: string , name: any ) {
+  public async getLiquidations( id: string , name: any ): Promise<any> {
     await this._inventoryService.getLiquidation(id , this.startDate , this.endDate).then(liquidations => {
-
         const keys = Object.keys(liquidations.data);
         keys.forEach( ( element , index ) => {
           const dataAux = liquidations.data[element];
           dataAux.route_name = name;
           this.dataLiquidation.push(liquidations.data[element]);
-
         } );
-
-        this.dataSourceHistoryLiquidation.data = this.dataLiquidation;
-
-      });
-    setTimeout( () => {
-         this.loading = false;
-       }, 600);
-
-    return ( this.dataSourceHistoryLiquidation.data.sort((r1: any, r2: any) => {
-      if (r1.date > r2.date) {
-        return -1;
-      }
-      if (r1.date < r2.date) {
-        return 1;
-      }
-      return 0;
-    }));
-
+    });
   }
 
   public getRoutes() {
-
+    let i = 0;
     this.dataLiquidation = [];
     this._clientService.getAllRoutes().subscribe(
-      async (res: any) => {
-        console.log(res);
-        res.forEach( (element , index) => {
-          this.getLiquidations(element.id  , element.name);
-        });
-
-        this.routes = res.sort((r1, r2) => {
-          if (r1.name < r2.name) {
-            return -1;
-          }
-          if (r1.name > r2.name) {
-            return 1;
-          }
-          return 0;
-        });
+       (res: any) => {
+        if ( i < res.length ) {
+          res.forEach( (element , index) => {
+            i = i + 1;
+            this.getLiquidations(element.id  , element.name).then( () => {
+              if ( i === res.length  ) {
+                this.dataSourceHistoryLiquidation.data.sort((r1: any, r2: any) => {
+                  if (r1.date > r2.date) {
+                    return -1;
+                  }
+                  if (r1.date < r2.date) {
+                    return 1;
+                  }
+                  return 0;
+                });
+                this.routes = res.sort((r1, r2) => {
+                  if (r1.name < r2.name) {
+                    return -1;
+                  }
+                  if (r1.name > r2.name) {
+                    return 1;
+                  }
+                  return 0;
+                });
+                this.dataSourceHistoryLiquidation.data = this.dataLiquidation;
+                setTimeout( () => {
+                  this.loading = false;
+                }, 600);
+              }
+            });
+          });
+        } else {
+          res.unsubscribe();
+        }
+        return;
       }
     );
 
@@ -141,12 +142,7 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
   }
 
   ngOnDestroy() {
-    // if (this._subscriptionRoutes) {
-    //   this._subscriptionRoutes.unsubscribe();
-    // }
-    // if (this._subscriptionLiquidation) {
-    //   this._subscriptionLiquidation.unsubscribe();
-    // }
+
   }
 
   public onStartDay(event: MatDatepickerInputEvent<Date>) {

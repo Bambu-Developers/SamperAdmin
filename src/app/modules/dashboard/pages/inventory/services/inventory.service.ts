@@ -67,8 +67,8 @@ export class InventoryService {
       );
   }
 
-  public getDevolutions() {
-    return this.devolutionsRef = this._db.list<any>(this._basePathDev);
+  public getDevolutions( date , user ): Promise<any> {
+    return this.http.get(`${environment.urlService}?date=${date}&route=${user}`, { }).toPromise();
   }
 
   public getLosses() {
@@ -124,10 +124,10 @@ export class InventoryService {
     return rest;
   }
 
-  public getSaleByTicket(route, ticket) {
-    return this._db.list('Staging/HistoryRoutes/' + '/' + route , res =>
-      res.orderByChild('id').equalTo(ticket)
-    );
+  public getSaleByTicket(route, ticket): Promise<any> {
+    console.log('Staging/HistoryRoutes' + '/' + route + '/' + ticket);
+    return this.http.get(`${environment.urlService}/shopping/ticket?route=${route}&ticket=${ticket}`, { }).toPromise();
+    // return this._db.list('Staging/HistoryRoutes' + '/' + route + '/' + ticket  ).valueChanges();
   }
 
   public getProductsSold(key, id) {

@@ -52,11 +52,18 @@ export class ClientsService {
   }
 
   // Get product by ID
-  public getClient(id: string): Observable<ClientModel> {
-    return this.client = this.db.object<ClientModel>(`${this._baseClientsPath}/` + id)
+  public getClient(id: string) {
+    console.log(`${this._baseClientsPath}` + id);
+    // return this.db.list<ClientModel>('Staging/Customers/sanper_4386969652' ).valueChanges();
+
+
+    return this.client = this.db.object<ClientModel>(`${this._baseClientsPath}` + id)
       .snapshotChanges()
       .pipe(
-        map(res => res.payload.val())
+        map( ress => {
+          console.log(ress);
+          return ress.payload.val();
+        })
     );
   }
 

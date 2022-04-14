@@ -38,9 +38,9 @@
             </button>
         </div>
     </div>
-    <div class="sa-devolutions" *ngIf="returnedProducts.length !== 0">
+    <div class="sa-devolutions" *ngIf="dataSourceDevolutions.data.length !== 0">
         <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Devoluciones</mat-label>
-        <table mat-table [dataSource]="returnedProducts">
+        <table mat-table [dataSource]="dataSourceDevolutions">
             <!-- Sku Column -->
             <ng-container matColumnDef="sku">
                 <th class="sa-sku-column" mat-header-cell *matHeaderCellDef>{{lanInv.skuCode}}</th>
@@ -64,10 +64,16 @@
             </ng-container>
             <!-- Quantity Column -->
             <ng-container matColumnDef="quantity">
-                <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>{{lanInv.quantityP}}</th>
-                <td class="sa-quantity-column " mat-cell *matCellDef="let devolution">{{devolution.number_of_items}} piezas
+                <th class="sa-quantity-column sa-brand-column-test-align" mat-header-cell *matHeaderCellDef>{{lanInv.quantityP}}</th>
+                <td class="sa-quantity-column sa-brand-column-test-align" mat-cell *matCellDef="let devolution">{{devolution.number_of_items}}
                 </td>
                 <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <ng-container matColumnDef="customer">
+              <th class="sa-quantity-column sa-brand-column-test-align" mat-header-cell *matHeaderCellDef>Cliente id</th>
+              <td class="sa-quantity-column sa-brand-column-test-align" mat-cell *matCellDef="let inventory"
+              [routerLink]="['/dashboard/clients/view/',inventory?.customer_id]" >{{inventory?.customer_id}}</td>
+              <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
             <!-- Brand Column -->
             <ng-container matColumnDef="brand">
@@ -79,12 +85,12 @@
             <ng-container matColumnDef="subtotal">
                 <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanInv.subtotal}}</th>
                 <td class="sa-subtotal-column" mat-cell *matCellDef="let devolution">
-                    {{devolution.totalPrice | currency}}</td>
+                    {{devolution.number_of_items * devolution.retail_price | currency}}</td>
                 <td class="sa-subtotal-column" mat-footer-cell *matFooterCellDef> {{ totalDevolutions | currency}} </td>
             </ng-container>
-            <!-- <tr mat-header-row *matHeaderRowDef="displayedColumnsDevolutions"></tr> -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsDevolutions"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumnsDevolutions;"></tr>
-            <tr mat-footer-row *matFooterRowDef="displayedColumnsDevolutions"></tr>
+            <!-- <tr mat-footer-row *matFooterRowDef="displayedColumnsDevolutions"></tr> -->
         </table>
     </div>
     <div class="sa-losses" *ngIf="dataSourceLosses.data.length !== 0">
@@ -161,8 +167,14 @@
             <!-- Quantity Column -->
             <ng-container matColumnDef="quantity">
                 <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>{{lanInv.quantityP}}</th>
-                <td class="sa-quantity-column" mat-cell *matCellDef="let inventory">{{inventory.totalItems}}</td>
+                <td class="sa-quantity-column" mat-cell *matCellDef="let inventory">{{inventory.number_of_items}}</td>
                 <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <ng-container matColumnDef="customer">
+              <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>Cliente id</th>
+              <td class="sa-quantity-column" mat-cell *matCellDef="let inventory"
+              [routerLink]="['/dashboard/clients/view/',inventory?.customer]" >{{inventory?.customer}}</td>
+              <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
             <!-- Brand Column -->
             <ng-container matColumnDef="brand">
@@ -174,7 +186,7 @@
             <ng-container matColumnDef="subtotal">
                 <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanInv.subtotal}}</th>
                 <td class="sa-subtotal-column" mat-cell *matCellDef="let inventory">
-                    {{ inventory.totalPrice | currency }}</td>
+                    {{ inventory.number_of_items * inventory.retail_price  | currency }}</td>
                 <td class="sa-subtotal-column" mat-footer-cell *matFooterCellDef> {{ totalSaleRetail | currency}} </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -209,10 +221,15 @@
             <!-- Quantity Column -->
             <ng-container matColumnDef="quantity">
                 <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>{{lanInv.quantityP}}</th>
-                <td class="sa-quantity-column" mat-cell *matCellDef="let inventory">{{inventory.totalItems}}</td>
+                <td class="sa-quantity-column" mat-cell *matCellDef="let inventory">{{inventory.number_of_items}}</td>
                 <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
             <!-- Brand Column -->
+            <ng-container matColumnDef="customer">
+              <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>Cliente id</th>
+              <td class="sa-quantity-column" mat-cell *matCellDef="let inventory">{{inventory?.customer}}</td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
             <ng-container matColumnDef="brand">
                 <th class="sa-brand-column" mat-header-cell *matHeaderCellDef>{{lanInv.brand}}</th>
                 <td class="sa-brand-column" mat-cell *matCellDef="let inventory">{{inventory.brand}}</td>
@@ -222,7 +239,7 @@
             <ng-container matColumnDef="subtotal">
                 <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanInv.subtotal}}</th>
                 <td class="sa-subtotal-column" mat-cell *matCellDef="let inventory">
-                    {{ inventory.totalPrice | currency }}</td>
+                    {{ inventory.number_of_items * (inventory.wholesale_price) | currency }}</td>
                 <td class="sa-subtotal-column" mat-footer-cell *matFooterCellDef> {{totalSaleWholesale | currency}}
                 </td>
             </ng-container>
@@ -258,8 +275,13 @@
             <!-- Quantity Column -->
             <ng-container matColumnDef="quantity">
                 <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>{{lanInv.quantityP}}</th>
-                <td class="sa-quantity-column" mat-cell *matCellDef="let inventory">{{inventory.totalItems}}</td>
+                <td class="sa-quantity-column" mat-cell *matCellDef="let inventory">{{inventory.number_of_items}}</td>
                 <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <ng-container matColumnDef="customer">
+              <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>Cliente id</th>
+              <td class="sa-quantity-column" mat-cell *matCellDef="let inventory">{{inventory?.customer}}</td>
+              <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
             <!-- Brand Column -->
             <ng-container matColumnDef="brand">
@@ -271,7 +293,7 @@
             <ng-container matColumnDef="subtotal">
                 <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanInv.subtotal}}</th>
                 <td class="sa-subtotal-column" mat-cell *matCellDef="let inventory">
-                    {{ inventory.totalPrice | currency }}</td>
+                    {{ inventory.number_of_items *  (inventory.wholesale_priceG) | currency }}</td>
                 <td class="sa-subtotal-column" mat-footer-cell *matFooterCellDef> {{totalSaleWholesaleG | currency}}
                 </td>
             </ng-container>

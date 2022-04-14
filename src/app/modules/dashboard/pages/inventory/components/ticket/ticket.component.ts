@@ -1,4 +1,5 @@
-import { ClientsService } from './../../../clients/services/clients.service';
+
+import { ClientsService } from 'src/app/modules/dashboard/pages/clients/services/clients.service';
 import { InventoryService } from './../../services/inventory.service';
 import { ActivatedRoute } from '@angular/router';
 import { INVENTORY_LANGUAGE } from './../../data/language';
@@ -38,6 +39,14 @@ export class TicketComponent implements OnInit, OnDestroy {
     'brand',
     'total',
   ];
+  public displayedColumnsDevolutions =[
+    'sku',
+    'image',
+    'name',
+    'quantity',
+    'brand',
+    'total',
+  ];
   public displayedColumnsLosses = [
     'sku',
     'image',
@@ -70,105 +79,77 @@ export class TicketComponent implements OnInit, OnDestroy {
     this.ticket = params['ticket'];
     this.clientID = params['client'];
     const routeId = params['route'];
-    // this.getDevolutions(routeId, this.ticket);
     this.getTicketData(routeId, this.ticket);
     this.getClient(this.clientID);
   }
 
-  public getDevolutions(route, ticket) {
-    this._inventoryService
-      .getSaleByTicket(route, ticket)
-      .valueChanges()
-      .pipe(
-        concatMap((x) => {
-          return x;
-        }),
-        filter((t: any) => {
-          return t.id === ticket;
-        })
-      )
-      .subscribe((devolutions: any) => {
-        let returnedProducts = [];
-        if (devolutions.Devolutions) {
-          returnedProducts = Object.values(devolutions.Devolutions);
-          returnedProducts.map((dev) => {
-            dev['totalPrice'] = dev.number_of_items * dev.retail_price;
-            this.totalReturned += dev.totalPrice;
-          });
-        }
-
-        return (this.dataSourceReturnedTable.data = returnedProducts);
-      });
-
+  public getDevolutions( data, evolutionKeys) {
+    this.totalReturned = data.totalForDevolution;
+    const dataDevolutions = [];
+    evolutionKeys.forEach(( element , index ) => {
+      dataDevolutions.push(data.Devolutions[element]);
+      if ( index + 1 === evolutionKeys.length ) {
+        this.dataSourceReturnedTable.data = dataDevolutions;
+        console.log(dataDevolutions , this.dataSourceReturnedTable.data );
+      }
+    });
   }
 
   public getTicketData(route, ticket) {
-    this._inventoryService
-      .getSaleByTicket(route, ticket)
-      .valueChanges()
-      .pipe(
-        concatMap((x) => {
-          return x;
-        }),
-        filter((t: any) => {
-          return t.id === ticket;
-        }),
-        map((sale: any) => {
-          this.clientID = sale.customerId;
-          this.date = sale.date as Date;
-          this.route_name = sale.route_name as string;
-          const products = sale.Products || '';
-          const productKeys = Object.keys(products);
-          this.totalSold = sale.totalOnSalle;
-          return productKeys.map((pkey) => products[pkey]);
-        })
-      )
-      .subscribe((products: any) => {
+    this._inventoryService.getSaleByTicket(route, ticket).then(
+      ress => {
+        console.log(ress.data);
+        this.clientID = ress.data.customerId;
+        this.date = ress.data.date;
+        this.route_name = ress.data.route_name;
+        this.totalSold = ress.data.totalOnSalle;
+        const productKeys = Object.keys(ress.data.Products);
+        const dataSales = [];
         const retailProducts = [];
         const wholesaleProducts = [];
         const wholesaleProductsG = [];
 
-
-        let returnedProducts = [];
-        if (products.Devolutions) {
-          returnedProducts = Object.values(products.Devolutions);
-          returnedProducts.map((dev) => {
-            dev['totalPrice'] = dev.number_of_items * dev.retail_price;
-            this.totalReturned += dev.totalPrice;
-          });
+        if (ress.data.Devolutions) {
+          const evolutionKeys = Object.keys(ress.data.Devolutions);
+          this.getDevolutions( ress.data , evolutionKeys );
         }
 
+        productKeys.forEach(( element , index ) => {
+          dataSales.push(ress.data.Products[element]);
 
-        products.forEach((product) => {
-          product = { ...product, route_name: this.route_name };
-          if (
-            product.wholesale_quantityG !== '' &&
-            product.number_of_items >= product.wholesale_quantity &&
-            product.number_of_items < product.wholesale_quantityG
-          ) {
-            wholesaleProducts.push(product);
-          }
-          if (
-            product.wholesale_quantityG !== '' &&
-            product.number_of_items >= product.wholesale_quantityG
-          ) {
-            wholesaleProductsG.push(product);
-          }
-          if (product.number_of_items < product.wholesale_quantity) {
-            retailProducts.push(product);
+          if ( index + 1 === productKeys.length ) {
+            dataSales.forEach( (product: any) => {
+              product = { ...product, route_name: this.route_name };
+              if (
+                product.wholesale_quantityG !== '' &&
+                product.number_of_items >= product.wholesale_quantity &&
+                product.number_of_items < product.wholesale_quantityG
+              ) {
+                wholesaleProducts.push(product);
+              }
+              if (
+                product.wholesale_quantityG !== '' &&
+                product.number_of_items >= product.wholesale_quantityG
+              ) {
+                wholesaleProductsG.push(product);
+              }
+              if (product.number_of_items < product.wholesale_quantity) {
+                retailProducts.push(product);
+              }
+            });
+            this.dataSourceRetailTable.data = retailProducts;
+            this.dataSourceWholesaleTable.data = wholesaleProducts;
+            this.dataSourceWholesaleTableG.data = wholesaleProductsG;
           }
         });
-        this.dataSourceRetailTable.data = retailProducts;
-        this.dataSourceWholesaleTable.data = wholesaleProducts;
-        this.dataSourceWholesaleTableG.data = wholesaleProductsG;
-
-        this.dataSourceReturnedTable.data = returnedProducts;
-
-      });
+        console.log(dataSales);
+      }
+    );
   }
 
   public getClient(clientID) {
-    this._clientService.getClient(clientID).subscribe((client) => {
+    this._clientService.getClient(clientID).subscribe(( client: any ) => {
+      console.log(client , 'este es el cliente ');
       this.client = client;
       this.loading = false;
     });
@@ -264,7 +245,7 @@ export class TicketComponent implements OnInit, OnDestroy {
           Producto: ` ${element.name} ${element.content} `,
           Ruta: this.route_name,
           Marca: element.brand,
-          Vendido: element.number_of_items,
+          Vendido: `${element.number_of_items}`,
           Precio: '$' + element.totalPrice,
           Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.totalPrice)}`).toFixed(2),
         });
