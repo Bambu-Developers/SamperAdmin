@@ -9,11 +9,11 @@ const routes: Routes = [
     component: DashboardComponent,
     loadChildren: './pages/inventory/inventory.module#InventoryModule'
   },
-  {
-    path: 'analytics',
-    component: DashboardComponent,
-    loadChildren: './pages/analytics/analytics.module#AnalyticsModule'
-  },
+  // {
+  //   path: 'analytics',
+  //   component: DashboardComponent,
+  //   loadChildren: './pages/analytics/analytics.module#AnalyticsModule'
+  // },
   {
     path: 'products',
     component: DashboardComponent,
