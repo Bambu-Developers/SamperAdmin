@@ -90,7 +90,6 @@ export class TicketComponent implements OnInit, OnDestroy {
       dataDevolutions.push(data.Devolutions[element]);
       if ( index + 1 === evolutionKeys.length ) {
         this.dataSourceReturnedTable.data = dataDevolutions;
-        console.log(dataDevolutions , this.dataSourceReturnedTable.data );
       }
     });
   }
@@ -98,7 +97,6 @@ export class TicketComponent implements OnInit, OnDestroy {
   public getTicketData(route, ticket) {
     this._inventoryService.getSaleByTicket(route, ticket).then(
       ress => {
-        console.log(ress.data);
         this.clientID = ress.data.customerId;
         this.date = ress.data.date;
         this.route_name = ress.data.route_name;
@@ -142,17 +140,27 @@ export class TicketComponent implements OnInit, OnDestroy {
             this.dataSourceWholesaleTableG.data = wholesaleProductsG;
           }
         });
-        console.log(dataSales);
       }
     );
   }
 
   public getClient(clientID) {
-    this._clientService.getClient(clientID).subscribe(( client: any ) => {
-      console.log(client , 'este es el cliente ');
-      this.client = client;
-      this.loading = false;
-    });
+    const dataClient = localStorage.getItem('clients');
+    this.client = JSON.parse(dataClient)[clientID];
+    if (  !this.client ) {
+      this._clientService.getAllClients().subscribe(( res: any) => {
+        const dataClientAux = {};
+        res.forEach( ( element , index ) => {
+          dataClientAux[element.id] = element;
+          if ( index + 1 === res.length ) {
+            localStorage.setItem( 'clients' , JSON.stringify(dataClientAux) );
+            this.client = dataClientAux[clientID];
+          }
+        });
+      });
+    }
+
+    this.loading = false;
   }
 
   ngOnDestroy() {
@@ -167,18 +175,65 @@ export class TicketComponent implements OnInit, OnDestroy {
           id: keys[i],
           name: keys[i],
           prompt: keys[i],
-          width: 93,
-          align: 'center',
+          width: 88,
+          height: 10,
+          align: 'left',
           padding: 0,
         });
-      } else {
+      }
+      if ( i === 1 ) {
         result.push({
           id: keys[i],
           name: keys[i],
           prompt: keys[i],
-          width: 37,
-          align: 'center',
-          padding: 0
+          width: 40,
+          height: 10,
+          align: 'left',
+          padding: 0,
+        });
+      }
+      if ( i === 2 ) {
+        result.push({
+          id: keys[i],
+          name: keys[i],
+          prompt: keys[i],
+          width: 40,
+          height: 10,
+          align: 'left',
+          padding: 0,
+        });
+      }
+      if ( i === 3 ) {
+        result.push({
+          id: keys[i],
+          name: keys[i],
+          prompt: keys[i],
+          width: 27,
+          height: 10,
+          align: 'left',
+          padding: 0,
+        });
+      }
+      if ( i === 4 ) {
+        result.push({
+          id: keys[i],
+          name: keys[i],
+          prompt: keys[i],
+          width: 35,
+          height: 10,
+          align: 'left',
+          padding: 0,
+        });
+      }
+      if ( i === 5 ) {
+        result.push({
+          id: keys[i],
+          name: keys[i],
+          prompt: keys[i],
+          width: 35,
+          height: 10,
+          align: 'left',
+          padding: 0,
         });
       }
 
@@ -189,18 +244,17 @@ export class TicketComponent implements OnInit, OnDestroy {
   public getPdf() {
     let tableStart = false;
     const doc = new jsPDF();
-
     doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(16);
     doc.text( `Ticket: ${this.ticket}` , 10, 30);
     doc.setFontSize(12);
     doc.setFont('helvetica', 'normal');
-    doc.text( `Total vendido: $${this.totalSold.toFixed(2) }`, 10, 40);
-    doc.text( `Total en devoluciones: $${this.totalReturned}`, 10, 45);
-    doc.text( `Cliente: ${this.client.name} - ${this.route_name}`, 10, 55);
-    doc.text( `Tienda: ${this.client.shop_name}`, 10, 60);
-    doc.text( `Teléfono: ${this.client.phone}`, 10, 65);
+    doc.text( `Total vendido: $${this.totalSold.toFixed(2) }`, 10, 35);
+    doc.text( `Total en devoluciones: $${this.totalReturned}`, 10, 40);
+    doc.text( `Cliente: ${this.client.name} - ${this.route_name}`, 10, 50);
+    doc.text( `Tienda: ${this.client.shop_name}`, 10, 55);
+    doc.text( `Teléfono: ${this.client.phone}`, 10, 60);
     const headers = this.createHeaders([
       'Producto',
       'Ruta',
@@ -215,7 +269,7 @@ export class TicketComponent implements OnInit, OnDestroy {
 
       this.dataSourceRetailTable.data.forEach((element: any) => {
         table1.push({
-          Producto: ` ${element.name} ${element.content}`,
+          Producto: ` ${element.name} `,
           Ruta: this.route_name,
           Marca: element.brand,
           Vendido: `${element.number_of_items}`,
@@ -226,14 +280,13 @@ export class TicketComponent implements OnInit, OnDestroy {
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(16);
       if ( !tableStart ) {
-        doc.text( 'Ventas Minoristas' , 10, 90);
-        doc.table( 1 , 95, table1, headers,  {autoSize: false   } );
+        doc.text( 'Ventas Minoristas' , 10, 72);
+        doc.table( 6 , 75, table1, headers,  { fontSize: 8 , padding: .8 } );
       } else {
         doc.addPage('a4', 'p' , );
         doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
         doc.text( 'Ventas Minoristas' , 10, 30);
-        doc.table( 1 , 35, table1, headers, {autoSize: false  });
-
+        doc.table( 6 , 35, table1, headers, { fontSize: 8 , padding: .8   });
       }
       tableStart = true;
     }
@@ -242,24 +295,24 @@ export class TicketComponent implements OnInit, OnDestroy {
       const table2: any = [];
       this.dataSourceReturnedTable.data.forEach((element: any) => {
         table2.push({
-          Producto: ` ${element.name} ${element.content} `,
+          Producto: ` ${element.name}  `,
           Ruta: this.route_name,
           Marca: element.brand,
           Vendido: `${element.number_of_items}`,
-          Precio: '$' + element.totalPrice,
-          Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.totalPrice)}`).toFixed(2),
+          Precio: '$' + element.retail_price,
+          Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`).toFixed(2),
         });
       });
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(16);
       if ( !tableStart ) {
         doc.text( 'Devoluciones' , 10, 90);
-        doc.table(1, 95, table2, headers, {autoSize: false});
+        doc.table(6, 95, table2, headers, {fontSize: 7 , padding: .8 });
       } else {
         doc.addPage('a4', 'p');
         doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
         doc.text( 'Devoluciones' , 10, 30);
-        doc.table(1, 35, table2, headers, {autoSize: false});
+        doc.table(6, 35, table2, headers, {fontSize: 7 , padding: .8 });
       }
       tableStart = true;
 
@@ -269,7 +322,7 @@ export class TicketComponent implements OnInit, OnDestroy {
       const table3: any = [];
       this.dataSourceWholesaleTable.data.forEach((element: any) => {
         table3.push({
-          Producto: ` ${element.name} ${element.content} `,
+          Producto: ` ${element.name}  `,
           Ruta: this.route_name,
           Marca: element.brand,
           Vendido: `${element.number_of_items}`,
@@ -282,12 +335,12 @@ export class TicketComponent implements OnInit, OnDestroy {
       doc.setFontSize(16);
       if ( !tableStart ) {
         doc.text( 'Ventas Mayorista' , 10, 90);
-        doc.table(1, 95, table3, headers, {autoSize: false});
+        doc.table(6, 95, table3, headers, {fontSize: 7 , padding: .8 });
       } else {
         doc.addPage('a4', 'p');
         doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
         doc.text( 'Ventas Mayorista' , 10, 30);
-        doc.table(1, 35, table3, headers, {autoSize: false});
+        doc.table(6, 35, table3, headers, {fontSize: 7 , padding: .8 });
       }
       tableStart = true;
     }
@@ -296,7 +349,7 @@ export class TicketComponent implements OnInit, OnDestroy {
       const table4: any = [];
       this.dataSourceWholesaleTableG.data.forEach((element: any) => {
         table4.push({
-          Producto: ` ${element.name} ${element.content} `,
+          Producto: ` ${element.name}  `,
           Ruta: this.route_name,
           Marca: element.brand,
           Vendido: element.number_of_items,
@@ -309,15 +362,16 @@ export class TicketComponent implements OnInit, OnDestroy {
       doc.setFontSize(16);
       if ( !tableStart ) {
         doc.text( 'Ventas Gran Mayoreo' , 10, 90);
-        doc.table(1, 95, table4, headers, {autoSize: false});
+        doc.table(6, 95, table4, headers, {fontSize: 7 , padding: .8 });
       } else {
         doc.addPage('a4', 'p');
         doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
         doc.text( 'Ventas Gran Mayoreo' , 10, 30);
-        doc.table(1, 35, table4, headers, {autoSize: false});
+        doc.table(6, 35, table4, headers, {fontSize: 7 , padding: .8 });
       }
       tableStart = true;
     }
+
     doc.save( `Ticket-${this.ticket}.pdf` );
   }
 

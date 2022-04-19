@@ -60,6 +60,13 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.dataSource.data = res;
         this.clients = res;
         this.loading = false;
+        const dataClient = {};
+        res.forEach( ( element , index ) => {
+          dataClient[element.id] = element;
+          if ( index + 1 === res.length ) {
+            localStorage.setItem( 'clients' , JSON.stringify(dataClient) );
+          }
+        });
       }
     );
     this.setDataPaginator();

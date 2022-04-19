@@ -13,7 +13,7 @@
             <div class="sa-sales-details">
                 <div class="sa-values">
                     <mat-label>Ventas del día:</mat-label>
-                    <mat-label>{{totalSold | currency}}</mat-label>
+                    <mat-label>{{totalSaleRetail | currency}}</mat-label>
                 </div>
                 <div class="sa-values">
                     <mat-label>Total devolución:</mat-label>
@@ -25,12 +25,12 @@
                 </div>
                 <div class="sa-values">
                     <mat-label>{{existLiquidation? 'Total liquidado:' : lanLiq.totalLiq}}</mat-label>
-                    <mat-label>{{totalSold - totalDevolutions | currency}} </mat-label>
+                    <mat-label>{{totalSaleRetail - totalDevolutions | currency}} </mat-label>
                 </div>
                 <div class="sa-values">
                     <mat-label>{{existLiquidation? 'Total liquidado con merma:' : 'Total a liquidar con merma:'}}
                     </mat-label>
-                    <mat-label>{{totalSold + totalLosses | currency}}</mat-label>
+                    <mat-label>{{totalSaleRetail + totalLosses | currency}}</mat-label>
                 </div>
             </div>
             <button mat-raised-button class="sa-button-approve-liquidation" color="charcoal-grey" (click)="openDialogApproveLiquidation()" *ngIf="!existLiquidation">
@@ -72,7 +72,7 @@
             <ng-container matColumnDef="customer">
               <th class="sa-quantity-column sa-brand-column-test-align" mat-header-cell *matHeaderCellDef>Cliente id</th>
               <td class="sa-quantity-column sa-brand-column-test-align" mat-cell *matCellDef="let inventory"
-              [routerLink]="['/dashboard/clients/view/',inventory?.customer_id]" >{{inventory?.customer_id}}</td>
+              [routerLink]="['/dashboard/clients/view/',inventory?.customer]" >{{ clients[inventory.customer] !== undefined ? clients[inventory.customer].name : inventory.customer }}</td>
               <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
             <!-- Brand Column -->
@@ -107,37 +107,38 @@
             <ng-container matColumnDef="image">
                 <th class="sa-img-column" mat-header-cell *matHeaderCellDef></th>
                 <td class="sa-img-column" mat-cell *matCellDef="let loss">
-                    <img class="sa-img-preview" src="{{loss.img_preview_url}}" alt="N/A">
+                    <img class="sa-img-preview" src="{{loss.product.img_preview_url}}" alt="N/A">
                 </td>
                 <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
             <!-- Name Column -->
             <ng-container matColumnDef="name">
                 <th class="sa-name-column" mat-header-cell *matHeaderCellDef>{{lanInv.name}}</th>
-                <td class="sa-name-column" mat-cell *matCellDef="let loss">{{loss.name}} {{loss.content}}</td>
+                <td class="sa-name-column" mat-cell *matCellDef="let loss">{{loss.product.name}} {{loss.product.content}}</td>
                 <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
             <!-- Quantity Column -->
             <ng-container matColumnDef="quantity">
                 <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>{{lanInv.quantityP}}</th>
-                <td class="sa-quantity-column sa-roboto-medium" mat-cell *matCellDef="let loss">{{loss.numberItems}} piezas
+                <td class="sa-quantity-column sa-roboto-medium" mat-cell *matCellDef="let loss">{{loss.number_of_piz}}
                 </td>
                 <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
             <!-- Brand Column -->
             <ng-container matColumnDef="brand">
                 <th class="sa-brand-column" mat-header-cell *matHeaderCellDef>{{lanInv.brand}}</th>
-                <td class="sa-brand-column" mat-cell *matCellDef="let loss">{{loss.brand}}</td>
+                <td class="sa-brand-column" mat-cell *matCellDef="let loss">{{loss.product.brand}}</td>
                 <td class="sa-total-column" mat-footer-cell *matFooterCellDef> Total: </td>
             </ng-container>
             <!-- Subtotal Column -->
             <ng-container matColumnDef="subtotal">
                 <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanInv.subtotal}}</th>
-                <td class="sa-subtotal-column" mat-cell *matCellDef="let loss">{{loss.totalPrice | currency}}</td>
+                <td class="sa-subtotal-column" mat-cell *matCellDef="let loss">{{loss.number_of_piz * loss.product.retail_price | currency}}</td>
                 <td class="sa-subtotal-column" mat-footer-cell *matFooterCellDef> {{totalLosses | currency}} </td>
             </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsLosses"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumnsLosses;"></tr>
-            <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumnsLosses"></tr>
         </table>
     </div>
     <div class="sa-daily-sales" *ngIf="dataSourceTable.data.length !== 0">
@@ -173,7 +174,8 @@
             <ng-container matColumnDef="customer">
               <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>Cliente id</th>
               <td class="sa-quantity-column" mat-cell *matCellDef="let inventory"
-              [routerLink]="['/dashboard/clients/view/',inventory?.customer]" >{{inventory?.customer}}</td>
+
+              [routerLink]="['/dashboard/clients/view/',inventory?.customer]" >{{ clients[inventory.customer] !== undefined ? clients[inventory.customer].name : inventory.customer }}</td>
               <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
             <!-- Brand Column -->
@@ -227,7 +229,7 @@
             <!-- Brand Column -->
             <ng-container matColumnDef="customer">
               <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>Cliente id</th>
-              <td class="sa-quantity-column" mat-cell *matCellDef="let inventory">{{inventory?.customer}}</td>
+              <td class="sa-quantity-column" mat-cell *matCellDef="let inventory">{{ clients[inventory.customer] !== undefined ? clients[inventory.customer].name : inventory.customer }}</td>
               <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
             <ng-container matColumnDef="brand">
@@ -280,7 +282,7 @@
             </ng-container>
             <ng-container matColumnDef="customer">
               <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>Cliente id</th>
-              <td class="sa-quantity-column" mat-cell *matCellDef="let inventory">{{inventory?.customer}}</td>
+              <td class="sa-quantity-column" mat-cell *matCellDef="let inventory">{{ clients[inventory.customer] !== undefined ? clients[inventory.customer].name : inventory.customer }}</td>
               <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
             <!-- Brand Column -->

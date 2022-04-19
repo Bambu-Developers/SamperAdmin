@@ -6,6 +6,7 @@ import { DASHBOARD_LANGUAGE } from 'src/app/modules/dashboard/data/language';
 import { AuthService } from 'src/app/modules/account/services/auth.service';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -89,18 +90,16 @@ export class NavbarComponent implements OnInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
     this.email = this.authService.getUser();
     this.current = this.router.url;
-
-     window.setTimeout(() => {
-      this.login = true;
-    }, 1000);
-
   }
 
   ngOnInit() {
+    window.setTimeout(() => {
+      this.login = true;
+    }, 600);
   }
 
   public logout() {

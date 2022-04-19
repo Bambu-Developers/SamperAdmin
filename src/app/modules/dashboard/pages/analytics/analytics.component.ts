@@ -38,9 +38,6 @@ export class AnalyticsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    console.log(this.clientMonth);
-
     this._clientService._getlistClientAnalyticsKey().subscribe( res => {
       const dataAux = new Date().getFullYear();
       res.forEach(element => {
@@ -92,7 +89,6 @@ export class AnalyticsComponent implements OnInit {
         { data: data[0], label: data[1], type: 'line', fill: 'false' },
         { data: data[0], label: data[1], type: 'bar' },
       ];
-      console.log(data);
     });
   }
 

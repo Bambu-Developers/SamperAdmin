@@ -116,7 +116,6 @@ export class HistoryComponent implements OnInit, AfterViewInit {
   }
 
   public async getAllSales(id: string , dataStart , dataEnd ) {
-    console.log( dataStart , dataEnd );
     this.loading = true;
 
     try {
@@ -146,7 +145,6 @@ export class HistoryComponent implements OnInit, AfterViewInit {
       });
 
     } catch (error) {
-      console.log( error , 'asdsadasdsadasdsa');
       this.loading = false;
       throw error;
     }

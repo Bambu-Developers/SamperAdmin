@@ -68,11 +68,11 @@ export class InventoryService {
   }
 
   public getDevolutions( date , user ): Promise<any> {
-    return this.http.get(`${environment.urlService}?date=${date}&route=${user}`, { }).toPromise();
+    return this.http.get(`${environment.urlService}/devolutions?date=${date}&route=${user}`, { }).toPromise();
   }
 
-  public getLosses() {
-    return this.lossRef = this._db.list<any>(this._basePathLoss);
+  public getLosses( date , route ): Promise<any> {
+    return this.http.get(`${environment.urlService}/lostProducts?date=${date}&route=${route}`, { }).toPromise();
   }
 
   public approveLiquidation(userId, userName, date, userRoute, totalSale, totalLiquidation, totalWithLoss, totalDevolutions, totalLosses) {
@@ -125,7 +125,6 @@ export class InventoryService {
   }
 
   public getSaleByTicket(route, ticket): Promise<any> {
-    console.log('Staging/HistoryRoutes' + '/' + route + '/' + ticket);
     return this.http.get(`${environment.urlService}/shopping/ticket?route=${route}&ticket=${ticket}`, { }).toPromise();
     // return this._db.list('Staging/HistoryRoutes' + '/' + route + '/' + ticket  ).valueChanges();
   }

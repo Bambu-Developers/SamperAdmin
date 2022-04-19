@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -33,7 +34,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   public dataSourceLosses = new MatTableDataSource();
   public displayedColumns = ['sku', 'image', 'name', 'quantity', 'customer', 'brand', 'subtotal'];
   public displayedColumnsDevolutions = ['sku', 'image', 'name', 'quantity', 'customer', 'brand', 'subtotal'];
-  public displayedColumnsLosses = ['sku', 'image', 'name', 'quantity', 'customer', 'brand', 'subtotal'];
+  public displayedColumnsLosses = ['sku', 'image', 'name', 'quantity', 'brand', 'subtotal'];
   public userRoute;
   public devolutions;
   public devolutionsArray = new Array();
@@ -55,6 +56,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   public dateParam: any;
   public user_name: any;
   public loading = true;
+  public clients: any;
 
 
   constructor(
@@ -70,6 +72,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getUser();
+    this.getClient();
     // this.getDevolutions();
   }
 
@@ -83,6 +86,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         this.userRoute = res.route;
         this.getLiquidation();
         this.getInventories();
+        this.getLosses( this.dateParam , this.userRoute );
       });
     });
         //   this.dataSource = res;
@@ -101,34 +105,24 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
 
     this._inventoryService.getSales(this.userRoute,  this.dateParam, this.dateParam).then(async (res) => {
-      console.log(res);
       const data = [];
       const keys = Object.keys(res.data);
       keys.forEach( ( element , index ) => {
         data.push(res.data[element]);
       } );
-      console.log(data);
       const dataItems = [];
 
-
-
       for await (const iterator of data) {
-
         if (iterator.Devolutions) {
-
           const evolutionKeys = Object.keys(iterator.Devolutions);
-          console.log('entra', iterator , evolutionKeys  );
           this.getDevolutions( iterator , evolutionKeys );
         }
-
         if ( iterator.Products ) {
-
           const keysItems = Object.keys(iterator.Products);
           keysItems.forEach( ( element2 , index2 ) => {
             iterator.Products[element2].customer =  iterator.customerId;
             dataItems.push(iterator.Products[element2]);
           } );
-
         }
       }
 
@@ -158,9 +152,8 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       this.dataSourceTable.data = retailProducts;
       this.dataSourceWholesaleTable.data = wholesaleProducts;
       this.dataSourceWholesaleTableG.data = wholesaleProductsG;
+
       this.loading = false;
-
-
 
     } );
   }
@@ -169,62 +162,17 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     this.totalDevolutions = data.totalForDevolution;
     evolutionKeys.forEach(( element , index ) => {
       this.dataSourceDevolutions.data.push(data.Devolutions[element]);
-      console.log(data.Devolutions[element]);
     });
   }
 
-
-  // public getDevolutions() {
-  //   const returnedProducts = new Array();
-  //   this._inventoryService.getDevolutionsL().subscribe(
-  //     res => {
-  //       ;
-  //       this.devolutions = res;
-  //       this.devolutions = this.devolutions
-  //         .map(d => {
-
-  //           d.date_of_assignment = this._datePipe.transform(d.date_of_assignment, 'yyyy-MM-dd');
-  //           return d;
-  //         })
-  //         .filter(d => {
-  //           if (this.dateParam !== undefined) {
-  //             return d.route === this.id && d.date_of_assignment === this.dateParam;
-  //           } else {
-  //             return d.route === this.id && d.date_of_assignment === this.today;
-  //           }
-  //         });
-
-  //         console.log(this.devolutions);
-
-  //         this.devolutions.forEach(dev => {
-
-  //         const returnedProductIdx = returnedProducts.findIndex((rp: any) => {
-  //           return rp.sku === dev.sku;
-  //         });
-  //         if (returnedProductIdx > -1) {
-  //           returnedProducts[returnedProductIdx]['numberItems'] += parseFloat(returnedProducts[returnedProductIdx].number_of_items);
-  //           returnedProducts[returnedProductIdx]['totalPrice'] =
-  //             parseFloat(returnedProducts[returnedProductIdx].numberItems) * parseFloat(dev.retail_price);
-  //         } else {
-  //           returnedProducts.push({
-  //             ...dev,
-  //             numberItems: parseFloat(dev.number_of_items),
-  //             totalPrice: parseFloat(dev.number_of_items) * parseFloat(dev.retail_price)
-  //           });
-  //         }
-  //       });
-  //       returnedProducts.map(devo => {
-  //         this.totalDevolutions += devo.totalPrice;
-  //       });
-  //       this.returnedProducts = returnedProducts;
-  //     });
-  // }
-
-  public getLosses() {
-
-
-      const lossesProducts = [];
-      this.dataSourceLosses.data = lossesProducts;
+  public getLosses( date , route ) {
+      this._inventoryService.getLosses( date , route ).then( ress => {
+        const keys = Object.keys(ress.data);
+        keys.forEach( ( element , index ) => {
+          this.dataSourceLosses.data.push(ress.data[element]);
+          this.totalLosses = (ress.data[element].number_of_piz * ress.data[element].product.retail_price ) + this.totalLosses;
+        } );
+      } );
   }
 
   public openDialogApproveLiquidation() {
@@ -285,6 +233,11 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       //   }
       // });
     });
+  }
+
+  public getClient() {
+    const dataAux = localStorage.getItem('clients');
+    this.clients = JSON.parse(dataAux);
   }
 
   ngOnDestroy() {

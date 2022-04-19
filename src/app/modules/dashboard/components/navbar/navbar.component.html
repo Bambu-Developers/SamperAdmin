@@ -13,7 +13,7 @@
       </a>
     </mat-nav-list>
   </mat-sidenav>
-  <mat-sidenav-content>
+  <mat-sidenav-content  *ngIf="login" >
     <mat-toolbar class="sa-navbar-toolbar" color="primary">
       <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
@@ -28,6 +28,6 @@
         <button [routerLink]="['/dashboard/profile']"  mat-menu-item>{{language.menu.account}}</button>
       </mat-menu>
     </mat-toolbar>
-    <router-outlet *ngIf="login" ></router-outlet>
+    <router-outlet ></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

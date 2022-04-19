@@ -4,6 +4,8 @@ import { EMAIL_REGEX } from 'src/app/modules/account/data/data';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 import { AuthService } from 'src/app/modules/account/services/auth.service';
 import { Router } from '@angular/router';
+import { ClientsService } from 'src/app/modules/dashboard/pages/clients/services/clients.service';
+
 
 @Component({
   selector: 'app-login',
@@ -18,7 +20,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private clientsService: ClientsService
   ) { }
 
   ngOnInit() {
@@ -39,6 +42,15 @@ export class LoginComponent implements OnInit {
   public submit(value: { email: string; password: string; }) {
     this.authService.login(value.email, value.password).then((res) => {
         this.router.navigate(['/dashboard']);
+        this.clientsService.getAllClients().subscribe(( res: any) => {
+          const dataClient = {};
+          res.forEach( ( element , index ) => {
+            dataClient[element.id] = element;
+            if ( index + 1 === res.length ) {
+              localStorage.setItem( 'clients' , JSON.stringify(dataClient) );
+            }
+          });
+        });
       }
       ,
       error => {

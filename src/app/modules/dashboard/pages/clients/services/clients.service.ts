@@ -53,15 +53,11 @@ export class ClientsService {
 
   // Get product by ID
   public getClient(id: string) {
-    console.log(`${this._baseClientsPath}` + id);
     // return this.db.list<ClientModel>('Staging/Customers/sanper_4386969652' ).valueChanges();
-
-
     return this.client = this.db.object<ClientModel>(`${this._baseClientsPath}` + id)
       .snapshotChanges()
       .pipe(
         map( ress => {
-          console.log(ress);
           return ress.payload.val();
         })
     );
@@ -125,7 +121,18 @@ export class ClientsService {
       create_at: new Date().toString(),
       email: clientData.email,
     };
-    this.clientsRef.set('sanper_' + clientData.phone, CLIENT_DATA);
+    this.clientsRef.set('sanper_' + clientData.phone, CLIENT_DATA).then( ress => {
+      this.getAllClients().subscribe(( res: any) => {
+
+        const dataClient = {};
+        res.forEach( ( element , index ) => {
+          dataClient[element.id] = element;
+          if ( index + 1 === res.length ) {
+            localStorage.setItem( 'clients' , JSON.stringify(dataClient) );
+          }
+        });
+      });
+    });
   }
 
   public _getlistClientAnalyticsKey() {
