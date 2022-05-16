@@ -1,0 +1,27 @@
+<div class="sa-column sa-align-center sa-justify-center sa-div-check " >
+  <div class="sa-roboto-medium sa-div-check-text sa-text-16 sa-text-center">
+    Selecciona la ruta a la que deseas cambiar todos los clientes
+  </div>
+
+  <div class="sa-route-selection">
+    <mat-select class="mat-select-trigger" [(ngModel)]="routeAux" placeholder="Rutas">
+        <mat-option *ngFor="let route of data.routes" [value]="route.id" >
+            {{route.name}}
+        </mat-option>
+    </mat-select>
+</div>
+
+<div *ngIf="contAux > -1" class="sa-roboto-medium sa-div-check-text sa-text-14 sa-text-center">
+  Actualizando clientes {{contAux + 1 }} de {{data.client.length}}
+</div>
+
+  <div class="sa-row sa-align-center sa-justify-center" >
+    <button mat-raised-button [disabled]="routeAux === '' || contAux > -1" (click)="editClient( 0 )"
+            color="accent"> Cambiar
+    </button>
+    <button mat-raised-button (click)="close()" [disabled]=" contAux > -1"
+        color="accent"> Cancelar
+    </button>
+  </div>
+
+</div>

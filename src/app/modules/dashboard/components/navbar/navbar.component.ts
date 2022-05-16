@@ -41,11 +41,11 @@ export class NavbarComponent implements OnInit {
       title: DASHBOARD_LANGUAGE.navbar.historyLiquidation,
       route: '/dashboard/inventory/history-liquidation'
     },
-    {
-      icon: 'ic-analytics',
-      title: DASHBOARD_LANGUAGE.navbar.analitycs,
-      route: '/dashboard/analytics'
-    },
+    // {
+    //   icon: 'ic-analytics',
+    //   title: DASHBOARD_LANGUAGE.navbar.analitycs,
+    //   route: '/dashboard/analytics'
+    // },
     // {
     //   icon: 'ic-analytics',
     //   title:  'credit',
@@ -99,7 +99,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     window.setTimeout(() => {
       this.login = true;
-    }, 600);
+    }, 2000);
   }
 
   public logout() {

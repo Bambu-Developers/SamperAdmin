@@ -8,6 +8,11 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        .sa-dashboard-actions-button{
+          button{
+            margin: 5px;
+          }
+        }
         .sa-input-text {
             height: 40px;
         }

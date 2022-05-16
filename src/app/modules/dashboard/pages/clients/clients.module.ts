@@ -12,9 +12,10 @@ import { ClientsComponent } from 'src/app/modules/dashboard/pages/clients/client
 import { ViewClientComponent } from './components/view-client/view-client.component';
 import { CreateClientComponent } from './components/create-client/create-client.component';
 import { TrackingComponent } from '../inventory/components/tracking/tracking.component';
+import { ChangeRoutComponent } from './change-rout/change-rout.component';
 
 @NgModule({
-  declarations: [ClientsComponent, ViewClientComponent, CreateClientComponent, TrackingComponent],
+  declarations: [ClientsComponent, ViewClientComponent, CreateClientComponent, TrackingComponent, ChangeRoutComponent],
   imports: [
     CommonModule,
     ClientsRoutingModule,

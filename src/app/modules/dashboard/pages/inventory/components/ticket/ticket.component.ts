@@ -3,10 +3,11 @@ import { ClientsService } from 'src/app/modules/dashboard/pages/clients/services
 import { InventoryService } from './../../services/inventory.service';
 import { ActivatedRoute } from '@angular/router';
 import { INVENTORY_LANGUAGE } from './../../data/language';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy , Inject } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { take, concatMap, toArray, filter, map } from 'rxjs/operators';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 import { jsPDF } from 'jspdf';
 
@@ -67,18 +68,25 @@ export class TicketComponent implements OnInit, OnDestroy {
   constructor(
     private _route: ActivatedRoute,
     private _inventoryService: InventoryService,
-    private _clientService: ClientsService
+    private _clientService: ClientsService,
+    public dialogRef: MatDialogRef<TicketComponent>,
+    private dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {}
 
   ngOnInit() {
     this.getParams();
   }
 
+  close(): void {
+    this.dialogRef.close();
+  }
+
   public getParams() {
-    const params = this._route.snapshot.queryParams;
-    this.ticket = params['ticket'];
-    this.clientID = params['client'];
-    const routeId = params['route'];
+    // const params = this._route.snapshot.queryParams;
+    this.ticket = this.data.ticket;
+    this.clientID = this.data.client;
+    const routeId = this.data.route;
     this.getTicketData(routeId, this.ticket);
     this.getClient(this.clientID);
   }

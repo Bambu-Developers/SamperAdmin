@@ -9,7 +9,9 @@ import { concatMap, toArray, take, map } from 'rxjs/operators';
 import { ClientsService } from '../../../clients/services/clients.service';
 import { RouteModel } from '../../../clients/models/route.model';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
+import { TicketComponent } from '../ticket/ticket.component';
 
 @Component({
   selector: 'app-history',
@@ -42,6 +44,7 @@ export class HistoryComponent implements OnInit, AfterViewInit {
     private _fb: FormBuilder,
     private _clientService: ClientsService,
     private _inventoryService: InventoryService,
+    private dialog: MatDialog,
   ) {
     this.formSearch = _fb.group({
       dateStart: [''],
@@ -61,7 +64,7 @@ export class HistoryComponent implements OnInit, AfterViewInit {
     });
     this.maxDate = new Date();
     const dateEnd = this.maxDate.getTime();
-    const dateAuxEnd = new Date( dateEnd + 86400000);
+    const dateAuxEnd = new Date( dateEnd );
     const dateStart = this.maxDate.getTime();
     const dateAuxStart = new Date( dateStart - (86400000 * 7 ));
     this.endDate = moment(dateAuxEnd).format('YYYY-MM-DD');
@@ -117,6 +120,10 @@ export class HistoryComponent implements OnInit, AfterViewInit {
 
   public async getAllSales(id: string , dataStart , dataEnd ) {
     this.loading = true;
+    const dateAux = new Date(this.formSearch.controls.dateStart.value).getTime();
+    const dateAux2 = new Date(this.formSearch.controls.dateEnd.value).getTime();
+
+
 
     try {
 
@@ -173,31 +180,29 @@ export class HistoryComponent implements OnInit, AfterViewInit {
     const date = event.value.getTime();
     const dateAux = new Date( date);
     this.startDate = moment(dateAux).format('YYYY-MM-DD');
-
-    // this.enableButton = false;
-    if (this.startDate !== undefined && this.endDate !== undefined) {
-      if (this.startDate > this.endDate) {
-        // this.dataError = true;
-      } else {
-        // this.dataError = false;
-      }
-    }
   }
 
 
   public onEndDay(event: MatDatepickerInputEvent<Date>) {
     const date = event.value.getTime();
-    const dateAux = new Date( date + 86400000);
+    const dateAux = new Date( date );
     this.endDate = moment(dateAux).format('YYYY-MM-DD');
+  }
 
-    // this.enableButton = false;
-    if (this.startDate !== undefined && this.endDate !== undefined) {
-      if (this.startDate > this.endDate) {
-        // this.dataError = true;
-      } else {
-        // this.dataError = false;
-      }
-    }
+  public openModal(routeIdAux , ticketAux , customerAux) {
+    this.dialog.open(TicketComponent, {
+      width: '80vw',
+      height: '80vh',
+      disableClose: true,
+      autoFocus: false,
+      data : { route: routeIdAux , ticket: ticketAux,  client: customerAux}
+    });
+  }
+
+  public dateDisamble() {
+    const data1 = new Date(this.startDate).getTime();
+    const data2 = new Date(this.endDate).getTime();
+    return data1 > data2 ? true : false;
   }
 
 }

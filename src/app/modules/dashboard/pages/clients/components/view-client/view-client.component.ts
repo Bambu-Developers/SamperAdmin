@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy , AfterViewInit , ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -14,6 +14,8 @@ import { DateFormat } from 'src/app/modules/dashboard/data/date-format.data';
 import { RouteModel } from '../../models/route.model';
 import { DAYS } from '../../data/days';
 import { DateAdapter } from '@angular/material/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 import { DialogComponent } from 'src/app/modules/shared/components/dialog/dialog.component';
 
 @Component({
@@ -22,9 +24,10 @@ import { DialogComponent } from 'src/app/modules/shared/components/dialog/dialog
   styleUrls: ['./view-client.component.scss'],
   providers: [{ provide: DateAdapter, useClass: DateFormat }],
 })
-export class ViewClientComponent implements OnInit {
+export class ViewClientComponent implements OnInit , AfterViewInit {
 
   public dataSource: any;
+  public dataSourceVisits = new MatTableDataSource();
   public creditEditForm: FormGroup;
   public creditAssignForm: FormGroup;
   public editClientForm: FormGroup;
@@ -55,11 +58,12 @@ export class ViewClientComponent implements OnInit {
     amount1: '$1,500.00 MXN',
     date: '20 / Ago / 2018',
   };
+  public displayedColumns: string[] = ['bender_id', 'shop_name', 'name', 'route_id'];
   private _subscription: Subscription;
   private _subscriptionURL: Subscription;
   private _subscriptionService: Subscription;
   private _subscriptionRoutes: Subscription;
-
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private route: ActivatedRoute,
@@ -71,6 +75,8 @@ export class ViewClientComponent implements OnInit {
   ) {
     this._dateAdapter.setLocale('es-ES');
   }
+
+
 
   ngOnInit() {
 
@@ -118,6 +124,10 @@ export class ViewClientComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    this.dataSourceVisits.paginator = this.paginator;
+  }
+
   public getClient() {
     this._subscription = this.route.params.subscribe(params => {
       this.id = params['id'];
@@ -135,8 +145,8 @@ export class ViewClientComponent implements OnInit {
           // for (let i = 0; i < this.days.length; i++) {
           //   this.days[i].active = this.currentDays[i];
           // }
-          this.editClientFormCredit.get('haveCredit').patchValue(res.haveCredit.credit === false || res.haveCredit.credit === true
-            ? res.haveCredit.credit : false );
+          this.editClientFormCredit.get('haveCredit').patchValue(res.haveCredit === false || res.haveCredit === true
+            ? res.haveCredit : false );
           if (res.photo !== '') {
             this.editClientForm.get('photo').patchValue(res.photo);
           }
@@ -154,6 +164,11 @@ export class ViewClientComponent implements OnInit {
           this.getDays();
         }
       );
+
+      this._clientService.getVisits( this.id ).subscribe(ress => {
+        this.dataSourceVisits.data = ress;
+      });
+
     });
   }
 
@@ -206,11 +221,12 @@ export class ViewClientComponent implements OnInit {
     this.editClientForm.get('saturday').patchValue(this.days[5].active);
     this.editClientForm.get('sunday').patchValue(this.days[6].active);
     const dataAux: any = this.editClientForm.value;
-    dataAux.haveCredit = {
-      credit: this.editClientFormCredit.get('haveCredit').value,
-      debt: this.dataSource.haveCredit.debt ? this.dataSource.haveCredit.debt : 0,
-      paid: this.dataSource.haveCredit.paid ? this.dataSource.haveCredit.paid : 0
-    };
+    // dataAux.haveCredit = {
+    //   credit: this.editClientFormCredit.get('haveCredit').value,
+    //   // debt: this.dataSource.haveCredit.debt ? this.dataSource.haveCredit.debt : 0,
+    //   // paid: this.dataSource.haveCredit.paid ? this.dataSource.haveCredit.paid : 0
+    // };
+    dataAux.haveCredit = this.editClientFormCredit.get('haveCredit').value;
     if (this.imgChanged) {
       this.savePhoto().then(
         response => {

@@ -4,8 +4,15 @@
 <div class="sa-dashboard-main-content">
     <h3 class="sa-text-24 sa-charcoal-grey sa-roboto">{{language.clients}}</h3>
     <div class="sa-dashboard-actions">
+      <div class="sa-dashboard-actions-button" >
         <button [routerLink]="['/dashboard/clients/create']" mat-raised-button
-            color="accent">{{language.createClient}}</button>
+            color="accent">{{language.createClient}}
+        </button>
+        <button *ngIf="lookCheck" [disabled]="this.dataSource.filteredData.length === 0 || !checkRout " mat-raised-button
+        color="accent" (click)="changeRout()" > Seleccionar ruta </button>
+      </div>
+
+
         <mat-form-field class="sa-input-text sa-search sa-no-label sa-client-search">
             <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="{{language.search}}">
         </mat-form-field>
@@ -16,33 +23,37 @@
             <!-- BenderID Column -->
             <ng-container matColumnDef="bender_id">
                 <th class="sa-benderID-column" mat-header-cell *matHeaderCellDef> {{ language.client.benderID }} </th>
-                <td class="sa-benderID-column" mat-cell *matCellDef="let client"> {{client?.bender_id}} </td>
+                <td class="sa-benderID-column" (click)="goDetail(client.id)" mat-cell *matCellDef="let client"> {{client?.bender_id}} </td>
             </ng-container>
             <!-- Shop Name Column -->
             <ng-container matColumnDef="shop_name">
                 <th class="sa-shopName-column" mat-header-cell *matHeaderCellDef> {{ language.client.shopName }} </th>
-                <td class="sa-shopName-column" mat-cell *matCellDef="let client">"{{client?.shop_name}}"</td>
+                <td class="sa-shopName-column" (click)="goDetail(client.id)" mat-cell *matCellDef="let client">"{{client?.shop_name}}"</td>
             </ng-container>
             <!-- Name Column -->
             <ng-container matColumnDef="name">
                 <th class="sa-name-column" mat-header-cell *matHeaderCellDef> {{ language.client.name }} </th>
-                <td class="sa-name-column" mat-cell *matCellDef="let client"> {{client?.name}} </td>
+                <td class="sa-name-column" (click)="goDetail(client.id)" mat-cell *matCellDef="let client"> {{client?.name}} </td>
             </ng-container>
             <!-- Route Column -->
             <ng-container matColumnDef="route_id">
                 <th class="sa-route-column" mat-header-cell *matHeaderCellDef>
                     <!-- {{ language.client.route }} -->
                     <mat-select class="mat-select-trigger" placeholder="Rutas">
-                        <mat-option (click)="doFilter('')" [value]="Todas">Todas</mat-option>
-                        <mat-option *ngFor="let route of routes" (click)="doFilter(route.name)" [value]="route.name">
-                            {{route?.name}}</mat-option>
+                      <mat-option (click)="doFilter('')" [value]="Todas">Todas</mat-option>
+                      <mat-option *ngFor="let route of routes" (click)="doFilter(route.id)" [value]="route.id">
+                          {{route?.name}}
+                      </mat-option>
                     </mat-select>
+                    <mat-checkbox *ngIf="lookCheck" [(ngModel)]="checkRout"  class="example-margin">Cambiar Ruta</mat-checkbox>
                 </th>
-                <td class="sa-route-column" mat-cell *matCellDef="let client"> {{client.route_name}} </td>
+                <td class="sa-route-column" mat-cell *matCellDef="let client" (click)="goDetail(client.id)">
+                  {{client.route_name}}
+                </td>
+
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-                [routerLink]="['/dashboard/clients/view/', row.id]">
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;">
             </tr>
         </table>
     </div>

@@ -2,11 +2,11 @@
   <img src="assets/images/sanper-loader.gif">
 </div>
 
-
+<!-- [routerLink]="['/dashboard/inventory/history']" -->
 <div class="sa-dashboard-main-content sa-roboto sa-charcoal-grey">
     <div class="sa-ticket-header">
         <div class="sa-ticket-details">
-            <mat-icon svgIcon="ic-back" [routerLink]="['/dashboard/inventory/history']"></mat-icon>
+            <mat-icon class="sa-cursor-ponter" svgIcon="ic-back" (click)="close()" ></mat-icon>
             <mat-label class="sa-commission-title sa-text-24">Ticket</mat-label>
             <mat-label class="sa-user-name sa-text-16">{{ticket}}</mat-label>
         </div>
@@ -49,7 +49,7 @@
         <table mat-table [dataSource]="dataSourceReturnedTable">
             <!-- Sku Column -->
             <ng-container matColumnDef="sku">
-                <th class="sa-sku-column" mat-header-cell *matHeaderCellDef>{{lanInv.skuCode}} sdfsdfdsfsd </th>
+                <th class="sa-sku-column" mat-header-cell *matHeaderCellDef>{{lanInv.skuCode}} </th>
                 <td class="sa-sku-column sa-roboto-medium" mat-cell *matCellDef="let devolution">{{devolution.sku}}</td>
             </ng-container>
             <!-- Image Column -->

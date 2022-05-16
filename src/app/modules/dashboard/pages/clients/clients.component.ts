@@ -8,6 +8,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CLIENTS_LANGUAGE } from 'src/app/modules/dashboard/pages/clients/data/language';
 import { PAGINATION } from 'src/app/modules/shared/components/paginator/data/data';
 import { mergeMap, concatMap, map, take, toArray } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ChangeRoutComponent } from './change-rout/change-rout.component';
 
 @Component({
   selector: 'app-clients',
@@ -27,11 +30,15 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
   public subscriptionClients: Subscription;
   public subscriptionRoutes: Subscription;
   public dataSource = new MatTableDataSource();
+  public lookCheck = false;
+  public checkRout = false;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private clientsService: ClientsService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private router: Router,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -104,12 +111,20 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
           }
           return 0;
         });
+        console.log(res);
       }
     );
   }
 
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLowerCase();
+    console.log(this.dataSource.filteredData.length);
+    console.log(value.toLowerCase());
+    if (value.toLowerCase() === '') {
+      this.lookCheck = false;
+    } else {
+      this.lookCheck = true;
+    }
   }
 
   public nextPage() {
@@ -141,4 +156,19 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.subscriptionClient.unsubscribe();
     }
   }
+
+  public goDetail(id) {
+    this.router.navigate([ `/dashboard/clients/view/${id}`]);
+  }
+
+  public changeRout() {
+    this.dialog.open(ChangeRoutComponent, {
+      width: '500px',
+      minHeight: '200px',
+      disableClose: true,
+      autoFocus: false,
+      data: {routes: this.routes , client: this.dataSource.filteredData }
+    });
+  }
+
 }

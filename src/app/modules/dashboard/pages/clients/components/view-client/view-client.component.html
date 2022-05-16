@@ -3,7 +3,7 @@
 </div>
 <div class="sa-dashboard-main-content">
     <div class="sa-view-client-content">
-        <img src="/assets/icons/icon-vendedor-back-gray.svg" [routerLink]="['/dashboard/clients/']">
+        <img class="sa-cursor-ponter" src="/assets/icons/icon-vendedor-back-gray.svg"  [routerLink]="['/dashboard/clients/']">
         <div class="sa-client-content">
             <h3 class="sa-text-24 sa-charcoal-grey sa-roboto">{{lanClient.clients}}</h3>
             <div class="sa-client-sections">
@@ -19,17 +19,7 @@
                             <img *ngIf="imgURL" id="preview" [src]="imgURL">
                         </div>
                     </mat-card>
-                    <!-- <mat-card class="sa-bender-type-card sa-roboto sa-charcoal-grey sa-text-14">
-                        <mat-label class="sa-roboto-medium sa-text-18">{{hardc.wholesale}}</mat-label>
-                        <div class="sa-purchased-products">
-                            <mat-label class="sa-roboto-medium"> {{lanClient.purchasedProducts}} </mat-label>
-                            <div class="sa-products">
-                                PRODUCTS TO SHOW
-                            </div>
-                        </div>
-                        <mat-label class="sa-roboto-medium"> {{lanClient.ticketAvarage}} </mat-label>
-                        <mat-label class="sa-amount">{{hardc.amount9}}</mat-label>
-                    </mat-card> -->
+
                 </div>
                 <div class="sa-right-column">
                     <mat-card class="sa-client-info">
@@ -61,10 +51,7 @@
                                 <mat-label> {{lanClient.client.email}} </mat-label>
                                 <mat-label class="sa-charcoal-grey"> {{dataSource?.email}} </mat-label>
                             </div>
-                            <!-- <div>
-                                <mat-label> {{lanClient.client.createdBy}} </mat-label>
-                                <mat-label class="sa-charcoal-grey"> {{dataSource?.owner}} </mat-label>
-                            </div> -->
+
                             <div *ngIf="create_at !== ''">
                               <mat-label> Creado el </mat-label>
                               <mat-label class="sa-charcoal-grey"> {{dataSource?.create_at | date: "yyyy/MM/dd" }} </mat-label>
@@ -124,159 +111,14 @@
                       </p>
                       <mat-slide-toggle formControlName="haveCredit" [disabled]="!isEditClient" >Activa crédito</mat-slide-toggle>
                       <p class="sa-roboto-medium sa-text-18 sa-charcoal-grey">
-                        Saldo a credito $ {{ this.dataSource?.haveCredit?.debt }}
+                        Saldo a credito $ {{ this.dataSource?.pending_payment }}
                       </p>
-                      <p class="sa-roboto-medium sa-text-18 sa-charcoal-grey">
+                      <!-- <p class="sa-roboto-medium sa-text-18 sa-charcoal-grey">
                         Saldo abonado $ {{ this.dataSource?.haveCredit?.paid }}
-                      </p>
+                      </p> -->
 
                     </mat-card>
 
-
-                    <!-- <mat-card class="sa-credit-info">
-                        <div *ngIf="dataSource?.haveCredit; then withCredit else withoutCredit">
-                            {{dataSource?.haveCredit}}</div>
-                        <ng-template #withCredit>
-                            <form (ngSubmit)="editCredit()" [formGroup]="creditEditForm">
-                                <div class="sa-with-credit">
-                                    <div class="sa-left-column-wc sa-roboto sa-charcoal-grey">
-                                        <mat-label class="sa-roboto-medium sa-text-18 sa-charcoal-grey">
-                                            {{lanClient.credit.withCredit}}
-                                        </mat-label>
-                                        <div class="sa-credit-details">
-                                            <div class="sa-credit-labels">
-                                                <mat-label class="sa-roboto-medium sa-text-14">
-                                                    {{lanClient.credit.assignedAmount}} </mat-label>
-                                                <mat-label class="sa-roboto-medium sa-text-14">
-                                                    {{lanClient.credit.validity}} </mat-label>
-                                            </div>
-                                            <div class="sa-credit-inputs">
-                                                <mat-label class="sa-roboto sa-text-14" *ngIf="!isEditCredit">
-                                                    {{hardc.amount6}} </mat-label>
-                                                <mat-label class="sa-roboto sa-text-14" id="right" *ngIf="!isEditCredit"> {{hardc.date}}
-                                                </mat-label>
-                                                <div *ngIf="isEditCredit" class="sa-edit-credit">
-                                                    <mat-form-field class="sa-input-amount">
-                                                        <input matInput placeholder="" [textMask]="{mask: currencyMask}" formControlName="amountAssigned">
-                                                        <span matPrefix>{{lanClient.credit.currencySymbol}}</span>
-                                                        <span matSuffix>{{lanClient.credit.country}}</span>
-                                                        <mat-error *ngIf="creditEditForm.controls.amountAssigned.hasError('required')">
-                                                            {{language.errorRequired}}</mat-error>
-                                                    </mat-form-field>
-                                                    <mat-form-field class="sa-input-date">
-                                                        <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="dp3" placeholder="" formControlName="validityDate">
-                                                        <mat-error *ngIf="creditEditForm.controls.validityDate.hasError('required')">
-                                                            {{language.errorRequired}}</mat-error>
-                                                        <mat-datepicker-toggle matSuffix [for]="dp3">
-                                                        </mat-datepicker-toggle>
-                                                        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-                                                    </mat-form-field>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div *ngIf="!isEditCredit" class="sa-credit-history">
-                                            <mat-label class="sa-roboto-medium sa-text-18 sa-charcoal-grey">
-                                                {{lanClient.credit.creditHistory}}
-                                            </mat-label>
-                                            <div class="sa-amount-in-history">
-                                                <div class="sa-amount-assigned">
-                                                    <mat-label class="sa-roboto-medium sa-text-14">
-                                                        {{lanClient.credit.assignedAmount}}</mat-label>
-                                                    <mat-label class="sa-text-14"> {{hardc.amount3}} </mat-label>
-                                                </div>
-                                                <div class="sa-last-assigned">
-                                                    <mat-label class="sa-roboto-medium sa-text-14">
-                                                        {{lanClient.credit.lastAmountAssigned}}
-                                                    </mat-label>
-                                                    <mat-label class="sa-text-14"> {{hardc.date}} </mat-label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="sa-right-column-wc">
-                                        <div class="sa-progress-bar">
-                                            <mat-progress-bar value="45"></mat-progress-bar>
-                                            <div class="sa-amount-in-bar">
-                                                <div class="sa-amount-used">
-                                                    <div class="sa-dot"></div>
-                                                    <div>
-                                                        <mat-label class="sa-text-14"> {{hardc.amount1}} </mat-label>
-                                                        <div>
-                                                            <mat-label class="sa-label sa-text-12">
-                                                                {{lanClient.credit.amountUsed}}</mat-label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="sa-remaining-amount">
-                                                    <div class="sa-dot"></div>
-                                                    <div>
-                                                        <mat-label class="sa-text-14"> {{hardc.amount5}} </mat-label>
-                                                        <div>
-                                                            <mat-label class="sa-label sa-text-12">
-                                                                {{lanClient.credit.remainingAmount}}</mat-label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="sa-edit-credit-actions" *ngIf="isEditCredit">
-                                            <button class="sa-btn-small" mat-raised-button color="white" (click)="isEditCredit = false">{{language.cancel}}</button>
-                                            <button type="submit" class="sa-btn-small" mat-raised-button color="charcoal-grey" [disabled]="!creditEditForm.valid">{{lanClient.save}}</button>
-                                        </div>
-                                    </div>
-                                    <img src="/assets/icons/icon-edit-gray.svg" (click)="isEditCredit = true" *ngIf="!isEditCredit" id="sa-icon-edit">
-                                </div>
-                                <div *ngIf="!isEditCredit" class="sa-transactions-list">
-                                    <mat-label class="sa-roboto-medium sa-text-14 sa-charcoal-grey">
-                                        {{lanClient.transactions.listOfTransactions}}</mat-label>
-                                </div>
-                            </form>
-                        </ng-template>
-                        <ng-template #withoutCredit>
-                            <div class="sa-without-credit">
-                                <mat-label *ngIf="!isAssignedCredit" class="sa-roboto-medium sa-text-18 sa-charcoal-grey">
-                                    {{lanClient.credit.withoutCredit}}
-                                </mat-label>
-                                <mat-label *ngIf="!isAssignedCredit" class="sa-roboto sa-text-12 sa-charcoal-grey" id="sa-assign-credit" (click)="isAssignedCredit = true">
-                                    {{lanClient.credit.assignCredit}}
-                                </mat-label>
-                                <form (ngSubmit)="assignCredit()" [formGroup]="creditAssignForm">
-                                    <div *ngIf="isAssignedCredit" class="sa-assigning-credit sa-roboto sa-text-18 sa-charcoal-grey">
-                                        <div class="sa-credit-column">
-                                            <mat-label> {{lanClient.credit.assigningCredit}} </mat-label>
-                                            <div class="sa-labels sa-roboto-medium sa-text-14">
-                                                <mat-label> {{lanClient.credit.assignedAmount}} </mat-label>
-                                                <mat-label> {{lanClient.credit.validity}} </mat-label>
-                                            </div>
-                                            <div class="sa-inputs">
-                                                <mat-form-field class="sa-input-amount">
-                                                    <input matInput placeholder="" [textMask]="{mask: currencyMask}" formControlName="amountAssigned">
-                                                    <span matPrefix>{{lanClient.credit.currencySymbol}}</span>
-                                                    <span matSuffix>{{lanClient.credit.country}}</span>
-                                                    <mat-error *ngIf="creditAssignForm.controls.amountAssigned.hasError('required')">
-                                                        {{language.errorRequired}}</mat-error>
-                                                </mat-form-field>
-                                                <mat-form-field class="sa-input-date">
-                                                    <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="dp3" placeholder="" formControlName="validityDate">
-                                                    <mat-error *ngIf="creditAssignForm.controls.validityDate.hasError('required')">
-                                                        {{language.errorRequired}}</mat-error>
-                                                    <mat-datepicker-toggle matSuffix [for]="dp3">
-                                                    </mat-datepicker-toggle>
-                                                    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-                                                </mat-form-field>
-                                            </div>
-                                        </div>
-                                        <div class="sa-right-column">
-                                            <div class="sa-assigning-credit-actions">
-                                                <button class="sa-btn-small" mat-raised-button color="white" (click)="isAssignedCredit = false">{{language.cancel}}</button>
-                                                <button type="submit" class="sa-btn-small" mat-raised-button color="charcoal-grey" [disabled]="!creditAssignForm.valid">{{lanClient.save}}</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </ng-template>
-                    </mat-card> -->
                     <mat-card class="sa-map-location">
                         <agm-map [zoom]="15" [latitude]="dataSource?.latitud" [longitude]="dataSource?.longitud">
                             <agm-marker [latitude]="dataSource?.latitud" [longitude]="dataSource?.longitud">
@@ -287,4 +129,37 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="sa-dashboard-main-content">
+  <h3 class="sa-text-24 sa-charcoal-grey sa-roboto">Visitas</h3>
+  <div class="sa-dashboard-actions">
+    <mat-paginator [hidePageSize]="true"  [pageSize]="20"></mat-paginator>
+  </div>
+  <div class="sa-dashboard-clients-content">
+      <table mat-table [dataSource]="dataSourceVisits">
+
+          <ng-container matColumnDef="bender_id">
+              <th class="sa-benderID-column" mat-header-cell *matHeaderCellDef> Vendedor </th>
+              <td class="sa-benderID-column" mat-cell *matCellDef="let client"> {{client.name}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="shop_name">
+              <th class="sa-shopName-column" mat-header-cell *matHeaderCellDef> Ruta </th>
+              <td class="sa-shopName-column" mat-cell *matCellDef="let client">" {{client.route}} "</td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+              <th class="sa-name-column" mat-header-cell *matHeaderCellDef> Status </th>
+              <td class="sa-name-column" mat-cell *matCellDef="let client"> {{client.route === 	4209026084 ? 'asdasdsadas' : 'dasdasd'}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="route_id">
+              <th class="sa-route-column" mat-header-cell *matHeaderCellDef> Fecha </th>
+              <td class="sa-route-column" mat-cell *matCellDef="let client"> {{ client.date | date: 'yyyy/MM/dd' }} </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"> </tr>
+      </table>
+  </div>
 </div>

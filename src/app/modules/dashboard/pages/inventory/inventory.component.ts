@@ -10,6 +10,8 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { DatePipe } from '@angular/common';
 import { take, map, concatMap, toArray } from 'rxjs/operators';
 import * as moment from 'moment';
+import { LiquidationComponent } from './components/liquidation/liquidation.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
@@ -65,6 +67,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _fb: FormBuilder,
     private _datePipe: DatePipe,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit() {
@@ -106,8 +109,17 @@ export class InventoryComponent implements OnInit, OnDestroy {
   }
 
   public doLiquidation() {
-    const date = { date: moment(this.liquidationForm.value['date']).format('YYYY-MM-DD') };
-    this._router.navigate(['/dashboard/inventory/liquidation/' + this.liquidation], { queryParams: date });
+    // const date = { date: moment(this.liquidationForm.value['date']).format('YYYY-MM-DD') };
+    // this._router.navigate(['/dashboard/inventory/liquidation/' + this.liquidation], { queryParams: date });
+
+    this.dialog.open(LiquidationComponent, {
+      width: '80vw',
+      height: '80vh',
+      disableClose: true,
+      autoFocus: false,
+      data : { route: this.liquidation , date: moment(this.liquidationForm.value['date']).format('YYYY-MM-DD') , existLiquidation: true}
+    });
+
   }
 
   public getDates() {
@@ -125,8 +137,8 @@ export class InventoryComponent implements OnInit, OnDestroy {
   public calculateCommission() {
     const data = {
       route: this.form.controls.route.value,
-      startDate: moment(new Date(this.form.controls.date.value.begin)).format("YYYYMMDD"),
-      endDate: moment(new Date(this.form.controls.date.value.end)).format("YYYYMMDD"),
+      startDate: moment(new Date(this.form.controls.date.value.begin)).format('YYYYMMDD'),
+      endDate: moment(new Date(this.form.controls.date.value.end)).format('YYYYMMDD'),
     };
     this._router.navigate(['/dashboard/inventory/commission/'], { queryParams: data });
   }

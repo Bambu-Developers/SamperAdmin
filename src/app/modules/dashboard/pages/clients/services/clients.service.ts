@@ -15,6 +15,7 @@ export class ClientsService {
   public clientsRef: AngularFireList<ClientModel>;
   public routesRef: AngularFireList<RouteModel>;
   public analytic: AngularFireList<any>;
+  public routesRefVisits: AngularFireList<any>;
   public NEW_NAME: any;
   private _baseClientsPath = 'Staging/Customers/';
   private _baseClientsImagePath = 'Staging/Customer/';
@@ -215,6 +216,13 @@ export class ClientsService {
     }
   }
 
+  public _setClientsRouts(newRout, id): Promise <any> {
+    const CLIENT_DATA: ClientModel = {
+      route_id: newRout
+    };
+    return this.clientsRef.update(id, CLIENT_DATA);
+  }
+
   private _setClientCredit(creditData, id) {
     const CLIENT_DATA: ClientModel = {
       haveCredit: true
@@ -240,4 +248,20 @@ export class ClientsService {
         )
       );
   }
+
+  public getVisits ( id ): Observable<RouteModel[]> {
+    // id = 'example';
+    return this.db.list<any>( `Staging/Visits/${id}/`)
+      .snapshotChanges()
+      .pipe(
+        map(changes =>
+          changes.map(c => {
+            const data = c.payload.val() as RouteModel;
+            const id = c.payload.key;
+            return { id, ...data };
+          })
+        )
+      );
+  }
+
 }

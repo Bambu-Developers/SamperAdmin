@@ -17,7 +17,7 @@
     <mat-label class="sa-text-24 sa-roboto-meduim">Rutas</mat-label>
     <div class="sa-top-filter"  [formGroup]="formSearch">
       <div class="sa-top-filter-button">
-        <button (click)="getAllSales( dataId , this.startDate , this.endDate)"  mat-raised-button color="accent"> Buscar </button>
+        <button [disabled]=" dateDisamble() " (click)="getAllSales( dataId , this.startDate , this.endDate)"  mat-raised-button color="accent"> Buscar </button>
       </div>
 
       <div class="sa-route-selection">
@@ -57,27 +57,29 @@
             <!-- Ticket Column -->
             <ng-container matColumnDef="ticket">
                 <th class="sa-sku-column" mat-header-cell *matHeaderCellDef>{{lanHis.ticket}}</th>
-                <td class="sa-sku-column sa-roboto-medium" mat-cell *matCellDef="let sale">{{sale.id}}</td>
+                <td class="sa-sku-column sa-roboto-medium" (click)="openModal(sale.route_id , sale.id , sale.customerId)" mat-cell *matCellDef="let sale">{{sale.id}}</td>
             </ng-container>
             <!-- Date Column -->
             <ng-container matColumnDef="date">
                 <th class="sa-img-column" mat-header-cell *matHeaderCellDef>{{lanHis.dateSold}}</th>
-                <td class="sa-img-column" mat-cell *matCellDef="let sale"> {{sale.date | date:'dd/MMM/yyyy' }}</td>
+                <td class="sa-img-column" (click)="openModal(sale.route_id , sale.id , sale.customerId)" mat-cell *matCellDef="let sale"> {{sale.date | date:'dd/MMM/yyyy' }}</td>
             </ng-container>
             <!-- Route Column -->
             <ng-container matColumnDef="route">
                 <th class="sa-name-column" mat-header-cell *matHeaderCellDef>{{lanHis.route}}</th>
-                <td class="sa-name-column" mat-cell *matCellDef="let sale">{{sale.route_name}}</td>
+                <td class="sa-name-column" (click)="openModal(sale.route_id , sale.id , sale.customerId)" mat-cell *matCellDef="let sale">{{sale.route_name}}</td>
             </ng-container>
             <!-- Total Column -->
             <ng-container matColumnDef="total">
                 <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanHis.total}}</th>
-                <td class="sa-subtotal-column" mat-cell *matCellDef="let sale">{{sale.totalOnSalle | currency}}</td>
+                <td class="sa-subtotal-column" (click)="openModal(sale.route_id , sale.id , sale.customerId)" mat-cell *matCellDef="let sale">{{sale.totalOnSalle | currency}}</td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumnsSales"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumnsSales;"
-                [routerLink]="['/dashboard/inventory/ticket/']" [queryParams]="{ route: row.route_id, ticket: row.id ,  client: row.customerId }">
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsSales;">
             </tr>
         </table>
     </div>
 </div>
+
+
+<!-- [routerLink]="['/dashboard/inventory/ticket/']" [queryParams]="{ route: row.route_id, ticket: row.id ,  client: row.customerId }" -->

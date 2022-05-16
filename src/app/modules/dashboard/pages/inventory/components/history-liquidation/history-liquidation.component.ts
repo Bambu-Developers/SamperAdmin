@@ -11,7 +11,9 @@ import { concatMap, take, toArray } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
+import { MatDialog } from '@angular/material/dialog';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { LiquidationComponent } from '../liquidation/liquidation.component';
 
 @Component({
   selector: 'app-history-liquidation',
@@ -42,6 +44,7 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
     private _router: Router,
     private excelService: ExcelService,
     private _fb: FormBuilder,
+    private dialog: MatDialog,
   ) {
     this.formSearch = _fb.group({
       dateStart: [''],
@@ -66,6 +69,16 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
 
   ngAfterViewInit() {
     this.dataSourceHistoryLiquidation.paginator = this.paginator;
+  }
+
+  public openModal(routeIdAux  , dateAux) {
+    this.dialog.open(LiquidationComponent, {
+      width: '80vw',
+      height: '80vh',
+      disableClose: true,
+      autoFocus: false,
+      data : { route: routeIdAux , date: dateAux , existLiquidation: false}
+    });
   }
 
   public async getLiquidations( id: string , name: any ): Promise<any> {

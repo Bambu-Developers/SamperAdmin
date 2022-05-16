@@ -2,10 +2,12 @@
   <img src="assets/images/sanper-loader.gif">
 </div>
 
+<!-- [routerLink]="['/dashboard/inventory/history-liquidation']" -->
+
 <div class="sa-dashboard-main-content sa-roboto-medium sa-charcoal-grey">
     <div class="sa-liquidation-header">
         <div class="sa-liquidation-title">
-            <mat-icon svgIcon="ic-back" [routerLink]="['/dashboard/inventory/history-liquidation']"></mat-icon>
+            <mat-icon class="sa-cursor-ponter" svgIcon="ic-back" (click)="close()" ></mat-icon>
             <mat-label class="sa-text-24">{{lanLiq.liquidation}} - {{dataSource?.route_name}}</mat-label>
             <mat-label class="sa-user-name sa-text-16 sa-brownish-grey">({{user_name}})</mat-label>
         </div>
@@ -24,18 +26,27 @@
                     <mat-label> {{totalLosses | currency}}</mat-label>
                 </div>
                 <div class="sa-values">
-                    <mat-label>{{existLiquidation? 'Total liquidado:' : lanLiq.totalLiq}}</mat-label>
-                    <mat-label>{{totalSaleRetail - totalDevolutions | currency}} </mat-label>
+                    <!-- <mat-label>{{existLiquidation? 'Total liquidado:' : lanLiq.totalLiq}}</mat-label> -->
+                    <mat-label>Cobranza</mat-label>
+                    <!-- <mat-label>{{totalSaleRetail - totalDevolutions | currency}} </mat-label> -->
+                    <mat-label>{{ collection | currency}} </mat-label>
                 </div>
                 <div class="sa-values">
-                    <mat-label>{{existLiquidation? 'Total liquidado con merma:' : 'Total a liquidar con merma:'}}
-                    </mat-label>
-                    <mat-label>{{totalSaleRetail + totalLosses | currency}}</mat-label>
+                    <!-- <mat-label>{{existLiquidation? 'Total liquidado con merma:' : 'Total a liquidar con merma:'}} -->
+                    <mat-label>Total</mat-label>
+                    <!-- <mat-label>{{totalSaleRetail + totalLosses | currency}}</mat-label> -->
+                    <mat-label>{{totalSaleRetail - totalDevolutions + totalLosses + collection | currency}}</mat-label>
                 </div>
             </div>
-            <button mat-raised-button class="sa-button-approve-liquidation" color="charcoal-grey" (click)="openDialogApproveLiquidation()" *ngIf="!existLiquidation">
-                {{lanLiq.approveLiq}}
-            </button>
+            <div class="sa-column sa-justify-center sa-align-center sa-box-cobraza" >
+              <mat-form-field class="sa-user-search sa-input-amount sa-search sa-no-label">
+                <input matInput type="number" [(ngModel)]="collection" placeholder="Cobranza en pesos ">
+              </mat-form-field>
+              <button mat-raised-button class="sa-button-approve-liquidation" color="charcoal-grey" (click)="openDialogApproveLiquidation()" *ngIf="!existLiquidation">
+                  {{lanLiq.approveLiq}}
+              </button>
+            </div>
+
         </div>
     </div>
     <div class="sa-devolutions" *ngIf="dataSourceDevolutions.data.length !== 0">

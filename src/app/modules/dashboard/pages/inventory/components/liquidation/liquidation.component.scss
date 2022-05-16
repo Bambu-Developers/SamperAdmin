@@ -31,7 +31,6 @@
       .sa-button-approve-liquidation {
         width: 168px;
         height: 32px;
-        margin-left: 32px;
       }
     }
   }
@@ -145,4 +144,11 @@
 
 .sa-brand-column-test-align{
   text-align: center !important;
+}
+
+.sa-box-cobraza{
+  margin-left: 32px;
+  button{
+    margin: 5px;
+  }
 }

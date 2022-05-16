@@ -1,5 +1,5 @@
 import { element } from 'protractor';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy , Inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { INVENTORY_LANGUAGE } from '../../data/language';
@@ -7,11 +7,12 @@ import { Subscription } from 'rxjs';
 import { UsersService } from '../../../users/services/users.service';
 import { InventoryService } from './../../services/inventory.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/modules/shared/components/dialog/dialog.component';
 import { concatMap, map, take, toArray } from 'rxjs/operators';
 import moment from 'moment';
 import { ClientsService } from '../../../clients/services/clients.service';
+
 
 
 @Component({
@@ -57,6 +58,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   public user_name: any;
   public loading = true;
   public clients: any;
+  public collection: 0;
 
 
   constructor(
@@ -66,6 +68,9 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     private _datePipe: DatePipe,
     private _dialog: MatDialog,
     private _clientService: ClientsService,
+    public dialogRef: MatDialogRef<LiquidationComponent>,
+    private dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.today = this._datePipe.transform(this.today, 'yyyy-MM-dd');
   }
@@ -73,29 +78,20 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getUser();
     this.getClient();
-    // this.getDevolutions();
   }
 
   public getUser() {
-    this.dateParam = this._route.snapshot.queryParams.date;
-    this._route.params.subscribe(params => {
-      this.id = params['id'];
-      this._userService.getUserByRoute(this.id).subscribe((res: any) => {
+    this.dateParam = this.data.date;
+    this.id = this.data.route;
+    this.existLiquidation = !this.data.existLiquidation;
+    this._userService.getUserByRoute(this.id).subscribe((res: any) => {
 
-        this.dataSource = res;
-        this.userRoute = res.route;
-        this.getLiquidation();
-        this.getInventories();
-        this.getLosses( this.dateParam , this.userRoute );
-      });
+      this.dataSource = res;
+      this.userRoute = res.route;
+      this.getLiquidation();
+      this.getInventories();
+      this.getLosses( this.dateParam , this.userRoute );
     });
-        //   this.dataSource = res;
-        //   // May occurre problem ^
-        //   this.userRoute = res.route || this.id;
-
-        //   this.getLiquidation();
-        //   this.getInventories();
-        //   this.getLosses();
   }
 
   public getInventories() {
@@ -219,25 +215,16 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       if ( data.length > 0 ) {
         this.user_name = data[0].user_name;
       }
-
-
-      // res.forEach((element: any ) => {
-      //   if (this.dateParam !== undefined) {
-      //     this.today = this.dateParam;
-      //   }
-      //   if (element.date === this.today) {
-      //     this.existLiquidation = true;
-      //     this.user_name = element.user_name || this.dataSource.name;
-      //   } else {
-      //     this.user_name = element.user_name || this.dataSource.name;
-      //   }
-      // });
     });
   }
 
   public getClient() {
     const dataAux = localStorage.getItem('clients');
     this.clients = JSON.parse(dataAux);
+  }
+
+  public close(): void {
+    this.dialogRef.close();
   }
 
   ngOnDestroy() {
