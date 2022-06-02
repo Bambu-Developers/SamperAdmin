@@ -15,12 +15,16 @@
             <div class="sa-sales-details">
                 <div class="sa-values">
                     <mat-label>Ventas del día:</mat-label>
-                    <mat-label>{{totalSaleRetail | currency}}</mat-label>
+                    <mat-label>{{totalSaleRetail + totalSaleWholesale + totalSaleWholesaleG  | currency}}</mat-label>
                 </div>
                 <div class="sa-values">
                     <mat-label>Total devolución:</mat-label>
                     <mat-label> {{totalDevolutions |currency}}</mat-label>
                 </div>
+                <div class="sa-values">
+                  <mat-label>Credito:</mat-label>
+                  <mat-label> {{totalCredit |currency}}</mat-label>
+              </div>
                 <div class="sa-values">
                     <mat-label>Total merma:</mat-label>
                     <mat-label> {{totalLosses | currency}}</mat-label>
@@ -31,17 +35,50 @@
                     <!-- <mat-label>{{totalSaleRetail - totalDevolutions | currency}} </mat-label> -->
                     <mat-label>{{ collection | currency}} </mat-label>
                 </div>
+
+              <div class="sa-values">
+                <!-- <mat-label>{{existLiquidation? 'Total liquidado:' : lanLiq.totalLiq}}</mat-label> -->
+                <mat-label>Diferencia</mat-label>
+                <!-- <mat-label>{{totalSaleRetail - totalDevolutions | currency}} </mat-label> -->
+                <mat-label>{{ difference | currency}} </mat-label>
+            </div>
                 <div class="sa-values">
                     <!-- <mat-label>{{existLiquidation? 'Total liquidado con merma:' : 'Total a liquidar con merma:'}} -->
                     <mat-label>Total</mat-label>
                     <!-- <mat-label>{{totalSaleRetail + totalLosses | currency}}</mat-label> -->
-                    <mat-label>{{totalSaleRetail - totalDevolutions + totalLosses + collection | currency}}</mat-label>
+                    <mat-label>{{totalSaleRetail + totalSaleWholesale + totalSaleWholesaleG  - totalDevolutions - totalCredit + totalLosses + collection - difference | currency}}</mat-label>
                 </div>
+                <div class="sa-values">
+                  <!-- <mat-label>{{existLiquidation? 'Total liquidado:' : lanLiq.totalLiq}}</mat-label> -->
+                  <mat-label>Efectivo</mat-label>
+                  <!-- <mat-label>{{totalSaleRetail - totalDevolutions | currency}} </mat-label> -->
+                  <mat-label>{{ cash | currency}} </mat-label>
+              </div>
+                <div class="sa-values">
+                  <!-- <mat-label>{{existLiquidation? 'Total liquidado con merma:' : 'Total a liquidar con merma:'}} -->
+                  <mat-label>Saldo</mat-label>
+                  <!-- <mat-label>{{totalSaleRetail + totalLosses | currency}}</mat-label> -->
+                  <mat-label>{{  totalSaleRetail + totalSaleWholesale + totalSaleWholesaleG  - totalDevolutions - totalCredit + totalLosses + collection - difference + cash | currency}}</mat-label>
+              </div>
+
+
             </div>
-            <div class="sa-column sa-justify-center sa-align-center sa-box-cobraza" >
+
+            <div  *ngIf="!existLiquidation" class="sa-column sa-justify-center sa-align-center sa-box-cobraza" >
+              <mat-label>Cobranza</mat-label>
               <mat-form-field class="sa-user-search sa-input-amount sa-search sa-no-label">
                 <input matInput type="number" [(ngModel)]="collection" placeholder="Cobranza en pesos ">
               </mat-form-field>
+              <mat-label>Diferencia</mat-label>
+              <mat-form-field class="sa-user-search sa-input-amount sa-search sa-no-label">
+                <input matInput type="number" [(ngModel)]="difference" placeholder="Diferencias en pesos ">
+              </mat-form-field>
+              <mat-label>Efectivo</mat-label>
+              <mat-form-field class="sa-user-search sa-input-amount sa-search sa-no-label">
+                <input matInput type="number" [(ngModel)]="cash" placeholder="Efectivo en pesos ">
+              </mat-form-field>
+
+
               <button mat-raised-button class="sa-button-approve-liquidation" color="charcoal-grey" (click)="openDialogApproveLiquidation()" *ngIf="!existLiquidation">
                   {{lanLiq.approveLiq}}
               </button>
@@ -49,6 +86,11 @@
 
         </div>
     </div>
+
+    <div  *ngIf="existLiquidation" class="sa-pdf-button">
+      <button color="charcoal-grey" (click)="getPdf()" mat-button > Descarga Ticket </button>
+    </div>
+
     <div class="sa-devolutions" *ngIf="dataSourceDevolutions.data.length !== 0">
         <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Devoluciones</mat-label>
         <table mat-table [dataSource]="dataSourceDevolutions">

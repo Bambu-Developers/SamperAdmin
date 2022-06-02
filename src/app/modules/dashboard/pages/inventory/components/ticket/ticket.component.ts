@@ -16,6 +16,7 @@ import { jsPDF } from 'jspdf';
   templateUrl: './ticket.component.html',
   styleUrls: ['./ticket.component.scss'],
 })
+
 export class TicketComponent implements OnInit, OnDestroy {
   public lanInv = INVENTORY_LANGUAGE;
   public dataSourceRetailTable = new MatTableDataSource();
@@ -260,9 +261,9 @@ export class TicketComponent implements OnInit, OnDestroy {
     doc.setFont('helvetica', 'normal');
     doc.text( `Total vendido: $${this.totalSold.toFixed(2) }`, 10, 35);
     doc.text( `Total en devoluciones: $${this.totalReturned}`, 10, 40);
-    doc.text( `Cliente: ${this.client.name} - ${this.route_name}`, 10, 50);
-    doc.text( `Tienda: ${this.client.shop_name}`, 10, 55);
-    doc.text( `Teléfono: ${this.client.phone}`, 10, 60);
+    doc.text( `Cliente: ${ this.client !== undefined ? this.client.name : this.clientID } - ${this.route_name}`, 10, 50);
+    doc.text( `Tienda: ${ this.client !== undefined ? this.client.shop_name : this.clientID }`, 10, 55);
+    doc.text( `Teléfono: ${ this.client !== undefined ? this.client.phone : 'Sin teléfono' }`, 10, 60);
     const headers = this.createHeaders([
       'Producto',
       'Ruta',

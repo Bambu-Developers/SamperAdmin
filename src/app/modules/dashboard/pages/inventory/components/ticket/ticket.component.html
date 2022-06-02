@@ -24,14 +24,14 @@
     <div class="sa-sale-date sa-column">
         <div>
             Cliente:
-            <mat-label class="sa-brownish-grey">{{client?.name | titlecase}}</mat-label>
+            <mat-label class="sa-brownish-grey">{{ client !== undefined ? (client?.name | titlecase) : clientID }}</mat-label>
             <mat-label class="sa-bold">({{route_name}})</mat-label>
         </div>
         <div>
-            Tienda: "<mat-label class="sa-brownish-grey">{{client?.shop_name | titlecase}}</mat-label>"
+            Tienda: "<mat-label class="sa-brownish-grey">{{ client !== undefined ? (client?.shop_name | titlecase) : clientID}}</mat-label>"
         </div>
         <div>
-            Teléfono: <mat-label class="sa-brownish-grey">{{client?.phone}}</mat-label>
+            Teléfono: <mat-label class="sa-brownish-grey">{{ client !== undefined ? client?.phone : 'Sin teléfono'}}</mat-label>
         </div>
     </div>
     <div class="sa-sale-date">

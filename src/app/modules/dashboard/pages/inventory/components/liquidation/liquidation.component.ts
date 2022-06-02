@@ -13,7 +13,7 @@ import { concatMap, map, take, toArray } from 'rxjs/operators';
 import moment from 'moment';
 import { ClientsService } from '../../../clients/services/clients.service';
 
-
+import { jsPDF } from 'jspdf';
 
 @Component({
   selector: 'app-liquidation',
@@ -43,6 +43,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   public _allLosses: any;
   public _allInventories: any;
   public totalDevolutions = 0;
+  public totalCredit = 0;
   public subtotalInventories = 0;
   public totalLosses = 0;
   public totalLiquidation = 0;
@@ -59,6 +60,9 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   public loading = true;
   public clients: any;
   public collection: 0;
+  public cash: 0;
+  public difference: 0;
+  public salesReturns = 0;
 
 
   constructor(
@@ -78,6 +82,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getUser();
     this.getClient();
+
   }
 
   public getUser() {
@@ -92,6 +97,8 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       this.getInventories();
       this.getLosses( this.dateParam , this.userRoute );
     });
+
+
   }
 
   public getInventories() {
@@ -122,6 +129,16 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         }
       }
 
+
+      keys.forEach(( element , index) => {
+        if ( res.data[element].pay_whit_credit ) {
+          const numAux = res.data[element].pay_whit_credit_amount.slice(3 , -3);
+          this.totalCredit += (parseFloat(numAux.replace(',', '') ));
+
+        }
+      } );
+
+
       dataItems.forEach(( items ) => {
         if (
           items.wholesale_quantityG !== '' &&
@@ -140,11 +157,10 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         }
         if (items.number_of_items < items.wholesale_quantity) {
           retailProducts.push(items);
-
           this.totalSaleRetail =  this.totalSaleRetail + (items.number_of_items * parseFloat(items.retail_price));
         }
-      });
 
+      });
       this.dataSourceTable.data = retailProducts;
       this.dataSourceWholesaleTable.data = wholesaleProducts;
       this.dataSourceWholesaleTableG.data = wholesaleProductsG;
@@ -183,12 +199,15 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       response => {
         if (response) {
           this.approveLiquidation();
+          this.getPdf();
+          this.dialogRef.close();
         }
       }
     );
   }
 
   public approveLiquidation() {
+    this.totalSold = this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG - this.totalCredit;
     this._inventoryService.approveLiquidation(
       this.dataSource.id,
       this.dataSource.name,
@@ -198,12 +217,17 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       (this.totalSold - this.totalDevolutions),
       (this.totalSold + this.totalLosses),
       this.totalDevolutions,
-      this.totalLosses
+      this.totalLosses,
+
+      this.totalCredit,
+      this.collection,
+      this.cash,
+      this.difference
     );
   }
 
   public getLiquidation() {
-    this._inventoryService.getLiquidation( this.id , this.dateParam , this.dateParam  ).then(res => {
+    this._inventoryService.getLiquidation( this.id , this.dateParam , this.dateParam  ).then((res: any ) => {
       const data = [];
       const keys = Object.keys(res.data);
       keys.forEach( ( element , index ) => {
@@ -215,6 +239,14 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       if ( data.length > 0 ) {
         this.user_name = data[0].user_name;
       }
+      const inter = Object.keys(res.data);
+      if ( this.existLiquidation === true ) {
+        this.collection = res.data[inter[0]].collection ? res.data[inter[0]].collection : 0;
+        this.totalCredit = res.data[inter[0]].totalCredit ? res.data[inter[0]].totalCredit : 0;
+        this.cash = res.data[inter[0]].cash ? res.data[inter[0]].cash : 0;
+        this.difference = res.data[inter[0]].difference ? res.data[inter[0]].difference : 0;
+      }
+
     });
   }
 
@@ -230,4 +262,265 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
   }
 
+
+
+
+  public createHeaders(keys) {
+    const result = [];
+    for ( let  i = 0; i < keys.length; i += 1) {
+      if ( i === 0 ) {
+        result.push({
+          id: keys[i],
+          name: keys[i],
+          prompt: keys[i],
+          width: 88,
+          height: 10,
+          align: 'left',
+          padding: 0,
+        });
+      }
+      if ( i === 1 ) {
+        result.push({
+          id: keys[i],
+          name: keys[i],
+          prompt: keys[i],
+          width: 40,
+          height: 10,
+          align: 'left',
+          padding: 0,
+        });
+      }
+      if ( i === 2 ) {
+        result.push({
+          id: keys[i],
+          name: keys[i],
+          prompt: keys[i],
+          width: 40,
+          height: 10,
+          align: 'left',
+          padding: 0,
+        });
+      }
+      if ( i === 3 ) {
+        result.push({
+          id: keys[i],
+          name: keys[i],
+          prompt: keys[i],
+          width: 27,
+          height: 10,
+          align: 'left',
+          padding: 0,
+        });
+      }
+      if ( i === 4 ) {
+        result.push({
+          id: keys[i],
+          name: keys[i],
+          prompt: keys[i],
+          width: 35,
+          height: 10,
+          align: 'left',
+          padding: 0,
+        });
+      }
+      if ( i === 5 ) {
+        result.push({
+          id: keys[i],
+          name: keys[i],
+          prompt: keys[i],
+          width: 35,
+          height: 10,
+          align: 'left',
+          padding: 0,
+        });
+      }
+
+    }
+    return result;
+  }
+
+  public getPdf() {
+    let tableStart = false;
+    const doc = new jsPDF();
+    doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(16);
+    doc.text( `Liquidación: ${this.dataSource?.route_name} - ${this.dateParam}` , 10, 30);
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    doc.text( `Ventas del día: $${this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG}`, 10, 45);
+    doc.text( `Total devolución: $${ this.totalDevolutions}`, 10, 50);
+    doc.text( `Credito: $${ this.totalCredit }`, 10, 55);
+    doc.text( `Total merma: $${ this.totalLosses }`, 10, 60);
+    doc.text( `Cobranza: $${ this.collection }`, 10, 65);
+    doc.text( `Diferencia: $${ this.difference }`, 10, 70);
+    doc.text( `Total: $${( this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG  - this.totalDevolutions - this.totalCredit + this.totalLosses + this.collection - this.difference).toFixed(2) }`, 10, 75);
+    doc.text( `Efectivo: $${ this.cash }`, 10, 80);
+    doc.text( `Saldo: $${ (this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG  - this.totalDevolutions - this.totalCredit + this.totalLosses + this.collection - this.difference + this.cash).toFixed(2) }`, 10, 85);
+
+    if (this.dataSourceTable.data.length !== 0) {
+      const table1: any = [];
+      this.dataSourceTable.data.forEach((element: any , index: any) => {
+        table1.push({
+          Producto: ` ${element.name} `,
+          Cliente: this.clients[element.customer] !== undefined ? this.clients[element.customer].name : element.customer,
+          Marca: element.brand,
+          Vendido: `${element.number_of_items}`,
+          Precio: '$' + element.retail_price,
+          Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`).toFixed(2),
+        });
+      });
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(16);
+      if ( !tableStart ) {
+        doc.text( 'Ventas Minoristas' , 10, 95);
+        doc.table( 6 , 100, table1, this.createHeaders([
+          'Producto',
+          'Cliente',
+          'Marca',
+          'Vendido',
+          'Precio',
+          'Total',
+        ]), { fontSize: 8 , padding: 1.2 , printHeaders: true  }   );
+      } else {
+        doc.addPage('a4', 'p' , );
+        doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
+        doc.text( 'Ventas Minoristas' , 10, 30);
+        doc.table( 6 , 35, table1, this.createHeaders([
+          'Producto',
+          'Cliente',
+          'Marca',
+          'Vendido',
+          'Precio',
+          'Total',
+        ]), { fontSize: 8 , padding: 1.2 , printHeaders: true   });
+      }
+      tableStart = true;
+    }
+
+    if (this.dataSourceDevolutions.data.length !== 0) {
+      const table2: any = [];
+      this.dataSourceDevolutions.data.forEach((element: any) => {
+        table2.push({
+          Producto: ` ${element.name}  `,
+          Cliente: this.clients[element.customer] !== undefined ? this.clients[element.customer].name : element.customer,
+          Marca: element.brand,
+          Vendido: `${element.number_of_items}`,
+          Precio: '$' + element.retail_price,
+          Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`).toFixed(2),
+        });
+      });
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(16);
+      if ( !tableStart ) {
+        doc.text( 'Devoluciones' , 10, 90);
+        doc.table(6, 95, table2,  this.createHeaders([
+          'Producto',
+          'Cliente',
+          'Marca',
+          'Vendido',
+          'Precio',
+          'Total',
+        ]), {fontSize: 7 , padding: 1.2 , printHeaders: true });
+      } else {
+        doc.addPage('a4', 'p');
+        doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
+        doc.text( 'Devoluciones' , 10, 30);
+        doc.table(6, 35, table2, this.createHeaders([
+          'Producto',
+          'Cliente',
+          'Marca',
+          'Vendido',
+          'Precio',
+          'Total',
+        ]), {fontSize: 7 , padding: 1.2 , printHeaders: true });
+      }
+      tableStart = true;
+
+    }
+
+    if (this.dataSourceWholesaleTable.data.length !== 0) {
+      const table3: any = [];
+      this.dataSourceWholesaleTable.data.forEach((element: any) => {
+        table3.push({
+          Producto: ` ${element.name}  `,
+          Cliente: this.clients[element.customer] !== undefined ? this.clients[element.customer].name : element.customer,
+          Marca: element.brand,
+          Vendido: `${element.number_of_items}`,
+          Precio: '$' + element.wholesale_price,
+          Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.wholesale_price)}`).toFixed(2),
+        });
+      });
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(16);
+      if ( !tableStart ) {
+        doc.text( 'Ventas Mayorista' , 10, 90);
+        doc.table(6, 95, table3, this.createHeaders([
+          'Producto',
+          'Cliente',
+          'Marca',
+          'Vendido',
+          'Precio',
+          'Total',
+        ]), {fontSize: 7 , padding: 1.2 , printHeaders: true });
+      } else {
+        doc.addPage('a4', 'p');
+        doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
+        doc.text( 'Ventas Mayorista' , 10, 30);
+        doc.table(6, 35, table3, this.createHeaders([
+          'Producto',
+          'Cliente',
+          'Marca',
+          'Vendido',
+          'Precio',
+          'Total',
+        ]), {fontSize: 7 , padding: 1.2 , printHeaders: true });
+      }
+      tableStart = true;
+    }
+
+    if (this.dataSourceWholesaleTableG.data.length !== 0) {
+      const table4: any = [];
+      this.dataSourceWholesaleTableG.data.forEach((element: any) => {
+        table4.push({
+          Producto: ` ${element.name}  `,
+          Cliente: this.clients[element.customer] !== undefined ? this.clients[element.customer].name : element.customer,
+          Marca: element.brand,
+          Vendido: element.number_of_items,
+          Precio: '$' + element.wholesale_priceG,
+          Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.wholesale_priceG)}`).toFixed(2),
+        });
+      });
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(16);
+      if ( !tableStart ) {
+        doc.text( 'Ventas Gran Mayoreo' , 10, 90);
+        doc.table(6, 95, table4, this.createHeaders([
+          'Producto',
+          'Cliente',
+          'Marca',
+          'Vendido',
+          'Precio',
+          'Total',
+        ]), {fontSize: 7 , padding: 1.2 , printHeaders: true });
+      } else {
+        doc.addPage('a4', 'p');
+        doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
+        doc.text( 'Ventas Gran Mayoreo' , 10, 30);
+        doc.table(6, 35, table4, this.createHeaders([
+          'Producto',
+          'Cliente',
+          'Marca',
+          'Vendido',
+          'Precio',
+          'Total',
+        ]), {fontSize: 7 , padding: 1.2 , printHeaders: true });
+      }
+      tableStart = true;
+    }
+
+    doc.save( `Ticket-Nombre.pdf` );
+  }
 }

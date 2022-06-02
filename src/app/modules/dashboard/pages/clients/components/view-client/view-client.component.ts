@@ -17,6 +17,7 @@ import { DateAdapter } from '@angular/material/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { DialogComponent } from 'src/app/modules/shared/components/dialog/dialog.component';
+import { TicketComponent } from '../../../inventory/components/ticket/ticket.component';
 
 @Component({
   selector: 'app-view-client',
@@ -384,6 +385,16 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
     if (this._subscriptionRoutes) {
       this._subscriptionRoutes.unsubscribe();
     }
+  }
+
+  public openModal(routeIdAux , ticketAux , customerAux) {
+    this._dialog.open(TicketComponent, {
+      width: '80vw',
+      height: '80vh',
+      disableClose: true,
+      autoFocus: false,
+      data : { route: routeIdAux , ticket: ticketAux,  client: customerAux}
+    });
   }
 
 }

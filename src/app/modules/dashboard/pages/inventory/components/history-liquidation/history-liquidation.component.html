@@ -57,7 +57,7 @@
                             {{route.name}}</mat-option>
                     </mat-select>
                 </th>
-                <td class="sa-route-column"(click)="openModal(sale.route , sale.date)" mat-cell *matCellDef="let client"> {{client.route_name}} </td>
+                <td class="sa-route-column"(click)="openModal(sale.route , sale.date)" mat-cell *matCellDef="let sale"> {{sale.route_name}} </td>
             </ng-container>
             <!-- Sales Of The Day Column -->
             <ng-container matColumnDef="saleOfDay">

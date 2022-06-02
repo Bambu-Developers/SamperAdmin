@@ -141,22 +141,22 @@
 
           <ng-container matColumnDef="bender_id">
               <th class="sa-benderID-column" mat-header-cell *matHeaderCellDef> Vendedor </th>
-              <td class="sa-benderID-column" mat-cell *matCellDef="let client"> {{client.name}} </td>
+              <td class="sa-benderID-column" mat-cell *matCellDef="let client" (click)="openModal(client.route , client.order_id , client.id)" > {{client.name}} </td>
           </ng-container>
 
           <ng-container matColumnDef="shop_name">
               <th class="sa-shopName-column" mat-header-cell *matHeaderCellDef> Ruta </th>
-              <td class="sa-shopName-column" mat-cell *matCellDef="let client">" {{client.route}} "</td>
+              <td class="sa-shopName-column" mat-cell *matCellDef="let client" (click)="openModal(client.route , client.order_id , client.id)">" {{client.route}} "</td>
           </ng-container>
 
           <ng-container matColumnDef="name">
               <th class="sa-name-column" mat-header-cell *matHeaderCellDef> Status </th>
-              <td class="sa-name-column" mat-cell *matCellDef="let client"> {{client.route === 	4209026084 ? 'asdasdsadas' : 'dasdasd'}} </td>
+              <td class="sa-name-column" mat-cell *matCellDef="let client" (click)="openModal(client.route , client.order_id , client.id)"> {{client?.status}} </td>
           </ng-container>
 
           <ng-container matColumnDef="route_id">
               <th class="sa-route-column" mat-header-cell *matHeaderCellDef> Fecha </th>
-              <td class="sa-route-column" mat-cell *matCellDef="let client"> {{ client.date | date: 'yyyy/MM/dd' }} </td>
+              <td class="sa-route-column" mat-cell *matCellDef="let client" (click)="openModal(client.route , client.order_id , client.id)"> {{ client.date | date: 'yyyy/MM/dd' }} </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"> </tr>

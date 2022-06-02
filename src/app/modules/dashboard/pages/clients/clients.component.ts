@@ -111,15 +111,12 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
           }
           return 0;
         });
-        console.log(res);
       }
     );
   }
 
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLowerCase();
-    console.log(this.dataSource.filteredData.length);
-    console.log(value.toLowerCase());
     if (value.toLowerCase() === '') {
       this.lookCheck = false;
     } else {

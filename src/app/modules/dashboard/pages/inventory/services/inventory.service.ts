@@ -75,7 +75,8 @@ export class InventoryService {
     return this.http.get(`${environment.urlService}/lostProducts?date=${date}&route=${route}`, { }).toPromise();
   }
 
-  public approveLiquidation(userId, userName, date, userRoute, totalSale, totalLiquidation, totalWithLoss, totalDevolutions, totalLosses) {
+  public approveLiquidation(userId, userName, date, userRoute, totalSale, totalLiquidation, totalWithLoss, totalDevolutions, totalLosses,
+    totalCredit, collection, cash, difference ) {
     this.liquidationRef = this._db.list<any>(`${this._basePathLiq + userRoute}`);
     const LIQUIDATION_DATA = {
       uid: userId,
@@ -87,6 +88,12 @@ export class InventoryService {
       total_liq_loss: totalWithLoss,
       total_devolutions: totalDevolutions,
       total_losses: totalLosses,
+
+      totalCredit: totalCredit,
+      collection: collection,
+      cash: cash,
+      difference: difference
+
     };
     this.liquidationRef.push(LIQUIDATION_DATA);
   }
@@ -118,6 +125,8 @@ export class InventoryService {
       // return this._db.list<any>( 'Staging/HistoryRoutes/' + id , res => res.orderByChild('date').startAt(dataStart).endAt(dataEnd)
       // ).valueChanges();
   }
+
+
 
   public getSalesFromKeys(key) {
     const rest = this._db.list(this._basePathHis + key);

@@ -20,7 +20,6 @@ export class ChangeRoutComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.data);
   }
 
   public close(): void {
@@ -29,7 +28,6 @@ export class ChangeRoutComponent implements OnInit {
 
   public editClient( cont ) {
     this.contAux = cont;
-    console.log(this.data.client.length , cont , this.routeAux);
     if ( cont  === this.data.client.length ) {
       location.reload();
     } else {
