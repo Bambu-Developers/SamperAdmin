@@ -71,13 +71,13 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
     this.dataSourceHistoryLiquidation.paginator = this.paginator;
   }
 
-  public openModal(routeIdAux  , dateAux) {
+  public openModal(routeIdAux  , dateAux , rute) {
     this.dialog.open(LiquidationComponent, {
       width: '80vw',
       height: '80vh',
       disableClose: true,
       autoFocus: false,
-      data : { route: routeIdAux , date: dateAux , existLiquidation: false}
+      data : { route: routeIdAux , date: dateAux , existLiquidation: false , nameRute: rute}
     });
   }
 

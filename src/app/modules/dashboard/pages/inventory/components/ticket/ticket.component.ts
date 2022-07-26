@@ -63,6 +63,7 @@ export class TicketComponent implements OnInit, OnDestroy {
   public ticket: any;
   public client: any;
   public clientID: any;
+  public credit: any;
   public route_name = '';
   public loading = true;
 
@@ -106,6 +107,7 @@ export class TicketComponent implements OnInit, OnDestroy {
   public getTicketData(route, ticket) {
     this._inventoryService.getSaleByTicket(route, ticket).then(
       ress => {
+        this.credit = ress.data.pay_whit_credit ? ress.data.pay_whit_credit_amount : 0;
         this.clientID = ress.data.customerId;
         this.date = ress.data.date;
         this.route_name = ress.data.route_name;

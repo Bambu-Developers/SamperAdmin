@@ -2,8 +2,6 @@
   <img src="assets/images/sanper-loader.gif">
 </div>
 
-<!-- [routerLink]="['/dashboard/inventory/history-liquidation']" -->
-
 <div class="sa-dashboard-main-content sa-roboto-medium sa-charcoal-grey">
     <div class="sa-liquidation-header">
         <div class="sa-liquidation-title">
@@ -24,41 +22,35 @@
                 <div class="sa-values">
                   <mat-label>Credito:</mat-label>
                   <mat-label> {{totalCredit |currency}}</mat-label>
-              </div>
+                </div>
+                <div class="sa-values">
+                  <mat-label>Credito cobrado:</mat-label>
+                  <mat-label> {{colletCredit |currency}}</mat-label>
+                </div>
                 <div class="sa-values">
                     <mat-label>Total merma:</mat-label>
                     <mat-label> {{totalLosses | currency}}</mat-label>
                 </div>
                 <div class="sa-values">
-                    <!-- <mat-label>{{existLiquidation? 'Total liquidado:' : lanLiq.totalLiq}}</mat-label> -->
                     <mat-label>Cobranza</mat-label>
-                    <!-- <mat-label>{{totalSaleRetail - totalDevolutions | currency}} </mat-label> -->
                     <mat-label>{{ collection | currency}} </mat-label>
                 </div>
 
               <div class="sa-values">
-                <!-- <mat-label>{{existLiquidation? 'Total liquidado:' : lanLiq.totalLiq}}</mat-label> -->
                 <mat-label>Diferencia</mat-label>
-                <!-- <mat-label>{{totalSaleRetail - totalDevolutions | currency}} </mat-label> -->
                 <mat-label>{{ difference | currency}} </mat-label>
             </div>
                 <div class="sa-values">
-                    <!-- <mat-label>{{existLiquidation? 'Total liquidado con merma:' : 'Total a liquidar con merma:'}} -->
                     <mat-label>Total</mat-label>
-                    <!-- <mat-label>{{totalSaleRetail + totalLosses | currency}}</mat-label> -->
-                    <mat-label>{{totalSaleRetail + totalSaleWholesale + totalSaleWholesaleG  - totalDevolutions - totalCredit + totalLosses + collection - difference | currency}}</mat-label>
+                    <mat-label>{{totalSaleRetail + totalSaleWholesale + totalSaleWholesaleG  - totalDevolutions - totalCredit + totalLosses + collection - difference + colletCredit | currency}}</mat-label>
                 </div>
                 <div class="sa-values">
-                  <!-- <mat-label>{{existLiquidation? 'Total liquidado:' : lanLiq.totalLiq}}</mat-label> -->
                   <mat-label>Efectivo</mat-label>
-                  <!-- <mat-label>{{totalSaleRetail - totalDevolutions | currency}} </mat-label> -->
                   <mat-label>{{ cash | currency}} </mat-label>
               </div>
                 <div class="sa-values">
-                  <!-- <mat-label>{{existLiquidation? 'Total liquidado con merma:' : 'Total a liquidar con merma:'}} -->
                   <mat-label>Saldo</mat-label>
-                  <!-- <mat-label>{{totalSaleRetail + totalLosses | currency}}</mat-label> -->
-                  <mat-label>{{  totalSaleRetail + totalSaleWholesale + totalSaleWholesaleG  - totalDevolutions - totalCredit + totalLosses + collection - difference + cash | currency}}</mat-label>
+                  <mat-label>{{  totalSaleRetail + totalSaleWholesale + totalSaleWholesaleG  - totalDevolutions - totalCredit + totalLosses + collection - difference - cash + colletCredit | currency}}</mat-label>
               </div>
 
 
@@ -125,7 +117,9 @@
             <ng-container matColumnDef="customer">
               <th class="sa-quantity-column sa-brand-column-test-align" mat-header-cell *matHeaderCellDef>Cliente id</th>
               <td class="sa-quantity-column sa-brand-column-test-align" mat-cell *matCellDef="let inventory"
-              [routerLink]="['/dashboard/clients/view/',inventory?.customer]" >{{ clients[inventory.customer] !== undefined ? clients[inventory.customer].name : inventory.customer }}</td>
+              [routerLink]="['/dashboard/clients/view/',inventory?.customer]" >
+              {{ clients[inventory.customer] !== undefined ? clients[inventory.customer]?.name : inventory.customer }}
+            </td>
               <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
             <!-- Brand Column -->

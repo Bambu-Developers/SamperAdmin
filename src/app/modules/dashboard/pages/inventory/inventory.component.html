@@ -37,7 +37,7 @@
                 <div class="sa-route-selection">
                     <mat-select class="mat-select-trigger" placeholder="Selecciona una ruta">
                         <mat-option *ngFor="let route of routes" (click)="routeSelected = true"
-                            (click)="setRoute(route.id)" [value]="route.name">{{route.name}}</mat-option>
+                            (click)="setRoute(route.id , route.name)" [value]="route.name">{{route.name}}</mat-option>
                     </mat-select>
                 </div>
                 <mat-label *ngIf="!routeSelected" class="sa-text-italic sa-text-14">{{lanInv.selectRoute}}</mat-label>
@@ -51,7 +51,7 @@
                             </sat-datepicker>
                             <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
                         </mat-form-field>
-                        <button mat-raised-button class="sa-button-liquidation" color="accent" (click)="doLiquidation()"
+                        <button mat-raised-button class="sa-button-liquidation" color="accent" (click)="doLiquidation(  )"
                             [disabled]="!liquidationForm.valid">
                             {{lanInv.doLiquidation}}
                         </button>

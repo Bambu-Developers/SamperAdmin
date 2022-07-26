@@ -19,6 +19,10 @@
                 <mat-label>Total en devoluciones: </mat-label>
                 <mat-label>{{totalReturned | currency}}</mat-label>
             </div>
+             <div *ngIf="this.credit != 0" class="sa-ticket-total-sold">
+                <mat-label>Credito: </mat-label>
+                <mat-label>{{this.credit }}</mat-label>
+            </div>
         </div>
     </div>
     <div class="sa-sale-date sa-column">

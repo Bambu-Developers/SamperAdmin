@@ -27,6 +27,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   public commissionCalc = false;
   public user: any;
   public liquidation: any;
+  public liquidationName: any;
   private _subscriptionInventories: Subscription;
   private _subscriptionRoutes: Subscription;
   private _allInventories: any;
@@ -108,7 +109,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
 
-  public doLiquidation() {
+  public doLiquidation(  ) {
     // const date = { date: moment(this.liquidationForm.value['date']).format('YYYY-MM-DD') };
     // this._router.navigate(['/dashboard/inventory/liquidation/' + this.liquidation], { queryParams: date });
 
@@ -117,7 +118,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
       height: '80vh',
       disableClose: true,
       autoFocus: false,
-      data : { route: this.liquidation , date: moment(this.liquidationForm.value['date']).format('YYYY-MM-DD') , existLiquidation: true}
+      data : { route: this.liquidation , date: moment(this.liquidationForm.value['date']).format('YYYY-MM-DD') , existLiquidation: true , nameRute: this.liquidationName }
     });
 
   }
@@ -130,8 +131,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
       });
   }
 
-  public setRoute(route) {
+  public setRoute(route , name) {
     this.liquidation = route;
+    this.liquidationName = name;
   }
 
   public calculateCommission() {

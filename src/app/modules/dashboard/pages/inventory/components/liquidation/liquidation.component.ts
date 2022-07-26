@@ -33,8 +33,8 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   public dataSourceWholesaleTableG = new MatTableDataSource();
   public dataSourceDevolutions = new MatTableDataSource();
   public dataSourceLosses = new MatTableDataSource();
-  public displayedColumns = ['sku', 'image', 'name', 'quantity', 'customer', 'brand', 'subtotal'];
-  public displayedColumnsDevolutions = ['sku', 'image', 'name', 'quantity', 'customer', 'brand', 'subtotal'];
+  public displayedColumns = ['sku', 'image', 'name', 'quantity', 'brand', 'subtotal'];
+  public displayedColumnsDevolutions = ['sku', 'image', 'name', 'quantity', 'brand', 'subtotal'];
   public displayedColumnsLosses = ['sku', 'image', 'name', 'quantity', 'brand', 'subtotal'];
   public userRoute;
   public devolutions;
@@ -44,6 +44,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   public _allInventories: any;
   public totalDevolutions = 0;
   public totalCredit = 0;
+  public colletCredit = 0;
   public subtotalInventories = 0;
   public totalLosses = 0;
   public totalLiquidation = 0;
@@ -93,6 +94,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
       this.dataSource = res;
       this.userRoute = res.route;
+      console.log(this.userRoute);
       this.getLiquidation();
       this.getInventories();
       this.getLosses( this.dateParam , this.userRoute );
@@ -131,10 +133,13 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
 
       keys.forEach(( element , index) => {
-        if ( res.data[element].pay_whit_credit ) {
-          const numAux = res.data[element].pay_whit_credit_amount.slice(3 , -3);
-          this.totalCredit += (parseFloat(numAux.replace(',', '') ));
 
+        if ( res.data[element].pay_whit_credit === true && !this.existLiquidation ) {
+          const numAux = res.data[element].pay_whit_credit_amount.slice(3 , -3);
+          this.totalCredit = (parseFloat(numAux.replace(',', ''))) + this.totalCredit ;
+        }
+        if ( res.data[element].collet_credit !== undefined ) {
+          this.colletCredit = res.data[element].collet_credit + this.colletCredit ;
         }
       } );
 
@@ -145,21 +150,50 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           items.number_of_items >= items.wholesale_quantity &&
           items.number_of_items < items.wholesale_quantityG
         ) {
-          wholesaleProducts.push(items);
+          let newsku = true;
+          wholesaleProducts.find( function (elementAux: any , index) {
+            if (items.sku === elementAux.sku ) {
+              wholesaleProducts[index].number_of_items =  wholesaleProducts[index].number_of_items + items.number_of_items;
+              console.log(elementAux.sku);
+              newsku = false;
+            }
+          });
+          if (newsku) {
+            wholesaleProducts.push(items);
+          }
           this.totalSaleWholesale = this.totalSaleWholesale +  (items.number_of_items *  parseFloat(items.wholesale_price));
         }
         if (
           items.wholesale_quantityG !== '' &&
           items.number_of_items >= items.wholesale_quantityG
         ) {
-          wholesaleProductsG.push(items);
+          let newsku = true;
+          wholesaleProductsG.find( function (elementAux: any , index) {
+            if (items.sku === elementAux.sku ) {
+              wholesaleProductsG[index].number_of_items =  wholesaleProductsG[index].number_of_items + items.number_of_items;
+              console.log(elementAux.sku);
+              newsku = false;
+            }
+          });
+          if (newsku) {
+            wholesaleProductsG.push(items);
+          }
           this.totalSaleWholesaleG =  this.totalSaleWholesaleG  + (items.number_of_items *  parseFloat(items.wholesale_priceG));
         }
         if (items.number_of_items < items.wholesale_quantity) {
+          let newsku = true;
+          retailProducts.find( function (elementAux: any , index) {
+            if (items.sku === elementAux.sku ) {
+              retailProducts[index].number_of_items =  retailProducts[index].number_of_items + items.number_of_items;
+              console.log(elementAux.sku);
+              newsku = false;
+            }
+          });
+          if (newsku) {
           retailProducts.push(items);
+          }
           this.totalSaleRetail =  this.totalSaleRetail + (items.number_of_items * parseFloat(items.retail_price));
         }
-
       });
       this.dataSourceTable.data = retailProducts;
       this.dataSourceWholesaleTable.data = wholesaleProducts;
@@ -207,18 +241,17 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   }
 
   public approveLiquidation() {
-    this.totalSold = this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG - this.totalCredit;
+    this.totalSold = this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG;
     this._inventoryService.approveLiquidation(
       this.dataSource.id,
       this.dataSource.name,
       this.today,
       this.userRoute,
       this.totalSold,
-      (this.totalSold - this.totalDevolutions),
-      (this.totalSold + this.totalLosses),
+      (this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG  - this.totalDevolutions - this.totalCredit + this.totalLosses + this.collection - this.difference - this.cash + this.colletCredit),
+      (this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG  - this.totalDevolutions - this.totalCredit + this.totalLosses + this.collection - this.difference + this.colletCredit),
       this.totalDevolutions,
       this.totalLosses,
-
       this.totalCredit,
       this.collection,
       this.cash,
@@ -226,8 +259,10 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     );
   }
 
+
   public getLiquidation() {
     this._inventoryService.getLiquidation( this.id , this.dateParam , this.dateParam  ).then((res: any ) => {
+      console.log(res);
       const data = [];
       const keys = Object.keys(res.data);
       keys.forEach( ( element , index ) => {
@@ -251,8 +286,17 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   }
 
   public getClient() {
-    const dataAux = localStorage.getItem('clients');
-    this.clients = JSON.parse(dataAux);
+    this._clientService.getAllClients().subscribe(( res: any) => {
+      const dataClientAux = {};
+      res.forEach( ( element , index ) => {
+        dataClientAux[element.id] = element;
+        if ( index + 1 === res.length ) {
+          localStorage.setItem( 'clients' , JSON.stringify(dataClientAux) );
+          this.clients = dataClientAux;
+          console.log(this.clients);
+        }
+      });
+    });
   }
 
   public close(): void {
@@ -345,25 +389,25 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(16);
-    doc.text( `Liquidación: ${this.dataSource?.route_name} - ${this.dateParam}` , 10, 30);
+    doc.text( `Liquidación: ${ this.data.nameRute} - ${this.user_name}` , 10, 30);
     doc.setFontSize(12);
     doc.setFont('helvetica', 'normal');
-    doc.text( `Ventas del día: $${this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG}`, 10, 45);
-    doc.text( `Total devolución: $${ this.totalDevolutions}`, 10, 50);
-    doc.text( `Credito: $${ this.totalCredit }`, 10, 55);
-    doc.text( `Total merma: $${ this.totalLosses }`, 10, 60);
-    doc.text( `Cobranza: $${ this.collection }`, 10, 65);
-    doc.text( `Diferencia: $${ this.difference }`, 10, 70);
-    doc.text( `Total: $${( this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG  - this.totalDevolutions - this.totalCredit + this.totalLosses + this.collection - this.difference).toFixed(2) }`, 10, 75);
-    doc.text( `Efectivo: $${ this.cash }`, 10, 80);
-    doc.text( `Saldo: $${ (this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG  - this.totalDevolutions - this.totalCredit + this.totalLosses + this.collection - this.difference + this.cash).toFixed(2) }`, 10, 85);
+    doc.text( `Ventas del día: $${(this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG).toFixed(2)}`, 10, 40);
+    doc.text( `Total devolución: $${ this.totalDevolutions.toFixed(2)}`, 10, 45);
+    doc.text( `Credito: $${ this.totalCredit.toFixed(2) }`, 10, 50);
+    doc.text( `Credito cobrado: $${ this.colletCredit.toFixed(2) }`, 10, 55);
+    doc.text( `Total merma: $${ this.totalLosses.toFixed(2) }`, 10, 60);
+    doc.text( `Cobranza: $${ this.collection.toFixed(2) }`, 10, 65);
+    doc.text( `Diferencia: $${ this.difference.toFixed(2) }`, 10, 70);
+    doc.text( `Total: $${( this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG  - this.totalDevolutions - this.totalCredit + this.totalLosses + this.collection - this.difference + this.colletCredit).toFixed(2) }`, 10, 75);
+    doc.text( `Efectivo: $${ this.cash.toFixed(2) }`, 10, 80);
+    doc.text( `Saldo: $${ (this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG  - this.totalDevolutions - this.totalCredit + this.totalLosses + this.collection - this.difference - this.cash + this.colletCredit).toFixed(2) }`, 10, 85);
 
     if (this.dataSourceTable.data.length !== 0) {
       const table1: any = [];
       this.dataSourceTable.data.forEach((element: any , index: any) => {
         table1.push({
           Producto: ` ${element.name} `,
-          Cliente: this.clients[element.customer] !== undefined ? this.clients[element.customer].name : element.customer,
           Marca: element.brand,
           Vendido: `${element.number_of_items}`,
           Precio: '$' + element.retail_price,
@@ -376,7 +420,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         doc.text( 'Ventas Minoristas' , 10, 95);
         doc.table( 6 , 100, table1, this.createHeaders([
           'Producto',
-          'Cliente',
           'Marca',
           'Vendido',
           'Precio',
@@ -388,7 +431,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         doc.text( 'Ventas Minoristas' , 10, 30);
         doc.table( 6 , 35, table1, this.createHeaders([
           'Producto',
-          'Cliente',
           'Marca',
           'Vendido',
           'Precio',
@@ -401,9 +443,10 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     if (this.dataSourceDevolutions.data.length !== 0) {
       const table2: any = [];
       this.dataSourceDevolutions.data.forEach((element: any) => {
+
         table2.push({
           Producto: ` ${element.name}  `,
-          Cliente: this.clients[element.customer] !== undefined ? this.clients[element.customer].name : element.customer,
+
           Marca: element.brand,
           Vendido: `${element.number_of_items}`,
           Precio: '$' + element.retail_price,
@@ -416,7 +459,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         doc.text( 'Devoluciones' , 10, 90);
         doc.table(6, 95, table2,  this.createHeaders([
           'Producto',
-          'Cliente',
           'Marca',
           'Vendido',
           'Precio',
@@ -428,7 +470,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         doc.text( 'Devoluciones' , 10, 30);
         doc.table(6, 35, table2, this.createHeaders([
           'Producto',
-          'Cliente',
           'Marca',
           'Vendido',
           'Precio',
@@ -444,7 +485,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       this.dataSourceWholesaleTable.data.forEach((element: any) => {
         table3.push({
           Producto: ` ${element.name}  `,
-          Cliente: this.clients[element.customer] !== undefined ? this.clients[element.customer].name : element.customer,
           Marca: element.brand,
           Vendido: `${element.number_of_items}`,
           Precio: '$' + element.wholesale_price,
@@ -458,7 +498,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         doc.text( 'Ventas Mayorista' , 10, 90);
         doc.table(6, 95, table3, this.createHeaders([
           'Producto',
-          'Cliente',
           'Marca',
           'Vendido',
           'Precio',
@@ -470,7 +509,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         doc.text( 'Ventas Mayorista' , 10, 30);
         doc.table(6, 35, table3, this.createHeaders([
           'Producto',
-          'Cliente',
           'Marca',
           'Vendido',
           'Precio',
@@ -485,7 +523,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       this.dataSourceWholesaleTableG.data.forEach((element: any) => {
         table4.push({
           Producto: ` ${element.name}  `,
-          Cliente: this.clients[element.customer] !== undefined ? this.clients[element.customer].name : element.customer,
           Marca: element.brand,
           Vendido: element.number_of_items,
           Precio: '$' + element.wholesale_priceG,
@@ -499,7 +536,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         doc.text( 'Ventas Gran Mayoreo' , 10, 90);
         doc.table(6, 95, table4, this.createHeaders([
           'Producto',
-          'Cliente',
+
           'Marca',
           'Vendido',
           'Precio',
@@ -511,10 +548,50 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         doc.text( 'Ventas Gran Mayoreo' , 10, 30);
         doc.table(6, 35, table4, this.createHeaders([
           'Producto',
-          'Cliente',
+
           'Marca',
           'Vendido',
           'Precio',
+          'Total',
+        ]), {fontSize: 7 , padding: 1.2 , printHeaders: true });
+      }
+      tableStart = true;
+    }
+
+
+    if (this.dataSourceLosses.data.length !== 0) {
+      console.log(this.dataSourceLosses.data);
+      const table4: any = [];
+      this.dataSourceLosses.data.forEach((element: any) => {
+        table4.push({
+          Producto: ` ${element.product.name}  `,
+          Marca: element.product.brand,
+          Precio: '$' + element.product.wholesale_price,
+          Mermas: ` ${element.number_of_piz}`,
+          Total: '$' + parseFloat(`${ parseFloat(element.number_of_piz) * parseFloat(element.product.wholesale_price)}`).toFixed(2),
+        });
+      });
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(16);
+      if ( !tableStart ) {
+        doc.text( 'Mermas' , 10, 90);
+        doc.table(6, 95, table4, this.createHeaders([
+          'Producto',
+          'Marca',
+          'Precio',
+          'Mermas',
+          'Total',
+        ]), {fontSize: 7 , padding: 1.2 , printHeaders: true });
+      } else {
+        doc.addPage('a4', 'p');
+        doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
+        doc.text( 'Mermas' , 10, 30);
+        doc.table(6, 35, table4, this.createHeaders([
+          'Producto',
+          'Marca',
+          'Precio',
+          'Mermas',
           'Total',
         ]), {fontSize: 7 , padding: 1.2 , printHeaders: true });
       }
