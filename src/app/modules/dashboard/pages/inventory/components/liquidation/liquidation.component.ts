@@ -57,6 +57,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   public totalSaleRetail: any = 0;
   public totalSale: any = 0;
   public dateParam: any;
+  public saleDate: any;
   public user_name: any;
   public loading = true;
   public clients: any;
@@ -94,7 +95,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
       this.dataSource = res;
       this.userRoute = res.route;
-      console.log(this.userRoute);
       this.getLiquidation();
       this.getInventories();
       this.getLosses( this.dateParam , this.userRoute );
@@ -154,7 +154,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           wholesaleProducts.find( function (elementAux: any , index) {
             if (items.sku === elementAux.sku ) {
               wholesaleProducts[index].number_of_items =  wholesaleProducts[index].number_of_items + items.number_of_items;
-              console.log(elementAux.sku);
+
               newsku = false;
             }
           });
@@ -171,7 +171,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           wholesaleProductsG.find( function (elementAux: any , index) {
             if (items.sku === elementAux.sku ) {
               wholesaleProductsG[index].number_of_items =  wholesaleProductsG[index].number_of_items + items.number_of_items;
-              console.log(elementAux.sku);
+
               newsku = false;
             }
           });
@@ -185,7 +185,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           retailProducts.find( function (elementAux: any , index) {
             if (items.sku === elementAux.sku ) {
               retailProducts[index].number_of_items =  retailProducts[index].number_of_items + items.number_of_items;
-              console.log(elementAux.sku);
+
               newsku = false;
             }
           });
@@ -262,17 +262,23 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
   public getLiquidation() {
     this._inventoryService.getLiquidation( this.id , this.dateParam , this.dateParam  ).then((res: any ) => {
-      console.log(res);
+
+      if (Object.keys( res.data).length === 0) {
+
+        this.dialogRef.close();
+      }
       const data = [];
       const keys = Object.keys(res.data);
       keys.forEach( ( element , index ) => {
         const dataAux = res.data[element];
         dataAux.route_name = name;
         data.push(res.data[element]);
+
       } );
 
       if ( data.length > 0 ) {
         this.user_name = data[0].user_name;
+        this.saleDate = data[0].date;
       }
       const inter = Object.keys(res.data);
       if ( this.existLiquidation === true ) {
@@ -293,7 +299,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         if ( index + 1 === res.length ) {
           localStorage.setItem( 'clients' , JSON.stringify(dataClientAux) );
           this.clients = dataClientAux;
-          console.log(this.clients);
+
         }
       });
     });
@@ -317,7 +323,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           id: keys[i],
           name: keys[i],
           prompt: keys[i],
-          width: 88,
+          width: 130,
           height: 10,
           align: 'left',
           padding: 0,
@@ -339,7 +345,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           id: keys[i],
           name: keys[i],
           prompt: keys[i],
-          width: 40,
+          width: 30,
           height: 10,
           align: 'left',
           padding: 0,
@@ -383,12 +389,17 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     return result;
   }
 
-  public getPdf() {
-    let tableStart = false;
+  public async getPdf() {
+
+    let pagePdf = 0;
+    let linePdf = 0;
+
+    // let tableStart = false;
     const doc = new jsPDF();
     doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(16);
+    doc.text( `Fecha: ${this.saleDate}` , 10, 25);
     doc.text( `Liquidación: ${ this.data.nameRute} - ${this.user_name}` , 10, 30);
     doc.setFontSize(12);
     doc.setFont('helvetica', 'normal');
@@ -404,200 +415,399 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     doc.text( `Saldo: $${ (this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG  - this.totalDevolutions - this.totalCredit + this.totalLosses + this.collection - this.difference - this.cash + this.colletCredit).toFixed(2) }`, 10, 85);
 
     if (this.dataSourceTable.data.length !== 0) {
-      const table1: any = [];
-      this.dataSourceTable.data.forEach((element: any , index: any) => {
-        table1.push({
-          Producto: ` ${element.name} `,
-          Marca: element.brand,
-          Vendido: `${element.number_of_items}`,
-          Precio: '$' + element.retail_price,
-          Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`).toFixed(2),
-        });
+      const table1: any = [[]];
+      // tslint:disable-next-line:no-shadowed-variable
+     await this.dataSourceTable.data.forEach((element: any, index: any) => {
+        //  Proceso de insercion
+        if (pagePdf === 0 && linePdf <= 31) {
+          table1[0].push({
+            Producto: ` ${element.name} `,
+            Marca: element.brand,
+            Vendido: `${element.number_of_items}`,
+            Precio: '$' + element.retail_price,
+            Total: '$' + parseFloat(`${parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`).toFixed(2),
+          });
+        }
+        if (pagePdf > 0 && linePdf <= 39) {
+          table1[table1.length - 1].push({
+            Producto: ` ${element.name} `,
+            Marca: element.brand,
+            Vendido: `${element.number_of_items}`,
+            Precio: '$' + element.retail_price,
+            Total: '$' + parseFloat(`${parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`).toFixed(2),
+          });
+        }
+        // Cuenta una nueva linea
+        linePdf++;
+        // Cuenta una nueva hoja
+        if (pagePdf === 0 && linePdf === 32 && index < this.dataSourceTable.data.length - 1) {
+          linePdf = 0;
+          pagePdf++;
+          table1.push([]);
+        }
+        if (pagePdf > 0 && linePdf === 40 && index < this.dataSourceTable.data.length - 1) {
+          linePdf = 0;
+          pagePdf++;
+          table1.push([]);
+        }
+        // Proceso de Imprecion
+        if (index === this.dataSourceTable.data.length - 1) {
+          table1.forEach((elementTable, indexTable) => {
+            if (indexTable === 0) {
+
+              doc.setFont('helvetica', 'normal');
+              doc.setFontSize(16);
+              doc.text('Ventas Minoristas', 10, 95);
+              doc.table(6, 100, table1[indexTable], this.createHeaders([
+                'Producto',
+                'Marca',
+                'Vendido',
+                'Precio',
+                'Total',
+              ]), { fontSize: 8, padding: 1.2, printHeaders: true });
+            } else {
+              doc.setFont('helvetica', 'normal');
+              doc.setFontSize(16);
+              doc.addPage('a4', 'p');
+              doc.addImage('../../../../../../../assets/images/logo_sanper.png', 'PNG', 10, 10, 50, 10);
+              doc.text('Ventas Minoristas', 10, 30);
+              doc.table(6, 35, table1[indexTable], this.createHeaders([
+                'Producto',
+                'Marca',
+                'Vendido',
+                'Precio',
+                'Total',
+              ]), { fontSize: 8, padding: 1.2, printHeaders: true });
+            }
+
+          });
+        }
       });
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(16);
-      if ( !tableStart ) {
-        doc.text( 'Ventas Minoristas' , 10, 95);
-        doc.table( 6 , 100, table1, this.createHeaders([
-          'Producto',
-          'Marca',
-          'Vendido',
-          'Precio',
-          'Total',
-        ]), { fontSize: 8 , padding: 1.2 , printHeaders: true  }   );
-      } else {
-        doc.addPage('a4', 'p' , );
-        doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
-        doc.text( 'Ventas Minoristas' , 10, 30);
-        doc.table( 6 , 35, table1, this.createHeaders([
-          'Producto',
-          'Marca',
-          'Vendido',
-          'Precio',
-          'Total',
-        ]), { fontSize: 8 , padding: 1.2 , printHeaders: true   });
-      }
-      tableStart = true;
+
     }
 
     if (this.dataSourceDevolutions.data.length !== 0) {
-      const table2: any = [];
-      this.dataSourceDevolutions.data.forEach((element: any) => {
 
-        table2.push({
-          Producto: ` ${element.name}  `,
-
-          Marca: element.brand,
-          Vendido: `${element.number_of_items}`,
-          Precio: '$' + element.retail_price,
-          Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`).toFixed(2),
-        });
-      });
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(16);
-      if ( !tableStart ) {
-        doc.text( 'Devoluciones' , 10, 90);
-        doc.table(6, 95, table2,  this.createHeaders([
-          'Producto',
-          'Marca',
-          'Vendido',
-          'Precio',
-          'Total',
-        ]), {fontSize: 7 , padding: 1.2 , printHeaders: true });
-      } else {
-        doc.addPage('a4', 'p');
-        doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
-        doc.text( 'Devoluciones' , 10, 30);
-        doc.table(6, 35, table2, this.createHeaders([
-          'Producto',
-          'Marca',
-          'Vendido',
-          'Precio',
-          'Total',
-        ]), {fontSize: 7 , padding: 1.2 , printHeaders: true });
+      const table2: any = [[]];
+      const initialHeight = linePdf;
+      let space = 39;
+      let indexTab = 0;
+      linePdf = linePdf  + 3;
+      if ( pagePdf === 0 ) {
+        space = 32 - linePdf;
       }
-      tableStart = true;
+      if ( pagePdf > 0 ) {
+        space = 38 - linePdf;
+      }
+      if (  32 - linePdf < 15 && pagePdf === 0 ) {
+        linePdf = 0;
+        pagePdf ++;
+        space = 39;
+      }
+      if (  39 - linePdf < 15 && pagePdf > 0 ) {
+        linePdf = 0;
+        pagePdf ++;
+        space = 39;
+      }
+      await this.dataSourceDevolutions.data.forEach(( element2: any , index: any) => {
 
+          table2[ table2.length - 1 ].push({
+            Producto: ` ${element2.name}  `,
+            Marca: element2.brand,
+            Vendido: `${element2.number_of_items}`,
+            Precio: '$' + element2.retail_price,
+            Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.retail_price)}`).toFixed(2),
+          });
+        indexTab++;
+        linePdf ++;
+        if (indexTab === space || this.dataSourceDevolutions.data.length - 1 === index ) {
+
+          if ( space < 39 ) {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(16);
+            console.log(( pagePdf === 0  ? 100 + ((initialHeight + 4) * 6.2 ) : 50 + (initialHeight * 6.2 )));
+            console.log('devP' + pagePdf);
+            doc.text( 'Devoluciones' , 10, ( pagePdf === 0  ? 95 + ((initialHeight + 4) * 6.2 ) : 45 + (initialHeight * 6.2 )));
+            doc.table( 6 , ( pagePdf === 0  ? 100 + ((initialHeight + 4) * 6.2 ) : 50 + (initialHeight * 6.2 )),
+            table2[table2.length - 1], this.createHeaders([
+              'Producto',
+              'Marca',
+              'Vendido',
+              'Precio',
+              'Total',
+            ]), { fontSize: 8 , padding: 1.2 , printHeaders: true  }   );
+          } else {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(16);
+            doc.addPage('a4', 'p' , );
+            doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
+            doc.text( 'Devoluciones' , 10, 30);
+            doc.table( 6 , 35, table2[table2.length - 1], this.createHeaders([
+              'Producto',
+              'Marca',
+              'Vendido',
+              'Precio',
+              'Total',
+            ]), { fontSize: 8 , padding: 1.2 , printHeaders: true   });
+          }
+          if ( indexTab === space ) {
+            space = 39;
+            pagePdf ++;
+            indexTab = 0;
+            table2.push([]);
+          }
+
+        }
+      });
     }
+
 
     if (this.dataSourceWholesaleTable.data.length !== 0) {
-      const table3: any = [];
-      this.dataSourceWholesaleTable.data.forEach((element: any) => {
-        table3.push({
-          Producto: ` ${element.name}  `,
-          Marca: element.brand,
-          Vendido: `${element.number_of_items}`,
-          Precio: '$' + element.wholesale_price,
-          Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.wholesale_price)}`).toFixed(2),
-        });
-      });
 
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(16);
-      if ( !tableStart ) {
-        doc.text( 'Ventas Mayorista' , 10, 90);
-        doc.table(6, 95, table3, this.createHeaders([
-          'Producto',
-          'Marca',
-          'Vendido',
-          'Precio',
-          'Total',
-        ]), {fontSize: 7 , padding: 1.2 , printHeaders: true });
-      } else {
-        doc.addPage('a4', 'p');
-        doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
-        doc.text( 'Ventas Mayorista' , 10, 30);
-        doc.table(6, 35, table3, this.createHeaders([
-          'Producto',
-          'Marca',
-          'Vendido',
-          'Precio',
-          'Total',
-        ]), {fontSize: 7 , padding: 1.2 , printHeaders: true });
+      const table3: any = [[]];
+      const initialHeight = linePdf;
+      let space = 39;
+      let indexTab = 0;
+      linePdf = linePdf  + 3;
+      if ( pagePdf === 0 ) {
+        space = 32 - linePdf;
       }
-      tableStart = true;
+      if ( pagePdf > 0 ) {
+        space = 38 - linePdf;
+      }
+      if (  32 - linePdf < 15 && pagePdf === 0 ) {
+        linePdf = 0;
+        pagePdf ++;
+        space = 39;
+      }
+      if (  39 - linePdf < 15 && pagePdf > 0 ) {
+        linePdf = 0;
+        pagePdf ++;
+        space = 39;
+      }
+
+
+      await this.dataSourceWholesaleTable.data.forEach(( element2: any , index: any) => {
+
+        //  Proceso de insercion
+          table3[ table3.length - 1 ].push({
+            Producto: ` ${element2.name} `,
+            Marca: element2.brand,
+            Vendido: `${element2.number_of_items}`,
+            Precio: '$' + element2.retail_price,
+            Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.retail_price)}`).toFixed(2),
+          });
+        // Cuenta una nueva linea
+        indexTab++;
+        linePdf ++;
+        // Cuenta una nueva hoja
+        if (indexTab === space || this.dataSourceWholesaleTable.data.length - 1 === index ) {
+
+          if ( space < 39 ) {
+
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(16);
+            console.log(initialHeight);
+            console.log(pagePdf);
+            console.log(( pagePdf === 0  ? 100 + (initialHeight * 6.2 ) : 45 + (initialHeight * 6.2 )));
+            doc.text( 'Ventas Mayorista' , 10, (pagePdf === 0  ? 95 + ((initialHeight + 4) * 6.2 ) : 45 + (initialHeight * 6.2 )));
+            doc.table( 6 , ( pagePdf === 0  ? 100 + ((initialHeight + 4) * 6.2 ) : 50 + (initialHeight * 6.2 )),
+             table3[table3.length - 1], this.createHeaders([
+              'Producto',
+              'Marca',
+              'Vendido',
+              'Precio',
+              'Total',
+            ]), { fontSize: 8 , padding: 1.2 , printHeaders: true  }   );
+          } else {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(16);
+            doc.addPage('a4', 'p' , );
+            doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
+            doc.text( 'Ventas Mayorista' , 10, 30);
+            doc.table( 6 , 35, table3[table3.length - 1], this.createHeaders([
+              'Producto',
+              'Marca',
+              'Vendido',
+              'Precio',
+              'Total',
+            ]), { fontSize: 8 , padding: 1.2 , printHeaders: true   });
+          }
+
+          if ( indexTab === space ) {
+            space = 39;
+            pagePdf ++;
+            indexTab = 0;
+            table3.push([]);
+          }
+        }
+
+           });
     }
 
-    if (this.dataSourceWholesaleTableG.data.length !== 0) {
-      const table4: any = [];
-      this.dataSourceWholesaleTableG.data.forEach((element: any) => {
-        table4.push({
-          Producto: ` ${element.name}  `,
-          Marca: element.brand,
-          Vendido: element.number_of_items,
-          Precio: '$' + element.wholesale_priceG,
-          Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.wholesale_priceG)}`).toFixed(2),
-        });
-      });
-
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(16);
-      if ( !tableStart ) {
-        doc.text( 'Ventas Gran Mayoreo' , 10, 90);
-        doc.table(6, 95, table4, this.createHeaders([
-          'Producto',
-
-          'Marca',
-          'Vendido',
-          'Precio',
-          'Total',
-        ]), {fontSize: 7 , padding: 1.2 , printHeaders: true });
-      } else {
-        doc.addPage('a4', 'p');
-        doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
-        doc.text( 'Ventas Gran Mayoreo' , 10, 30);
-        doc.table(6, 35, table4, this.createHeaders([
-          'Producto',
-
-          'Marca',
-          'Vendido',
-          'Precio',
-          'Total',
-        ]), {fontSize: 7 , padding: 1.2 , printHeaders: true });
-      }
-      tableStart = true;
-    }
 
 
     if (this.dataSourceLosses.data.length !== 0) {
-      console.log(this.dataSourceLosses.data);
-      const table4: any = [];
-      this.dataSourceLosses.data.forEach((element: any) => {
-        table4.push({
-          Producto: ` ${element.product.name}  `,
-          Marca: element.product.brand,
-          Precio: '$' + element.product.wholesale_price,
-          Mermas: ` ${element.number_of_piz}`,
-          Total: '$' + parseFloat(`${ parseFloat(element.number_of_piz) * parseFloat(element.product.wholesale_price)}`).toFixed(2),
-        });
-      });
 
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(16);
-      if ( !tableStart ) {
-        doc.text( 'Mermas' , 10, 90);
-        doc.table(6, 95, table4, this.createHeaders([
-          'Producto',
-          'Marca',
-          'Precio',
-          'Mermas',
-          'Total',
-        ]), {fontSize: 7 , padding: 1.2 , printHeaders: true });
-      } else {
-        doc.addPage('a4', 'p');
-        doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
-        doc.text( 'Mermas' , 10, 30);
-        doc.table(6, 35, table4, this.createHeaders([
-          'Producto',
-          'Marca',
-          'Precio',
-          'Mermas',
-          'Total',
-        ]), {fontSize: 7 , padding: 1.2 , printHeaders: true });
+      const table4: any = [[]];
+      const initialHeight = linePdf;
+      let space = 39;
+      let indexTab = 0;
+      linePdf = linePdf  + 3;
+      if ( pagePdf === 0 ) {
+        space = 32 - linePdf;
       }
-      tableStart = true;
+      if ( pagePdf > 0 ) {
+        space = 38 - linePdf;
+      }
+      if (  32 - linePdf < 15 && pagePdf === 0 ) {
+        linePdf = 0;
+        pagePdf ++;
+        space = 39;
+      }
+      if (  39 - linePdf < 15 && pagePdf > 0 ) {
+        linePdf = 0;
+        pagePdf ++;
+        space = 39;
+      }
+      await this.dataSourceLosses.data.forEach(( element2: any , index: any) => {
+
+          table4[ table4.length - 1 ].push({
+            Producto: ` ${element2.product.name}  `,
+            Marca: element2.product.brand,
+            Precio: '$' + element2.product.wholesale_price,
+            Mermas: ` ${element2.number_of_piz}`,
+            Total: '$' + parseFloat(`${ parseFloat(element2.number_of_piz) * parseFloat(element2.product.wholesale_price)}`).toFixed(2),
+          });
+        indexTab++;
+        linePdf ++;
+        if (indexTab === space || this.dataSourceLosses.data.length - 1 === index ) {
+          if ( space < 39 ) {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(16);
+            console.log(( pagePdf === 0  ? 100 + (initialHeight * 6.2 ) : 50 + (initialHeight * 6.2 )));
+
+            doc.text( 'Mermas' , 10, pagePdf === 0  ? 95 + ((initialHeight + 4) * 6.2 ) : 45 + (initialHeight * 6.2 ));
+            doc.table( 6 , ( pagePdf === 0  ? 100 + ((initialHeight + 4) * 6.2 ) : 50 + (initialHeight * 6.2 )) ,
+             table4[table4.length - 1], this.createHeaders([
+              'Producto',
+              'Marca',
+              'Precio',
+              'Mermas',
+              'Total',
+            ]), { fontSize: 8 , padding: 1.2 , printHeaders: true  }   );
+          } else {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(16);
+            doc.addPage('a4', 'p' , );
+            doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
+            doc.text( 'Mermas' , 10, 30);
+            doc.table( 6 , 35, table4[table4.length - 1], this.createHeaders([
+              'Producto',
+              'Marca',
+              'Precio',
+              'Mermas',
+              'Total',
+            ]), { fontSize: 8 , padding: 1.2 , printHeaders: true   });
+          }
+          if ( indexTab === space ) {
+            space = 39;
+            pagePdf ++;
+            indexTab = 0;
+            table4.push([]);
+          }
+        }
+      });
     }
 
+
+
+
+
+
+
+
+
+
+
+
+    if (this.dataSourceWholesaleTableG.data.length !== 0) {
+      console.log(linePdf);
+      const table5: any = [[]];
+      const initialHeight = linePdf;
+      let space = 39;
+      let indexTab = 0;
+      linePdf = linePdf  + 3;
+      if ( pagePdf === 0 ) {
+        space = 32 - linePdf;
+      }
+      if ( pagePdf > 0 ) {
+        space = 38 - linePdf;
+      }
+      if (  32 - linePdf < 15 && pagePdf === 0 ) {
+        console.log(32 - linePdf);
+        linePdf = 0;
+        pagePdf ++;
+        space = 39;
+        console.log('linePdf');
+      }
+      if (  39 - linePdf < 15 && pagePdf > 0 ) {
+        linePdf = 0;
+        pagePdf ++;
+        space = 39;
+      }
+
+      await this.dataSourceWholesaleTableG.data.forEach(( element2: any , index: any) => {
+
+          table5[ table5.length - 1 ].push({
+            Producto: ` ${element2.name}  `,
+            Marca: element2.brand,
+            Vendido: parseFloat(element2.number_of_items),
+            Precio: '$' + element2.wholesale_priceG,
+            Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.wholesale_priceG)}`).toFixed(2),
+          });
+        indexTab++;
+        linePdf ++;
+        if (indexTab === space || this.dataSourceWholesaleTableG.data.length - 1 === index ) {
+          if ( space < 39 ) {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(16);
+            doc.text( 'Mermas' , 10, pagePdf === 0  ? 95 + ((initialHeight + 4) * 6.2 ) : 45 + (initialHeight * 6.2 ));
+            doc.table( 6 , ( pagePdf === 0  ? 100 + ((initialHeight + 4) * 6.2 ) : 50 + (initialHeight * 6.2 )) ,
+             table5[table5.length - 1], this.createHeaders([
+              'Producto',
+              'Marca',
+              'Vendido',
+              'Precio',
+              'Total',
+            ]), { fontSize: 8 , padding: 1.2 , printHeaders: true  }   );
+          } else {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(16);
+            doc.addPage('a4', 'p' , );
+            doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
+            doc.text( 'Mermas' , 10, 30);
+            doc.table( 6 , 35, table5[table5.length - 1], this.createHeaders([
+              'Producto',
+              'Marca',
+              'Vendido',
+              'Precio',
+              'Total',
+            ]), { fontSize: 8 , padding: 1.2 , printHeaders: true   });
+          }
+          if ( indexTab === space ) {
+            space = 39;
+            pagePdf ++;
+            indexTab = 0;
+            table5.push([]);
+          }
+        }
+      });
+
+    }
+
+
     doc.save( `Ticket-Nombre.pdf` );
+
   }
 }
