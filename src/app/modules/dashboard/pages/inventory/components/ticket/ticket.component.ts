@@ -41,7 +41,7 @@ export class TicketComponent implements OnInit, OnDestroy {
     'brand',
     'total',
   ];
-  public displayedColumnsDevolutions =[
+  public displayedColumnsDevolutions = [
     'sku',
     'image',
     'name',
@@ -186,7 +186,7 @@ export class TicketComponent implements OnInit, OnDestroy {
           id: keys[i],
           name: keys[i],
           prompt: keys[i],
-          width: 88,
+          width: 103,
           height: 10,
           align: 'left',
           padding: 0,
@@ -197,7 +197,7 @@ export class TicketComponent implements OnInit, OnDestroy {
           id: keys[i],
           name: keys[i],
           prompt: keys[i],
-          width: 40,
+          width: 35,
           height: 10,
           align: 'left',
           padding: 0,
@@ -230,7 +230,7 @@ export class TicketComponent implements OnInit, OnDestroy {
           id: keys[i],
           name: keys[i],
           prompt: keys[i],
-          width: 35,
+          width: 30,
           height: 10,
           align: 'left',
           padding: 0,
@@ -241,7 +241,7 @@ export class TicketComponent implements OnInit, OnDestroy {
           id: keys[i],
           name: keys[i],
           prompt: keys[i],
-          width: 35,
+          width: 30,
           height: 10,
           align: 'left',
           padding: 0,
@@ -252,8 +252,17 @@ export class TicketComponent implements OnInit, OnDestroy {
     return result;
   }
 
-  public getPdf() {
-    let tableStart = false;
+  public async getPdf() {
+    const headers = this.createHeaders([
+      'Producto',
+      'Ruta',
+      'Marca',
+      'Vendido',
+      'Precio',
+      'Total',
+    ]);
+    let pagePdf = 0;
+    let linePdf = 0;
     const doc = new jsPDF();
     doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
     doc.setFont('helvetica', 'bold');
@@ -266,121 +275,233 @@ export class TicketComponent implements OnInit, OnDestroy {
     doc.text( `Cliente: ${ this.client !== undefined ? this.client.name : this.clientID } - ${this.route_name}`, 10, 50);
     doc.text( `Tienda: ${ this.client !== undefined ? this.client.shop_name : this.clientID }`, 10, 55);
     doc.text( `Teléfono: ${ this.client !== undefined ? this.client.phone : 'Sin teléfono' }`, 10, 60);
-    const headers = this.createHeaders([
-      'Producto',
-      'Ruta',
-      'Marca',
-      'Vendido',
-      'Precio',
-      'Total',
-    ]);
 
     if (this.dataSourceRetailTable.data.length !== 0) {
-      const table1: any = [];
-
-      this.dataSourceRetailTable.data.forEach((element: any) => {
-        table1.push({
-          Producto: ` ${element.name} `,
-          Ruta: this.route_name,
-          Marca: element.brand,
-          Vendido: `${element.number_of_items}`,
-          Precio: '$' + element.retail_price,
-          Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`).toFixed(2),
-        });
+      const table1: any = [[]];
+      await this.dataSourceRetailTable.data.forEach((element: any, index: any) => {
+        if (pagePdf === 0 && linePdf <= 31) {
+          table1[0].push({
+            Producto: ` ${element.name} `,
+            Ruta: this.route_name,
+            Marca: element.brand,
+            Vendido: `${element.number_of_items}`,
+            Precio: '$' + element.retail_price,
+            Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`).toFixed(2),
+          });
+        }
+        if (pagePdf > 0 && linePdf <= 39) {
+          table1[table1.length - 1].push({
+            Producto: ` ${element.name} `,
+            Ruta: this.route_name,
+            Marca: element.brand,
+            Vendido: `${element.number_of_items}`,
+            Precio: '$' + element.retail_price,
+            Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`).toFixed(2),
+          });
+        }
+        linePdf++;
+        if (pagePdf === 0 && linePdf === 35 && index < this.dataSourceRetailTable.data.length - 1) {
+          linePdf = 0;
+          pagePdf++;
+          table1.push([]);
+        }
+        if (pagePdf > 0 && linePdf === 40 && index < this.dataSourceRetailTable.data.length - 1) {
+          linePdf = 0;
+          pagePdf++;
+          table1.push([]);
+        }
+        if (index === this.dataSourceRetailTable.data.length - 1) {
+          table1.forEach((elementTable, indexTable) => {
+            if (indexTable === 0) {
+              doc.setFont('helvetica', 'normal');
+              doc.setFontSize(16);
+              doc.text('Ventas Minoristas', 10, 70);
+              doc.table(6, 75, table1[indexTable], headers, { fontSize: 8, padding: 1.2, printHeaders: true });
+            } else {
+              doc.setFont('helvetica', 'normal');
+              doc.setFontSize(16);
+              doc.addPage('a4', 'p');
+              doc.addImage('../../../../../../../assets/images/logo_sanper.png', 'PNG', 10, 10, 50, 10);
+              doc.text('Ventas Minoristas', 10, 30);
+              doc.table(6, 35, table1[indexTable], headers, { fontSize: 8, padding: 1.2, printHeaders: true });
+            }
+          });
+        }
       });
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(16);
-      if ( !tableStart ) {
-        doc.text( 'Ventas Minoristas' , 10, 72);
-        doc.table( 6 , 75, table1, headers,  { fontSize: 8 , padding: .8 } );
-      } else {
-        doc.addPage('a4', 'p' , );
-        doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
-        doc.text( 'Ventas Minoristas' , 10, 30);
-        doc.table( 6 , 35, table1, headers, { fontSize: 8 , padding: .8   });
-      }
-      tableStart = true;
     }
 
     if (this.dataSourceReturnedTable.data.length !== 0) {
-      const table2: any = [];
-      this.dataSourceReturnedTable.data.forEach((element: any) => {
-        table2.push({
-          Producto: ` ${element.name}  `,
-          Ruta: this.route_name,
-          Marca: element.brand,
-          Vendido: `${element.number_of_items}`,
-          Precio: '$' + element.retail_price,
-          Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`).toFixed(2),
-        });
-      });
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(16);
-      if ( !tableStart ) {
-        doc.text( 'Devoluciones' , 10, 90);
-        doc.table(6, 95, table2, headers, {fontSize: 7 , padding: .8 });
-      } else {
-        doc.addPage('a4', 'p');
-        doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
-        doc.text( 'Devoluciones' , 10, 30);
-        doc.table(6, 35, table2, headers, {fontSize: 7 , padding: .8 });
+      const table2: any = [[]];
+      const initialHeight = linePdf;
+      let space = 39;
+      let indexTab = 0;
+      linePdf = linePdf  + 3;
+      if ( pagePdf === 0 ) {
+        space = 35 - linePdf;
       }
-      tableStart = true;
-
+      if ( pagePdf > 0 ) {
+        space = 38 - linePdf;
+      }
+      if (  35 - linePdf < 15  && pagePdf === 0 ) {
+        linePdf = 0;
+        pagePdf ++;
+        space = 39;
+      }
+      if (  39 - linePdf < 15  && pagePdf > 0 ) {
+        linePdf = 0;
+        pagePdf ++;
+        space = 39;
+      }
+      await this.dataSourceReturnedTable.data.forEach(( element2: any , index: any) => {
+          table2[ table2.length - 1 ].push({
+            Producto: ` ${element2.name}  `,
+            Ruta: this.route_name,
+            Marca: element2.brand,
+            Vendido: `${element2.number_of_items}`,
+            Precio: '$' + element2.retail_price,
+            Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.retail_price)}`).toFixed(2),
+          });
+        indexTab++;
+        linePdf ++;
+        if (indexTab === space || this.dataSourceReturnedTable.data.length - 1 === index ) {
+          if ( space < 39 ) {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(16);
+            doc.text( 'Devoluciones' , 10, ( pagePdf === 0  ? 75 + ((initialHeight + 4) * 6.2 ) : 45 + (initialHeight * 6.2 )));
+            doc.table( 6 , ( pagePdf === 0  ? 80 + ((initialHeight + 4) * 6.2 ) : 50 + (initialHeight * 6.2 )),
+            table2[table2.length - 1], headers, { fontSize: 8 , padding: 1.2 , printHeaders: true  }   );
+          } else {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(16);
+            doc.addPage('a4', 'p' , );
+            doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
+            doc.text( 'Devoluciones' , 10, 30);
+            doc.table( 6 , 35, table2[table2.length - 1], headers, { fontSize: 8 , padding: 1.2 , printHeaders: true });
+          }
+          if ( indexTab === space ) {
+            space = 39;
+            pagePdf ++;
+            indexTab = 0;
+            table2.push([]);
+          }
+        }
+      });
     }
 
     if (this.dataSourceWholesaleTable.data.length !== 0) {
-      const table3: any = [];
-      this.dataSourceWholesaleTable.data.forEach((element: any) => {
-        table3.push({
-          Producto: ` ${element.name}  `,
-          Ruta: this.route_name,
-          Marca: element.brand,
-          Vendido: `${element.number_of_items}`,
-          Precio: '$' + element.wholesale_price,
-          Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.wholesale_price)}`).toFixed(2),
-        });
-      });
-
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(16);
-      if ( !tableStart ) {
-        doc.text( 'Ventas Mayorista' , 10, 90);
-        doc.table(6, 95, table3, headers, {fontSize: 7 , padding: .8 });
-      } else {
-        doc.addPage('a4', 'p');
-        doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
-        doc.text( 'Ventas Mayorista' , 10, 30);
-        doc.table(6, 35, table3, headers, {fontSize: 7 , padding: .8 });
+      const table3: any = [[]];
+      const initialHeight = linePdf;
+      let space = 39;
+      let indexTab = 0;
+      linePdf = linePdf  + 3;
+      if ( pagePdf === 0 ) {
+        space = 35 - linePdf;
       }
-      tableStart = true;
+      if ( pagePdf > 0 ) {
+        space = 38 - linePdf;
+      }
+      if (  35 - linePdf < 15  && pagePdf === 0 ) {
+        linePdf = 0;
+        pagePdf ++;
+        space = 39;
+      }
+      if (  39 - linePdf < 15  && pagePdf > 0 ) {
+        linePdf = 0;
+        pagePdf ++;
+        space = 39;
+      }
+      await this.dataSourceWholesaleTable.data.forEach(( element2: any , index: any) => {
+          table3[ table3.length - 1 ].push({
+            Producto: ` ${element2.name}  `,
+            Ruta: this.route_name,
+            Marca: element2.brand,
+            Vendido: `${element2.number_of_items}`,
+            Precio: '$' + element2.wholesale_price,
+            Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.wholesale_price)}`).toFixed(2),
+          });
+        indexTab++;
+        linePdf ++;
+        if (indexTab === space || this.dataSourceWholesaleTable.data.length - 1 === index ) {
+          if ( space < 39 ) {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(16);
+            doc.text( 'Ventas Mayorista' , 10, ( pagePdf === 0  ? 75 + ((initialHeight + 4) * 6.2 ) : 45 + (initialHeight * 6.2 )));
+            doc.table( 6 , ( pagePdf === 0  ? 80 + ((initialHeight + 4) * 6.2 ) : 50 + (initialHeight * 6.2 )),
+            table3[table3.length - 1], headers, { fontSize: 8 , padding: 1.2 , printHeaders: true  }   );
+          } else {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(16);
+            doc.addPage('a4', 'p' , );
+            doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
+            doc.text( 'Ventas Mayorista' , 10, 30);
+            doc.table( 6 , 35, table3[table3.length - 1], headers, { fontSize: 8 , padding: 1.2 , printHeaders: true });
+          }
+          if ( indexTab === space ) {
+            space = 39;
+            pagePdf ++;
+            indexTab = 0;
+            table3.push([]);
+          }
+        }
+      });
     }
 
     if (this.dataSourceWholesaleTableG.data.length !== 0) {
-      const table4: any = [];
-      this.dataSourceWholesaleTableG.data.forEach((element: any) => {
-        table4.push({
-          Producto: ` ${element.name}  `,
-          Ruta: this.route_name,
-          Marca: element.brand,
-          Vendido: element.number_of_items,
-          Precio: '$' + element.wholesale_priceG,
-          Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.wholesale_priceG)}`).toFixed(2),
-        });
-      });
-
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(16);
-      if ( !tableStart ) {
-        doc.text( 'Ventas Gran Mayoreo' , 10, 90);
-        doc.table(6, 95, table4, headers, {fontSize: 7 , padding: .8 });
-      } else {
-        doc.addPage('a4', 'p');
-        doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
-        doc.text( 'Ventas Gran Mayoreo' , 10, 30);
-        doc.table(6, 35, table4, headers, {fontSize: 7 , padding: .8 });
+      const table3: any = [[]];
+      const initialHeight = linePdf;
+      let space = 39;
+      let indexTab = 0;
+      linePdf = linePdf  + 3;
+      if ( pagePdf === 0 ) {
+        space = 35 - linePdf;
       }
-      tableStart = true;
+      if ( pagePdf > 0 ) {
+        space = 38 - linePdf;
+      }
+      if (  35 - linePdf < 15  && pagePdf === 0 ) {
+        linePdf = 0;
+        pagePdf ++;
+        space = 39;
+      }
+      if (  39 - linePdf < 15  && pagePdf > 0 ) {
+        linePdf = 0;
+        pagePdf ++;
+        space = 39;
+      }
+      await this.dataSourceWholesaleTableG.data.forEach(( element2: any , index: any) => {
+          table3[ table3.length - 1 ].push({
+            Producto: ` ${element2.name}  `,
+            Ruta: this.route_name,
+            Marca: element2.brand,
+            Vendido: `${ parseFloat(element2.number_of_items)}`,
+            Precio: '$' + element2.wholesale_priceG,
+            Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.wholesale_priceG)}`).toFixed(2),
+          });
+        indexTab++;
+        linePdf ++;
+        if (indexTab === space || this.dataSourceWholesaleTableG.data.length - 1 === index ) {
+          if ( space < 39 ) {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(16);
+            doc.text( 'Ventas Gran Mayoreo' , 10, ( pagePdf === 0  ? 75 + ((initialHeight + 4) * 6.2 ) : 45 + (initialHeight * 6.2 )));
+            doc.table( 6 , ( pagePdf === 0  ? 80 + ((initialHeight + 4) * 6.2 ) : 50 + (initialHeight * 6.2 )),
+            table3[table3.length - 1], headers, { fontSize: 8 , padding: 1.2 , printHeaders: true  }   );
+          } else {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(16);
+            doc.addPage('a4', 'p' , );
+            doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
+            doc.text( 'Ventas Gran Mayoreo' , 10, 30);
+            doc.table( 6 , 35, table3[table3.length - 1], headers, { fontSize: 8 , padding: 1.2 , printHeaders: true });
+          }
+          if ( indexTab === space ) {
+            space = 39;
+            pagePdf ++;
+            indexTab = 0;
+            table3.push([]);
+          }
+        }
+      });
     }
 
     doc.save( `Ticket-${this.ticket}.pdf` );
