@@ -10,6 +10,9 @@
         ],
         "prod": [
           "sanper-stable"
+        ],
+        "staging": [
+          "sanper-staging"
         ]
       }
     }
