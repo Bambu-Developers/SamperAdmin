@@ -1,20 +1,5 @@
 {
   "projects": {
-    "default": "sanper-stable"
-  },
-  "targets": {
-    "sanper-stable": {
-      "hosting": {
-        "dev": [
-          "sanper-dev"
-        ],
-        "prod": [
-          "sanper-stable"
-        ],
-        "staging": [
-          "sanper-staging"
-        ]
-      }
-    }
+    "default": "nestledemo-a4248"
   }
 }
