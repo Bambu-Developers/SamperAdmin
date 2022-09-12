@@ -32,6 +32,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 import { LayoutModule } from '@angular/cdk/layout';
 import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
@@ -96,7 +98,8 @@ import { ToastComponent } from '../dashboard/components/toast/toast.component';
     SatDatepickerModule,
     SatNativeDateModule,
     MomentModule,
-    ChartsModule
+    ChartsModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     AngularFirestoreModule,
@@ -133,7 +136,8 @@ import { ToastComponent } from '../dashboard/components/toast/toast.component';
     SatDatepickerModule,
     SatNativeDateModule,
     MomentModule,
-    ChartsModule
+    ChartsModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     AngularFireDatabase,

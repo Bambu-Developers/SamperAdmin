@@ -1,7 +1,7 @@
 /*COLORS*/
 $color-charcoal-grey: #37474f;
 $color-mushroom: #a5a1a1;
-$color-brick: #b71c1c;
+$color-brick: #fa7457;
 $color-pinkish-orange: #ff6649;
 $color-pale: #e4e3e3;
 $color-white: #ffffff;
@@ -24,20 +24,20 @@ $color-yellow: #ffc567;
 /* COLORS PALETTE THEME */
 
 $md-primary: (
-  50: #f6e4e4,
-  100: #e9bbbb,
-  200: #db8e8e,
-  300: #cd6060,
-  400: #c23e3e,
-  500: #b71c1c,
-  600: #b01919,
-  700: #a71414,
-  800: #9f1111,
-  900: #900909,
-  A100: #ffbebe,
-  A200: #ff8b8b,
-  A400: #ff5858,
-  A700: #ff3f3f,
+  50 : #fff4f1,
+  100 : #fee3db,
+  200 : #fed0c3,
+  300 : #fdbdab,
+  400 : #fcaf99,
+  500 : #fa7457,
+  600 : #fc997f,
+  700 : #fb8f74,
+  800 : #fb856a,
+  900 : #fa7457,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #fff8f6,
+  A700 : #ffe3dd,
   contrast: (
     50: #000000,
     100: #000000,
@@ -56,20 +56,20 @@ $md-primary: (
   )
 );
 $md-secondary: (
-  50: #e7e9ea,
-  100: #c3c8ca,
-  200: #9ba3a7,
-  300: #737e84,
-  400: #556369,
-  500: #37474f,
-  600: #314048,
-  700: #2a373f,
-  800: #232f36,
-  900: #162026,
-  A100: #6ac6ff,
-  A200: #37b2ff,
-  A400: #049fff,
-  A700: #0090ea,
+  50 : #fff4f1,
+  100 : #fee3db,
+  200 : #fed0c3,
+  300 : #fdbdab,
+  400 : #fcaf99,
+  500 : #fca187,
+  600 : #fc997f,
+  700 : #fb8f74,
+  800 : #fb856a,
+  900 : #fa7457,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #fff8f6,
+  A700 : #ffe3dd,
   contrast: (
     50: #000000,
     100: #000000,
@@ -88,20 +88,20 @@ $md-secondary: (
   )
 );
 $md-accent: (
-  50: #ffede9,
-  100: #ffd1c8,
-  200: #ffb3a4,
-  300: #ff9480,
-  400: #ff7d64,
-  500: #ff6649,
-  600: #ff5e42,
-  700: #ff5339,
-  800: #ff4931,
-  900: #ff3821,
-  A100: #ffffff,
-  A200: #ffffff,
-  A400: #ffd4d0,
-  A700: #ffbdb7,
+  50 : #fff4f1,
+  100 : #fee3db,
+  200 : #fed0c3,
+  300 : #fdbdab,
+  400 : #fcaf99,
+  500 : #fca187,
+  600 : #fc997f,
+  700 : #fb8f74,
+  800 : #fb856a,
+  900 : #fa7457,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #fff8f6,
+  A700 : #ffe3dd,
   contrast: (
     50: #000000,
     100: #000000,
@@ -120,20 +120,20 @@ $md-accent: (
   )
 );
 $md-warn: (
-  50: #fee1e1,
-  100: #fcb5b5,
-  200: #fa8484,
-  300: #f85353,
-  400: #f72e2e,
-  500: #f50909,
-  600: #f40808,
-  700: #f20606,
-  800: #f00505,
-  900: #ee0202,
-  A100: #ffffff,
-  A200: #ffe1e1,
-  A400: #ffaeae,
-  A700: #ff9595,
+  50 : #ffe4e6,
+  100 : #ffbbbf,
+  200 : #ff8e95,
+  300 : #ff616b,
+  400 : #ff3f4b,
+  500 : #ff1d2b,
+  600 : #ff1a26,
+  700 : #ff1520,
+  800 : #ff111a,
+  900 : #ff0a10,
+  A100 : #ffffff,
+  A200 : #fff5f5,
+  A400 : #ffc2c3,
+  A700 : #ffa8aa,
   contrast: (
     50: #000000,
     100: #000000,
@@ -153,3 +153,19 @@ $md-warn: (
 );
 
 /* END COLORS PALETTE THEME */
+
+// .dh-icon-fca187 {
+//   width: 100%;
+//   height: 244px;
+//   svg {
+//     g {
+//       // fill: #ff8e95;
+//       // path {
+//       //   fill: #ff8e95;
+//       // }
+//     }
+//     // path {
+//     //   fill: #ffbbbf;
+//     // }
+//   }
+// }

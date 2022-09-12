@@ -1,11 +1,12 @@
 @import 'src/assets/css/sizes';
-
+@import "../../../../../assets/css/colors";
 .sa-main-content{
     overflow: hidden;
     width: 100%;
     .sa-login-image{
         width: 100%;
         height: 100%;
+        // background-color: $color-brick;
         img{
             width: 100%;
         }
@@ -32,6 +33,8 @@
         img{
             width: 177px;
             height: auto;
+            background-color: $color-brick;
+
         }
         h1{
             margin: 35px 0px;

@@ -8,7 +8,7 @@ import { MatIconRegistry } from '@angular/material/icon';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'SanperAdmin';
+  title = 'BonafontAdmin';
 
   constructor(
     private iconRegistry: MatIconRegistry,
@@ -29,6 +29,7 @@ export class AppComponent {
       .addSvgIcon('ic-close-circle', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/close-circle.svg'))
       .addSvgIcon('ic-close-grey', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/icon-close-grey.svg'))
       .addSvgIcon('ic-calendar', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/icon-calendar-orange.svg'))
+      .addSvgIcon('ic-group-2', sanitizer.bypassSecurityTrustResourceUrl('assets/images/group-2.svg'))
       ;
 
   }
