@@ -83,6 +83,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getUser();
     this.getClient();
+    console.log('dbasdsadjsdbasdasb');
 
   }
 
@@ -512,8 +513,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           if ( space < 39 ) {
             doc.setFont('helvetica', 'normal');
             doc.setFontSize(16);
-            console.log(( pagePdf === 0  ? 100 + ((initialHeight + 4) * 6.2 ) : 50 + (initialHeight * 6.2 )));
-            console.log('devP' + pagePdf);
             doc.text( 'Devoluciones' , 10, ( pagePdf === 0  ? 95 + ((initialHeight + 4) * 6.2 ) : 45 + (initialHeight * 6.2 )));
             doc.table( 6 , ( pagePdf === 0  ? 100 + ((initialHeight + 4) * 6.2 ) : 50 + (initialHeight * 6.2 )),
             table2[table2.length - 1], this.createHeaders([
@@ -584,9 +583,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           if ( space < 39 ) {
             doc.setFont('helvetica', 'normal');
             doc.setFontSize(16);
-            console.log(initialHeight);
-            console.log(pagePdf);
-            console.log(( pagePdf === 0  ? 100 + (initialHeight * 6.2 ) : 45 + (initialHeight * 6.2 )));
             doc.text( 'Ventas Mayorista' , 10, (pagePdf === 0  ? 95 + ((initialHeight + 4) * 6.2 ) : 45 + (initialHeight * 6.2 )));
             doc.table( 6 , ( pagePdf === 0  ? 100 + ((initialHeight + 4) * 6.2 ) : 50 + (initialHeight * 6.2 )),
              table3[table3.length - 1], this.createHeaders([
@@ -643,12 +639,16 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         space = 39;
       }
       await this.dataSourceLosses.data.forEach(( element2: any , index: any) => {
+        console.log(element2);
+        console.log(element2.product.wholesale_price);
+        console.log(element2.product.number_of_piz);
+        console.log(parseFloat(`${ parseFloat(element2.number_of_piz) * parseFloat(element2.product.wholesale_price)}`).toFixed(2));
           table4[ table4.length - 1 ].push({
             Producto: ` ${element2.product.name}  `,
             Marca: element2.product.brand,
-            Precio: '$' + element2.product.wholesale_price,
+            Precio: '$' + element2.product.retail_price,
             Mermas: ` ${element2.number_of_piz}`,
-            Total: '$' + parseFloat(`${ parseFloat(element2.number_of_piz) * parseFloat(element2.product.wholesale_price)}`).toFixed(2),
+            Total: '$' + parseFloat(`${ parseFloat(element2.number_of_piz) * parseFloat(element2.product.retail_price)}`).toFixed(2),
           });
         indexTab++;
         linePdf ++;
@@ -656,7 +656,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           if ( space < 39 ) {
             doc.setFont('helvetica', 'normal');
             doc.setFontSize(16);
-            console.log(( pagePdf === 0  ? 100 + (initialHeight * 6.2 ) : 50 + (initialHeight * 6.2 )));
             doc.text( 'Mermas' , 10, pagePdf === 0  ? 95 + ((initialHeight + 4) * 6.2 ) : 45 + (initialHeight * 6.2 ));
             doc.table( 6 , ( pagePdf === 0  ? 100 + ((initialHeight + 4) * 6.2 ) : 50 + (initialHeight * 6.2 )) ,
              table4[table4.length - 1], this.createHeaders([
@@ -691,7 +690,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     }
 
     if (this.dataSourceWholesaleTableG.data.length !== 0) {
-      console.log(linePdf);
       const table5: any = [[]];
       const initialHeight = linePdf;
       let space = 39;
@@ -704,11 +702,9 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         space = 38 - linePdf;
       }
       if (  32 - linePdf < 15  && pagePdf === 0 ) {
-        console.log(32 - linePdf);
         linePdf = 0;
         pagePdf ++;
         space = 39;
-        console.log('linePdf');
       }
       if (  39 - linePdf < 15  && pagePdf > 0 ) {
         linePdf = 0;
@@ -717,12 +713,13 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       }
 
       await this.dataSourceWholesaleTableG.data.forEach(( element2: any , index: any) => {
+          console.log(element2.wholesale_priceG);
           table5[ table5.length - 1 ].push({
             Producto: ` ${element2.name}  `,
             Marca: element2.brand,
             Vendido: `${parseFloat(element2.number_of_items)}`,
-            Precio: '$' + element2.wholesale_priceG,
-            Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.wholesale_priceG)}`).toFixed(2),
+            Precio: '$' + element2.retail_price,
+            Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.retail_price)}`).toFixed(2),
           });
         indexTab++;
         linePdf ++;
