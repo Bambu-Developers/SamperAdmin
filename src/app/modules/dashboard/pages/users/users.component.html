@@ -1,7 +1,7 @@
 <div class="sa-dashboard-main-content">
     <h3 class="sa-text-24 sa-charcoal-grey sa-roboto">{{language.users}}</h3>
     <div class="sa-dashboard-actions">
-        <button *ngIf="logged?.permision.user_registration" [routerLink]="['/dashboard/users/create']" mat-raised-button color="accent">{{language.createUser}}</button>
+        <button [routerLink]="['/dashboard/users/create']" mat-raised-button color="accent">{{language.createUser}}</button>
         <mat-form-field class="sa-user-search sa-input-text sa-search sa-no-label">
             <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="{{language.search}}">
         </mat-form-field>

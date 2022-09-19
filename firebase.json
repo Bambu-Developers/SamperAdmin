@@ -1,10 +1,37 @@
 {
-  "hosting": {
-    "public": "dist/SanperAdmin",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ]
+  "hosting": [
+    {
+      "target": "nestledemo-a4248",
+      "public": "dist/SanperAdmin",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
+      "target": "danone-demo",
+      "public": "dist/SanperAdmin",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ],
+  "database": {
+    "rules": "database.rules.json"
   }
 }

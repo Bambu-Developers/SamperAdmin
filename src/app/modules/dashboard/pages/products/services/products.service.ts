@@ -26,7 +26,7 @@ export class ProductsService {
     image = 'data:image/jpeg;base64,' + image;
     return new Promise<any>((resolve, reject) => {
       this.NEW_NAME = `${new Date().getTime()}`;
-      const PATH = `${this._basePath}/${this.NEW_NAME}`;
+      const PATH = `${this._basePath}${this.NEW_NAME}`;
       this._storage.ref(PATH).putString(image, 'data_url').then(
         response => resolve(
           this._storage.ref(PATH).getDownloadURL()

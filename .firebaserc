@@ -1,5 +1,17 @@
 {
   "projects": {
-    "default": "nestledemo-a4248"
+    "default": "danone-demo"
+  },
+  "targets": {
+    "nestledemo-a4248": {
+      "hosting": {
+        "danone-demo": [
+          "danone-demo"
+        ],
+        "nestledemo": [
+          "nestledemo-a4248"
+        ]
+      }
+    }
   }
 }

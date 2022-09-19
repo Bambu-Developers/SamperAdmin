@@ -23,7 +23,7 @@ export const ACCOUNT_LANGUAGE = {
     placeholderPass: 'Contraseña',
     errorRequired: 'Este campo es requerido',
     errorFormatEmail: 'Utiliza un formato válido como: correo@ejemplo.com',
-    errorEmailNotRegister: 'Usuario no registrado en Sanper',
+    errorEmailNotRegister: 'Usuario no registrado en Danone',
     errorEmailRegister: 'Este nombre de usuario ya esta registrado',
     errorLengthPass: 'La contraseña debe contener entre 6 y 14 caracteres alfanuméricos',
     errorPassword: 'Contraseña incorrecta',
