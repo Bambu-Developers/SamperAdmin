@@ -2,13 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { ProductsService } from 'src/app/modules/dashboard/pages/products/services/products.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
 import { PRODUCTS_LANGUAGE } from 'src/app/modules/dashboard/pages/products/data/language';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 import { CURRENCY_MASK, NUMBER_MASK, PERCENTAGE_MASK } from 'src/app/directives/currency-mask.directive';
 import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/data';
+import { ProductService } from 'src/app/modules/shared/services/product.service';
 
 @Component({
   selector: 'app-register-product',
@@ -32,7 +32,7 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
   private _subscriptionURL: Subscription;
 
   constructor(
-    private _productService: ProductsService,
+    private productService: ProductService,
     private _snackBar: MatSnackBar,
     private _router: Router,
   ) { }
@@ -112,9 +112,10 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
       this.savePhoto().then(
         response => {
           this.registerProductForm.get('image').patchValue(response);
-          this._productService.registerProduct(this.registerProductForm.value);
-          this.openSnackBar();
-          this._router.navigate(['/dashboard/products']);
+          this.productService.createProduct(this.registerProductForm.value).then( res => {
+            this.openSnackBar();
+            this._router.navigate(['/dashboard/products']);
+          } );
         }, error => console.error(error)
       );
     }
@@ -135,7 +136,7 @@ export class RegisterProductComponent implements OnInit, OnDestroy {
 
   public savePhoto() {
     return new Promise((resolve, reject) => {
-      this._productService.imageUpload(this.base64textString).then(
+      this.productService.imageUpload(this.base64textString).then(
         response => {
           this._subscriptionURL = response.subscribe(
             url => resolve(url),

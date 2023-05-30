@@ -3,12 +3,12 @@ import { Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProductsService } from 'src/app/modules/dashboard/pages/products/services/products.service';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
 import { DialogComponent } from 'src/app/modules/shared/components/dialog/dialog.component';
 import { PRODUCTS_LANGUAGE } from 'src/app/modules/dashboard/pages/products/data/language';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/data';
+import { ProductService } from 'src/app/modules/shared/services/product.service';
 
 @Component({
   selector: 'app-view-product',
@@ -27,9 +27,9 @@ export class ViewProductComponent implements OnInit, OnDestroy {
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
-    private _productService: ProductsService,
     private _snackBar: MatSnackBar,
     private _dialog: MatDialog,
+    private productService: ProductService,
   ) { }
 
   ngOnInit() {
@@ -39,7 +39,7 @@ export class ViewProductComponent implements OnInit, OnDestroy {
   public getProduct() {
     this._subscription = this._route.params.subscribe(params => {
       this.id = params['id'];
-      this._subscriptionService = this._productService.getProduct(this.id).subscribe(
+      this._subscriptionService = this.productService.getProductId(this.id).subscribe(
         res => {
           this.dataSource = res;
         });
@@ -59,20 +59,20 @@ export class ViewProductComponent implements OnInit, OnDestroy {
   }
 
   public removeProduct() {
-    this._productService.removeProduct(this.id);
+    this.productService.removeProduct(this.id);
     this._router.navigate(['/dashboard/products/']);
     this.openSnackBarDeleted();
   }
 
   public removePromotion() {
-    this._productService.removePromotion(this.id);
+    this.productService.removePromotion(this.id);
     this.openSnackBarPromoDeleted();
     this._router.navigate(['/dashboard/products/view/' + this.id]);
   }
 
   public setDisponibility(event) {
     if (event.checked === true) {
-      this._productService.setDisponibility(this.id, event.checked);
+      this.productService.setDisponibility(this.id, event.checked);
     } else {
       this.openDialogDisable(event.checked);
     }
@@ -122,7 +122,7 @@ export class ViewProductComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(
       response => {
         if (response) {
-          this._productService.setDisponibility(this.id, eventValue);
+          this.productService.setDisponibility(this.id, eventValue);
           this.openSnackBarDisabled();
         }
       }

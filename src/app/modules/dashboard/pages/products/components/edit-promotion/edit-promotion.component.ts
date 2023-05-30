@@ -10,6 +10,7 @@ import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/d
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { ProductService } from 'src/app/modules/shared/services/product.service';
 
 @Component({
   selector: 'app-edit-promotion',
@@ -32,7 +33,7 @@ export class EditPromotionComponent implements OnInit, OnDestroy {
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
-    private _productService: ProductsService,
+    private productService: ProductService,
     private _snackBar: MatSnackBar,
   ) { }
 
@@ -75,7 +76,7 @@ export class EditPromotionComponent implements OnInit, OnDestroy {
   public getProduct() {
     this._subscription = this._route.params.subscribe(params => {
       this.id = params['id'];
-      this._subscriptionService = this._productService.getProduct(this.id).subscribe(
+      this._subscriptionService = this.productService.getProductId(this.id).subscribe(
         res => {
           this.dataSource = res;
           this.editPromotionForm.get('startDate').patchValue(res.start_date_promo);
@@ -94,8 +95,7 @@ export class EditPromotionComponent implements OnInit, OnDestroy {
 
   public editPromotion() {
     if (this.editPromotionForm.valid) {
-      // this.loading = true;
-      this._productService.editPromotion(this.editPromotionForm.value, this.id);
+      this.productService.setPromotionData(this.editPromotionForm.value, this.id);
       this.openSnackBar();
       this._router.navigate(['/dashboard/products/view/' + this.id]);
     }

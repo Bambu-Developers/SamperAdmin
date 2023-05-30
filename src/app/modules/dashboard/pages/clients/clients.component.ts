@@ -53,13 +53,24 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
   public getClients() {
     this.subscriptionClients = this.clientsService.getAllClients().pipe(
       take(1),
-      concatMap(x => x),
+      concatMap(x => {
+          return  x.filter(word => word.route_id !== undefined);
+        } ),
       mergeMap(client => {
-        return this.clientsService.getRouteByID(client['route_id'])
+        if (client !== undefined) {
+          return this.clientsService.getRouteByID(client['route_id'])
           .pipe(
             take(1),
-            map(route => Object.assign({}, { ...client, route_name: route.name }))
+            map((route: any) =>
+
+                Object.assign({}, { ...client, route_name: route.name })
+
+
+
+            )
           );
+        }
+
       }),
       toArray()
     ).subscribe(
@@ -90,7 +101,7 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
   public setRouteNames() {
     this.clients.forEach(client => {
       if (client.route_id !== '') {
-        this.subscriptionClient = this.clientsService.getRouteByID(client['route_id']).subscribe(route => {
+        this.subscriptionClient = this.clientsService.getRouteByID(client['route_id']).subscribe((route: any) => {
           if (route !== null) {
             client['route_name'] = route.name;
           }
@@ -117,6 +128,8 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLowerCase();
+    // console.log(this.dataSource.filteredData);
+    // console.log(JSON.stringify(this.dataSource.filteredData));
     if (value.toLowerCase() === '') {
       this.lookCheck = false;
     } else {

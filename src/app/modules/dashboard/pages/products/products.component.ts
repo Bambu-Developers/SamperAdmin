@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { PRODUCTS_LANGUAGE } from 'src/app/modules/dashboard/pages/products/data/language';
 import { PAGINATION } from 'src/app/modules/shared/components/paginator/data/data';
+import { ProductService } from 'src/app/modules/shared/services/product.service';
 
 @Component({
   selector: 'app-products',
@@ -23,6 +24,7 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private productsService: ProductsService,
+    private productService: ProductService,
   ) { }
 
   ngOnInit() {
@@ -34,18 +36,17 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public getProducts() {
-    this.subscriptionProducts = this.productsService.getAllProducts().subscribe(
-      res => {
-        this.dataSource.data = res;
-        const data = [];
-        for (let i = 0; i < this.pagination.perPage; i++) {
-          if (res[i]) {
-            data.push(res[i]);
-            this.indexProducts = this.indexProducts + i;
-          }
+
+    this.subscriptionProducts = this.productService.getAllProducts().subscribe( ress => {
+      this.dataSource.data = ress;
+      const data = [];
+      for (let i = 0; i < this.pagination.perPage; i++) {
+        if (ress[i]) {
+          data.push(ress[i]);
+          this.indexProducts = this.indexProducts + i;
         }
       }
-    );
+    });
   }
 
   public doFilter = (value: string) => {

@@ -12,6 +12,7 @@ import { DateFormat } from 'src/app/modules/dashboard/data/date-format.data';
 import { DateAdapter } from '@angular/material/core';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { ProductService } from 'src/app/modules/shared/services/product.service';
 
 @Component({
   selector: 'app-register-promotion',
@@ -35,7 +36,7 @@ export class RegisterPromotionComponent implements OnInit, OnDestroy {
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
-    private _productService: ProductsService,
+    private productService: ProductService,
     private _snackBar: MatSnackBar,
     private _dateAdapter: DateAdapter<Date>
   ) {
@@ -77,7 +78,7 @@ export class RegisterPromotionComponent implements OnInit, OnDestroy {
   public getProduct() {
     this._subscription = this._route.params.subscribe(params => {
       this.id = params['id'];
-      this._subscriptionService = this._productService.getProduct(this.id).subscribe(
+      this._subscriptionService = this.productService.getProductId(this.id).subscribe(
         res => {
           this.dataSource = res;
         });
@@ -86,7 +87,7 @@ export class RegisterPromotionComponent implements OnInit, OnDestroy {
 
   public registerPromotion() {
     if (this.registerPromotionForm.valid) {
-      this._productService.registerPromotion(this.registerPromotionForm.value, this.id);
+      this.productService.setPromotionData(this.registerPromotionForm.value, this.id);
       this.openSnackBar();
       this._router.navigate(['/dashboard/products/view/' + this.id]);
     }

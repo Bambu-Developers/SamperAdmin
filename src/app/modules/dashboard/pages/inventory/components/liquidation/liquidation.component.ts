@@ -81,10 +81,11 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.collection = 0;
+    this.cash = 0;
+    this.difference = 0;
     this.getUser();
     this.getClient();
-    console.log('dbasdsadjsdbasdasb');
-
   }
 
   public getUser() {
@@ -198,9 +199,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       this.dataSourceTable.data = retailProducts;
       this.dataSourceWholesaleTable.data = wholesaleProducts;
       this.dataSourceWholesaleTableG.data = wholesaleProductsG;
-
       this.loading = false;
-
     } );
   }
 
@@ -232,6 +231,16 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(
       response => {
         if (response) {
+
+          if (  this.collection === null ) {
+            this.collection = 0;
+          }
+          if (  this.difference === null ) {
+            this.difference = 0;
+          }
+          if (  this.cash === null ) {
+            this.cash = 0;
+          }
           this.approveLiquidation();
           this.getPdf();
           this.dialogRef.close();
@@ -245,7 +254,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     this._inventoryService.approveLiquidation(
       this.dataSource.id,
       this.dataSource.name,
-      this.today,
+      this.data.date,
       this.userRoute,
       this.totalSold,
       (this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG  - this.totalDevolutions - this.totalCredit
@@ -264,7 +273,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
   public getLiquidation() {
     this._inventoryService.getLiquidation( this.id , this.dateParam , this.dateParam  ).then((res: any ) => {
-
       if (Object.keys( res.data).length === 0) {
 
         // this.dialogRef.close();
@@ -574,8 +582,8 @@ export class LiquidationComponent implements OnInit, OnDestroy {
             Producto: ` ${element2.name} `,
             Marca: element2.brand,
             Vendido: `${element2.number_of_items}`,
-            Precio: '$' + element2.retail_price,
-            Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.retail_price)}`).toFixed(2),
+            Precio: '$' + element2.wholesale_price,
+            Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.wholesale_price)}`).toFixed(2),
           });
         indexTab++;
         linePdf ++;
@@ -616,6 +624,76 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       });
     }
 
+    if (this.dataSourceWholesaleTableG.data.length !== 0) {
+      const table5: any = [[]];
+      const initialHeight = linePdf;
+      let space = 39;
+      let indexTab = 0;
+      linePdf = linePdf  + 3;
+      if ( pagePdf === 0 ) {
+        space = 32 - linePdf;
+      }
+      if ( pagePdf > 0 ) {
+        space = 38 - linePdf;
+      }
+      if (  32 - linePdf < 15  && pagePdf === 0 ) {
+        linePdf = 0;
+        pagePdf ++;
+        space = 39;
+      }
+      if (  39 - linePdf < 15  && pagePdf > 0 ) {
+        linePdf = 0;
+        pagePdf ++;
+        space = 39;
+      }
+
+      await this.dataSourceWholesaleTableG.data.forEach(( element2: any , index: any) => {
+          table5[ table5.length - 1 ].push({
+            Producto: ` ${element2.name} `,
+            Marca: element2.brand,
+            Vendido: `${element2.number_of_items}`,
+            Precio: '$' + element2.wholesale_priceG,
+            Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.wholesale_priceG)}`).toFixed(2),
+          });
+        indexTab++;
+        linePdf ++;
+        if (indexTab === space || this.dataSourceWholesaleTableG.data.length - 1 === index ) {
+          if ( space < 39 ) {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(16);
+            doc.text( 'Ventas Gran Mayorista' , 10, (pagePdf === 0  ? 95 + ((initialHeight + 4) * 6.2 ) : 45 + (initialHeight * 6.2 )));
+            doc.table( 6 , ( pagePdf === 0  ? 100 + ((initialHeight + 4) * 6.2 ) : 50 + (initialHeight * 6.2 )),
+             table5[table5.length - 1], this.createHeaders([
+              'Producto',
+              'Marca',
+              'Vendido',
+              'Precio',
+              'Total',
+            ]), { fontSize: 8 , padding: 1.2 , printHeaders: true  }   );
+          } else {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(16);
+            doc.addPage('a4', 'p' , );
+            doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
+            doc.text( 'Ventas Gran Mayorista' , 10, 30);
+            doc.table( 6 , 35, table5[table5.length - 1], this.createHeaders([
+              'Producto',
+              'Marca',
+              'Vendido',
+              'Precio',
+              'Total',
+            ]), { fontSize: 8 , padding: 1.2 , printHeaders: true   });
+          }
+          if ( indexTab === space ) {
+            space = 39;
+            pagePdf ++;
+            indexTab = 0;
+            table5.push([]);
+          }
+        }
+      });
+    }
+
     if (this.dataSourceLosses.data.length !== 0) {
       const table4: any = [[]];
       const initialHeight = linePdf;
@@ -639,10 +717,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         space = 39;
       }
       await this.dataSourceLosses.data.forEach(( element2: any , index: any) => {
-        console.log(element2);
-        console.log(element2.product.wholesale_price);
-        console.log(element2.product.number_of_piz);
-        console.log(parseFloat(`${ parseFloat(element2.number_of_piz) * parseFloat(element2.product.wholesale_price)}`).toFixed(2));
           table4[ table4.length - 1 ].push({
             Producto: ` ${element2.product.name}  `,
             Marca: element2.product.brand,
@@ -713,7 +787,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       }
 
       await this.dataSourceWholesaleTableG.data.forEach(( element2: any , index: any) => {
-          console.log(element2.wholesale_priceG);
           table5[ table5.length - 1 ].push({
             Producto: ` ${element2.name}  `,
             Marca: element2.brand,
@@ -761,4 +834,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     }
     doc.save( `Ticket-Nombre.pdf` );
   }
+
+
 }
+

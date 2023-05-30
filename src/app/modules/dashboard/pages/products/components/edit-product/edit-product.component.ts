@@ -2,13 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ProductsService } from 'src/app/modules/dashboard/pages/products/services/products.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
 import { PRODUCTS_LANGUAGE } from 'src/app/modules/dashboard/pages/products/data/language';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/data';
 import { CURRENCY_MASK, NUMBER_MASK, PERCENTAGE_MASK } from 'src/app/directives/currency-mask.directive';
+import { ProductService } from 'src/app/modules/shared/services/product.service';
 
 @Component({
   selector: 'app-edit-product',
@@ -38,7 +38,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _route: ActivatedRoute,
     private _snackBar: MatSnackBar,
-    private _productService: ProductsService
+    private productService: ProductService
   ) { }
 
   ngOnInit() {
@@ -115,7 +115,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
   public getProduct() {
     this._subscription = this._route.params.subscribe(params => {
       this.id = params['id'];
-      this._productService.getProduct(this.id).subscribe(
+      this.productService.getProductId(this.id).subscribe(
         res => {
           this.dataSource = res;
           this.editProductForm.get('image').patchValue(res.img_preview_url);
@@ -151,13 +151,14 @@ export class EditProductComponent implements OnInit, OnDestroy {
         this.savePhoto().then(
           response => {
             this.editProductForm.get('image').patchValue(response);
-            this._productService.editProduct(this.editProductForm.value, this.id);
-            this.openSnackBar();
-            this._router.navigate(['/dashboard/products/view/' + this.id]);
+            this.productService.editedProduct(this.editProductForm.value, this.id).then( res => {
+              this.openSnackBar();
+              this._router.navigate(['/dashboard/products/view/' + this.id]);
+            });
           }, error => console.error(error)
         );
       } else {
-        this._productService.editProduct(this.editProductForm.value, this.id);
+        this.productService.editedProduct(this.editProductForm.value, this.id);
         this.openSnackBar();
         this._router.navigate(['/dashboard/products/view/' + this.id]);
       }
@@ -197,7 +198,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
 
   public savePhoto() {
     return new Promise((resolve, reject) => {
-      this._productService.imageUpload(this.base64textString).then(
+      this.productService.imageUpload(this.base64textString).then(
         response => {
           this._subscriptionURL = response.subscribe(
             url => resolve(url),

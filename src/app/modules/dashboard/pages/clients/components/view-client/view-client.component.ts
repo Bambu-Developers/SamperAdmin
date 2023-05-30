@@ -156,7 +156,7 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
           this.editClientForm.get('phone').patchValue(res.phone);
           this.editClientForm.get('route').patchValue(res.route_id);
           if (res.route_id !== '') {
-            this._clientService.getRouteByID(res['route_id']).subscribe(route => {
+            this._clientService.getRouteByID(res['route_id']).subscribe((route: any) => {
               if (route !== null) {
                 res['route_name'] = route.name;
               }
