@@ -1,10 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { INVENTORY_LANGUAGE } from './data/language';
 import { MatTableDataSource } from '@angular/material/table';
-import { ClientsService } from './../clients/services/clients.service';
+import { ClientsService } from '../../../shared/services/clients.service';
 import { InventoryService } from './services/inventory.service';
 import { Subscription } from 'rxjs';
-import { RouteModel } from '../clients/models/route.model';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
@@ -12,6 +11,8 @@ import { take, map, concatMap, toArray } from 'rxjs/operators';
 import * as moment from 'moment';
 import { LiquidationComponent } from './components/liquidation/liquidation.component';
 import { MatDialog } from '@angular/material/dialog';
+import { RouteService } from 'src/app/modules/shared/services/route.service';
+import { RouteModel } from '../users/models/routes.model';
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
@@ -68,6 +69,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _fb: FormBuilder,
     private _datePipe: DatePipe,
+    private routeService: RouteService,
     private dialog: MatDialog,
   ) {}
 
@@ -90,7 +92,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   }
 
   public getRoutes() {
-    this._subscriptionRoutes = this._clientService.getAllRoutes().subscribe(
+    this._subscriptionRoutes = this.routeService.getAllRoutes().subscribe(
       res => {
         this.routes = res.sort((r1, r2) => {
           if (r1.name < r2.name) {

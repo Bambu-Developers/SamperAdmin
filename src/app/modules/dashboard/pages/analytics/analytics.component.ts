@@ -8,7 +8,7 @@ import { ANALYTICS_LANGUAGE } from './data/language';
 import { Component, OnInit } from '@angular/core';
 import { createChart } from './object-chart';
 import * as moment from 'moment';
-import { ClientsService } from '../clients/services/clients.service';
+import { ClientsService } from '../../../shared/services/clients.service';
 moment.locale('es');
 
 @Component({
@@ -38,16 +38,6 @@ export class AnalyticsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this._clientService._getlistClientAnalyticsKey().subscribe( res => {
-      const dataAux = new Date().getFullYear();
-      res.forEach(element => {
-        this.years.push(element.key);
-        if (parseInt( element.key , 10) === dataAux ) {
-          this.clientYear = element.key;
-          this.getAnalyticsclient(element.key);
-        }
-      });
-    });
 
 
     this.salesData.barChartData = [
@@ -83,13 +73,6 @@ export class AnalyticsComponent implements OnInit {
 
   public getAnalyticsclient(key) {
     this.clientYear = key;
-    this._clientService._getlistClientAnalytics(key).subscribe( data => {
-      this.clientMonth.labels = data[1];
-      this.clientMonth.barChartData = [
-        { data: data[0], label: data[1], type: 'line', fill: 'false' },
-        { data: data[0], label: data[1], type: 'bar' },
-      ];
-    });
   }
 
 }

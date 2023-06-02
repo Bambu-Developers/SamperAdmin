@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { UsersService } from '../../services/users.service';
 import { RouteModel } from '../../models/routes.model';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,6 +11,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/modules/shared/components/dialog/dialog.component';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
+import { UsersService } from 'src/app/modules/shared/services/users.service';
+import { RouteService } from 'src/app/modules/shared/services/route.service';
 
 @Component({
   selector: 'app-edit-user',
@@ -42,6 +43,7 @@ export class EditUserComponent implements OnInit {
 
   constructor(
     private userService: UsersService,
+    private routeService: RouteService,
     private route: ActivatedRoute,
     private _router: Router,
     private _dialog: MatDialog,
@@ -73,13 +75,17 @@ export class EditUserComponent implements OnInit {
   private getUser() {
     this.userService.getUser(this.idUser).subscribe(
       res => {
+        if(res.permision == undefined){
+          this._router.navigate(['/dashboard/users'])
+        }
         this.user = res;
         this.id = res.id;
         if (this.user.rol === 0) {
-          this.userService.getRouteByID(this.user.route).subscribe(route => {
+          this.routeService.getRouteByID(this.user.route).subscribe(route => {
             this.user.route_name = route.name;
           });
         }
+
         this.editUserForm.get('route').patchValue(this.user.route);
         this.editUserForm.get('name').patchValue(this.user.name);
         this.editUserForm.get('status').patchValue(this.user.status);
@@ -87,7 +93,9 @@ export class EditUserComponent implements OnInit {
         this.editUserForm.get('editPrices').patchValue(res.permision.price_edition);
         this.selectPermisions = this.user.permision;
       },
-      err => console.error(err)
+      err => {
+        console.error(err)
+      }
     );
   }
 
@@ -99,7 +107,7 @@ export class EditUserComponent implements OnInit {
     this.user.status = this.editUserForm.get('status').value;
     if (this.user.rol === 0) {
       this.user.route = this.editUserForm.get('route').value;
-      this.userService.editUserToRoute(this.user.route, this.user.id);
+      this.routeService.editUserToRoute(this.user.route, this.user.id);
     }
     this.userService.editUserData(this.user).then(
       res => this._router.navigate(['/dashboard/users']),
@@ -108,7 +116,7 @@ export class EditUserComponent implements OnInit {
   }
 
   public getRoutes() {
-    this.subscriptionRoutes = this.userService.getAllRoutes().subscribe(
+    this.subscriptionRoutes = this.routeService.getAllRoutes().subscribe(
       res => {
         this.routes = res;
       }
@@ -130,12 +138,12 @@ export class EditUserComponent implements OnInit {
     localStorage.setItem('permission', JSON.stringify(this.selectPermisions.price_edition));
   }
 
-  public deleteUser() {
-    this.userService.deleteUser(this.id).then(
-      res => this._router.navigate(['/dashboard/users/']),
-      err => console.log(err)
-    );
-    this.openSnackBarDeleted();
+  public async deleteUser() {
+    await this.userService.deleteUser(this.id).then( () => {
+      this._router.navigate(['/dashboard/users']),
+      this.openSnackBarDeleted();
+    } );
+
   }
 
   public setDisponibility(event) {

@@ -1,5 +1,5 @@
 import { ExcelService } from './../../../../../shared/services/excel.service';
-import { ClientsService } from './../../../clients/services/clients.service';
+import { ClientsService } from '../../../../../shared/services/clients.service';
 import { INVENTORY_LANGUAGE } from './../../data/language';
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -14,6 +14,7 @@ import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { LiquidationComponent } from '../liquidation/liquidation.component';
+import { RouteService } from 'src/app/modules/shared/services/route.service';
 
 @Component({
   selector: 'app-history-liquidation',
@@ -40,6 +41,7 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
 
   constructor(
     private _clientService: ClientsService,
+    private routeService: RouteService,
     private _inventoryService: InventoryService,
     private _router: Router,
     private excelService: ExcelService,
@@ -95,7 +97,7 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
   public getRoutes() {
     let i = 0;
     this.dataLiquidation = [];
-    this._clientService.getAllRoutes().subscribe(
+    this.routeService.getAllRoutes().subscribe(
        (res: any) => {
         if ( i < res.length ) {
           res.forEach( (element , index) => {
@@ -162,13 +164,9 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
     const date = event.value.getTime();
     const dateAux = new Date( date);
     this.startDate = moment(dateAux).format('YYYY-MM-DD');
-
-    // this.enableButton = false;
     if (this.startDate !== undefined && this.endDate !== undefined) {
       if (this.startDate > this.endDate) {
-        // this.dataError = true;
       } else {
-        // this.dataError = false;
       }
     }
   }

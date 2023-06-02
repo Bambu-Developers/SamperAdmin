@@ -1,5 +1,5 @@
 
-import { ClientsService } from 'src/app/modules/dashboard/pages/clients/services/clients.service';
+import { ClientsService } from 'src/app/modules/shared/services/clients.service';
 import { InventoryService } from './../../services/inventory.service';
 import { ActivatedRoute } from '@angular/router';
 import { INVENTORY_LANGUAGE } from './../../data/language';

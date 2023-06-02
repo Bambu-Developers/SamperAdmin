@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy , Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { ClientsService } from '../services/clients.service';
+import { ClientsService } from '../../../../shared/services/clients.service';
 
 @Component({
   selector: 'app-change-rout',

@@ -6,9 +6,9 @@ import { ACCOUNT_LANGUAGE } from './../../../../../account/data/language';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { UsersService } from '../../../users/services/users.service';
-import { RoutesService } from '../../services/routes.service';
 import { SNACKBAR_CONFIG } from '../../../products/data/data';
+import { UsersService } from 'src/app/modules/shared/services/users.service';
+import { RouteService } from 'src/app/modules/shared/services/route.service';
 
 @Component({
   selector: 'app-edit-route',
@@ -30,7 +30,7 @@ export class EditRouteComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _snackBar: MatSnackBar,
     private _userService: UsersService,
-    private _routeService: RoutesService
+    private _routeService: RouteService
   ) { }
 
   ngOnInit() {
@@ -43,7 +43,7 @@ export class EditRouteComponent implements OnInit, OnDestroy {
   public getRoute() {
     const params = this._route.snapshot.params;
     this.id = params['id'];
-    this._routeSubscription = this._routeService.getRoute(this.id).subscribe(route => {
+    this._routeSubscription = this._routeService.getRouteByID(this.id).subscribe(route => {
       this.dataSource = route;
       this.editRouteForm.get('name').patchValue(route.name);
     });

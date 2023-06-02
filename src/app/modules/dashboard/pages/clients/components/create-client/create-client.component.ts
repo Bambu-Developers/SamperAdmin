@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 import { CLIENTS_LANGUAGE } from './../../data/language';
-import { ClientsService } from './../../services/clients.service';
+import { ClientsService } from '../../../../../shared/services/clients.service';
 import { SnackbarComponent } from './../../../../../shared/components/snackbar/snackbar.component';
 import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/data';
 import { RouteModel } from './../../../users/models/routes.model';
@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DAYS } from '../../data/days';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { RouteService } from 'src/app/modules/shared/services/route.service';
 
 
 
@@ -40,22 +41,12 @@ export class CreateClientComponent implements OnInit, OnDestroy {
 
   constructor(
     private _clientService: ClientsService,
+    private routeService: RouteService,
     private _snackBar: MatSnackBar,
     private _router: Router,
   ) { }
 
   ngOnInit() {
-    this._clientService._getlistClientAnalyticsKey().subscribe( res => {
-      const dataAux = new Date().getFullYear();
-      res.forEach(element => {
-        if (parseInt( element.key , 10) === dataAux ) {
-          this._clientService._getlistClientAnalytics(element.key).subscribe( data => {
-            this.clientArray = data[0];
-          });
-        }
-      });
-    });
-
    // this._clientService._setClientAnalytics( [ 0 , 2 , 0 , 0 , 0 , 0 , 0 , 0, 0 , 0, 0 , 0 ] , true );
 
     this.getRoutes();
@@ -88,7 +79,7 @@ export class CreateClientComponent implements OnInit, OnDestroy {
     });
   }
   public getRoutes() {
-    this.subscriptionRoutes = this._clientService.getAllRoutes().subscribe(
+    this.subscriptionRoutes = this.routeService.getAllRoutes().subscribe(
       res => {
         this.routes = res;
       }

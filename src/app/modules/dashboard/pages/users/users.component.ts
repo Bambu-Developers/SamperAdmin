@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { USERS_LANGUAGE } from './data/language';
-import { UsersService } from './services/users.service';
 import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from './../../../account/services/auth.service';
 import { RouteModel } from './models/routes.model';
 import { PAGINATION } from './../../../shared/components/paginator/data/data';
+import { UsersService } from 'src/app/modules/shared/services/users.service';
+import { RouteService } from 'src/app/modules/shared/services/route.service';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   constructor(
     private usersService: UsersService,
+    private routeService: RouteService,
     private authService: AuthService,
   ) { }
 
@@ -40,7 +42,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.getsUsers();
     this.getRoutes();
     this.id = this.authService.getUserData();
-    this.logged = this.getsUsersLogged();
+    this.getsUsersLogged();
   }
 
   public getsUsers() {
@@ -52,7 +54,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         const data = [];
         this.users.forEach(user => {
           if (user['rol'] === 0) {
-            this._subscriptrionUser = this.usersService.getRouteByID(user['route']).subscribe(route => {
+            this._subscriptrionUser = this.routeService.getRouteByID(user['route']).subscribe(route => {
               if (route !== null) {
                 user['route_name'] = route.name;
               }
@@ -74,7 +76,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   public getRoutes() {
-    this._subscriptionRoutes = this.usersService.getAllRoutes().subscribe(
+    this._subscriptionRoutes = this.routeService.getAllRoutes().subscribe(
       res => {
         this.routes = res.sort((r1, r2) => {
           if (r1.name < r2.name) {

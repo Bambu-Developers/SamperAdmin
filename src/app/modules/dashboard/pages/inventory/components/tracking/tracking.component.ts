@@ -1,7 +1,8 @@
 import { Subscription } from 'rxjs';
-import { ClientsService } from './../../../clients/services/clients.service';
+import { ClientsService } from '../../../../../shared/services/clients.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RouteModel } from '../../../clients/models/route.model';
+import { RouteService } from 'src/app/modules/shared/services/route.service';
+import { RouteModel } from '../../../users/models/routes.model';
 
 
 
@@ -14,16 +15,13 @@ export class TrackingComponent implements OnInit, OnDestroy {
 
   public pinsArray = new Array();
   public routes: RouteModel[];
-  // public latitude = 19.305454343725557;
-  // public longitude = -99.16890953528679;
-  public latitude = 20.348254;
-  public longitude = -102.030706;
-  // private _subscriptionRoutes: Subscription;
-  // private _subscriptionClients: Subscription;
+  private _subscriptionRoutes: Subscription;
+  private _subscriptionClients: Subscription;
 
 
   constructor(
     private _clientsService: ClientsService,
+    private routeService: RouteService,
   ) { }
 
   ngOnInit() {
@@ -56,7 +54,7 @@ export class TrackingComponent implements OnInit, OnDestroy {
   public getAllPins() {
     this.pinsArray = [];
     let array = <any>[];
-    this._clientsService.getAllClients().subscribe(clients => {
+    this._subscriptionClients = this._clientsService.getAllClients().subscribe(clients => {
       clients.forEach(client => {
         array = {
           id: client.route_id,
@@ -72,7 +70,7 @@ export class TrackingComponent implements OnInit, OnDestroy {
   }
 
   public getRoutes() {
-    this._clientsService.getAllRoutes().subscribe(
+    this._subscriptionRoutes = this.routeService.getAllRoutes().subscribe(
       res => {
         this.routes = res.sort((r1, r2) => {
           if (r1.name < r2.name) {
@@ -95,11 +93,11 @@ export class TrackingComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    // if (this._subscriptionRoutes) {
-    //   this._subscriptionRoutes.unsubscribe();
-    // }
-    // if (this._subscriptionClients) {
-    //   this._subscriptionClients.unsubscribe();
-    // }
+    if (this._subscriptionRoutes) {
+      this._subscriptionRoutes.unsubscribe();
+    }
+    if (this._subscriptionClients) {
+      this._subscriptionClients.unsubscribe();
+    }
   }
 }

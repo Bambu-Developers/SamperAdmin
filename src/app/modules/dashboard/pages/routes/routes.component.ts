@@ -1,9 +1,11 @@
-import { UsersService } from './../users/services/users.service';
-import { ClientsService } from 'src/app/modules/dashboard/pages/clients/services/clients.service';
+
+import { ClientsService } from 'src/app/modules/shared/services/clients.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ROUTE_LANGUAGE } from './data/language';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
+import { UsersService } from 'src/app/modules/shared/services/users.service';
+import { RouteService } from 'src/app/modules/shared/services/route.service';
 
 @Component({
   selector: 'app-routes',
@@ -20,7 +22,8 @@ export class RoutesComponent implements OnInit, OnDestroy {
 
   constructor(
     private _clientsService: ClientsService,
-    private _usersService: UsersService
+    private _usersService: UsersService,
+    private routeService: RouteService,
   ) { }
 
   ngOnInit() {
@@ -28,7 +31,7 @@ export class RoutesComponent implements OnInit, OnDestroy {
   }
 
   public getRoutes() {
-    this._subscriptionRoutes = this._clientsService.getAllRoutes().subscribe(
+    this._subscriptionRoutes = this.routeService.getAllRoutes().subscribe(
       res => {
         this.routes.data = res.sort((r1, r2) => {
           if (r1.name < r2.name) {

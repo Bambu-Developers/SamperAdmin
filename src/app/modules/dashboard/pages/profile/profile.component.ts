@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { UsersService } from '../users/services/users.service';
 import { AuthService } from 'src/app/modules/account/services/auth.service';
 import { matchingPasswords } from 'src/app/directives/equal-to-validator.directive';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ToastComponent } from '../../components/toast/toast.component';
+import { UsersService } from 'src/app/modules/shared/services/users.service';
 
 @Component({
   selector: 'app-profile',

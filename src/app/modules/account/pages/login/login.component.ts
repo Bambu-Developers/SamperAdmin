@@ -4,7 +4,7 @@ import { EMAIL_REGEX } from 'src/app/modules/account/data/data';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 import { AuthService } from 'src/app/modules/account/services/auth.service';
 import { Router } from '@angular/router';
-import { ClientsService } from 'src/app/modules/dashboard/pages/clients/services/clients.service';
+import { ClientsService } from 'src/app/modules/shared/services/clients.service';
 
 
 @Component({

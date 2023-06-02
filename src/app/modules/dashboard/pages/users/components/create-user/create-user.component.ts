@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
-import { UsersService } from '../../services/users.service';
 import { EMAIL_REGEX } from 'src/app/modules/account/data/data';
 import { Router } from '@angular/router';
 import { PermisionsModel } from '../../models/permisions.model';
@@ -10,6 +9,8 @@ import { ROLES, PERMISIONS } from '../../data/data';
 import { RolModel } from '../../models/rol.model';
 import { RouteModel } from '../../models/routes.model';
 import { Subscription } from 'rxjs';
+import { UsersService } from 'src/app/modules/shared/services/users.service';
+import { RouteService } from 'src/app/modules/shared/services/route.service';
 
 @Component({
   selector: 'app-create-user',
@@ -46,6 +47,7 @@ export class CreateUserComponent implements OnInit, OnDestroy {
 
   constructor(
     private usersService: UsersService,
+    private routeService: RouteService,
     private _router: Router,
   ) { }
 
@@ -77,20 +79,23 @@ export class CreateUserComponent implements OnInit, OnDestroy {
     if (this.createUserForm.valid) {
       this.usersService.createUser(this.createUserForm.value).then(
         error => {
+          this._router.navigate(['/dashboard/users']);
           if (error.code === 'auth/email-already-in-use') {
             this.createUserForm.get('email').setErrors({ 'exists': true });
           }
         });
-      this._router.navigate(['/dashboard/users']);
+
     }
   }
 
   public changePermisions(event: any, id: number) {
+
     if (event.checked) {
       id === 1 ?
         this.selectPermisions.user_registration = true :
         (id === 2) ?
-          this.selectPermisions.price_edition = true : this.selectPermisions.create_edit_promotions = true;
+          this.selectPermisions.price_edition = true :
+          this.selectPermisions.create_edit_promotions = true;
     } else {
       id === 1 ?
         this.selectPermisions.user_registration = false :
@@ -100,7 +105,7 @@ export class CreateUserComponent implements OnInit, OnDestroy {
   }
 
   public getRoutes() {
-    this.subscriptionRoutes = this.usersService.getAllRoutes().subscribe(
+    this.subscriptionRoutes = this.routeService.getAllRoutes().subscribe(
       res => {
         this.routes = res.sort((r1, r2) => {
           if (r1.name < r2.name) {

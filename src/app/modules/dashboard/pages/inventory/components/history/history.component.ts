@@ -6,12 +6,13 @@ import { INVENTORY_LANGUAGE } from './../../data/language';
 import { InventoryService } from '../../services/inventory.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { concatMap, toArray, take, map } from 'rxjs/operators';
-import { ClientsService } from '../../../clients/services/clients.service';
-import { RouteModel } from '../../../clients/models/route.model';
+import { ClientsService } from '../../../../../shared/services/clients.service';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { TicketComponent } from '../ticket/ticket.component';
+import { RouteService } from 'src/app/modules/shared/services/route.service';
+import { RouteModel } from '../../../users/models/routes.model';
 
 @Component({
   selector: 'app-history',
@@ -45,6 +46,7 @@ export class HistoryComponent implements OnInit, AfterViewInit {
     private _clientService: ClientsService,
     private _inventoryService: InventoryService,
     private dialog: MatDialog,
+    private routeService: RouteService,
   ) {
     this.formSearch = _fb.group({
       dateStart: [''],
@@ -54,10 +56,6 @@ export class HistoryComponent implements OnInit, AfterViewInit {
    }
 
   ngOnInit() {
-    // ONLY WHEN DELETE TICKETS
-    // this.testDelete();
-
-
     this.form = this._fb.group({
       date: [{ begin: new Date(), end: new Date() }],
       route: new FormControl('', [Validators.required, ]),
@@ -79,18 +77,6 @@ export class HistoryComponent implements OnInit, AfterViewInit {
     this.dataSourceTableHistory.paginator = this.paginator;
   }
 
-  // testDelete() {
-  //   const fecha = moment('20200701', 'YYYYMMDD').toDate();
-  //   this._inventoryService.getSalesToDelete('id de la ruta')
-  //     .valueChanges().subscribe(res => {
-  //       res.forEach(ticket => {
-  //         if (moment(ticket['timesatamp']).toDate() < fecha) {
-  //           this._inventoryService.deleteTicket('id de la ruta', ticket['id']);
-  //         }
-  //       });
-  //     });
-  // }
-
   testDataRoute() {
     const fecha = moment('20200701', 'YYYYMMDD').toDate();
     this._inventoryService.getSalesToDelete('1038623014')
@@ -100,7 +86,7 @@ export class HistoryComponent implements OnInit, AfterViewInit {
   }
 
   public getRoutes() {
-    this._clientService.getAllRoutes().subscribe(
+    this.routeService.getAllRoutes().subscribe(
       (res) => {
         this.formSearch.controls[('routes')].setValue( res[0].id );
         this.dataId = res[0].id;

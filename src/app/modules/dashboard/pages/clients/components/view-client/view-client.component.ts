@@ -4,20 +4,22 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { ClientsService } from 'src/app/modules/dashboard/pages/clients/services/clients.service';
+import { ClientsService } from 'src/app/modules/shared/services/clients.service';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 import { CLIENTS_LANGUAGE } from 'src/app/modules/dashboard/pages/clients/data/language';
 import { CURRENCY_MASK } from 'src/app/directives/currency-mask.directive';
 import { SNACKBAR_CONFIG } from 'src/app/modules/dashboard/pages/products/data/data';
 import { DateFormat } from 'src/app/modules/dashboard/data/date-format.data';
-import { RouteModel } from '../../models/route.model';
+
 import { DAYS } from '../../data/days';
 import { DateAdapter } from '@angular/material/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { DialogComponent } from 'src/app/modules/shared/components/dialog/dialog.component';
 import { TicketComponent } from '../../../inventory/components/ticket/ticket.component';
+import { RouteService } from 'src/app/modules/shared/services/route.service';
+import { RouteModel } from '../../../users/models/routes.model';
 
 @Component({
   selector: 'app-view-client',
@@ -72,6 +74,7 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
     private _snackBar: MatSnackBar,
     private _dialog: MatDialog,
     private _clientService: ClientsService,
+    private routeService: RouteService,
     private _dateAdapter: DateAdapter<Date>
   ) {
     this._dateAdapter.setLocale('es-ES');
@@ -134,18 +137,7 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
       this.id = params['id'];
       this._subscriptionService = this._clientService.getClient(this.id).subscribe(
         (res: any ) => {
-
           this.dataSource = res;
-          // this.currentDays.push(res.monday);
-          // this.currentDays.push(res.tuesday);
-          // this.currentDays.push(res.wednesday);
-          // this.currentDays.push(res.thursday);
-          // this.currentDays.push(res.friday);
-          // this.currentDays.push(res.saturday);
-          // this.currentDays.push(res.sunday);
-          // for (let i = 0; i < this.days.length; i++) {
-          //   this.days[i].active = this.currentDays[i];
-          // }
           this.editClientFormCredit.get('haveCredit').patchValue(res.haveCredit === false || res.haveCredit === true
             ? res.haveCredit : false );
           if (res.photo !== '') {
@@ -156,7 +148,7 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
           this.editClientForm.get('phone').patchValue(res.phone);
           this.editClientForm.get('route').patchValue(res.route_id);
           if (res.route_id !== '') {
-            this._clientService.getRouteByID(res['route_id']).subscribe((route: any) => {
+            this.routeService.getRouteByID(res['route_id']).subscribe((route: any) => {
               if (route !== null) {
                 res['route_name'] = route.name;
               }
@@ -167,6 +159,7 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
       );
 
       this._clientService.getVisits( this.id ).subscribe(ress => {
+        console.log(this.id , ress);
         this.dataSourceVisits.data = ress;
       });
 
@@ -188,7 +181,7 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
   }
 
   public getRoutes() {
-    this._subscriptionRoutes = this._clientService.getAllRoutes().subscribe(
+    this._subscriptionRoutes = this.routeService.getAllRoutes().subscribe(
       res => {
         this.routes = res.sort((r1, r2) => {
           if (r1.name < r2.name) {
@@ -203,15 +196,6 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
     );
   }
 
-  public editCredit() {
-    if (this.creditEditForm.valid) {
-      this._clientService.editCredit(this.creditEditForm.value, this.id);
-      this.getDays();
-      this.openSnackBarEdited();
-      this.router.navigate(['/dashboard/clients/view/' + this.id]);
-    }
-  }
-
   public editClient() {
     this.loading = true;
     this.editClientForm.get('monday').setValue(this.days[0].active);
@@ -222,11 +206,6 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
     this.editClientForm.get('saturday').patchValue(this.days[5].active);
     this.editClientForm.get('sunday').patchValue(this.days[6].active);
     const dataAux: any = this.editClientForm.value;
-    // dataAux.haveCredit = {
-    //   credit: this.editClientFormCredit.get('haveCredit').value,
-    //   // debt: this.dataSource.haveCredit.debt ? this.dataSource.haveCredit.debt : 0,
-    //   // paid: this.dataSource.haveCredit.paid ? this.dataSource.haveCredit.paid : 0
-    // };
     dataAux.haveCredit = this.editClientFormCredit.get('haveCredit').value;
     if (this.imgChanged) {
       this.savePhoto().then(
@@ -245,14 +224,6 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
       this.loading = false;
     }
     this.getClient();
-  }
-
-  public assignCredit() {
-    if (this.creditAssignForm.valid) {
-      this._clientService.assignCredit(this.creditAssignForm.value, this.id);
-      this.openSnackBarAssigned();
-      this.router.navigate(['/dashboard/clients/view/' + this.id]);
-    }
   }
 
   public handleFileSelect(event) {

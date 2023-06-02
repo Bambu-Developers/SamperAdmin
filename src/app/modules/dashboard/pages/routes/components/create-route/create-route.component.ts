@@ -2,13 +2,13 @@ import { SNACKBAR_CONFIG } from './../../../users/data/data';
 import { SnackbarComponent } from 'src/app/modules/shared/components/snackbar/snackbar.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
-import { UsersService } from './../../../users/services/users.service';
 import { ACCOUNT_LANGUAGE } from 'src/app/modules/account/data/language';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ROUTE_LANGUAGE } from '../../data/language';
-import { RoutesService } from '../../services/routes.service';
 import { Router } from '@angular/router';
+import { UsersService } from 'src/app/modules/shared/services/users.service';
+import { RouteService } from 'src/app/modules/shared/services/route.service';
 
 @Component({
   selector: 'app-create-route',
@@ -25,7 +25,7 @@ export class CreateRouteComponent implements OnInit, OnDestroy {
 
   constructor(
     private _userService: UsersService,
-    private _routeService: RoutesService,
+    private _routeService: RouteService,
     private _snackBar: MatSnackBar,
     private _router: Router
   ) { }

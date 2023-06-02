@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
-import { ClientsService } from 'src/app/modules/dashboard/pages/clients/services/clients.service';
-import { UsersService } from '../users/services/users.service';
+import { ClientsService } from 'src/app/modules/shared/services/clients.service';
 import { Subscription, of } from 'rxjs';
 import { RouteModel } from '../users/models/routes.model';
 import { MatPaginator } from '@angular/material/paginator';
@@ -11,6 +10,8 @@ import { mergeMap, concatMap, map, take, toArray } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangeRoutComponent } from './change-rout/change-rout.component';
+import { UsersService } from 'src/app/modules/shared/services/users.service';
+import { RouteService } from 'src/app/modules/shared/services/route.service';
 
 @Component({
   selector: 'app-clients',
@@ -37,6 +38,7 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private clientsService: ClientsService,
     private usersService: UsersService,
+    private routeService: RouteService,
     private router: Router,
     private dialog: MatDialog,
   ) { }
@@ -51,29 +53,7 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public getClients() {
-    this.subscriptionClients = this.clientsService.getAllClients().pipe(
-      take(1),
-      concatMap(x => {
-          return  x.filter(word => word.route_id !== undefined);
-        } ),
-      mergeMap(client => {
-        if (client !== undefined) {
-          return this.clientsService.getRouteByID(client['route_id'])
-          .pipe(
-            take(1),
-            map((route: any) =>
-
-                Object.assign({}, { ...client, route_name: route.name })
-
-
-
-            )
-          );
-        }
-
-      }),
-      toArray()
-    ).subscribe(
+    this.clientsService.getAllClients().subscribe(
       res => {
         this.dataSource.data = res;
         this.clients = res;
@@ -101,7 +81,7 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
   public setRouteNames() {
     this.clients.forEach(client => {
       if (client.route_id !== '') {
-        this.subscriptionClient = this.clientsService.getRouteByID(client['route_id']).subscribe((route: any) => {
+        this.subscriptionClient = this.routeService.getRouteByID(client['route_id']).subscribe((route: any) => {
           if (route !== null) {
             client['route_name'] = route.name;
           }
@@ -111,7 +91,7 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public getRoutes() {
-    this.subscriptionRoutes = this.usersService.getAllRoutes().subscribe(
+    this.subscriptionRoutes = this.routeService.getAllRoutes().subscribe(
       res => {
         this.routes = res.sort((r1, r2) => {
           if (r1.name < r2.name) {
@@ -128,8 +108,6 @@ export class ClientsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLowerCase();
-    // console.log(this.dataSource.filteredData);
-    // console.log(JSON.stringify(this.dataSource.filteredData));
     if (value.toLowerCase() === '') {
       this.lookCheck = false;
     } else {

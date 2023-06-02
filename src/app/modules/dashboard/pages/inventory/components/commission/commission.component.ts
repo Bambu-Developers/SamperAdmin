@@ -3,11 +3,12 @@ import { concatMap, take, toArray, map } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { INVENTORY_LANGUAGE } from '../../data/language';
-import { UsersService } from './../../../users/services/users.service';
 import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { InventoryService } from '../../services/inventory.service';
 import * as moment from 'moment';
+import { UsersService } from 'src/app/modules/shared/services/users.service';
+import { RouteService } from 'src/app/modules/shared/services/route.service';
 
 @Component({
   selector: 'app-commission',
@@ -54,7 +55,8 @@ export class CommissionComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _userService: UsersService,
     private _inventoryService: InventoryService,
-    private excelService: ExcelCommissionService
+    private excelService: ExcelCommissionService,
+    private routeService: RouteService
   ) { }
 
   ngOnInit() {
@@ -73,7 +75,7 @@ export class CommissionComponent implements OnInit, OnDestroy {
   }
 
   public getUser() {
-    this._subscriptionService = this._userService.getRouteByID(this.route).subscribe(
+    this._subscriptionService = this.routeService.getRouteByID(this.route).subscribe(
       res => {
         this.route_name = res.name;
         this.user = res.seller;

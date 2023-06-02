@@ -3,16 +3,16 @@ import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { INVENTORY_LANGUAGE } from '../../data/language';
 import { Subscription } from 'rxjs';
-import { UsersService } from '../../../users/services/users.service';
 import { InventoryService } from './../../services/inventory.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/modules/shared/components/dialog/dialog.component';
 import { concatMap, map, take, toArray } from 'rxjs/operators';
 import moment from 'moment';
-import { ClientsService } from '../../../clients/services/clients.service';
+import { ClientsService } from '../../../../../shared/services/clients.service';
 
 import { jsPDF } from 'jspdf';
+import { UsersService } from 'src/app/modules/shared/services/users.service';
 
 @Component({
   selector: 'app-liquidation',
@@ -92,10 +92,10 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     this.dateParam = this.data.date;
     this.id = this.data.route;
     this.existLiquidation = !this.data.existLiquidation;
-    this._userService.getUserByRoute(this.id).subscribe((res: any) => {
+    this._userService.getAllUsersByRoute(this.id).subscribe((res: any) => {
 
-      this.dataSource = res;
-      this.userRoute = res.route;
+      this.dataSource = res[0];
+      this.userRoute = res[0].route;
       this.getLiquidation();
       this.getInventories();
       this.getLosses( this.dateParam , this.userRoute );
