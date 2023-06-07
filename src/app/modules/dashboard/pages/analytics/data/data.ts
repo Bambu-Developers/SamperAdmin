@@ -13,12 +13,12 @@ export const CHART_TYPES = {
 export const SALES_TITLE = ['Días de la semana', 'Piezas'];
 export const SALES_LABELS = ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do'];
 export const SALES_LABELS_YEAR = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dic'];
-export const SALES_COLORS = [{ backgroundColor: '#ff6649', borderColor: '#ff6649' },
+export const SALES_COLORS = [{ backgroundColor: '#1C355E', borderColor: '#1C355E' },
 { backgroundColor: '#ffc567', borderColor: 'transparent' }];
 
 export const SALES_ROUTE_TITLE = ['Rutas', 'Piezas'];
 export const SALES_ROUTE_LABELS = ['R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7'];
-export const SALES_ROUTE_COLORS = [{ backgroundColor: '#ff6649', borderColor: '#ff6649' }];
+export const SALES_ROUTE_COLORS = [{ backgroundColor: '#1C355E', borderColor: '#1C355E' }];
 
 export const PRODUCTS_TITLE = ['Productos', 'Piezas'];
 export const PRODUCTS_LABELS = [

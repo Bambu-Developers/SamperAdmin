@@ -33,7 +33,7 @@ export class HistoryComponent implements OnInit, AfterViewInit {
   public routes: RouteModel[];
   public productsSold: any;
   public totalSold: any;
-  public loading = true;
+  // public loading = true;
   public maxDate: Date;
   public dataId = '';
   // private _subscriptionSales: Subscription;
@@ -119,7 +119,7 @@ export class HistoryComponent implements OnInit, AfterViewInit {
   }
 
   public async getAllSales(id: string , dataStart , dataEnd ) {
-    this.loading = true;
+    // this.loading = true;
     const dateAux = new Date(this.formSearch.controls.dateStart.value).getTime();
     const dateAux2 = new Date(this.formSearch.controls.dateEnd.value).getTime();
 
@@ -127,32 +127,13 @@ export class HistoryComponent implements OnInit, AfterViewInit {
 
     try {
 
-      await this._inventoryService.getSales(id ,  dataStart , dataEnd ).then( sales => {
-        const keys = Object.keys(sales.data);
-        const arrayAux = [];
-        keys.forEach( ( element , index ) => {
-          arrayAux.push(
-            { date: sales.data[element].date , id: sales.data[element].id , route_id: sales.data[element].route_id ,
-              route_name: sales.data[element].route_name, total: sales.data[element].total ,
-              totalOnSalle: sales.data[element].totalOnSalle , customerId: sales.data[element].customerId}
-          );
-          if (index + 1 === arrayAux.length) {
-            arrayAux.sort((r1, r2) => {
-              if (r1.date > r2.date) {
-                return -1;
-              }
-              if (r1.date < r2.date) {
-                return 1;
-              }
-            });
-          }
-        });
-        this.dataSourceTableHistory.data = arrayAux;
-        this.loading = false;
+      await this._inventoryService.getSales(id ,  dataStart , dataEnd ).subscribe( sales => {
+        this.dataSourceTableHistory.data = sales;
+        // this.loading = false;
       });
 
     } catch (error) {
-      this.loading = false;
+      // this.loading = false;
       throw error;
     }
 

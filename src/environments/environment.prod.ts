@@ -2,13 +2,13 @@ export const environment = {
   production: true,
   // urlService: `https://us-central1-sanper-stable.cloudfunctions.net/SanperAPI`,
   firebase: {
-    apiKey: 'AIzaSyAHHc8QmC5umXm5Kx_En1lMyDWu1ATl_8A',
-    authDomain: 'nestledemo-a4248.firebaseapp.com',
-    databaseURL: 'https://nestledemo-a4248-default-rtdb.firebaseio.com',
-    projectId: 'nestledemo-a4248',
-    storageBucket: 'nestledemo-a4248.appspot.com',
-    messagingSenderId: '720343685840',
-    appId: '1:720343685840:web:cc57b016db44e8cc869cd5',
-    measurementId: 'G-65SK0DY3Y6'
+    apiKey: "AIzaSyCkuFs-AYyvs1ZBVAXY-TtM-ZEaf2wGWU4",
+    authDomain: "bhndemo-1e6f8.firebaseapp.com",
+    databaseURL: "https://bhndemo-1e6f8-default-rtdb.firebaseio.com",
+    projectId: "bhndemo-1e6f8",
+    storageBucket: "bhndemo-1e6f8.appspot.com",
+    messagingSenderId: "1948633643",
+    appId: "1:1948633643:web:c4f0c391e6a4aec0f5b86e",
+    measurementId: "G-H8G5X5WC3Z"
   },
 };

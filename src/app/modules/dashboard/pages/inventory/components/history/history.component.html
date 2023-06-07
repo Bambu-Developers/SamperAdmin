@@ -1,7 +1,7 @@
-<div class="sa-loading sa-column sa-justify-center sa-align-center" *ngIf="loading">
-    <!-- <img src="assets/images/sanper-loader.gif"> -->
+<!-- <div class="sa-loading sa-column sa-justify-center sa-align-center" *ngIf="loading">
+    <img src="assets/images/sanper-loader.gif">
     <mat-spinner></mat-spinner>
-</div>
+</div> -->
 <div class="sa-dashboard-main-content sa-roboto sa-charcoal-grey">
     <div class="sa-history-header">
         <div class="sa-download-history">
@@ -17,7 +17,7 @@
 
     <mat-label class="sa-text-24 sa-roboto-meduim">Rutas</mat-label>
     <div class="sa-top-filter"  [formGroup]="formSearch">
-      <div class="sa-top-filter-button">
+      <!-- <div class="sa-top-filter-button">
         <button [disabled]=" dateDisamble() " (click)="getAllSales( dataId , this.startDate , this.endDate)"  mat-raised-button color="accent"> Buscar </button>
       </div>
 
@@ -27,10 +27,10 @@
                   {{route.name}}
               </mat-option>
           </mat-select>
-      </div>
+      </div> -->
 
 
-      <div class="sa-top-filter-date">
+      <!-- <div class="sa-top-filter-date">
         <mat-form-field color="primary" appearance="legacy"
         class="sa-top-filter-date-input">
           <mat-label>  </mat-label>
@@ -48,7 +48,7 @@
           <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
           <mat-datepicker disabled="false" #picker2 color="primary"></mat-datepicker>
         </mat-form-field>
-      </div>
+      </div> -->
 
 
     </div>

@@ -32,6 +32,7 @@ export class ProductsService {
           this._storage.ref(PATH).getDownloadURL()
         ),
         (error: any) => {
+          console.log(error)
         });
     });
   }

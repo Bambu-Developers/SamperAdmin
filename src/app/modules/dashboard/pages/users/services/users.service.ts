@@ -44,7 +44,7 @@ export class UsersService {
 
   // Create user
   public createUser(userData) {
-    const email: string = userData.email.concat('@sanper.com');
+    const email: string = userData.email.concat('@bambu-mobile.com');
     return this.afAuth.createUserWithEmailAndPassword(email, userData.password)
       .then(result => {
         this.setUserData(userData, result.user);

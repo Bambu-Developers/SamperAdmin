@@ -451,9 +451,9 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 
 .mat-sidenav {
   .mat-drawer-inner-container {
-    .mat-toolbar {
-      background: $color-brick !important;
-    }
+    // .mat-toolbar {
+    //   background: $color-brick !important;
+    // }
   }
 }
 
@@ -498,7 +498,7 @@ button.mat-menu-item {
   &.icon-color-accent {
     svg {
       g {
-        fill: #ff6649;
+        fill: #1C355E;
         path {
           fill: $color-pinkish-orange;
         }
@@ -769,5 +769,5 @@ table {
 }
 
 .bonafont-logo-blanco{
-  height: 64px;
+  width: 230px;
 }

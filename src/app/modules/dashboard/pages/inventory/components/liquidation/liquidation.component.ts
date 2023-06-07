@@ -108,7 +108,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     const retailProducts = [];
 
 
-    this._inventoryService.getSales(this.userRoute,  this.dateParam, this.dateParam).then(async (res) => {
+    this._inventoryService.getSales(this.userRoute,  this.dateParam, this.dateParam).subscribe(async (res) => {
       const data = [];
       const keys = Object.keys(res.data);
       keys.forEach( ( element , index ) => {

@@ -89,7 +89,8 @@ export class TicketComponent implements OnInit, OnDestroy {
     this.ticket = this.data.ticket;
     this.clientID = this.data.client;
     const routeId = this.data.route;
-    this.getTicketData(routeId, this.ticket);
+    console.log(this.data.client);
+    this.getTicketData(this.clientID, this.ticket);
     this.getClient(this.clientID);
   }
 
@@ -105,26 +106,27 @@ export class TicketComponent implements OnInit, OnDestroy {
   }
 
   public getTicketData(route, ticket) {
-    this._inventoryService.getSaleByTicket(route, ticket).then(
+    this._inventoryService.getSaleByTicket(route, ticket).subscribe(
       ress => {
-        this.credit = ress.data.pay_whit_credit ? ress.data.pay_whit_credit_amount : 0;
-        this.clientID = ress.data.customerId;
-        this.date = ress.data.date;
-        this.route_name = ress.data.route_name;
-        this.totalSold = ress.data.totalOnSalle;
-        const productKeys = Object.keys(ress.data.Products);
+        console.log(ress);
+        this.credit = ress.pay_whit_credit ? ress.pay_whit_credit_amount : 0;
+        this.clientID = ress.customerId;
+        this.date = ress.date;
+        this.route_name = ress.route_name;
+        this.totalSold = ress.totalOnSalle;
+        const productKeys = Object.keys(ress.Products);
         const dataSales = [];
         const retailProducts = [];
         const wholesaleProducts = [];
         const wholesaleProductsG = [];
 
-        if (ress.data.Devolutions) {
-          const evolutionKeys = Object.keys(ress.data.Devolutions);
-          this.getDevolutions( ress.data , evolutionKeys );
+        if (ress.Devolutions) {
+          const evolutionKeys = Object.keys(ress.Devolutions);
+          this.getDevolutions( ress , evolutionKeys );
         }
 
         productKeys.forEach(( element , index ) => {
-          dataSales.push(ress.data.Products[element]);
+          dataSales.push(ress.Products[element]);
 
           if ( index + 1 === productKeys.length ) {
             dataSales.forEach( (product: any) => {
@@ -264,7 +266,7 @@ export class TicketComponent implements OnInit, OnDestroy {
     let pagePdf = 0;
     let linePdf = 0;
     const doc = new jsPDF();
-    doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
+    doc.addImage( '../../../../../../../assets/images/Logox2.webp' , 'PNG', 10, 10, 50, 10);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(16);
     doc.text( `Ticket: ${this.ticket}` , 10, 30);

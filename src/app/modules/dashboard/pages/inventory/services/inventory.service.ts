@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, forkJoin } from 'rxjs';
+import { concatAll, map, mergeMap } from 'rxjs/operators';
 import * as moment from 'moment';
 import { environment } from 'src/environments/environment';
 
@@ -28,6 +28,7 @@ export class InventoryService {
   constructor(
     private http: HttpClient,
     private _db: AngularFireDatabase,
+
   ) {
     this.inventoryRef = this._db.list<any>(this._basePathInv);
     this.devolutionsRef = this._db.list<any>(this._basePathDev);
@@ -117,13 +118,17 @@ export class InventoryService {
     return rest;
   }
 
-  public getSales(id: string , dataStart , dataEnd ): Promise<any> {
+  public getSales(id: string , dataStart , dataEnd  ): Observable<any> {
+    console.log(id);
+    const parentPath = '/Staging/History';
 
-    return this.http.get(`${environment.urlService}/shopping?dateStart=${dataStart}&dateEnd=${dataEnd}&route=${id}`, { }).toPromise();
+    return this._db.list<any>(parentPath).valueChanges().pipe(
+      map(jsons => jsons.map(json => Object.values(json))),
+      concatAll()
+    );
 
 
-      // return this._db.list<any>( 'Staging/HistoryRoutes/' + id , res => res.orderByChild('date').startAt(dataStart).endAt(dataEnd)
-      // ).valueChanges();
+
   }
 
 
@@ -133,9 +138,9 @@ export class InventoryService {
     return rest;
   }
 
-  public getSaleByTicket(route, ticket): Promise<any> {
-    return this.http.get(`${environment.urlService}/shopping/ticket?route=${route}&ticket=${ticket}`, { }).toPromise();
-    // return this._db.list('Staging/HistoryRoutes' + '/' + route + '/' + ticket  ).valueChanges();
+  public getSaleByTicket(route, ticket): Observable<any>  {
+    console.log( 'Staging/History/' +route + '/' + ticket );
+    return this._db.object('Staging/History/' +route + '/' + ticket ).valueChanges();
   }
 
   public getProductsSold(key, id) {

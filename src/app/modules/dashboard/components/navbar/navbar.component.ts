@@ -26,21 +26,21 @@ export class NavbarComponent implements OnInit {
   public months = DASHBOARD_LANGUAGE.navbar.months;
 
   public items = [
-    {
-      icon: 'ic-stock',
-      title: DASHBOARD_LANGUAGE.navbar.calc,
-      route: '/dashboard/inventory'
-    },
+    // {
+    //   icon: 'ic-stock',
+    //   title: DASHBOARD_LANGUAGE.navbar.calc,
+    //   route: '/dashboard/inventory'
+    // },
     {
       icon: '',
       title: DASHBOARD_LANGUAGE.navbar.history,
       route: '/dashboard/inventory/history'
     },
-    {
-      icon: '',
-      title: DASHBOARD_LANGUAGE.navbar.historyLiquidation,
-      route: '/dashboard/inventory/history-liquidation'
-    },
+    // {
+    //   icon: '',
+    //   title: DASHBOARD_LANGUAGE.navbar.historyLiquidation,
+    //   route: '/dashboard/inventory/history-liquidation'
+    // },
     // {
     //   icon: 'ic-analytics',
     //   title: DASHBOARD_LANGUAGE.navbar.analitycs,
