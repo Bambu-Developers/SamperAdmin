@@ -40,7 +40,6 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
-    private _clientService: ClientsService,
     private routeService: RouteService,
     private _inventoryService: InventoryService,
     private _router: Router,

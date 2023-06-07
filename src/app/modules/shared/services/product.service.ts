@@ -1,9 +1,16 @@
+import { async } from '@angular/core/testing';
 import { Injectable } from '@angular/core';
 import { ProductModel } from '../../dashboard/pages/products/models/product.model';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+
+
+
+import { HttpClient } from '@angular/common/http';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +26,10 @@ export class ProductService {
 
   constructor(
     private _storage: AngularFireStorage,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+
+
+    private http: HttpClient
   ) {}
 
   // Get all products
@@ -183,5 +193,32 @@ export class ProductService {
     }).catch((error) => {
       return error
     });
+  }
+
+
+  // Mirar Bases
+  getJsonKeys() {
+    this.http.get<any>('../../../../assets/sanper-stable-Liquidations-export.json').subscribe(
+      (data) => {
+        const keyAux = Object.keys(data);
+        keyAux.forEach( async ( colection: any , index ) => {
+          const keyColections = Object.keys(data[colection]);
+          keyColections.forEach( async ( doc  ) => {
+            const docAux = data[colection][doc];
+            console.log(colection);
+            console.log(doc);
+            console.log(docAux);
+            const documentRef = this.firestore.collection('Liquidations').doc('RouteList');
+            const subcollectionRef = documentRef.collection(colection).doc(doc);
+            return subcollectionRef.set(docAux);
+          });
+        });
+        return keyAux;
+      },
+      (error) => {
+        console.log(error);
+        return [];
+      }
+    );
   }
 }

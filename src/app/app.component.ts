@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
+import { ProductService } from './modules/shared/services/product.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,8 @@ export class AppComponent {
 
   constructor(
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private productService: ProductService
   ) {
     iconRegistry
       .addSvgIcon('ic-eye', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/icon-eye.svg'))
@@ -30,6 +32,7 @@ export class AppComponent {
       .addSvgIcon('ic-close-grey', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/icon-close-grey.svg'))
       .addSvgIcon('ic-calendar', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/icon-calendar-orange.svg'))
       ;
-
+      // Peligroso Servicio para subir tablas
+      // productService.getJsonKeys();
   }
 }

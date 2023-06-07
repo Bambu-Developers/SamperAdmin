@@ -175,9 +175,7 @@ export class ClientsService {
     });
   }
 
-  // Falta Cambiar este servicio
   public getVisits ( id ): Observable<RouteModel[]> {
-    // id = 'example';
     return this.db.list<any>( `Staging/Visits/${id}/`)
       .snapshotChanges()
       .pipe(
@@ -190,5 +188,21 @@ export class ClientsService {
         )
       );
   }
+
+  // Probar cundo exista la tabla
+  public getVisits2(id: string): Observable<RouteModel[]> {
+    return this.firestore.collection<RouteModel>(`Visits`).doc(id)
+      .snapshotChanges()
+      .pipe(
+        map((changes: any) =>
+          changes.map((c: any) => {
+            const data = c.payload.doc.data() as RouteModel;
+            const visitId = c.payload.doc.id;
+            return { id: visitId, ...data };
+          })
+        )
+      );
+  }
+
 
 }

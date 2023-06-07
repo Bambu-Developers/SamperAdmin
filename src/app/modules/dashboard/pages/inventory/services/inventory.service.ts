@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { environment } from 'src/environments/environment';
+import { ClientModel } from '../../clients/models/client.model';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +27,18 @@ export class InventoryService {
   private _basePathInvHis = 'Staging/HistoryInventory/';
   private _basePathRouteStorer = 'Staging/HistoryRoutesStorer/';
 
+
+
+
+  // Borar Despues de prueba
+  public clientRef: AngularFirestoreCollection<ClientModel>;
+
   constructor(
     private http: HttpClient,
     private _db: AngularFireDatabase,
+
+
+    private firestore: AngularFirestore
   ) {
     this.inventoryRef = this._db.list<any>(this._basePathInv);
     this.devolutionsRef = this._db.list<any>(this._basePathDev);
@@ -104,8 +115,28 @@ export class InventoryService {
     } catch (error) {
       throw error;
     }
-
   }
+
+
+  // Prueba de fechas
+  public getLiquidation2(idRoute: string, startDate: Date, endDate: Date): Observable<any[]> {
+    this.clientRef = this.firestore.collection<ClientModel>('Liquidations').doc('RouteList').collection(`${idRoute}`, ref =>
+      ref.where('date', '>=', startDate).where('date', '<=', endDate).orderBy('date', 'desc')
+    );
+    let liquidations: Observable<any[]> = this.clientRef.snapshotChanges().pipe(
+      map((changes) =>
+        changes.map((c: any) => {
+          const data = c.payload.doc.data();
+          const id = c.payload.doc.id;
+          return { id, ...data };
+        })
+      )
+    );
+    return liquidations;
+  }
+
+
+
 
   public getLiquidationAux( id: string ) {
     return this._db.list<any>('Staging/Liquidations/' + id).valueChanges();

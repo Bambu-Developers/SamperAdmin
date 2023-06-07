@@ -71,10 +71,12 @@ export class UsersService {
   }
 
    public async deleteUser(uid): Promise<any> {
-    await this.firestore.collection('Users').doc(uid).delete().then( async() => {
+    await this.firestore.collection('Users').doc(uid).delete().then( async(resssss) => {
       await this.deleteUserAccount(uid).then( (ress)=> {
         return ress;
-      });
+      }).catch((error) => {
+      return error
+      })
     }).catch((error) => {
       return error
     });
