@@ -3,7 +3,7 @@ export const DASHBOARD_LANGUAGE = {
         calc: 'Cálculo',
         analitycs: 'Analytics',
         tracking: 'Tracking rutas',
-        history: 'Historial de ventas',
+        history: 'Historial de reparto',
         historyLiquidation: 'Historial de liquidaciones',
         products: 'Productos',
         users: 'Usuarios',

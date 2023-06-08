@@ -8,7 +8,7 @@ import { MatIconRegistry } from '@angular/material/icon';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'BonafontAdmin';
+  title = 'BHN';
 
   constructor(
     private iconRegistry: MatIconRegistry,

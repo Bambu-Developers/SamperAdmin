@@ -18,6 +18,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { DialogComponent } from 'src/app/modules/shared/components/dialog/dialog.component';
 import { TicketComponent } from '../../../inventory/components/ticket/ticket.component';
+import { InventoryService } from '../../../inventory/services/inventory.service';
 
 @Component({
   selector: 'app-view-client',
@@ -29,6 +30,7 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
 
   public dataSource: any;
   public dataSourceVisits = new MatTableDataSource();
+  public dataSourceVisits2 = new MatTableDataSource();
   public creditEditForm: FormGroup;
   public creditAssignForm: FormGroup;
   public editClientForm: FormGroup;
@@ -60,6 +62,7 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
     date: '20 / Ago / 2018',
   };
   public displayedColumns: string[] = ['bender_id', 'shop_name', 'name', 'route_id'];
+  public displayedColumns2: string[] = ['name', 'total'];
   private _subscription: Subscription;
   private _subscriptionURL: Subscription;
   private _subscriptionService: Subscription;
@@ -72,6 +75,7 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
     private _snackBar: MatSnackBar,
     private _dialog: MatDialog,
     private _clientService: ClientsService,
+    private _inventoryService: InventoryService,
     private _dateAdapter: DateAdapter<Date>
   ) {
     this._dateAdapter.setLocale('es-ES');
@@ -170,7 +174,45 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
         this.dataSourceVisits.data = ress;
       });
 
+
+      this._inventoryService.getSalesClient(this.id ).subscribe(sales => {
+        let saleAux = [];
+        sales.forEach((element, index) => {
+          const jsonArray: any = Object.keys(element.Products);
+          jsonArray.forEach((product , indexP) => {
+
+            saleAux.push(element.Products[product]);
+          });
+        });
+        this.dataSourceVisits2.data = this.obtenerProductosRepetidos(saleAux);
+      });
+
     });
+
+
+  }
+
+
+
+  obtenerProductosRepetidos(productos:any) {
+    const productosRepetidos: { [sku: string]: number } = {};
+    for (const product of productos) {
+      const name = product.name;
+      if (productosRepetidos.hasOwnProperty(name)) {
+        productosRepetidos[name]++;
+      } else {
+        productosRepetidos[name] = 1;
+      }
+    }
+
+    const listaProductosRepetidos: { name: string; cantidad: number }[] = [];
+
+    for (const name in productosRepetidos) {
+      if (productosRepetidos.hasOwnProperty(name)) {
+        listaProductosRepetidos.push({ name, cantidad: productosRepetidos[name] });
+      }
+    }
+    return listaProductosRepetidos;
   }
 
   public getDays() {
@@ -387,14 +429,14 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
     }
   }
 
-  public openModal(routeIdAux , ticketAux , customerAux) {
-    this._dialog.open(TicketComponent, {
-      width: '80vw',
-      height: '80vh',
-      disableClose: true,
-      autoFocus: false,
-      data : { route: routeIdAux , ticket: ticketAux,  client: customerAux}
-    });
-  }
+  // public openModal(routeIdAux , ticketAux , customerAux) {
+  //   this._dialog.open(TicketComponent, {
+  //     width: '80vw',
+  //     height: '80vh',
+  //     disableClose: true,
+  //     autoFocus: false,
+  //     data : { route: routeIdAux , ticket: ticketAux,  client: customerAux}
+  //   });
+  // }
 
 }

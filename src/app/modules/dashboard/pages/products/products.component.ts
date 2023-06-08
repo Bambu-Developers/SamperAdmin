@@ -14,7 +14,7 @@ import { PAGINATION } from 'src/app/modules/shared/components/paginator/data/dat
 export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public language = PRODUCTS_LANGUAGE;
-  public displayedColumns: string[] = ['img', 'name', 'has_promo', 'brand', 'content', 'quantity', 'retailPrice', 'wholesalePrice'];
+  public displayedColumns: string[] = ['img', 'name', 'has_promo', 'brand', 'content', 'quantity', 'retailPrice'];
   public dataSource = new MatTableDataSource();
   public indexProducts = 0;
   public subscriptionProducts: Subscription;

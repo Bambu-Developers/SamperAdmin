@@ -126,9 +126,16 @@ export class InventoryService {
       map(jsons => jsons.map(json => Object.values(json))),
       concatAll()
     );
+  }
 
+  public getSalesClient(id: string ): Observable<any> {
+    console.log(id);
+    const parentPath = '/Staging/History';
 
-
+    return this._db.list<any>(parentPath).valueChanges().pipe(
+      map(jsons => jsons.map(json => Object.values(json))),
+      concatAll()
+    );
   }
 
 

@@ -73,7 +73,7 @@
             <!-- Total Column -->
             <ng-container matColumnDef="total">
                 <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanHis.total}}</th>
-                <td class="sa-subtotal-column" (click)="openModal(sale.route_id , sale.id , sale.customerId)" mat-cell *matCellDef="let sale">{{sale.totalOnSalle | currency}}</td>
+                <td class="sa-subtotal-column" (click)="openModal(sale.route_id , sale.id , sale.customerId)" mat-cell *matCellDef="let sale">{{sale.number_of_items}}</td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumnsSales"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumnsSales;">

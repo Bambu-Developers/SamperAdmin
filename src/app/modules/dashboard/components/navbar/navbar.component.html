@@ -2,7 +2,7 @@
   <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
     <mat-toolbar color="primary">
-      <img class="bonafont-logo-blanco" src="https://blackhawknetwork.com/themes/custom/bh/images/v2/Logox2.png">
+      <img class="bonafont-logo-blanco" src="../../../../../assets/images/Logobhn.png">
     </mat-toolbar>
     <mat-nav-list>
       <h3 class="sa-roboto sa-charcoal-grey sa-text-20">{{days[date.getDay()-1]}} {{date.getDate()}}

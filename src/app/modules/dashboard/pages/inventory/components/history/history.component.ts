@@ -127,17 +127,20 @@ export class HistoryComponent implements OnInit, AfterViewInit {
 
     try {
 
-      await this._inventoryService.getSales(id ,  dataStart , dataEnd ).subscribe( sales => {
+      this._inventoryService.getSales(id, dataStart, dataEnd).subscribe(sales => {
+        sales.forEach((element, index) => {
+          sales[index].number_of_items = 0;
+          const jsonArray: any = Object.keys(element.Products);
+          jsonArray.forEach((product , indexP) => {
+            sales[index].number_of_items = element.Products[product].number_of_items;
+          });
+        });
         this.dataSourceTableHistory.data = sales;
-        // this.loading = false;
+        console.log(sales);
       });
-
     } catch (error) {
-      // this.loading = false;
       throw error;
     }
-
-
   }
 
   public getSalesByKeyAndDate(route) {
@@ -187,3 +190,7 @@ export class HistoryComponent implements OnInit, AfterViewInit {
   }
 
 }
+function transformJSON(jsonData: any) {
+  throw new Error('Function not implemented.');
+}
+

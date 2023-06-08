@@ -12,9 +12,9 @@ export const INVENTORY_LANGUAGE = {
     doLiquidation: 'Realizar liquidación',
     losses: 'Mermas',
     history: {
-        salesHistory: 'Historial de ventas',
-        ticket: 'No. de ticket',
-        dateSold: 'Fecha de venta',
+        salesHistory: 'Historial de reparto',
+        ticket: 'No. de Entrega',
+        dateSold: 'Fecha de entrega',
         route: 'Ruta',
         quantitySold: 'Piezas vendidas',
         total: 'Total',

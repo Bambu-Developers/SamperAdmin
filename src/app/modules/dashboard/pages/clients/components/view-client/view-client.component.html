@@ -8,20 +8,32 @@
         <div class="sa-client-content">
             <h3 class="sa-text-24 sa-charcoal-grey sa-roboto">{{lanClient.clients}}</h3>
             <div class="sa-client-sections">
+              <div>
                 <div class="sa-left-column">
-                    <mat-card class="sa-shop-image-card">
-                        <img class="sa-current-photo" *ngIf="!isEditClient" src="{{dataSource?.photo}}">
-                        <img *ngIf="!dataSource?.photo && !isEditClient" src="assets/images/defaullt_photo_store.svg">
-                        <div class="sa-edit-image" *ngIf="isEditClient" (click)="file.click()" style="cursor: pointer">
-                            <img src="/assets/images/cloud-computing.svg" *ngIf="!imgURL">
-                            <mat-label class="sa-roboto sa-text-14 sa-mushroom" *ngIf="!imgURL">
-                                {{lanClient.uploadImage}}</mat-label>
-                            <input class="sa-preview" #file type="file" accept='image/*' (change)="handleFileSelect($event)" (change)="preview(file.files)">
-                            <img *ngIf="imgURL" id="preview" [src]="imgURL">
-                        </div>
-                    </mat-card>
+                  <mat-card class="sa-shop-image-card">
+                      <img class="sa-current-photo" *ngIf="!isEditClient" src="{{dataSource?.photo}}">
+                      <img *ngIf="!dataSource?.photo && !isEditClient" src="assets/images/defaullt_photo_store.svg">
+                      <div class="sa-edit-image" *ngIf="isEditClient" (click)="file.click()" style="cursor: pointer">
+                          <img src="/assets/images/cloud-computing.svg" *ngIf="!imgURL">
+                          <mat-label class="sa-roboto sa-text-14 sa-mushroom" *ngIf="!imgURL">
+                              {{lanClient.uploadImage}}</mat-label>
+                          <input class="sa-preview" #file type="file" accept='image/*' (change)="handleFileSelect($event)" (change)="preview(file.files)">
+                          <img *ngIf="imgURL" id="preview" [src]="imgURL">
+                      </div>
+                  </mat-card>
 
-                </div>
+
+
+              </div>
+
+                <mat-card class="sa-map-location">
+                  <agm-map [zoom]="15" [latitude]="dataSource?.latitud" [longitude]="dataSource?.longitud">
+                      <agm-marker [latitude]="dataSource?.latitud" [longitude]="dataSource?.longitud">
+                      </agm-marker>
+                  </agm-map>
+              </mat-card>
+              </div>
+
                 <div class="sa-right-column">
                     <mat-card class="sa-client-info">
                         <div *ngIf="!isEditClient" class="sa-client-title sa-roboto-medium sa-text-18 sa-charcoal-grey">
@@ -105,27 +117,31 @@
 
 
 
-                    <mat-card [formGroup]="editClientFormCredit" class="sa-client-info-credit">
+
+
+                    <div class="sa-dashboard-clients-content">
 
                       <p class="sa-roboto-medium sa-text-18 sa-charcoal-grey">
-                        Habilitar credito
+                        Productos
                       </p>
-                      <mat-slide-toggle formControlName="haveCredit" [disabled]="!isEditClient" >Activa crédito</mat-slide-toggle>
-                      <p class="sa-roboto-medium sa-text-18 sa-charcoal-grey">
-                        Saldo a credito $ {{ this.dataSource?.pending_payment }}
-                      </p>
-                      <!-- <p class="sa-roboto-medium sa-text-18 sa-charcoal-grey">
-                        Saldo abonado $ {{ this.dataSource?.haveCredit?.paid }}
-                      </p> -->
 
-                    </mat-card>
+                      <table mat-table [dataSource]="dataSourceVisits2">
 
-                    <mat-card class="sa-map-location">
-                        <agm-map [zoom]="15" [latitude]="dataSource?.latitud" [longitude]="dataSource?.longitud">
-                            <agm-marker [latitude]="dataSource?.latitud" [longitude]="dataSource?.longitud">
-                            </agm-marker>
-                        </agm-map>
-                    </mat-card>
+                          <ng-container matColumnDef="name">
+                              <th  mat-header-cell *matHeaderCellDef> Productos </th>
+                              <td mat-cell *matCellDef="let client" > {{client.name}} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="total">
+                              <th  mat-header-cell *matHeaderCellDef> Cantidad </th>
+                              <td  mat-cell *matCellDef="let client" >{{client.cantidad}} </td>
+                          </ng-container>
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns2;"> </tr>
+                      </table>
+                  </div>
+
+
                 </div>
             </div>
         </div>
@@ -137,27 +153,29 @@
   <div class="sa-dashboard-actions">
     <mat-paginator [hidePageSize]="true"  [pageSize]="20"></mat-paginator>
   </div>
+
+
   <div class="sa-dashboard-clients-content">
-      <table mat-table [dataSource]="dataSourceVisits">
+      <table mat-table [dataSource]="this.dataSourceVisits">
 
           <ng-container matColumnDef="bender_id">
               <th class="sa-benderID-column" mat-header-cell *matHeaderCellDef> Vendedor </th>
-              <td class="sa-benderID-column" mat-cell *matCellDef="let client" (click)="openModal(client.route , client.order_id , client.id)" > {{client.name}} </td>
+              <td class="sa-benderID-column" mat-cell *matCellDef="let client" > {{client.name}} </td>
           </ng-container>
 
           <ng-container matColumnDef="shop_name">
               <th class="sa-shopName-column" mat-header-cell *matHeaderCellDef> Ruta </th>
-              <td class="sa-shopName-column" mat-cell *matCellDef="let client" (click)="openModal(client.route , client.order_id , client.id)">" {{client.route}} "</td>
+              <td class="sa-shopName-column" mat-cell *matCellDef="let client" > {{client.route}} </td>
           </ng-container>
 
           <ng-container matColumnDef="name">
               <th class="sa-name-column" mat-header-cell *matHeaderCellDef> Status </th>
-              <td class="sa-name-column" mat-cell *matCellDef="let client" (click)="openModal(client.route , client.order_id , client.id)"> {{client?.status}} </td>
+              <td class="sa-name-column" mat-cell *matCellDef="let client" > {{client?.status}} </td>
           </ng-container>
 
           <ng-container matColumnDef="route_id">
               <th class="sa-route-column" mat-header-cell *matHeaderCellDef> Fecha </th>
-              <td class="sa-route-column" mat-cell *matCellDef="let client" (click)="openModal(client.route , client.order_id , client.id)"> {{ client.date | date: 'yyyy/MM/dd' }} </td>
+              <td class="sa-route-column" mat-cell *matCellDef="let client" > {{ client.date | date: 'yyyy/MM/dd' }} </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"> </tr>
