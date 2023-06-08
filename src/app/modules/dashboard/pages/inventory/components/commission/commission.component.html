@@ -75,7 +75,7 @@
     </div>
     <div class="sa-week-sales">
         <div class="sa-week-sales-header">
-            <mat-label class="sa-bold sa-pinkish-orange">Ventas Minoristas</mat-label>
+            <mat-label class="sa-bold sa-pinkish-orange">Entregadas</mat-label>
             <!-- <button mat-raised-button class="sa-button-history" color="accent">{{lanCom.seeHistory}}</button> -->
         </div>
         <table mat-table [dataSource]="dataSourceTableHistory">
@@ -129,7 +129,7 @@
 
     <div class="sa-week-sales" *ngIf="dataSourceTableHistoryWholeSale.data.length">
         <div class="sa-week-sales-header">
-            <mat-label class="sa-bold sa-pinkish-orange">Ventas Mayoristas</mat-label>
+            <mat-label class="sa-bold sa-pinkish-orange">Entregas Mayoristas</mat-label>
         </div>
         <table mat-table [dataSource]="dataSourceTableHistoryWholeSale">
             <!-- Sku Column -->
@@ -182,7 +182,7 @@
 
     <div class="sa-week-sales" *ngIf="dataSourceTableHistoryWholeSaleG.data.length">
         <div class="sa-week-sales-header">
-            <mat-label class="sa-bold sa-pinkish-orange">Ventas Gran Mayoreo</mat-label>
+            <mat-label class="sa-bold sa-pinkish-orange">Entregas Gran Mayoreo</mat-label>
         </div>
         <table mat-table [dataSource]="dataSourceTableHistoryWholeSaleG">
             <!-- Sku Column -->

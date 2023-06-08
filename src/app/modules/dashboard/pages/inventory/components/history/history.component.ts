@@ -79,18 +79,6 @@ export class HistoryComponent implements OnInit, AfterViewInit {
     this.dataSourceTableHistory.paginator = this.paginator;
   }
 
-  // testDelete() {
-  //   const fecha = moment('20200701', 'YYYYMMDD').toDate();
-  //   this._inventoryService.getSalesToDelete('id de la ruta')
-  //     .valueChanges().subscribe(res => {
-  //       res.forEach(ticket => {
-  //         if (moment(ticket['timesatamp']).toDate() < fecha) {
-  //           this._inventoryService.deleteTicket('id de la ruta', ticket['id']);
-  //         }
-  //       });
-  //     });
-  // }
-
   testDataRoute() {
     const fecha = moment('20200701', 'YYYYMMDD').toDate();
     this._inventoryService.getSalesToDelete('1038623014')

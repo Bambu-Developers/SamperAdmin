@@ -24,12 +24,12 @@ export class ExcelCommissionService {
     const losses_sheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(losses_sales);
     const workbook: XLSX.WorkBook = {
       Sheets: {
-        'Ventas_minoristas': retail_sheet,
-        'Ventas_mayoristas': wholesale_sheet,
-        'Ventas_gran_mayoreo': wholesaleG_sheet,
+        'Entregas_minoristas': retail_sheet,
+        'Entregas_mayoristas': wholesale_sheet,
+        'Entregas_gran_mayoreo': wholesaleG_sheet,
         'Mermas': losses_sheet
       },
-      SheetNames: ['Ventas_minoristas', 'Ventas_mayoristas', 'Ventas_gran_mayoreo', 'Mermas']
+      SheetNames: ['Entregas_minoristas', 'Entregas_mayoristas', 'Entregas_gran_mayoreo', 'Mermas']
     };
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
     return this.saveAsExcelFile(excelBuffer, excelFileName);

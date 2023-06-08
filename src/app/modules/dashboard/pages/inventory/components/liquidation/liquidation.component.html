@@ -13,7 +13,7 @@
         <div class="sa-liq-right">
             <div class="sa-sales-details">
                 <div class="sa-values">
-                    <mat-label>Ventas del día:</mat-label>
+                    <mat-label>Entregas del día:</mat-label>
                     <mat-label>{{totalSaleRetail + totalSaleWholesale + totalSaleWholesaleG  | currency}}</mat-label>
                 </div>
                 <div class="sa-values">
@@ -190,7 +190,7 @@
         </table>
     </div>
     <div class="sa-daily-sales" *ngIf="dataSourceTable.data.length !== 0">
-        <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Ventas Minoristas</mat-label>
+        <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Entregadas</mat-label>
         <table mat-table [dataSource]="dataSourceTable">
             <!-- Sku Column -->
             <ng-container matColumnDef="sku">
@@ -245,7 +245,7 @@
         </table>
     </div>
     <div class="sa-daily-sales" *ngIf="dataSourceWholesaleTable.data.length !== 0">
-        <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Ventas Mayorista</mat-label>
+        <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Entregas Mayorista</mat-label>
         <table mat-table [dataSource]="dataSourceWholesaleTable">
             <!-- Sku Column -->
             <ng-container matColumnDef="sku">
@@ -299,7 +299,7 @@
         </table>
     </div>
     <div class="sa-daily-sales" *ngIf="dataSourceWholesaleTableG.data.length !== 0">
-        <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Ventas Gran Mayoreo</mat-label>
+        <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Entregas Gran Mayoreo</mat-label>
         <table mat-table [dataSource]="dataSourceWholesaleTableG">
             <!-- Sku Column -->
             <ng-container matColumnDef="sku">

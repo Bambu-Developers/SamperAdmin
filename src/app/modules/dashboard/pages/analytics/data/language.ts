@@ -1,5 +1,5 @@
 export const ANALYTICS_LANGUAGE = {
-    sales: 'Ventas',
+    sales: 'Entregas',
     client: {
         clients: 'Clientes',
         totalClientsperRoute: 'Clientes totales por ruta',
@@ -9,8 +9,8 @@ export const ANALYTICS_LANGUAGE = {
     year: 'Año',
     result: 'Resultado',
     downloadReport: 'Descargar reporte',
-    totalSalesWeek: 'Ventas totales a la semana',
-    totalSalesRoute: 'Ventas totales por ruta',
+    totalSalesWeek: 'Entregas totales a la semana',
+    totalSalesRoute: 'Entregas totales por ruta',
     totalItems: 'Total en piezas',
-    productsSold: '20 productos más vendidos'
+    productsSold: '20 productos más Entregadoss'
 };

@@ -4,7 +4,7 @@ export const INVENTORY_LANGUAGE = {
     selectRoute: 'Para realizar una liquidación elige una ruta',
     skuCode: 'Código SKU',
     name: 'Nombre',
-    quantity: 'Cantidad (pzas) vendido / inicial',
+    quantity: 'Cantidad (pzas) Entregados / inicial',
     quantityP: 'Cantidad (pzas)',
     brand: 'Marca',
     category: 'Categoría',

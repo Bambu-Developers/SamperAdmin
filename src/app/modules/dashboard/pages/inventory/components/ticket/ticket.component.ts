@@ -5,8 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { INVENTORY_LANGUAGE } from './../../data/language';
 import { Component, OnInit, OnDestroy , Inject } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
-import { take, concatMap, toArray, filter, map } from 'rxjs/operators';
+
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 import { jsPDF } from 'jspdf';
@@ -259,7 +258,7 @@ export class TicketComponent implements OnInit, OnDestroy {
       'Producto',
       'Ruta',
       'Marca',
-      'Vendido',
+      'Entregados',
       'Precio',
       'Total',
     ]);
@@ -272,7 +271,7 @@ export class TicketComponent implements OnInit, OnDestroy {
     doc.text( `Ticket: ${this.ticket}` , 10, 30);
     doc.setFontSize(12);
     doc.setFont('helvetica', 'normal');
-    doc.text( `Total vendido: $${this.totalSold.toFixed(2) }`, 10, 35);
+    doc.text( `Total Entregados: $${this.totalSold.toFixed(2) }`, 10, 35);
     doc.text( `Total en devoluciones: $${this.totalReturned}`, 10, 40);
     doc.text( `Cliente: ${ this.client !== undefined ? this.client.name : this.clientID } - ${this.route_name}`, 10, 50);
     doc.text( `Tienda: ${ this.client !== undefined ? this.client.shop_name : this.clientID }`, 10, 55);
@@ -286,7 +285,7 @@ export class TicketComponent implements OnInit, OnDestroy {
             Producto: ` ${element.name} `,
             Ruta: this.route_name,
             Marca: element.brand,
-            Vendido: `${element.number_of_items}`,
+            Entregados: `${element.number_of_items}`,
             Precio: '$' + element.retail_price,
             Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`).toFixed(2),
           });
@@ -296,7 +295,7 @@ export class TicketComponent implements OnInit, OnDestroy {
             Producto: ` ${element.name} `,
             Ruta: this.route_name,
             Marca: element.brand,
-            Vendido: `${element.number_of_items}`,
+            Entregados: `${element.number_of_items}`,
             Precio: '$' + element.retail_price,
             Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`).toFixed(2),
           });
@@ -317,14 +316,14 @@ export class TicketComponent implements OnInit, OnDestroy {
             if (indexTable === 0) {
               doc.setFont('helvetica', 'normal');
               doc.setFontSize(16);
-              doc.text('Ventas Minoristas', 10, 70);
+              doc.text('Entregadas', 10, 70);
               doc.table(6, 75, table1[indexTable], headers, { fontSize: 8, padding: 1.2, printHeaders: true });
             } else {
               doc.setFont('helvetica', 'normal');
               doc.setFontSize(16);
               doc.addPage('a4', 'p');
               doc.addImage('../../../../../../../assets/images/logo_sanper.png', 'PNG', 10, 10, 50, 10);
-              doc.text('Ventas Minoristas', 10, 30);
+              doc.text('Entregadas', 10, 30);
               doc.table(6, 35, table1[indexTable], headers, { fontSize: 8, padding: 1.2, printHeaders: true });
             }
           });
@@ -359,7 +358,7 @@ export class TicketComponent implements OnInit, OnDestroy {
             Producto: ` ${element2.name}  `,
             Ruta: this.route_name,
             Marca: element2.brand,
-            Vendido: `${element2.number_of_items}`,
+            Entregados: `${element2.number_of_items}`,
             Precio: '$' + element2.retail_price,
             Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.retail_price)}`).toFixed(2),
           });
@@ -417,7 +416,7 @@ export class TicketComponent implements OnInit, OnDestroy {
             Producto: ` ${element2.name}  `,
             Ruta: this.route_name,
             Marca: element2.brand,
-            Vendido: `${element2.number_of_items}`,
+            Entregados: `${element2.number_of_items}`,
             Precio: '$' + element2.wholesale_price,
             Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.wholesale_price)}`).toFixed(2),
           });
@@ -427,7 +426,7 @@ export class TicketComponent implements OnInit, OnDestroy {
           if ( space < 39 ) {
             doc.setFont('helvetica', 'normal');
             doc.setFontSize(16);
-            doc.text( 'Ventas Mayorista' , 10, ( pagePdf === 0  ? 75 + ((initialHeight + 4) * 6.2 ) : 45 + (initialHeight * 6.2 )));
+            doc.text( 'Entregas Mayorista' , 10, ( pagePdf === 0  ? 75 + ((initialHeight + 4) * 6.2 ) : 45 + (initialHeight * 6.2 )));
             doc.table( 6 , ( pagePdf === 0  ? 80 + ((initialHeight + 4) * 6.2 ) : 50 + (initialHeight * 6.2 )),
             table3[table3.length - 1], headers, { fontSize: 8 , padding: 1.2 , printHeaders: true  }   );
           } else {
@@ -435,7 +434,7 @@ export class TicketComponent implements OnInit, OnDestroy {
             doc.setFontSize(16);
             doc.addPage('a4', 'p' , );
             doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
-            doc.text( 'Ventas Mayorista' , 10, 30);
+            doc.text( 'Entregas Mayorista' , 10, 30);
             doc.table( 6 , 35, table3[table3.length - 1], headers, { fontSize: 8 , padding: 1.2 , printHeaders: true });
           }
           if ( indexTab === space ) {
@@ -475,7 +474,7 @@ export class TicketComponent implements OnInit, OnDestroy {
             Producto: ` ${element2.name}  `,
             Ruta: this.route_name,
             Marca: element2.brand,
-            Vendido: `${ parseFloat(element2.number_of_items)}`,
+            Entregados: `${ parseFloat(element2.number_of_items)}`,
             Precio: '$' + element2.wholesale_priceG,
             Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.wholesale_priceG)}`).toFixed(2),
           });
@@ -485,7 +484,7 @@ export class TicketComponent implements OnInit, OnDestroy {
           if ( space < 39 ) {
             doc.setFont('helvetica', 'normal');
             doc.setFontSize(16);
-            doc.text( 'Ventas Gran Mayoreo' , 10, ( pagePdf === 0  ? 75 + ((initialHeight + 4) * 6.2 ) : 45 + (initialHeight * 6.2 )));
+            doc.text( 'Entregas Gran Mayoreo' , 10, ( pagePdf === 0  ? 75 + ((initialHeight + 4) * 6.2 ) : 45 + (initialHeight * 6.2 )));
             doc.table( 6 , ( pagePdf === 0  ? 80 + ((initialHeight + 4) * 6.2 ) : 50 + (initialHeight * 6.2 )),
             table3[table3.length - 1], headers, { fontSize: 8 , padding: 1.2 , printHeaders: true  }   );
           } else {
@@ -493,7 +492,7 @@ export class TicketComponent implements OnInit, OnDestroy {
             doc.setFontSize(16);
             doc.addPage('a4', 'p' , );
             doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
-            doc.text( 'Ventas Gran Mayoreo' , 10, 30);
+            doc.text( 'Entregas Gran Mayoreo' , 10, 30);
             doc.table( 6 , 35, table3[table3.length - 1], headers, { fontSize: 8 , padding: 1.2 , printHeaders: true });
           }
           if ( indexTab === space ) {

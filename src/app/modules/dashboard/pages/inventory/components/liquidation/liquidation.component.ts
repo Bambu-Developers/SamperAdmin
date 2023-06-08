@@ -401,7 +401,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     doc.text( `Liquidación: ${ this.data.nameRute} - ${this.user_name}` , 10, 30);
     doc.setFontSize(12);
     doc.setFont('helvetica', 'normal');
-    doc.text( `Ventas del día: $${(this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG).toFixed(2)}`, 10, 40);
+    doc.text( `Entregas del día: $${(this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG).toFixed(2)}`, 10, 40);
     doc.text( `Total devolución: $${ this.totalDevolutions.toFixed(2)}`, 10, 45);
     doc.text( `Credito: $${ this.totalCredit.toFixed(2) }`, 10, 50);
     doc.text( `Credito cobrado: $${ this.colletCredit.toFixed(2) }`, 10, 55);
@@ -419,7 +419,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           table1[0].push({
             Producto: ` ${element.name} `,
             Marca: element.brand,
-            Vendido: `${element.number_of_items}`,
+            Entregados: `${element.number_of_items}`,
             Precio: '$' + element.retail_price,
             Total: '$' + parseFloat(`${parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`).toFixed(2),
           });
@@ -428,7 +428,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           table1[table1.length - 1].push({
             Producto: ` ${element.name} `,
             Marca: element.brand,
-            Vendido: `${element.number_of_items}`,
+            Entregados: `${element.number_of_items}`,
             Precio: '$' + element.retail_price,
             Total: '$' + parseFloat(`${parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`).toFixed(2),
           });
@@ -449,11 +449,11 @@ export class LiquidationComponent implements OnInit, OnDestroy {
             if (indexTable === 0) {
               doc.setFont('helvetica', 'normal');
               doc.setFontSize(16);
-              doc.text('Ventas Minoristas', 10, 95);
+              doc.text('Entregadas', 10, 95);
               doc.table(6, 100, table1[indexTable], this.createHeaders([
                 'Producto',
                 'Marca',
-                'Vendido',
+                'Entregados',
                 'Precio',
                 'Total',
               ]), { fontSize: 8, padding: 1.2, printHeaders: true });
@@ -462,11 +462,11 @@ export class LiquidationComponent implements OnInit, OnDestroy {
               doc.setFontSize(16);
               doc.addPage('a4', 'p');
               doc.addImage('../../../../../../../assets/images/logo_sanper.png', 'PNG', 10, 10, 50, 10);
-              doc.text('Ventas Minoristas', 10, 30);
+              doc.text('Entregadas', 10, 30);
               doc.table(6, 35, table1[indexTable], this.createHeaders([
                 'Producto',
                 'Marca',
-                'Vendido',
+                'Entregados',
                 'Precio',
                 'Total',
               ]), { fontSize: 8, padding: 1.2, printHeaders: true });
@@ -502,7 +502,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           table2[ table2.length - 1 ].push({
             Producto: ` ${element2.name}  `,
             Marca: element2.brand,
-            Vendido: `${element2.number_of_items}`,
+            Entregados: `${element2.number_of_items}`,
             Precio: '$' + element2.retail_price,
             Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.retail_price)}`).toFixed(2),
           });
@@ -519,7 +519,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
             table2[table2.length - 1], this.createHeaders([
               'Producto',
               'Marca',
-              'Vendido',
+              'Entregados',
               'Precio',
               'Total',
             ]), { fontSize: 8 , padding: 1.2 , printHeaders: true  }   );
@@ -532,7 +532,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
             doc.table( 6 , 35, table2[table2.length - 1], this.createHeaders([
               'Producto',
               'Marca',
-              'Vendido',
+              'Entregados',
               'Precio',
               'Total',
             ]), { fontSize: 8 , padding: 1.2 , printHeaders: true   });
@@ -574,7 +574,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           table3[ table3.length - 1 ].push({
             Producto: ` ${element2.name} `,
             Marca: element2.brand,
-            Vendido: `${element2.number_of_items}`,
+            Entregados: `${element2.number_of_items}`,
             Precio: '$' + element2.retail_price,
             Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.retail_price)}`).toFixed(2),
           });
@@ -587,12 +587,12 @@ export class LiquidationComponent implements OnInit, OnDestroy {
             console.log(initialHeight);
             console.log(pagePdf);
             console.log(( pagePdf === 0  ? 100 + (initialHeight * 6.2 ) : 45 + (initialHeight * 6.2 )));
-            doc.text( 'Ventas Mayorista' , 10, (pagePdf === 0  ? 95 + ((initialHeight + 4) * 6.2 ) : 45 + (initialHeight * 6.2 )));
+            doc.text( 'Entregas Mayorista' , 10, (pagePdf === 0  ? 95 + ((initialHeight + 4) * 6.2 ) : 45 + (initialHeight * 6.2 )));
             doc.table( 6 , ( pagePdf === 0  ? 100 + ((initialHeight + 4) * 6.2 ) : 50 + (initialHeight * 6.2 )),
              table3[table3.length - 1], this.createHeaders([
               'Producto',
               'Marca',
-              'Vendido',
+              'Entregados',
               'Precio',
               'Total',
             ]), { fontSize: 8 , padding: 1.2 , printHeaders: true  }   );
@@ -601,11 +601,11 @@ export class LiquidationComponent implements OnInit, OnDestroy {
             doc.setFontSize(16);
             doc.addPage('a4', 'p' , );
             doc.addImage( '../../../../../../../assets/images/logo_sanper.png' , 'PNG', 10, 10, 50, 10);
-            doc.text( 'Ventas Mayorista' , 10, 30);
+            doc.text( 'Entregas Mayorista' , 10, 30);
             doc.table( 6 , 35, table3[table3.length - 1], this.createHeaders([
               'Producto',
               'Marca',
-              'Vendido',
+              'Entregados',
               'Precio',
               'Total',
             ]), { fontSize: 8 , padding: 1.2 , printHeaders: true   });
@@ -720,7 +720,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           table5[ table5.length - 1 ].push({
             Producto: ` ${element2.name}  `,
             Marca: element2.brand,
-            Vendido: `${parseFloat(element2.number_of_items)}`,
+            Entregados: `${parseFloat(element2.number_of_items)}`,
             Precio: '$' + element2.wholesale_priceG,
             Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.wholesale_priceG)}`).toFixed(2),
           });
@@ -735,7 +735,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
              table5[table5.length - 1], this.createHeaders([
               'Producto',
               'Marca',
-              'Vendido',
+              'Entregados',
               'Precio',
               'Total',
             ]), { fontSize: 8 , padding: 1.2 , printHeaders: true  }   );
@@ -748,7 +748,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
             doc.table( 6 , 35, table5[table5.length - 1], this.createHeaders([
               'Producto',
               'Marca',
-              'Vendido',
+              'Entregados',
               'Precio',
               'Total',
             ]), { fontSize: 8 , padding: 1.2 , printHeaders: true   });

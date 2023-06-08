@@ -480,7 +480,8 @@ button.mat-menu-item {
 
 .sa-dashboard-main-content {
   padding: 34px 64px;
-  margin-top: 64px;
+  margin: 64px auto auto auto;
+  width: 980px;
   min-height: calc(100vh - 132px);
 }
 

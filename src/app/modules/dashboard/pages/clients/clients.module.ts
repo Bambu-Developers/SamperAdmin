@@ -15,7 +15,7 @@ import { TrackingComponent } from '../inventory/components/tracking/tracking.com
 import { ChangeRoutComponent } from './change-rout/change-rout.component';
 
 @NgModule({
-  declarations: [ClientsComponent, ViewClientComponent, CreateClientComponent, TrackingComponent, ChangeRoutComponent],
+  declarations: [ClientsComponent, ViewClientComponent, CreateClientComponent, TrackingComponent, ChangeRoutComponent , ],
   imports: [
     CommonModule,
     ClientsRoutingModule,

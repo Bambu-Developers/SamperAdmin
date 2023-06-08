@@ -13,7 +13,7 @@ import { HistoryLiquidationComponent } from './components/history-liquidation/hi
 import { TicketComponent } from './components/ticket/ticket.component';
 
 @NgModule({
-  declarations: [InventoryComponent, HistoryComponent, LiquidationComponent, CommissionComponent, HistoryLiquidationComponent, TicketComponent],
+  declarations: [InventoryComponent, HistoryComponent, LiquidationComponent, CommissionComponent, HistoryLiquidationComponent],
   imports: [
     CommonModule,
     InventoryRoutingModule,

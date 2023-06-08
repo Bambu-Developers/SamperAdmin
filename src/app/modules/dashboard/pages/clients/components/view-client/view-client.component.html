@@ -22,8 +22,6 @@
                       </div>
                   </mat-card>
 
-
-
               </div>
 
                 <mat-card class="sa-map-location">
@@ -115,10 +113,6 @@
                         </ng-template>
                     </mat-card>
 
-
-
-
-
                     <div class="sa-dashboard-clients-content">
 
                       <p class="sa-roboto-medium sa-text-18 sa-charcoal-grey">
@@ -160,7 +154,7 @@
 
           <ng-container matColumnDef="bender_id">
               <th class="sa-benderID-column" mat-header-cell *matHeaderCellDef> Vendedor </th>
-              <td class="sa-benderID-column" mat-cell *matCellDef="let client" > {{client.name}} </td>
+              <td class="sa-benderID-column" (click)="openModal(client)" mat-cell *matCellDef="let client" > {{client.name}} </td>
           </ng-container>
 
           <ng-container matColumnDef="shop_name">

@@ -62,7 +62,7 @@
             </ng-container>
             <!-- Sales Of The Day Column -->
             <ng-container matColumnDef="saleOfDay">
-                <th class="sa-sale-of-day-column" mat-header-cell *matHeaderCellDef>Ventas del día</th>
+                <th class="sa-sale-of-day-column" mat-header-cell *matHeaderCellDef>Entregas del día</th>
                 <td class="sa-sale-of-day-column" (click)="openModal(sale.route , sale.date , sale.route_name)" mat-cell *matCellDef="let sale">{{sale.total_sale | currency}}</td>
             </ng-container>
             <!-- Total Liquidation Column -->

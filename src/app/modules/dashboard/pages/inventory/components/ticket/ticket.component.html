@@ -1,9 +1,7 @@
 <div class="sa-loading sa-column sa-justify-center sa-align-center" *ngIf="loading">
-  <!-- <img src="assets/images/sanper-loader.gif"> -->
   <mat-spinner></mat-spinner>
 </div>
 
-<!-- [routerLink]="['/dashboard/inventory/history']" -->
 <div class="sa-dashboard-main-content sa-roboto sa-charcoal-grey">
     <div class="sa-ticket-header">
         <div class="sa-ticket-details">
@@ -13,7 +11,7 @@
         </div>
         <div class="sa-column">
             <div class="sa-ticket-total-sold">
-                <mat-label>Total vendido: </mat-label>
+                <mat-label>Total </mat-label>
                 <mat-label>{{totalSold | currency}}</mat-label>
             </div>
             <div class="sa-ticket-total-sold">
@@ -73,7 +71,7 @@
             </ng-container>
             <!-- Quantity Column -->
             <ng-container matColumnDef="quantity">
-                <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>Vendido</th>
+                <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>Entregados</th>
                 <td class="sa-quantity-column " mat-cell *matCellDef="let devolution">{{devolution.number_of_items}}
                     piezas
                 </td>
@@ -94,7 +92,7 @@
         </table>
     </div>
     <div class="sa-retail-sales" *ngIf="dataSourceRetailTable.data.length !== 0">
-        <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Ventas Minoristas</mat-label>
+        <mat-label class="sa-card-title sa-bold sa-pinkish-orange">Entregadas</mat-label>
         <table mat-table [dataSource]="dataSourceRetailTable">
             <!-- Image Column -->
             <ng-container matColumnDef="image">
@@ -121,7 +119,7 @@
             </ng-container>
             <!-- Quantity Column -->
             <ng-container matColumnDef="quantity">
-                <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>Vendido</th>
+                <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>Entregados</th>
                 <td class="sa-quantity-column" mat-cell *matCellDef="let inventory">{{inventory.number_of_items}}</td>
             </ng-container>
             <!-- Price Column -->
@@ -141,7 +139,7 @@
         </table>
     </div>
     <div class="sa-wholesale-sales" *ngIf="dataSourceWholesaleTable.data.length !== 0">
-        <mat-label class=" sa-card-title sa-bold sa-pinkish-orange ">Ventas Mayorista</mat-label>
+        <mat-label class=" sa-card-title sa-bold sa-pinkish-orange ">Entregas Mayorista</mat-label>
         <table mat-table [dataSource]="dataSourceWholesaleTable">
             <!-- Image Column -->
             <ng-container matColumnDef="image">
@@ -168,7 +166,7 @@
             </ng-container>
             <!-- Quantity Column -->
             <ng-container matColumnDef="quantity">
-                <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>Vendido</th>
+                <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>Entregados</th>
                 <td class="sa-quantity-column" mat-cell *matCellDef="let inventory ">{{inventory.number_of_items}}</td>
             </ng-container>
             <!-- Price Column -->
@@ -188,7 +186,7 @@
         </table>
     </div>
     <div class="sa-wholesale-sales" *ngIf="dataSourceWholesaleTableG.data.length !== 0">
-        <mat-label class=" sa-card-title sa-bold sa-pinkish-orange ">Ventas Gran Mayoreo</mat-label>
+        <mat-label class=" sa-card-title sa-bold sa-pinkish-orange ">Entregas Gran Mayoreo</mat-label>
         <table mat-table [dataSource]="dataSourceWholesaleTableG">
             <!-- Image Column -->
             <ng-container matColumnDef="image">
@@ -215,7 +213,7 @@
             </ng-container>
             <!-- Quantity Column -->
             <ng-container matColumnDef="quantity">
-                <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>Vendido</th>
+                <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>Entregados</th>
                 <td class="sa-quantity-column" mat-cell *matCellDef="let inventory ">{{inventory.number_of_items}}</td>
             </ng-container>
             <!-- Price Column -->

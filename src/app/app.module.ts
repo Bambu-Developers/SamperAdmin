@@ -16,6 +16,7 @@ import { UiElementsComponent } from './components/ui-elements/ui-elements.compon
 /*MODULES*/
 import { SharedModule } from './modules/shared/shared.module';
 import { DateFormatPipe } from './pipes/date-format.pipe';
+import { TicketComponent } from './modules/dashboard/pages/inventory/components/ticket/ticket.component';
 
 
 @NgModule({
@@ -23,17 +24,19 @@ import { DateFormatPipe } from './pipes/date-format.pipe';
     AppComponent,
     UiElementsComponent,
     DateFormatPipe,
+    TicketComponent
   ],
   imports: [
     SharedModule,
     BrowserModule,
     BrowserAnimationsModule,
-    AppRoutingModule
+    AppRoutingModule,
+
   ],
   providers: [
     AuthGuard,
     NoAuthGuard,
-    DateFormatPipe
+    DateFormatPipe,
   ],
   bootstrap: [AppComponent]
 })

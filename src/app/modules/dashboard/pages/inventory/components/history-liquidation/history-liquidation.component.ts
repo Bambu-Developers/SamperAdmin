@@ -146,7 +146,7 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
       tableToDownload.push({
         'Fecha': liquidation['date'],
         'Ruta': liquidation['route_name'],
-        'Ventas del día': liquidation['date'],
+        'Entregas del día': liquidation['date'],
         'Total liquidado': liquidation['total_liquidation'],
         'Total liquidado con merma ': liquidation['total_liq_loss']
       });

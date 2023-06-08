@@ -429,14 +429,15 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
     }
   }
 
-  // public openModal(routeIdAux , ticketAux , customerAux) {
-  //   this._dialog.open(TicketComponent, {
-  //     width: '80vw',
-  //     height: '80vh',
-  //     disableClose: true,
-  //     autoFocus: false,
-  //     data : { route: routeIdAux , ticket: ticketAux,  client: customerAux}
-  //   });
-  // }
+  public openModal(data) {
+    console.log({ route: data.route , ticket: data.order_id,  client: this.id});
+    this._dialog.open(TicketComponent, {
+      width: '80vw',
+      height: '80vh',
+      disableClose: true,
+      autoFocus: false,
+      data : { route: data.route , ticket: data.order_id,  client: this.id}
+    });
+  }
 
 }
