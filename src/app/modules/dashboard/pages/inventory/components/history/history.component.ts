@@ -115,7 +115,8 @@ export class HistoryComponent implements OnInit, AfterViewInit {
 
     try {
 
-      this._inventoryService.getSales(id, dataStart, dataEnd).subscribe(sales => {
+      this._inventoryService.getSales('/sanper_3251214463', dataStart, dataEnd).subscribe(sales => {
+
         sales.forEach((element, index) => {
           sales[index].number_of_items = 0;
           const jsonArray: any = Object.keys(element.Products);
@@ -123,8 +124,38 @@ export class HistoryComponent implements OnInit, AfterViewInit {
             sales[index].number_of_items = element.Products[product].number_of_items;
           });
         });
-        this.dataSourceTableHistory.data = sales;
-        console.log(sales);
+        this.dataSourceTableHistory.data = this.dataSourceTableHistory.data.concat(sales);
+
+      });
+
+      this._inventoryService.getSales('/sanper_7233129990', dataStart, dataEnd).subscribe(sales => {
+
+
+        sales.forEach((element, index) => {
+          sales[index].number_of_items = 0;
+          const jsonArray: any = Object.keys(element.Products);
+          jsonArray.forEach((product , indexP) => {
+            sales[index].number_of_items = element.Products[product].number_of_items;
+          });
+        });
+        this.dataSourceTableHistory.data = this.dataSourceTableHistory.data.concat(sales);
+
+      });
+
+      this._inventoryService.getSales( '/sanper_7262626399' , dataStart, dataEnd).subscribe(sales => {
+
+
+
+
+        sales.forEach((element, index) => {
+          sales[index].number_of_items = 0;
+          const jsonArray: any = Object.keys(element.Products);
+          jsonArray.forEach((product , indexP) => {
+            sales[index].number_of_items = element.Products[product].number_of_items;
+          });
+        });
+        this.dataSourceTableHistory.data = this.dataSourceTableHistory.data.concat(sales);
+
       });
     } catch (error) {
       throw error;

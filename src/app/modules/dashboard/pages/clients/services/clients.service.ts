@@ -249,7 +249,7 @@ export class ClientsService {
       );
   }
 
-  public getVisits ( id ): Observable<RouteModel[]> {
+  public getVisits ( id ): Observable<any[]> {
     // id = 'example';
     return this.db.list<any>( `Staging/Visits/${id}/`)
       .snapshotChanges()

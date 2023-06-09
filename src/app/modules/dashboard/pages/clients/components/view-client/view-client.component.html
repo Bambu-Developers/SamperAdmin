@@ -159,17 +159,17 @@
 
           <ng-container matColumnDef="shop_name">
               <th class="sa-shopName-column" mat-header-cell *matHeaderCellDef> Ruta </th>
-              <td class="sa-shopName-column" mat-cell *matCellDef="let client" > {{client.route}} </td>
+              <td class="sa-shopName-column" (click)="openModal(client)" mat-cell *matCellDef="let client" > {{client.route}} </td>
           </ng-container>
 
           <ng-container matColumnDef="name">
               <th class="sa-name-column" mat-header-cell *matHeaderCellDef> Status </th>
-              <td class="sa-name-column" mat-cell *matCellDef="let client" > {{client?.status}} </td>
+              <td class="sa-name-column" (click)="openModal(client)" mat-cell *matCellDef="let client" > {{client?.status}} </td>
           </ng-container>
 
           <ng-container matColumnDef="route_id">
               <th class="sa-route-column" mat-header-cell *matHeaderCellDef> Fecha </th>
-              <td class="sa-route-column" mat-cell *matCellDef="let client" > {{ client.date | date: 'yyyy/MM/dd' }} </td>
+              <td class="sa-route-column" (click)="openModal(client)" mat-cell *matCellDef="let client" > {{ client.date | date: 'yyyy/MM/dd' }} </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"> </tr>

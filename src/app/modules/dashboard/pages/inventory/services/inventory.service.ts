@@ -119,23 +119,33 @@ export class InventoryService {
   }
 
   public getSales(id: string , dataStart , dataEnd  ): Observable<any> {
-    console.log(id);
-    const parentPath = '/Staging/History';
 
-    return this._db.list<any>(parentPath).valueChanges().pipe(
-      map(jsons => jsons.map(json => Object.values(json))),
-      concatAll()
-    );
+    const parentPath = '/Staging/History'+id;
+
+  return this._db.list<any>(parentPath).snapshotChanges().pipe(
+    map(snapshot => {
+      return snapshot.map((action) => {
+        const key = action.key;
+        const data = action.payload.val();
+        return { id: key, ...data };
+      });
+    })
+  );
   }
 
   public getSalesClient(id: string ): Observable<any> {
-    console.log(id);
-    const parentPath = '/Staging/History';
+      const parentPath = '/Staging/History/'+id;
+      console.log(parentPath);
 
-    return this._db.list<any>(parentPath).valueChanges().pipe(
-      map(jsons => jsons.map(json => Object.values(json))),
-      concatAll()
-    );
+  return this._db.list<any>(parentPath).snapshotChanges().pipe(
+    map(snapshot => {
+      return snapshot.map((action) => {
+        const key = action.key;
+        const data = action.payload.val();
+        return { id: key, ...data };
+      });
+    })
+  );
   }
 
 

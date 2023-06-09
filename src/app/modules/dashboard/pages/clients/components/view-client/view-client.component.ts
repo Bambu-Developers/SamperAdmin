@@ -171,11 +171,19 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
       );
 
       this._clientService.getVisits( this.id ).subscribe(ress => {
-        this.dataSourceVisits.data = ress;
+
+
+        this.dataSourceVisits.data = Array.from(new Set(ress.map((visit: any) => visit.order_id)))
+  .map((order_id) => ress.find((visit) => visit.order_id === order_id));
+
+
+
+        console.log(ress);
       });
 
 
       this._inventoryService.getSalesClient(this.id ).subscribe(sales => {
+        console.log('entra' , sales )
         let saleAux = [];
         sales.forEach((element, index) => {
           const jsonArray: any = Object.keys(element.Products);
@@ -185,6 +193,7 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
           });
         });
         this.dataSourceVisits2.data = this.obtenerProductosRepetidos(saleAux);
+        console.log(this.dataSourceVisits2.data , 'total')
       });
 
     });
@@ -195,24 +204,28 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
 
 
   obtenerProductosRepetidos(productos:any) {
-    const productosRepetidos: { [sku: string]: number } = {};
-    for (const product of productos) {
-      const name = product.name;
-      if (productosRepetidos.hasOwnProperty(name)) {
-        productosRepetidos[name]++;
-      } else {
-        productosRepetidos[name] = 1;
-      }
-    }
+    const productosRepetidos: { [name: string]: number } = {};
 
-    const listaProductosRepetidos: { name: string; cantidad: number }[] = [];
+  for (const product of productos) {
+    const name = product.name;
+    const number_of_items = product.number_of_items;
 
-    for (const name in productosRepetidos) {
-      if (productosRepetidos.hasOwnProperty(name)) {
-        listaProductosRepetidos.push({ name, cantidad: productosRepetidos[name] });
-      }
+    if (productosRepetidos.hasOwnProperty(name)) {
+      productosRepetidos[name] += number_of_items;
+    } else {
+      productosRepetidos[name] = number_of_items;
     }
-    return listaProductosRepetidos;
+  }
+
+  const listaProductosRepetidos: { name: string; cantidad: number }[] = [];
+
+  for (const name in productosRepetidos) {
+    if (productosRepetidos.hasOwnProperty(name)) {
+      listaProductosRepetidos.push({ name, cantidad: productosRepetidos[name] });
+    }
+  }
+
+  return listaProductosRepetidos;
   }
 
   public getDays() {
