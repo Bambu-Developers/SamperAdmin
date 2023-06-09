@@ -1,13 +1,14 @@
+import { async } from '@angular/core/testing';
 import { ExcelService } from './../../../../../shared/services/excel.service';
 import { ClientsService } from '../../../../../shared/services/clients.service';
 import { INVENTORY_LANGUAGE } from './../../data/language';
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, forkJoin, from } from 'rxjs';
 import { RouteModel } from '../../../clients/models/route.model';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { InventoryService } from '../../services/inventory.service';
-import { concatMap, take, toArray } from 'rxjs/operators';
+import { concatMap, take, tap, toArray } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
@@ -53,7 +54,7 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.loading = true;
     this.maxDate = new Date();
     const dateEnd = this.maxDate.getTime();
@@ -82,59 +83,27 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
     });
   }
 
-  public async getLiquidations( id: string , name: any ): Promise<any> {
-    await this._inventoryService.getLiquidation(id , this.startDate , this.endDate).then(liquidations => {
-        const keys = Object.keys(liquidations.data);
-        keys.forEach( ( element , index ) => {
-          const dataAux = liquidations.data[element];
-          dataAux.route_name = name;
-          this.dataLiquidation.push(liquidations.data[element]);
-        } );
-    });
+  public getLiquidations(id: string, name: any): Observable<any> {
+    return this._inventoryService.getLiquidation(id, this.startDate, this.endDate);
   }
 
-  public getRoutes() {
-    let i = 0;
-    this.dataLiquidation = [];
-    this.routeService.getAllRoutes().subscribe(
-       (res: any) => {
-        if ( i < res.length ) {
-          res.forEach( (element , index) => {
-            i = i + 1;
-            this.getLiquidations(element.id  , element.name).then( () => {
-              if ( i === res.length  ) {
-                this.dataSourceHistoryLiquidation.data.sort((r1: any, r2: any) => {
-                  if (r1.date > r2.date) {
-                    return -1;
-                  }
-                  if (r1.date < r2.date) {
-                    return 1;
-                  }
-                  return 0;
-                });
-                this.routes = res.sort((r1, r2) => {
-                  if (r1.name < r2.name) {
-                    return -1;
-                  }
-                  if (r1.name > r2.name) {
-                    return 1;
-                  }
-                  return 0;
-                });
-                this.dataSourceHistoryLiquidation.data = this.dataLiquidation;
-                setTimeout( () => {
-                  this.loading = false;
-                }, 600);
-              }
-            });
+  public async getRoutes() {
+    this.dataSourceHistoryLiquidation.data = [];
+    this.routeService.getAllRoutes().subscribe(async (res) => {
+      for await (const element of res) {
+        this.getLiquidations(element.id, element.name).subscribe( (ress) => {
+          this.dataSourceHistoryLiquidation.data = this.dataSourceHistoryLiquidation.data.concat(ress);
+          this.dataSourceHistoryLiquidation.data = this.dataSourceHistoryLiquidation.data.sort((a: any, b: any) => {
+            const dateA = new Date(a.date);
+            const dateB = new Date(b.date);
+            return dateB.getTime() - dateA.getTime();
           });
-        } else {
-          res.unsubscribe();
-        }
-        return;
-      }
-    );
-
+        } );
+      };
+      setTimeout( () => {
+        this.loading = false;
+      });
+    });
   }
 
   public doFilter = (value: string) => {

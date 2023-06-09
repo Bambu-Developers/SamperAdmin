@@ -201,19 +201,22 @@ export class ProductService {
     this.http.get<any>('../../../../assets/sanper-stable-Liquidations-export.json').subscribe(
       (data) => {
         const keyAux = Object.keys(data);
-        keyAux.forEach( async ( colection: any , index ) => {
+        keyAux.forEach(  ( colection: any , index ) => {
           const keyColections = Object.keys(data[colection]);
-          keyColections.forEach( async ( doc  ) => {
-            const docAux = data[colection][doc];
-            console.log(colection);
-            console.log(doc);
-            console.log(docAux);
-            const documentRef = this.firestore.collection('Liquidations').doc('RouteList');
-            const subcollectionRef = documentRef.collection(colection).doc(doc);
-            return subcollectionRef.set(docAux);
-          });
+          if ( index != -1) {
+            keyColections.forEach(  ( doc  ) => {
+              data[colection][doc].date = new Date(data[colection][doc].date);
+              const docAux = data[colection][doc];
+              return this.firestore.collection('Liquidations').doc(colection).collection(colection).doc(doc).set(docAux).then((ress) => {
+                console.log('ress')
+              }).catch((error) => {
+                console.log('error')
+                return error
+              });
+            });
+          }
+
         });
-        return keyAux;
       },
       (error) => {
         console.log(error);
@@ -222,3 +225,4 @@ export class ProductService {
     );
   }
 }
+

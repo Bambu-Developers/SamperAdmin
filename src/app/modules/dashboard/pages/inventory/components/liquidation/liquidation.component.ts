@@ -272,7 +272,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
 
   public getLiquidation() {
-    this._inventoryService.getLiquidation( this.id , this.dateParam , this.dateParam  ).then((res: any ) => {
+    this._inventoryService.getLiquidation( this.id , this.dateParam , this.dateParam  ).subscribe((res: any ) => {
       if (Object.keys( res.data).length === 0) {
 
         // this.dialogRef.close();

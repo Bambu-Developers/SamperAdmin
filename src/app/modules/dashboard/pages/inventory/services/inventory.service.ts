@@ -109,17 +109,15 @@ export class InventoryService {
     this.liquidationRef.push(LIQUIDATION_DATA);
   }
 
-  public getLiquidation(id: string , dataStart , dataEnd): Promise<any> {
-    try {
-      return this.http.get(`${environment.urlService}/liquidations?dateStart=${dataStart}&dateEnd=${dataEnd}&route=${id}`, { }).toPromise();
-    } catch (error) {
-      throw error;
-    }
-  }
+  // public getLiquidation(id: string , dataStart , dataEnd): Observable<any> {
+  //   try {
+  //     return this.http.get(`${environment.urlService}/liquidations?dateStart=${dataStart}&dateEnd=${dataEnd}&route=${id}`, { });
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
 
-
-  // Prueba de fechas
-  public getLiquidation2(idRoute: string, startDate: Date, endDate: Date): Observable<any[]> {
+  public getLiquidation(idRoute: string, startDate: Date, endDate: Date): Observable<any[]> {
     this.clientRef = this.firestore.collection<ClientModel>('Liquidations').doc('RouteList').collection(`${idRoute}`, ref =>
       ref.where('date', '>=', startDate).where('date', '<=', endDate).orderBy('date', 'desc')
     );
