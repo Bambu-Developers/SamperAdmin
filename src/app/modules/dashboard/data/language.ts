@@ -2,7 +2,6 @@ export const DASHBOARD_LANGUAGE = {
     navbar: {
         calc: 'Cálculo',
         analitycs: 'Analytics',
-        tracking: 'Tracking rutas',
         history: 'Historial de reparto',
         historyLiquidation: 'Historial de liquidaciones',
         products: 'Productos',

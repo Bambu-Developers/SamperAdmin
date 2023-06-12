@@ -76,11 +76,6 @@ export class NavbarComponent implements OnInit {
       title: DASHBOARD_LANGUAGE.navbar.routes,
       route: '/dashboard/routes'
     },
-    {
-      icon: '',
-      title: DASHBOARD_LANGUAGE.navbar.tracking,
-      route: '/dashboard/clients/tracking'
-    },
   ];
   public date = new Date;
   public email = '';
