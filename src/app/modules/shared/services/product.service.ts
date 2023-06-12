@@ -215,9 +215,9 @@ export class ProductService {
               });
             });
           }
-
         });
       },
+
       (error) => {
         console.log(error);
         return [];

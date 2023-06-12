@@ -27,9 +27,6 @@ export class InventoryService {
   private _basePathInvHis = 'Staging/HistoryInventory/';
   private _basePathRouteStorer = 'Staging/HistoryRoutesStorer/';
 
-
-
-
   // Borar Despues de prueba
   public clientRef: AngularFirestoreCollection<ClientModel>;
 
@@ -99,7 +96,6 @@ export class InventoryService {
       total_liq_loss: totalWithLoss,
       total_devolutions: totalDevolutions,
       total_losses: totalLosses,
-
       totalCredit: totalCredit,
       collection: collection,
       cash: cash,
@@ -108,14 +104,6 @@ export class InventoryService {
     };
     this.liquidationRef.push(LIQUIDATION_DATA);
   }
-
-  // public getLiquidation(id: string , dataStart , dataEnd): Observable<any> {
-  //   try {
-  //     return this.http.get(`${environment.urlService}/liquidations?dateStart=${dataStart}&dateEnd=${dataEnd}&route=${id}`, { });
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
 
   public getLiquidation(idRoute: string, startDate: Date, endDate: Date): Observable<any[]> {
     this.clientRef = this.firestore.collection<ClientModel>('Liquidations').doc('RouteList').collection(`${idRoute}`, ref =>
@@ -134,8 +122,6 @@ export class InventoryService {
   }
 
 
-
-
   public getLiquidationAux( id: string ) {
     return this._db.list<any>('Staging/Liquidations/' + id).valueChanges();
   }
@@ -147,12 +133,7 @@ export class InventoryService {
   }
 
   public getSales(id: string , dataStart , dataEnd ): Promise<any> {
-
     return this.http.get(`${environment.urlService}/shopping?dateStart=${dataStart}&dateEnd=${dataEnd}&route=${id}`, { }).toPromise();
-
-
-      // return this._db.list<any>( 'Staging/HistoryRoutes/' + id , res => res.orderByChild('date').startAt(dataStart).endAt(dataEnd)
-      // ).valueChanges();
   }
 
 
@@ -164,7 +145,6 @@ export class InventoryService {
 
   public getSaleByTicket(route, ticket): Promise<any> {
     return this.http.get(`${environment.urlService}/shopping/ticket?route=${route}&ticket=${ticket}`, { }).toPromise();
-    // return this._db.list('Staging/HistoryRoutes' + '/' + route + '/' + ticket  ).valueChanges();
   }
 
   public getProductsSold(key, id) {
