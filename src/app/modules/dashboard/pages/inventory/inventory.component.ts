@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { INVENTORY_LANGUAGE } from './data/language';
 import { MatTableDataSource } from '@angular/material/table';
 import { ClientsService } from '../../../shared/services/clients.service';
-import { InventoryService } from './services/inventory.service';
+import { InventoryService } from '../../../shared/services/inventory.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';

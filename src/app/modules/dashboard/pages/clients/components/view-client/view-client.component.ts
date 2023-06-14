@@ -159,7 +159,6 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
       );
 
       this._clientService.getVisits( this.id ).subscribe(ress => {
-        console.log(this.id , ress);
         this.dataSourceVisits.data = ress;
       });
 

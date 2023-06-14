@@ -7,7 +7,7 @@ import { Observable, Subscription, forkJoin, from } from 'rxjs';
 import { RouteModel } from '../../../clients/models/route.model';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { InventoryService } from '../../services/inventory.service';
+import { InventoryService } from '../../../../../shared/services/inventory.service';
 import { concatMap, take, tap, toArray } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -24,14 +24,12 @@ import { RouteService } from 'src/app/modules/shared/services/route.service';
 })
 export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  public routes: RouteModel[];
+  public routes: any[];
   public lanInv = INVENTORY_LANGUAGE;
   public lanLiq = INVENTORY_LANGUAGE.historyLiq;
   public dataSourceHistoryLiquidation = new MatTableDataSource();
   public dataLiquidation = [];
   public displayedColumnsHistoryLiquidation = ['dateSold', 'route', 'saleOfDay', 'totalLiq', 'totalLiqLoss'];
-  // private _subscriptionRoutes: Subscription;
-  // private _subscriptionLiquidation: Subscription;
   public allLiquidations: any;
   public formSearch: FormGroup;
   public maxDate: Date;
@@ -73,23 +71,24 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
     this.dataSourceHistoryLiquidation.paginator = this.paginator;
   }
 
-  public openModal(routeIdAux  , dateAux , rute) {
+  public openModal(routeIdAux  , dateAux , rute ,id) {
     this.dialog.open(LiquidationComponent, {
       width: '80vw',
       height: '80vh',
       disableClose: true,
       autoFocus: false,
-      data : { route: routeIdAux , date: dateAux , existLiquidation: false , nameRute: rute}
+      data : { route: routeIdAux , date: dateAux , existLiquidation: false , nameRute: rute, id}
     });
   }
 
   public getLiquidations(id: string, name: any): Observable<any> {
-    return this._inventoryService.getLiquidation(id, this.startDate, this.endDate);
+    return this._inventoryService.getLiquidationToDate(id, this.startDate, this.endDate);
   }
 
   public async getRoutes() {
     this.dataSourceHistoryLiquidation.data = [];
     this.routeService.getAllRoutes().subscribe(async (res) => {
+      this.routes = res;
       for await (const element of res) {
         this.getLiquidations(element.id, element.name).subscribe( (ress) => {
           this.dataSourceHistoryLiquidation.data = this.dataSourceHistoryLiquidation.data.concat(ress);
@@ -153,6 +152,11 @@ export class HistoryLiquidationComponent implements OnInit, OnDestroy, AfterView
         // this.dataError = false;
       }
     }
+  }
+
+  public getRouteName( idRoute ): string {
+    const name = this.routes.filter( (route: any) => route.id == idRoute );
+    return name[0].name
   }
 
 }

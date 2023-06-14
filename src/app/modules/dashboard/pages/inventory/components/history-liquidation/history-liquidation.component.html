@@ -46,7 +46,7 @@
             <!-- Date Column -->
             <ng-container matColumnDef="dateSold">
                 <th class="sa-date-column" mat-header-cell *matHeaderCellDef>Fecha</th>
-                <td class="sa-date-column" (click)="openModal(sale.route , sale.date , sale.route_name)" mat-cell *matCellDef="let sale"> {{sale.date | date:'dd/MMM/yyyy' }}</td>
+                <td class="sa-date-column" (click)="openModal(sale.route , sale.date , sale.route_name , sale.id)" mat-cell *matCellDef="let sale"> {{sale.date | date:'dd/MMM/yyyy' }}</td>
             </ng-container>
             <!-- Route Column -->
             <ng-container matColumnDef="route">
@@ -54,26 +54,26 @@
                     <mat-select class="mat-select-trigger" placeholder="Ruta">
                         <mat-option (click)="doFilter('')" [value]="Todas">Todas</mat-option>
                         <mat-option *ngFor="let route of routes" (click)="doFilter(route.id)" [value]="route.name">
-                            {{route.name}}</mat-option>
+                            {{route.name }}</mat-option>
                     </mat-select>
                 </th>
-                <td class="sa-route-column"(click)="openModal(sale.route , sale.date , sale.route_name)" mat-cell *matCellDef="let sale"> {{sale.route_name}} </td>
+                <td class="sa-route-column"(click)="openModal(sale.route , sale.date , sale.route_name , sale.id)" mat-cell *matCellDef="let sale"> {{ getRouteName(sale.route)}} </td>
             </ng-container>
             <!-- Sales Of The Day Column -->
             <ng-container matColumnDef="saleOfDay">
                 <th class="sa-sale-of-day-column" mat-header-cell *matHeaderCellDef>Ventas del día</th>
-                <td class="sa-sale-of-day-column" (click)="openModal(sale.route , sale.date , sale.route_name)" mat-cell *matCellDef="let sale">{{sale.total_sale | currency}}</td>
+                <td class="sa-sale-of-day-column" (click)="openModal(sale.route , sale.date , sale.route_name , sale.id)" mat-cell *matCellDef="let sale">{{sale.total_sale | currency}}</td>
             </ng-container>
             <!-- Total Liquidation Column -->
             <ng-container matColumnDef="totalLiq">
                 <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>Total liquidado</th>
-                <td class="sa-subtotal-column" (click)="openModal(sale.route , sale.date , sale.route_name)" mat-cell *matCellDef="let sale">{{sale.total_liquidation | currency}}
+                <td class="sa-subtotal-column" (click)="openModal(sale.route , sale.date , sale.route_name , sale.id)" mat-cell *matCellDef="let sale">{{sale.total_liquidation | currency}}
                 </td>
             </ng-container>
             <!-- Total Liquidation Loss Column -->
             <ng-container matColumnDef="totalLiqLoss">
                 <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>Total liquidado c/merma</th>
-                <td class="sa-subtotal-column" (click)="openModal(sale.route , sale.date , sale.route_name)" mat-cell *matCellDef="let sale">{{sale.total_liquidation | currency}}</td>
+                <td class="sa-subtotal-column" (click)="openModal(sale.route , sale.date , sale.route_name , sale.id)" mat-cell *matCellDef="let sale">{{sale.total_liquidation | currency}}</td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumnsHistoryLiquidation"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumnsHistoryLiquidation;"></tr>

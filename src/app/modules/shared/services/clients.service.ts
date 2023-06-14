@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { ClientModel } from 'src/app/modules/dashboard/pages/clients/models/client.model';
 import { RouteModel } from 'src/app/modules/dashboard/pages/clients/models/route.model';
@@ -18,7 +17,6 @@ export class ClientsService {
   public clientDoc: AngularFirestoreDocument<ClientModel>;
 
   constructor(
-    private db: AngularFireDatabase,
     private _storage: AngularFireStorage,
     private firestore: AngularFirestore
   ) {}
@@ -175,33 +173,19 @@ export class ClientsService {
     });
   }
 
-  public getVisits ( id ): Observable<RouteModel[]> {
-    return this.db.list<any>( `Staging/Visits/${id}/`)
-      .snapshotChanges()
-      .pipe(
-        map(changes =>
-          changes.map(c => {
-            const data = c.payload.val() as RouteModel;
-            const id = c.payload.key;
+  // Probar cundo exista la tabla
+  public getVisits(id: string): Observable<RouteModel[]> {
+      this.firestore.collection<ClientModel>('Visits').doc(id).collection(id);
+      const colection: Observable<any[]> = this.clientRef.snapshotChanges().pipe(
+        map((changes) =>
+          changes.map((c: any) => {
+            const data = c.payload.doc.data();
+            const id = c.payload.doc.id;
             return { id, ...data };
           })
         )
       );
-  }
-
-  // Probar cundo exista la tabla
-  public getVisits2(id: string): Observable<RouteModel[]> {
-    return this.firestore.collection<RouteModel>(`Visits`).doc(id)
-      .snapshotChanges()
-      .pipe(
-        map((changes: any) =>
-          changes.map((c: any) => {
-            const data = c.payload.doc.data() as RouteModel;
-            const visitId = c.payload.doc.id;
-            return { id: visitId, ...data };
-          })
-        )
-      );
+  return colection;
   }
 
 

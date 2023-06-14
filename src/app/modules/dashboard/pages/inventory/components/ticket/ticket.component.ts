@@ -1,6 +1,6 @@
 
 import { ClientsService } from 'src/app/modules/shared/services/clients.service';
-import { InventoryService } from './../../services/inventory.service';
+import { InventoryService } from '../../../../../shared/services/inventory.service';
 import { ActivatedRoute } from '@angular/router';
 import { INVENTORY_LANGUAGE } from './../../data/language';
 import { Component, OnInit, OnDestroy , Inject } from '@angular/core';
@@ -85,7 +85,6 @@ export class TicketComponent implements OnInit, OnDestroy {
   }
 
   public getParams() {
-    // const params = this._route.snapshot.queryParams;
     this.ticket = this.data.ticket;
     this.clientID = this.data.client;
     const routeId = this.data.route;
@@ -93,38 +92,28 @@ export class TicketComponent implements OnInit, OnDestroy {
     this.getClient(this.clientID);
   }
 
-  public getDevolutions( data, evolutionKeys) {
-    this.totalReturned = data.totalForDevolution;
-    const dataDevolutions = [];
-    evolutionKeys.forEach(( element , index ) => {
-      dataDevolutions.push(data.Devolutions[element]);
-      if ( index + 1 === evolutionKeys.length ) {
-        this.dataSourceReturnedTable.data = dataDevolutions;
-      }
-    });
-  }
 
   public getTicketData(route, ticket) {
-    this._inventoryService.getSaleByTicket(route, ticket).then(
+    this._inventoryService.getSaleByTicket(route, ticket).subscribe(
       ress => {
-        this.credit = ress.data.pay_whit_credit ? ress.data.pay_whit_credit_amount : 0;
-        this.clientID = ress.data.customerId;
-        this.date = ress.data.date;
-        this.route_name = ress.data.route_name;
-        this.totalSold = ress.data.totalOnSalle;
-        const productKeys = Object.keys(ress.data.Products);
+        this.credit = ress.pay_whit_credit ? ress.pay_whit_credit_amount : 0;
+        this.clientID = ress.customerId;
+        this.date = ress.date;
+        this.route_name = ress.route_name;
+        this.totalSold = ress.totalOnSalle;
+        const productKeys = Object.keys(ress.Products);
         const dataSales = [];
         const retailProducts = [];
         const wholesaleProducts = [];
         const wholesaleProductsG = [];
 
-        if (ress.data.Devolutions) {
-          const evolutionKeys = Object.keys(ress.data.Devolutions);
-          this.getDevolutions( ress.data , evolutionKeys );
+        if (ress.devolutions != undefined) {
+          this.totalReturned = ress.devolutionTotal;
+          this.dataSourceReturnedTable.data = ress.devolutions;
         }
 
         productKeys.forEach(( element , index ) => {
-          dataSales.push(ress.data.Products[element]);
+          dataSales.push(ress.Products[element]);
 
           if ( index + 1 === productKeys.length ) {
             dataSales.forEach( (product: any) => {

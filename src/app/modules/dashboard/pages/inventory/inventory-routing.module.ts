@@ -24,10 +24,10 @@ const routes: Routes = [
     path: 'liquidation/:id',
     component: LiquidationComponent,
   },
-  {
-    path: 'commission',
-    component: CommissionComponent,
-  },
+  // {
+  //   path: 'commission',
+  //   component: CommissionComponent,
+  // },
   {
     path: 'ticket',
     component: TicketComponent,

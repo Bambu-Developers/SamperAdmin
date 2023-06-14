@@ -1,11 +1,11 @@
-import { ExcelCommissionService } from './../../services/excel-commission.service';
+import { ExcelCommissionService } from '../../../../../shared/services/excel-commission.service';
 import { concatMap, take, toArray, map } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { INVENTORY_LANGUAGE } from '../../data/language';
 import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
-import { InventoryService } from '../../services/inventory.service';
+import { InventoryService } from '../../../../../shared/services/inventory.service';
 import * as moment from 'moment';
 import { UsersService } from 'src/app/modules/shared/services/users.service';
 import { RouteService } from 'src/app/modules/shared/services/route.service';
@@ -88,17 +88,7 @@ export class CommissionComponent implements OnInit, OnDestroy {
   }
 
   public getLosses() {
-    this._subscriptionLosses = this._inventoryService.getLossesByDate(this.route, this.startDate, this.endDate)
-      .valueChanges()
-      .pipe(
-        take(1),
-        concatMap(x => x),
-        map((loss: any) => {
-          this.totalLosses += (parseFloat(loss.product.retail_price) * loss.number_of_piz);
-          return { ...loss.product, number_of_piz: loss.number_of_piz };
-        }),
-        toArray()
-      ).subscribe(losses => {
+    this._subscriptionLosses = this._inventoryService.getLossesByDate(this.route, this.startDate, this.endDate).subscribe(losses => {
         const lossesProducts = [];
         losses.forEach(loss => {
           const lossProductIdx = lossesProducts.findIndex((lp: any) => {
@@ -123,43 +113,7 @@ export class CommissionComponent implements OnInit, OnDestroy {
     const wholesaleProductsG = [];
     const wholesaleProducts = [];
     const retailProducts = [];
-    this._subscriptionSales = this._inventoryService.getSalesByDate(this.route, this.startDate, this.endDate)
-      .valueChanges()
-      .pipe(
-        take(1),
-        concatMap(x => x),
-        concatMap((sale: any) => {
-          const keys = Object.keys(sale.Products || {});
-          const productsArray = keys.map(k => {
-            const product = sale.Products[k];
-            if ((product.number_of_items >= parseFloat(product.wholesale_quantity))
-              && (product.number_of_items < parseFloat(product.wholesale_quantityG))) {
-              product.commission = ((product.number_of_items * parseFloat(product.wholesale_price))
-                * parseFloat(product.seller_commission_wholesale || 0)) / 100.00;
-              this.totalCommissionWholesale += product.commission;
-              product.iswholesale = true;
-            }
-            if (product.wholesale_quantityG !== '' && (product.number_of_items >= parseFloat(product.wholesale_quantityG))) {
-              product.commission = ((product.number_of_items * parseFloat(product.wholesale_priceG))
-                * parseFloat(product.seller_commission_wholesaleG || 0)) / 100.00;
-              this.totalCommissionWholesaleG += product.commission;
-              product.iswholesaleG = true;
-            }
-            if (product.number_of_items < parseFloat(product.wholesale_quantity)) {
-              product.commission = ((product.number_of_items * parseFloat(product.retail_price))
-                * parseFloat(product.seller_commission_retail || 0)) / 100.00;
-              this.totalCommissionRetail += product.commission;
-              product.iswholesale = false;
-              product.iswholesaleG = false;
-            }
-            this.totalCommission += product.commission;
-            return product;
-          });
-          this.totalSold += sale.totalOnSalle;
-          return productsArray;
-        }),
-        toArray()
-      ).subscribe(products => {
+    this._subscriptionSales = this._inventoryService.getSales(this.route, this.startDate, this.endDate).subscribe(products => {
         products.forEach(product => {
           const wholesaleproductIdxG = wholesaleProductsG.findIndex(wholesaleProductG => wholesaleProductG.sku === product.sku);
           const wholesaleproductIdx = wholesaleProducts.findIndex(wholesaleProduct => wholesaleProduct.sku === product.sku);

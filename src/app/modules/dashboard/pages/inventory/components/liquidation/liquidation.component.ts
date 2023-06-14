@@ -2,15 +2,12 @@ import { Component, OnInit, OnDestroy , Inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { INVENTORY_LANGUAGE } from '../../data/language';
-import { Subscription } from 'rxjs';
-import { InventoryService } from './../../services/inventory.service';
+import { InventoryService } from '../../../../../shared/services/inventory.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/modules/shared/components/dialog/dialog.component';
-import { concatMap, map, take, toArray } from 'rxjs/operators';
 import moment from 'moment';
 import { ClientsService } from '../../../../../shared/services/clients.service';
-
 import { jsPDF } from 'jspdf';
 import { UsersService } from 'src/app/modules/shared/services/users.service';
 
@@ -94,14 +91,17 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     this.existLiquidation = !this.data.existLiquidation;
     this._userService.getAllUsersByRoute(this.id).subscribe((res: any) => {
 
+      if (res.length === 0){
+        this.dialogRef.close();
+      }
+
       this.dataSource = res[0];
       this.userRoute = res[0].route;
+
       this.getLiquidation();
       this.getInventories();
       this.getLosses( this.dateParam , this.userRoute );
     });
-
-
   }
 
   public getInventories() {
@@ -109,38 +109,34 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     const wholesaleProductsG = [];
     const retailProducts = [];
 
+    this._inventoryService.getSalesToDay(this.userRoute,  new Date(this.dateParam)).subscribe(async (res) => {
 
-    this._inventoryService.getSales(this.userRoute,  this.dateParam, this.dateParam).then(async (res) => {
-      const data = [];
-      const keys = Object.keys(res.data);
-      keys.forEach( ( element , index ) => {
-        data.push(res.data[element]);
-      } );
       const dataItems = [];
 
-      for await (const iterator of data) {
-        if (iterator.Devolutions) {
-          const evolutionKeys = Object.keys(iterator.Devolutions);
-          this.getDevolutions( iterator , evolutionKeys );
+      for await (const iterator of res) {
+        if (iterator.devolutions != undefined) {
+          this.totalDevolutions = iterator.totalForDevolution;
+          iterator.devolutions.forEach(( element , index ) => {
+            this.dataSourceDevolutions.data.push(element);
+          });
         }
-        if ( iterator.Products ) {
-          const keysItems = Object.keys(iterator.Products);
-          keysItems.forEach( ( element2 , index2 ) => {
-            iterator.Products[element2].customer =  iterator.customerId;
-            dataItems.push(iterator.Products[element2]);
+        if ( iterator.Products != undefined ) {
+          iterator.Products.forEach( ( elementProducts , indexProducts ) => {
+            console.log(elementProducts);
+            iterator.Products[indexProducts].customer =  iterator.customerId;
+            dataItems.push(indexProducts);
+            retailProducts.push(indexProducts);
           } );
         }
       }
 
-
-      keys.forEach(( element , index) => {
-
-        if ( res.data[element].pay_whit_credit === true && !this.existLiquidation ) {
-          const numAux = res.data[element].pay_whit_credit_amount.slice(3 , -3);
+      res.forEach(( element , index) => {
+        if ( element.pay_whit_credit === true && !this.existLiquidation ) {
+          const numAux = element.pay_whit_credit_amount.slice(3 , -3);
           this.totalCredit = (parseFloat(numAux.replace(',', ''))) + this.totalCredit ;
         }
-        if ( res.data[element].collet_credit !== undefined ) {
-          this.colletCredit = res.data[element].collet_credit + this.colletCredit ;
+        if ( element.collet_credit !== undefined ) {
+          this.colletCredit = element.collet_credit + this.colletCredit ;
         }
       } );
 
@@ -155,7 +151,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           wholesaleProducts.find( function (elementAux: any , index) {
             if (items.sku === elementAux.sku ) {
               wholesaleProducts[index].number_of_items =  wholesaleProducts[index].number_of_items + items.number_of_items;
-
               newsku = false;
             }
           });
@@ -203,19 +198,13 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     } );
   }
 
-  public getDevolutions( data, evolutionKeys) {
-    this.totalDevolutions = data.totalForDevolution;
-    evolutionKeys.forEach(( element , index ) => {
-      this.dataSourceDevolutions.data.push(data.Devolutions[element]);
-    });
-  }
+
 
   public getLosses( date , route ) {
-      this._inventoryService.getLosses( date , route ).then( ress => {
-        const keys = Object.keys(ress.data);
-        keys.forEach( ( element , index ) => {
-          this.dataSourceLosses.data.push(ress.data[element]);
-          this.totalLosses = (ress.data[element].number_of_piz * ress.data[element].product.retail_price ) + this.totalLosses;
+      this._inventoryService.getLosses( date , route ).subscribe( ress => {
+        ress.forEach( ( element , index ) => {
+          this.dataSourceLosses.data.push(element);
+          this.totalLosses = (element.number_of_piz * element.product.retail_price ) + this.totalLosses;
         } );
       } );
   }
@@ -272,32 +261,17 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
 
   public getLiquidation() {
-    this._inventoryService.getLiquidation( this.id , this.dateParam , this.dateParam  ).subscribe((res: any ) => {
-      if (Object.keys( res.data).length === 0) {
+    this._inventoryService.getLiquidationToId( this.id , this.data.id ).subscribe((res: any ) => {
 
-        // this.dialogRef.close();
-      }
-      const data = [];
-      const keys = Object.keys(res.data);
-      keys.forEach( ( element , index ) => {
-        const dataAux = res.data[element];
-        dataAux.route_name = name;
-        data.push(res.data[element]);
+      this.user_name = res.user_name;
+      this.saleDate = res.date;
 
-      } );
-
-      if ( data.length > 0 ) {
-        this.user_name = data[0].user_name;
-        this.saleDate = data[0].date;
-      }
-      const inter = Object.keys(res.data);
       if ( this.existLiquidation === true ) {
-        this.collection = res.data[inter[0]].collection ? res.data[inter[0]].collection : 0;
-        this.totalCredit = res.data[inter[0]].totalCredit ? res.data[inter[0]].totalCredit : 0;
-        this.cash = res.data[inter[0]].cash ? res.data[inter[0]].cash : 0;
-        this.difference = res.data[inter[0]].difference ? res.data[inter[0]].difference : 0;
+        this.collection = res.collection ? res.collection : 0;
+        this.totalCredit = res.totalCredit ? res.totalCredit : 0;
+        this.cash = res.cash ? res.cash : 0;
+        this.difference = res.difference ? res.difference : 0;
       }
-
     });
   }
 

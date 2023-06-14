@@ -136,9 +136,10 @@ export class UsersService {
       timestamp_create_at: result.metadata.a,
       last_conexion: result.metadata.lastSignInTime,
       timestamp_last_conexion: result.metadata.b,
+      route: user.route ? user.route : 0,
       status: 0
     };
-    userData.route ? userData.route = user.route : null;
+    user.route ? userData.route = user.route : null;
     return this.firestore.collection('Users').doc(result.uid).set(userData).then((ress) => {
     }).catch((error) => {
       return error

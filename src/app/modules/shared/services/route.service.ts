@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { RouteModel } from '../../dashboard/pages/users/models/routes.model';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
-import { AngularFireDatabase } from '@angular/fire/database';
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +48,6 @@ export class RouteService {
     };
     return this.firestore.collection('Routes').doc(route).update(USER_ROUTE).then(() => {
     }).catch((error) => {
-      console.log(error);
       return error
     });
   }
@@ -62,7 +60,6 @@ export class RouteService {
       seller: ''
     };
     this.getRouteByID(ROUTE_DATA.id).subscribe(res => {
-      console.log(res)
       if(res.name !== null && res.name !== undefined ) {
       }else {
         return this.firestore.collection('Routes').doc(ROUTE_DATA.id).set(ROUTE_DATA).then((ress) => {

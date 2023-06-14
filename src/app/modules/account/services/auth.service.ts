@@ -1,26 +1,23 @@
 import { Injectable } from '@angular/core';
-import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  usersRef: AngularFireList<any>;
+
   user: Observable<firebase.User>;
 
   constructor(
-    public db: AngularFireDatabase,
     public afAuth: AngularFireAuth,
-    public router: Router
+    public router: Router,
+    private firestore: AngularFirestore
   ) {
     this.user = afAuth.authState;
-    const user = this.afAuth.currentUser;
-    this.usersRef = db.list('Users');
   }
 
   // Sign in with email/password
@@ -85,7 +82,10 @@ export class AuthService {
       last_conexion: user.metadata.lastSignInTime,
       timestamp_last_conexion: user.metadata.b
     };
-    this.usersRef.update(user.uid, userData);
+    return this.firestore.collection('Users').doc(user.uid).update(userData).then(() => {
+    }).catch((error) => {
+      return error
+    });
   }
 
 }

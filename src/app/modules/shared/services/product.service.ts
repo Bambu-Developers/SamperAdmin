@@ -196,30 +196,26 @@ export class ProductService {
   }
 
 
-  // Mirar Bases
+  // Migrar Bases
   getJsonKeys() {
-    this.http.get<any>('../../../../assets/sanper-stable-Liquidations-export.json').subscribe(
+    this.http.get<any>('../../../../assets/sanper-stable-4877495879-export.json').subscribe(
       (data) => {
         const keyAux = Object.keys(data);
         keyAux.forEach(  ( colection: any , index ) => {
-          const keyColections = Object.keys(data[colection]);
-          if ( index != -1) {
-            keyColections.forEach(  ( doc  ) => {
-              data[colection][doc].date = new Date(data[colection][doc].date);
-              const docAux = data[colection][doc];
-              return this.firestore.collection('Liquidations').doc(colection).collection(colection).doc(doc).set(docAux).then((ress) => {
-                console.log('ress')
-              }).catch((error) => {
-                console.log('error')
-                return error
-              });
+          const ArrayProductsAux = [];
+          if (data[colection].Products != undefined) {
+            const keyColections = Object.keys(data[colection].Products);
+            keyColections.forEach(  ( produc: any , producIndex ) => {
+              ArrayProductsAux.push(data[colection].Products[produc]);
             });
           }
-        });
+            return this.firestore.collection('HistoryRoutes').doc('4877495879').collection('Orders' ).doc( colection).set(data[colection]).then((ress) => { }).catch((error) => {
+              return error;
+            });
+          }
+        );
       },
-
       (error) => {
-        console.log(error);
         return [];
       }
     );

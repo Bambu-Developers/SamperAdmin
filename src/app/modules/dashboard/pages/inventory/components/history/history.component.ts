@@ -3,7 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { INVENTORY_LANGUAGE } from './../../data/language';
-import { InventoryService } from '../../services/inventory.service';
+import { InventoryService } from '../../../../../shared/services/inventory.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { concatMap, toArray, take, map } from 'rxjs/operators';
 import { ClientsService } from '../../../../../shared/services/clients.service';
@@ -77,14 +77,6 @@ export class HistoryComponent implements OnInit, AfterViewInit {
     this.dataSourceTableHistory.paginator = this.paginator;
   }
 
-  testDataRoute() {
-    const fecha = moment('20200701', 'YYYYMMDD').toDate();
-    this._inventoryService.getSalesToDelete('1038623014')
-      .valueChanges().subscribe(res => {
-
-      });
-  }
-
   public getRoutes() {
     this.routeService.getAllRoutes().subscribe(
       (res) => {
@@ -106,24 +98,12 @@ export class HistoryComponent implements OnInit, AfterViewInit {
 
   public async getAllSales(id: string , dataStart , dataEnd ) {
     this.loading = true;
-    const dateAux = new Date(this.formSearch.controls.dateStart.value).getTime();
-    const dateAux2 = new Date(this.formSearch.controls.dateEnd.value).getTime();
-
-
 
     try {
-
-      await this._inventoryService.getSales(id ,  dataStart , dataEnd ).then( sales => {
-        const keys = Object.keys(sales.data);
-        const arrayAux = [];
-        keys.forEach( ( element , index ) => {
-          arrayAux.push(
-            { date: sales.data[element].date , id: sales.data[element].id , route_id: sales.data[element].route_id ,
-              route_name: sales.data[element].route_name, total: sales.data[element].total ,
-              totalOnSalle: sales.data[element].totalOnSalle , customerId: sales.data[element].customerId}
-          );
-          if (index + 1 === arrayAux.length) {
-            arrayAux.sort((r1, r2) => {
+      await this._inventoryService.getSales(id ,  dataStart , dataEnd ).subscribe( sales => {
+        sales.forEach( ( element , index ) => {
+          if (index + 1 === sales.length) {
+            sales.sort((r1, r2) => {
               if (r1.date > r2.date) {
                 return -1;
               }
@@ -133,29 +113,13 @@ export class HistoryComponent implements OnInit, AfterViewInit {
             });
           }
         });
-        this.dataSourceTableHistory.data = arrayAux;
+        this.dataSourceTableHistory.data = sales;
         this.loading = false;
       });
-
     } catch (error) {
       this.loading = false;
       throw error;
     }
-
-
-  }
-
-  public getSalesByKeyAndDate(route) {
-    this._inventoryService.getSalesByDate(route, this.date.begin, this.date.end)
-      .valueChanges()
-      .pipe(
-        take(1),
-        concatMap(x => x),
-        toArray()
-      )
-      .subscribe(sales => {
-        this.dataSourceTableHistory.data = sales;
-      });
   }
 
   public doFilter = (value: string) => {
