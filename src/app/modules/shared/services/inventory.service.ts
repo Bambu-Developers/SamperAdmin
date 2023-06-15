@@ -137,7 +137,6 @@ export class InventoryService {
         })
       )
     );
-
     return collection;
   }
 
