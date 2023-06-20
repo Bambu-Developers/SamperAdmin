@@ -96,50 +96,59 @@ export class TicketComponent implements OnInit, OnDestroy {
   public getTicketData(route, ticket) {
     this._inventoryService.getSaleByTicket(route, ticket).subscribe(
       ress => {
+        console.log(ress);
         this.credit = ress.pay_whit_credit ? ress.pay_whit_credit_amount : 0;
         this.clientID = ress.customerId;
         this.date = ress.date;
-        this.route_name = ress.route_name;
-        this.totalSold = ress.totalOnSalle;
-        const productKeys = Object.keys(ress.Products);
+        ress.route_name != null ? this.route_name = ress.route_name : ress.route_name = '';
+        this.totalSold = ress.totalMoney;
+        // const productKeys = Object.keys(ress.Products);
         const dataSales = [];
         const retailProducts = [];
         const wholesaleProducts = [];
         const wholesaleProductsG = [];
 
         if (ress.devolutions != undefined) {
-          this.totalReturned = ress.devolutionTotal;
+          this.totalReturned = ress.devolutionTotalAmount;
           this.dataSourceReturnedTable.data = ress.devolutions;
         }
 
-        productKeys.forEach(( element , index ) => {
-          dataSales.push(ress.Products[element]);
+        ress.producst.forEach( (product: any) => {
+          product = { ...product, route_name: this.route_name };
 
-          if ( index + 1 === productKeys.length ) {
-            dataSales.forEach( (product: any) => {
-              product = { ...product, route_name: this.route_name };
-              if (
-                product.wholesale_quantityG !== '' &&
-                product.number_of_items >= product.wholesale_quantity &&
-                product.number_of_items < product.wholesale_quantityG
-              ) {
-                wholesaleProducts.push(product);
-              }
-              if (
-                product.wholesale_quantityG !== '' &&
-                product.number_of_items >= product.wholesale_quantityG
-              ) {
-                wholesaleProductsG.push(product);
-              }
-              if (product.number_of_items < product.wholesale_quantity) {
-                retailProducts.push(product);
-              }
-            });
-            this.dataSourceRetailTable.data = retailProducts;
-            this.dataSourceWholesaleTable.data = wholesaleProducts;
-            this.dataSourceWholesaleTableG.data = wholesaleProductsG;
+          product.wholesale_quantity == '' ? product.wholesale_quantity = '0.00' : null;
+          product.wholesale_quantityG == '' ? product.wholesale_quantityG = '0.00' : null;
+          console.log(product);
+          console.log(parseFloat(product.wholesale_quantityG));
+
+
+
+          if (
+            parseFloat(product.wholesale_quantityG) !== 0 &&
+            product.number_of_items >= parseFloat(product.wholesale_quantity) &&
+            product.number_of_items < parseFloat(product.wholesale_quantityG)
+          ) {
+            wholesaleProducts.push(product);
+          }
+          if (
+            parseFloat(product.wholesale_quantityG) !== 0 &&
+            product.number_of_items >= parseFloat(product.wholesale_quantityG)
+          ) {
+            wholesaleProductsG.push(product);
+          }
+          if (product.number_of_items < parseFloat(product.wholesale_quantity)) {
+            retailProducts.push(product);
+          }
+
+          if (parseFloat(product.wholesale_quantity) == 0) {
+            retailProducts.push(product);
           }
         });
+
+        this.dataSourceRetailTable.data = retailProducts;
+        this.dataSourceWholesaleTable.data = wholesaleProducts;
+        this.dataSourceWholesaleTableG.data = wholesaleProductsG;
+
       }
     );
   }
@@ -268,6 +277,7 @@ export class TicketComponent implements OnInit, OnDestroy {
     if (this.dataSourceRetailTable.data.length !== 0) {
       const table1: any = [[]];
       await this.dataSourceRetailTable.data.forEach((element: any, index: any) => {
+
         if (pagePdf === 0 && linePdf <= 31) {
           table1[0].push({
             Producto: ` ${element.name} `,
@@ -278,6 +288,7 @@ export class TicketComponent implements OnInit, OnDestroy {
             Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`).toFixed(2),
           });
         }
+        console.log(table1);
         if (pagePdf > 0 && linePdf <= 39) {
           table1[table1.length - 1].push({
             Producto: ` ${element.name} `,
@@ -305,14 +316,14 @@ export class TicketComponent implements OnInit, OnDestroy {
               doc.setFont('helvetica', 'normal');
               doc.setFontSize(16);
               doc.text('Ventas Minoristas', 10, 70);
-              doc.table(6, 75, table1[indexTable], headers, { fontSize: 8, padding: 1.2, printHeaders: true });
+              doc.table(6, 75, elementTable, headers, { fontSize: 8, padding: 1.2, printHeaders: true });
             } else {
               doc.setFont('helvetica', 'normal');
               doc.setFontSize(16);
               doc.addPage('a4', 'p');
               doc.addImage('../../../../../../../assets/images/logo_sanper.png', 'PNG', 10, 10, 50, 10);
               doc.text('Ventas Minoristas', 10, 30);
-              doc.table(6, 35, table1[indexTable], headers, { fontSize: 8, padding: 1.2, printHeaders: true });
+              doc.table(6, 35, elementTable, headers, { fontSize: 8, padding: 1.2, printHeaders: true });
             }
           });
         }

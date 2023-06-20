@@ -101,6 +101,7 @@ export class HistoryComponent implements OnInit, AfterViewInit {
 
     try {
       await this._inventoryService.getSales(id ,  dataStart , dataEnd ).subscribe( sales => {
+        console.log(sales);
         sales.forEach( ( element , index ) => {
           if (index + 1 === sales.length) {
             sales.sort((r1, r2) => {
@@ -139,7 +140,8 @@ export class HistoryComponent implements OnInit, AfterViewInit {
     this.endDate = moment(dateAux).format('YYYY-MM-DD');
   }
 
-  public openModal(routeIdAux , ticketAux , customerAux) {
+  public openModal(sale , routeIdAux , ticketAux , customerAux) {
+    console.log(sale);
     this.dialog.open(TicketComponent, {
       width: '80vw',
       height: '80vh',
