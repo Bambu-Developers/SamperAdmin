@@ -102,7 +102,6 @@ export class InventoryService {
 
 
   public getSales(idRoute: string , dataStart , dataEnd ): Observable<any> {
-    console.log(idRoute , dataStart , dataEnd);
     dataEnd = moment(dataEnd).add(1, 'day').format('YYYY-MM-DD');
     const ref = this.firestore.collection<ClientModel>('HistoryRoutes').doc(idRoute).collection( 'Orders' ,
       ref =>  ref.where('date', '>=', dataStart).where('date', '<=', dataEnd).orderBy('date', 'desc')
@@ -145,7 +144,6 @@ export class InventoryService {
 
 
   public getSaleByTicket(route, ticket): Observable<any> {
-    console.log(route , ticket);
     const ref = this.firestore.collection('HistoryRoutes').doc(route).collection( 'Orders').doc(ticket);
 
     return ref.snapshotChanges().pipe(

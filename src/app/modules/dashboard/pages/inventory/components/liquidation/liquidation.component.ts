@@ -122,7 +122,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
         }
         if ( iterator.Products != undefined ) {
           iterator.Products.forEach( ( elementProducts , indexProducts ) => {
-            console.log(elementProducts);
             iterator.Products[indexProducts].customer =  iterator.customerId;
             dataItems.push(indexProducts);
             retailProducts.push(indexProducts);

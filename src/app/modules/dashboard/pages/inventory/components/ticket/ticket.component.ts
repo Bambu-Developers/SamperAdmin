@@ -96,7 +96,6 @@ export class TicketComponent implements OnInit, OnDestroy {
   public getTicketData(route, ticket) {
     this._inventoryService.getSaleByTicket(route, ticket).subscribe(
       ress => {
-        console.log(ress);
         this.credit = ress.pay_whit_credit ? ress.pay_whit_credit_amount : 0;
         this.clientID = ress.customerId;
         this.date = ress.date;
@@ -115,13 +114,8 @@ export class TicketComponent implements OnInit, OnDestroy {
 
         ress.producst.forEach( (product: any) => {
           product = { ...product, route_name: this.route_name };
-
           product.wholesale_quantity == '' ? product.wholesale_quantity = '0.00' : null;
           product.wholesale_quantityG == '' ? product.wholesale_quantityG = '0.00' : null;
-          console.log(product);
-          console.log(parseFloat(product.wholesale_quantityG));
-
-
 
           if (
             parseFloat(product.wholesale_quantityG) !== 0 &&
@@ -288,7 +282,6 @@ export class TicketComponent implements OnInit, OnDestroy {
             Total: '$' + parseFloat(`${ parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`).toFixed(2),
           });
         }
-        console.log(table1);
         if (pagePdf > 0 && linePdf <= 39) {
           table1[table1.length - 1].push({
             Producto: ` ${element.name} `,
