@@ -121,11 +121,16 @@ export class HistoryComponent implements OnInit, AfterViewInit {
           sales[index].number_of_items = 0;
           const jsonArray: any = Object.keys(element.Products);
           jsonArray.forEach((product , indexP) => {
-            sales[index].number_of_items = element.Products[product].number_of_items;
+            sales[index].number_of_items = sales[index].number_of_items + element.Products[product].number_of_items;
           });
         });
-        this.dataSourceTableHistory.data = this.dataSourceTableHistory.data.concat(sales);
 
+        this.dataSourceTableHistory.data = this.dataSourceTableHistory.data.sort((a: any, b: any) => {
+          const dateA = new Date(a.date);
+          const dateB = new Date(b.date);
+          return dateB.getTime() - dateA.getTime();
+        });
+        this.dataSourceTableHistory.data = this.dataSourceTableHistory.data.concat(sales);
       });
 
       this._inventoryService.getSales('/sanper_7233129990', dataStart, dataEnd).subscribe(sales => {
@@ -135,28 +140,35 @@ export class HistoryComponent implements OnInit, AfterViewInit {
           sales[index].number_of_items = 0;
           const jsonArray: any = Object.keys(element.Products);
           jsonArray.forEach((product , indexP) => {
-            sales[index].number_of_items = element.Products[product].number_of_items;
+            sales[index].number_of_items = sales[index].number_of_items + element.Products[product].number_of_items;
           });
         });
+        this.dataSourceTableHistory.data = this.dataSourceTableHistory.data.sort((a: any, b: any) => {
+          const dateA = new Date(a.date);
+          const dateB = new Date(b.date);
+          return dateB.getTime() - dateA.getTime();
+        });
         this.dataSourceTableHistory.data = this.dataSourceTableHistory.data.concat(sales);
-
       });
 
       this._inventoryService.getSales( '/sanper_7262626399' , dataStart, dataEnd).subscribe(sales => {
-
-
-
-
         sales.forEach((element, index) => {
           sales[index].number_of_items = 0;
           const jsonArray: any = Object.keys(element.Products);
           jsonArray.forEach((product , indexP) => {
-            sales[index].number_of_items = element.Products[product].number_of_items;
+            sales[index].number_of_items = sales[index].number_of_items + element.Products[product].number_of_items;
           });
         });
-        this.dataSourceTableHistory.data = this.dataSourceTableHistory.data.concat(sales);
 
+        this.dataSourceTableHistory.data = this.dataSourceTableHistory.data.sort((a: any, b: any) => {
+          const dateA = new Date(a.date);
+          const dateB = new Date(b.date);
+          return dateB.getTime() - dateA.getTime();
+        });
+        this.dataSourceTableHistory.data = this.dataSourceTableHistory.data.concat(sales);
       });
+
+
     } catch (error) {
       throw error;
     }
