@@ -97,8 +97,10 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
       this.dataSource = res[0];
       this.userRoute = res[0].route;
+      if(this.data.date != undefined){
+        this.getLiquidation();
+      }
 
-      this.getLiquidation();
       this.getInventories();
       this.getLosses( this.dateParam , this.userRoute );
     });
@@ -109,7 +111,9 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     const wholesaleProductsG = [];
     const retailProducts = [];
 
-    this._inventoryService.getSalesToDay(this.userRoute,  new Date(this.dateParam)).subscribe(async (res) => {
+    this._inventoryService.getSalesToDay(this.userRoute,  this.dateParam).subscribe(async (res) => {
+
+
 
       const dataItems = [];
 
@@ -120,11 +124,11 @@ export class LiquidationComponent implements OnInit, OnDestroy {
             this.dataSourceDevolutions.data.push(element);
           });
         }
-        if ( iterator.Products != undefined ) {
-          iterator.Products.forEach( ( elementProducts , indexProducts ) => {
-            iterator.Products[indexProducts].customer =  iterator.customerId;
-            dataItems.push(indexProducts);
-            retailProducts.push(indexProducts);
+        if ( iterator.producst != undefined ) {
+          iterator.producst.forEach( ( elementProducts , indexProducts ) => {
+            // iterator.producst[indexProducts].customer =  iterator.customerId;
+            dataItems.push(elementProducts);
+            // retailProducts.push(elementProducts);
           } );
         }
       }
@@ -141,10 +145,15 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
 
       dataItems.forEach(( items ) => {
+
+        items.wholesale_quantity == '' ? items.wholesale_quantity = '0.0' : null
+        items.wholesale_quantityG == '' ? items.wholesale_quantityG = '0.0' : null
+
+        console.log(items , 'etra');
         if (
-          items.wholesale_quantityG !== '' &&
-          items.number_of_items >= items.wholesale_quantity &&
-          items.number_of_items < items.wholesale_quantityG
+          items.wholesale_quantityG !== '0.0' &&
+          items.number_of_items >= parseFloat(items.wholesale_quantity) &&
+          items.number_of_items < parseFloat(items.wholesale_quantityG)
         ) {
           let newsku = true;
           wholesaleProducts.find( function (elementAux: any , index) {
@@ -159,8 +168,8 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           this.totalSaleWholesale = this.totalSaleWholesale +  (items.number_of_items *  parseFloat(items.wholesale_price));
         }
         if (
-          items.wholesale_quantityG !== '' &&
-          items.number_of_items >= items.wholesale_quantityG
+          items.wholesale_quantityG !== '0.0' &&
+          items.number_of_items >= parseFloat(items.wholesale_quantityG)
         ) {
           let newsku = true;
           wholesaleProductsG.find( function (elementAux: any , index) {
@@ -175,7 +184,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           }
           this.totalSaleWholesaleG =  this.totalSaleWholesaleG  + (items.number_of_items *  parseFloat(items.wholesale_priceG));
         }
-        if (items.number_of_items < items.wholesale_quantity) {
+        if (items.number_of_items < parseFloat(items.wholesale_quantity) || parseFloat(items.wholesale_quantity) == 0 ) {
           let newsku = true;
           retailProducts.find( function (elementAux: any , index) {
             if (items.sku === elementAux.sku ) {
@@ -260,18 +269,23 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
 
   public getLiquidation() {
-    this._inventoryService.getLiquidationToId( this.id , this.data.id ).subscribe((res: any ) => {
+    try {
+      this._inventoryService.getLiquidationToId( this.id , this.data.id ).subscribe((res: any ) => {
 
-      this.user_name = res.user_name;
-      this.saleDate = res.date;
+        this.user_name = res.user_name;
+        this.saleDate = res.date;
 
-      if ( this.existLiquidation === true ) {
-        this.collection = res.collection ? res.collection : 0;
-        this.totalCredit = res.totalCredit ? res.totalCredit : 0;
-        this.cash = res.cash ? res.cash : 0;
-        this.difference = res.difference ? res.difference : 0;
-      }
-    });
+        if ( this.existLiquidation === true ) {
+          this.collection = res.collection ? res.collection : 0;
+          this.totalCredit = res.totalCredit ? res.totalCredit : 0;
+          this.cash = res.cash ? res.cash : 0;
+          this.difference = res.difference ? res.difference : 0;
+        }
+      });
+    } catch (error) {
+
+    }
+
   }
 
   public getClient() {

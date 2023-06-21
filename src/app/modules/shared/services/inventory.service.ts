@@ -88,7 +88,6 @@ export class InventoryService {
   }
 
   public getLiquidationToId(idRoute: string , idLiquidation: string): Observable<any[]> {
-
     const refAux = this.firestore.collection<ClientModel>('Liquidations').doc('RouteList').collection(`${idRoute}`).doc(idLiquidation);
     let liquidation: Observable<any[]> = refAux.snapshotChanges().pipe(
         map((c: any) => {
@@ -124,8 +123,8 @@ export class InventoryService {
   public getSalesToDay(idRoute: string, date: Date): Observable<any> {
     let startOfDay: any = new Date(date);
     let endOfDay: any = new Date(date);
-    startOfDay = moment(startOfDay).format('YYYY-MM-DD');
-    endOfDay = moment(endOfDay).add(1, 'day').format('YYYY-MM-DD');
+    startOfDay = moment(endOfDay).add(1, 'day').format('YYYY-MM-DD');
+    endOfDay = moment(endOfDay).add(2, 'day').format('YYYY-MM-DD');
     const ref = this.firestore.collection<ClientModel>('HistoryRoutes').doc(idRoute).collection('Orders',
       ref => ref.where('date', '>=', startOfDay).where('date', '<=', endOfDay).orderBy('date', 'desc')
     );
