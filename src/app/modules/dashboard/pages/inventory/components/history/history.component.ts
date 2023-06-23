@@ -125,11 +125,7 @@ export class HistoryComponent implements OnInit, AfterViewInit {
           });
         });
 
-        this.dataSourceTableHistory.data = this.dataSourceTableHistory.data.sort((a: any, b: any) => {
-          const dateA = new Date(a.date);
-          const dateB = new Date(b.date);
-          return dateB.getTime() - dateA.getTime();
-        });
+
         this.dataSourceTableHistory.data = this.dataSourceTableHistory.data.concat(sales);
       });
 
@@ -143,11 +139,7 @@ export class HistoryComponent implements OnInit, AfterViewInit {
             sales[index].number_of_items = sales[index].number_of_items + element.Products[product].number_of_items;
           });
         });
-        this.dataSourceTableHistory.data = this.dataSourceTableHistory.data.sort((a: any, b: any) => {
-          const dateA = new Date(a.date);
-          const dateB = new Date(b.date);
-          return dateB.getTime() - dateA.getTime();
-        });
+
         this.dataSourceTableHistory.data = this.dataSourceTableHistory.data.concat(sales);
       });
 
@@ -160,7 +152,7 @@ export class HistoryComponent implements OnInit, AfterViewInit {
           });
         });
 
-        this.dataSourceTableHistory.data = this.dataSourceTableHistory.data.sort((a: any, b: any) => {
+        this.dataSourceTableHistory.data.sort((a: any, b: any) => {
           const dateA = new Date(a.date);
           const dateB = new Date(b.date);
           return dateB.getTime() - dateA.getTime();
