@@ -110,16 +110,15 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     const wholesaleProducts = [];
     const wholesaleProductsG = [];
     const retailProducts = [];
-
     this._inventoryService.getSalesToDay(this.userRoute,  this.dateParam).subscribe(async (res) => {
 
-
-
+      console.log(this.dateParam , res , ' esta es la respuesta de la llamada');
+      this.saleDate = this.dateParam;
       const dataItems = [];
 
       for await (const iterator of res) {
         if (iterator.devolutions != undefined) {
-          this.totalDevolutions = iterator.totalForDevolution;
+          this.totalDevolutions = this.totalDevolutions + iterator.devolutionTotalAmount;
           iterator.devolutions.forEach(( element , index ) => {
             this.dataSourceDevolutions.data.push(element);
           });
@@ -209,6 +208,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
 
   public getLosses( date , route ) {
+    console.log(date , ' Aqui esta loss');
       this._inventoryService.getLosses( date , route ).subscribe( ress => {
         ress.forEach( ( element , index ) => {
           this.dataSourceLosses.data.push(element);
@@ -274,7 +274,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
         this.user_name = res.user_name;
         this.saleDate = res.date;
-
+        console.log(res , 'estos son los datos de la respuesta ');
         if ( this.existLiquidation === true ) {
           this.collection = res.collection ? res.collection : 0;
           this.totalCredit = res.totalCredit ? res.totalCredit : 0;
@@ -309,8 +309,14 @@ export class LiquidationComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
   }
 
+  public formatNumberToMexicanPesos(number) {
+    const formatter = new Intl.NumberFormat('es-MX', {
+      style: 'currency',
+      currency: 'MXN'
+    });
 
-
+    return formatter.format(number);
+  }
 
   public createHeaders(keys) {
     const result = [];
@@ -397,16 +403,16 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     doc.text( `Liquidación: ${ this.data.nameRute} - ${this.user_name}` , 10, 30);
     doc.setFontSize(12);
     doc.setFont('helvetica', 'normal');
-    doc.text( `Ventas del día: $${(this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG).toFixed(2)}`, 10, 40);
-    doc.text( `Total devolución: $${ this.totalDevolutions.toFixed(2)}`, 10, 45);
-    doc.text( `Credito: $${ this.totalCredit.toFixed(2) }`, 10, 50);
-    doc.text( `Credito cobrado: $${ this.colletCredit.toFixed(2) }`, 10, 55);
-    doc.text( `Total merma: $${ this.totalLosses.toFixed(2) }`, 10, 60);
-    doc.text( `Cobranza: $${ this.collection.toFixed(2) }`, 10, 65);
-    doc.text( `Diferencia: $${ this.difference.toFixed(2) }`, 10, 70);
-    doc.text( `Total: $${( this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG  - this.totalDevolutions - this.totalCredit + this.totalLosses + this.collection - this.difference + this.colletCredit).toFixed(2) }`, 10, 75);
-    doc.text( `Efectivo: $${ this.cash.toFixed(2) }`, 10, 80);
-    doc.text( `Saldo: $${ (this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG  - this.totalDevolutions - this.totalCredit + this.totalLosses + this.collection - this.difference - this.cash + this.colletCredit).toFixed(2) }`, 10, 85);
+    doc.text( `Ventas del día: ${this.formatNumberToMexicanPesos(this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG)}`, 10, 40);
+    doc.text( `Total devolución: ${ this.formatNumberToMexicanPesos(this.totalDevolutions)}`, 10, 45);
+    doc.text( `Credito: $${ this.formatNumberToMexicanPesos(this.totalCredit) }`, 10, 50);
+    doc.text( `Credito cobrado: ${ this.formatNumberToMexicanPesos(this.colletCredit) }`, 10, 55);
+    doc.text( `Total merma: ${ this.formatNumberToMexicanPesos(this.totalLosses) }`, 10, 60);
+    doc.text( `Cobranza: ${ this.formatNumberToMexicanPesos(this.collection) }`, 10, 65);
+    doc.text( `Diferencia: ${ this.formatNumberToMexicanPesos(this.difference) }`, 10, 70);
+    doc.text( `Total: ${ this.formatNumberToMexicanPesos( this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG  - this.totalDevolutions - this.totalCredit + this.totalLosses + this.collection - this.difference + this.colletCredit) }`, 10, 75);
+    doc.text( `Efectivo: ${ this.formatNumberToMexicanPesos(this.cash) }`, 10, 80);
+    doc.text( `Saldo: ${ this.formatNumberToMexicanPesos(this.totalSaleRetail + this.totalSaleWholesale + this.totalSaleWholesaleG  - this.totalDevolutions - this.totalCredit + this.totalLosses + this.collection - this.difference - this.cash + this.colletCredit) }`, 10, 85);
 
     if (this.dataSourceTable.data.length !== 0) {
       const table1: any = [[]];
@@ -416,8 +422,8 @@ export class LiquidationComponent implements OnInit, OnDestroy {
             Producto: ` ${element.name} `,
             Marca: element.brand,
             Vendido: `${element.number_of_items}`,
-            Precio: '$' + element.retail_price,
-            Total: '$' + parseFloat(`${parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`).toFixed(2),
+            Precio: this.formatNumberToMexicanPesos(parseFloat(element.retail_price)),
+            Total: this.formatNumberToMexicanPesos(parseFloat(`${parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`)),
           });
         }
         if (pagePdf > 0 && linePdf <= 39) {
@@ -425,8 +431,8 @@ export class LiquidationComponent implements OnInit, OnDestroy {
             Producto: ` ${element.name} `,
             Marca: element.brand,
             Vendido: `${element.number_of_items}`,
-            Precio: '$' + element.retail_price,
-            Total: '$' + parseFloat(`${parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`).toFixed(2),
+            Precio: this.formatNumberToMexicanPesos(parseFloat(element.retail_price)),
+            Total:  this.formatNumberToMexicanPesos(parseFloat(`${parseFloat(element.number_of_items) * parseFloat(element.retail_price)}`)),
           });
         }
         linePdf++;
@@ -499,8 +505,8 @@ export class LiquidationComponent implements OnInit, OnDestroy {
             Producto: ` ${element2.name}  `,
             Marca: element2.brand,
             Vendido: `${element2.number_of_items}`,
-            Precio: '$' + element2.retail_price,
-            Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.retail_price)}`).toFixed(2),
+            Precio: this.formatNumberToMexicanPesos(parseFloat(element2.retail_price)),
+            Total:  this.formatNumberToMexicanPesos(parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.retail_price)}`)),
           });
         indexTab++;
         linePdf ++;
@@ -569,8 +575,8 @@ export class LiquidationComponent implements OnInit, OnDestroy {
             Producto: ` ${element2.name} `,
             Marca: element2.brand,
             Vendido: `${element2.number_of_items}`,
-            Precio: '$' + element2.wholesale_price,
-            Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.wholesale_price)}`).toFixed(2),
+            Precio: this.formatNumberToMexicanPesos(parseFloat(element2.wholesale_price)),
+            Total: this.formatNumberToMexicanPesos(parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.wholesale_price)}`)),
           });
         indexTab++;
         linePdf ++;
@@ -639,8 +645,8 @@ export class LiquidationComponent implements OnInit, OnDestroy {
             Producto: ` ${element2.name} `,
             Marca: element2.brand,
             Vendido: `${element2.number_of_items}`,
-            Precio: '$' + element2.wholesale_priceG,
-            Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.wholesale_priceG)}`).toFixed(2),
+            Precio: this.formatNumberToMexicanPesos(parseFloat(element2.wholesale_priceG)),
+            Total: this.formatNumberToMexicanPesos(parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.wholesale_priceG)}`)),
           });
         indexTab++;
         linePdf ++;
@@ -707,9 +713,9 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           table4[ table4.length - 1 ].push({
             Producto: ` ${element2.product.name}  `,
             Marca: element2.product.brand,
-            Precio: '$' + element2.product.retail_price,
+            Precio: this.formatNumberToMexicanPesos(parseFloat(element2.product.retail_price)),
             Mermas: ` ${element2.number_of_piz}`,
-            Total: '$' + parseFloat(`${ parseFloat(element2.number_of_piz) * parseFloat(element2.product.retail_price)}`).toFixed(2),
+            Total:  this.formatNumberToMexicanPesos(parseFloat(`${ parseFloat(element2.number_of_piz) * parseFloat(element2.product.retail_price)}`)),
           });
         indexTab++;
         linePdf ++;
@@ -778,8 +784,8 @@ export class LiquidationComponent implements OnInit, OnDestroy {
             Producto: ` ${element2.name}  `,
             Marca: element2.brand,
             Vendido: `${parseFloat(element2.number_of_items)}`,
-            Precio: '$' + element2.retail_price,
-            Total: '$' + parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.retail_price)}`).toFixed(2),
+            Precio: this.formatNumberToMexicanPesos(parseFloat(element2.retail_price)),
+            Total: this.formatNumberToMexicanPesos(parseFloat(`${ parseFloat(element2.number_of_items) * parseFloat(element2.retail_price)}`)),
           });
         indexTab++;
         linePdf ++;

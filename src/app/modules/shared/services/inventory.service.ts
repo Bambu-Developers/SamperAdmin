@@ -16,9 +16,12 @@ export class InventoryService {
   ) {}
 
 
-  public getLosses( date , route ): Observable<any> {
+ public getLosses( date , route ): Observable<any> {
+
+    let startOfDay: any = new Date(date).getTime();
+    let endOfDay: any = new Date(date).getTime() + (24 * 60 * 60 * 1000);
     const data = this.firestore.collection<ClientModel>('LostProduct').doc(route) .collection(`Products`, ref =>
-      ref.where('date', '>=', date).where('date', '<=', date).orderBy('date', 'desc')
+      ref.where('timestamp', '>=', startOfDay).where('timestamp', '<=', endOfDay).orderBy('timestamp', 'desc')
     );
     let losses: Observable<any[]> = data.snapshotChanges().pipe(
       map((changes) =>
@@ -33,8 +36,10 @@ export class InventoryService {
   }
 
   public getLossesByDate(key, startDate: Date, endDate: Date) {
+    let startOfDay: any = new Date(startDate).getTime();
+    let endOfDay: any = new Date(endDate).getTime();
     const data = this.firestore.collection<ClientModel>('LostProduct').doc(key) .collection(`Products`, ref =>
-      ref.where('date', '>=', startDate).where('date', '<=', endDate).orderBy('date', 'desc')
+      ref.where('timestamp', '>=', startOfDay).where('timestamp', '<=', endOfDay).orderBy('timestamp', 'desc')
     );
     let losses: Observable<any[]> = data.snapshotChanges().pipe(
       map((changes) =>
@@ -50,10 +55,12 @@ export class InventoryService {
 
   public approveLiquidation(userId, userName, date, userRoute, totalSale, totalLiquidation, totalWithLoss, totalDevolutions, totalLosses,
     totalCredit, collection, cash, difference ) {
+    let startOfDay: any = new Date(date).getTime();
     const LIQUIDATION_DATA = {
       uid: userId,
       user_name: userName,
       date: date,
+      timestamp: startOfDay,
       route: userRoute,
       total_sale: totalSale,
       total_liquidation: totalLiquidation,
@@ -67,13 +74,17 @@ export class InventoryService {
     };
     return this.firestore.collection('Liquidations').doc(userRoute).collection(userRoute).add(LIQUIDATION_DATA).then((ress) => {
      }).catch((error) => {
+      console.log(error);
       return error
     });
   }
 
   public getLiquidationToDate(idRoute: string, startDate: Date, endDate: Date): Observable<any[]> {
-    this.clientRef = this.firestore.collection<ClientModel>('Liquidations').doc('RouteList').collection(`${idRoute}`, ref =>
-      ref.where('date', '>=', startDate).where('date', '<=', endDate).orderBy('date', 'desc')
+    let startOfDay: any = new Date(startDate).getTime();
+    let endOfDay: any = new Date(endDate).getTime();
+    this.clientRef = this.firestore.collection<ClientModel>('Liquidations').doc(idRoute).collection(`${idRoute}`,
+     ref =>
+      ref.where('timestamp', '>=', startOfDay).where('timestamp', '<=', endOfDay).orderBy('timestamp', 'desc')
     );
     let liquidations: Observable<any[]> = this.clientRef.snapshotChanges().pipe(
       map((changes) =>
@@ -88,7 +99,7 @@ export class InventoryService {
   }
 
   public getLiquidationToId(idRoute: string , idLiquidation: string): Observable<any[]> {
-    const refAux = this.firestore.collection<ClientModel>('Liquidations').doc('RouteList').collection(`${idRoute}`).doc(idLiquidation);
+    const refAux = this.firestore.collection<ClientModel>('Liquidations').doc(idRoute).collection(`${idRoute}`).doc(idLiquidation);
     let liquidation: Observable<any[]> = refAux.snapshotChanges().pipe(
         map((c: any) => {
           const data = c.payload.data();
@@ -101,9 +112,12 @@ export class InventoryService {
 
 
   public getSales(idRoute: string , dataStart , dataEnd ): Observable<any> {
-    dataEnd = moment(dataEnd).add(1, 'day').format('YYYY-MM-DD');
+    console.log(dataStart , ' este es getSales');
+    let startOfDay: any = new Date(dataStart).getTime();
+    let endOfDay: any = new Date(dataEnd).getTime() + (24 * 60 * 60 * 1000);
+
     const ref = this.firestore.collection<ClientModel>('HistoryRoutes').doc(idRoute).collection( 'Orders' ,
-      ref =>  ref.where('date', '>=', dataStart).where('date', '<=', dataEnd).orderBy('date', 'desc')
+      ref =>  ref.where('date_time', '>=', startOfDay).where('date_time', '<=', endOfDay).orderBy('date_time', 'desc')
     );
 
     const colection: Observable<any[]> = ref.snapshotChanges().pipe(
@@ -121,12 +135,12 @@ export class InventoryService {
 
 
   public getSalesToDay(idRoute: string, date: Date): Observable<any> {
-    let startOfDay: any = new Date(date);
-    let endOfDay: any = new Date(date);
-    startOfDay = moment(endOfDay).add(1, 'day').format('YYYY-MM-DD');
-    endOfDay = moment(endOfDay).add(2, 'day').format('YYYY-MM-DD');
+
+    let startOfDay: any = new Date(date).getTime();
+    let endOfDay: any = new Date(date).getTime() + (24 * 60 * 60 * 1000);
+    console.log(startOfDay , endOfDay , ' este es getSalesToDay');
     const ref = this.firestore.collection<ClientModel>('HistoryRoutes').doc(idRoute).collection('Orders',
-      ref => ref.where('date', '>=', startOfDay).where('date', '<=', endOfDay).orderBy('date', 'desc')
+      ref => ref.where('date_time', '>=', startOfDay).where('date_time', '<=', endOfDay).orderBy('date_time', 'desc')
     );
     const collection: Observable<any[]> = ref.snapshotChanges().pipe(
       map((changes) =>
