@@ -111,8 +111,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     const wholesaleProductsG = [];
     const retailProducts = [];
     this._inventoryService.getSalesToDay(this.userRoute,  this.dateParam).subscribe(async (res) => {
-
-      console.log(this.dateParam , res , ' esta es la respuesta de la llamada');
       this.saleDate = this.dateParam;
       const dataItems = [];
 
@@ -147,8 +145,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
         items.wholesale_quantity == '' ? items.wholesale_quantity = '0.0' : null
         items.wholesale_quantityG == '' ? items.wholesale_quantityG = '0.0' : null
-
-        console.log(items , 'etra');
         if (
           items.wholesale_quantityG !== '0.0' &&
           items.number_of_items >= parseFloat(items.wholesale_quantity) &&
@@ -208,7 +204,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
 
   public getLosses( date , route ) {
-    console.log(date , ' Aqui esta loss');
       this._inventoryService.getLosses( date , route ).subscribe( ress => {
         ress.forEach( ( element , index ) => {
           this.dataSourceLosses.data.push(element);
@@ -274,7 +269,6 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
         this.user_name = res.user_name;
         this.saleDate = res.date;
-        console.log(res , 'estos son los datos de la respuesta ');
         if ( this.existLiquidation === true ) {
           this.collection = res.collection ? res.collection : 0;
           this.totalCredit = res.totalCredit ? res.totalCredit : 0;

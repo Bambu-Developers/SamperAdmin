@@ -74,7 +74,6 @@ export class InventoryService {
     };
     return this.firestore.collection('Liquidations').doc(userRoute).collection(userRoute).add(LIQUIDATION_DATA).then((ress) => {
      }).catch((error) => {
-      console.log(error);
       return error
     });
   }
@@ -112,7 +111,6 @@ export class InventoryService {
 
 
   public getSales(idRoute: string , dataStart , dataEnd ): Observable<any> {
-    console.log(dataStart , ' este es getSales');
     let startOfDay: any = new Date(dataStart).getTime();
     let endOfDay: any = new Date(dataEnd).getTime() + (24 * 60 * 60 * 1000);
 
@@ -138,7 +136,6 @@ export class InventoryService {
 
     let startOfDay: any = new Date(date).getTime();
     let endOfDay: any = new Date(date).getTime() + (24 * 60 * 60 * 1000);
-    console.log(startOfDay , endOfDay , ' este es getSalesToDay');
     const ref = this.firestore.collection<ClientModel>('HistoryRoutes').doc(idRoute).collection('Orders',
       ref => ref.where('date_time', '>=', startOfDay).where('date_time', '<=', endOfDay).orderBy('date_time', 'desc')
     );

@@ -93,9 +93,7 @@ export class EditUserComponent implements OnInit {
         this.editUserForm.get('editPrices').patchValue(res.permision.price_edition);
         this.selectPermisions = this.user.permision;
       },
-      err => {
-        console.error(err)
-      }
+      err => {}
     );
   }
 
