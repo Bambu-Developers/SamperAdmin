@@ -131,12 +131,9 @@ export class LiquidationComponent implements OnInit, OnDestroy {
       }
 
       res.forEach(( element , index) => {
-        if ( element.pay_whit_credit === true && !this.existLiquidation ) {
-          const numAux = element.pay_whit_credit_amount.slice(3 , -3);
-          this.totalCredit = (parseFloat(numAux.replace(',', ''))) + this.totalCredit ;
-        }
-        if ( element.collet_credit !== undefined ) {
-          this.colletCredit = element.collet_credit + this.colletCredit ;
+        if ( element.payWhitCredit === true && !this.existLiquidation ) {
+
+          this.totalCredit = element.totalMoney + this.totalCredit ;
         }
       } );
 

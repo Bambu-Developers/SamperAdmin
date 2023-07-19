@@ -39,14 +39,14 @@
             <ng-container matColumnDef="image">
                 <th class="sa-img-column" mat-header-cell *matHeaderCellDef></th>
                 <td class="sa-img-column" mat-cell *matCellDef="let loss">
-                    <img class="sa-img-preview" src="{{loss.img_preview_url}}">
+                    <img class="sa-img-preview" src="{{loss.product.img_preview_url}}">
                 </td>
                 <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
             <!-- Name Column -->
             <ng-container matColumnDef="name">
                 <th class="sa-name-column" mat-header-cell *matHeaderCellDef>{{lanInv.name}}</th>
-                <td class="sa-name-column" mat-cell *matCellDef="let loss">{{loss.name}} {{loss.content}}</td>
+                <td class="sa-name-column" mat-cell *matCellDef="let loss">{{loss.product.name}} {{loss.product.content}}</td>
                 <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
             <!-- Quantity Column -->
@@ -59,7 +59,7 @@
             <!-- Brand Column -->
             <ng-container matColumnDef="brand">
                 <th class="sa-brand-column" mat-header-cell *matHeaderCellDef>{{lanInv.brand}}</th>
-                <td class="sa-brand-column" mat-cell *matCellDef="let loss">{{loss.brand}}</td>
+                <td class="sa-brand-column" mat-cell *matCellDef="let loss">{{loss.product.brand}}</td>
                 <td class="sa-total-column" mat-footer-cell *matFooterCellDef>TOTAL :</td>
             </ng-container>
             <!-- Subtotal Column -->
@@ -76,7 +76,6 @@
     <div class="sa-week-sales">
         <div class="sa-week-sales-header">
             <mat-label class="sa-bold sa-pinkish-orange">Ventas Minoristas</mat-label>
-            <!-- <button mat-raised-button class="sa-button-history" color="accent">{{lanCom.seeHistory}}</button> -->
         </div>
         <table mat-table [dataSource]="dataSourceTableHistory">
             <!-- Sku Column -->
@@ -103,20 +102,22 @@
             <!-- Quantity Column -->
             <ng-container matColumnDef="quantity">
                 <th class="sa-quantity-column" mat-header-cell *matHeaderCellDef>{{lanInv.quantityP}}</th>
-                <td class="sa-quantity-column" mat-cell *matCellDef="let history">{{history.totalItems}}</td>
+                <td class="sa-quantity-column" mat-cell *matCellDef="let history">{{history.number_of_items}}</td>
                 <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
             <!-- Brand Column -->
             <ng-container matColumnDef="subtotal">
                 <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanInv.subtotal}}</th>
-                <td class="sa-subtotal-column" mat-cell *matCellDef="let history">{{history.totalPrice | currency}}</td>
+                <td class="sa-subtotal-column" mat-cell *matCellDef="let history">
+                  {{history.totalPrice | currency}}
+                </td>
                 <td class="sa-total-column" mat-footer-cell *matFooterCellDef>TOTAL :</td>
             </ng-container>
             <!-- Commission Column -->
             <ng-container matColumnDef="commission">
                 <th class="sa-commission-column" mat-header-cell *matHeaderCellDef>{{lanCom.commission}}</th>
                 <td class="sa-commission-column" mat-cell *matCellDef="let history">
-                    {{history.seller_commission_retail}}% {{ history.totalCommission | currency}}</td>
+                    {{history.seller_commission_retail}}% </td>
                 <td class="sa-commission-column" mat-footer-cell *matFooterCellDef>
                     {{ totalCommissionRetail | currency}} </td>
             </ng-container>
@@ -169,7 +170,7 @@
             <ng-container matColumnDef="commission">
                 <th class="sa-commission-column" mat-header-cell *matHeaderCellDef>{{lanCom.commission}}</th>
                 <td class="sa-commission-column" mat-cell *matCellDef="let history">
-                    {{history.seller_commission_wholesale}}% {{ history.totalCommission | currency}}</td>
+                    {{history.seller_commission_wholesale}}% </td>
                 <td class="sa-commission-column" mat-footer-cell *matFooterCellDef>
                     {{ totalCommissionWholesale | currency}} </td>
             </ng-container>
@@ -221,8 +222,9 @@
             <!-- Commission Column -->
             <ng-container matColumnDef="commission">
                 <th class="sa-commission-column" mat-header-cell *matHeaderCellDef>{{lanCom.commission}}</th>
-                <td class="sa-commission-column" mat-cell *matCellDef="let history"> {{history.seller_commission}}%
-                    {{ history.totalCommission | currency}}</td>
+                <td class="sa-commission-column" mat-cell *matCellDef="let history">
+                  {{history.seller_commission_wholesaleG}}%
+                </td>
                 <td class="sa-commission-column" mat-footer-cell *matFooterCellDef>
                     {{ totalCommissionWholesaleG | currency}} </td>
             </ng-container>
