@@ -17,7 +17,6 @@ export class InventoryService {
 
 
  public getLosses( date , route ): Observable<any> {
-
     let startOfDay: any = new Date(date).getTime();
     let endOfDay: any = new Date(date).getTime() + (24 * 60 * 60 * 1000);
     const data = this.firestore.collection<ClientModel>('LostProduct').doc(route) .collection(`Products`, ref =>
@@ -35,9 +34,30 @@ export class InventoryService {
     return losses;
   }
 
+  public getLossesCommission(key, startDate: Date, endDate: Date) {
+    let startOfDay: any = new Date(startDate).getTime();
+    let endOfDay: any = new Date(endDate).getTime();
+    console.log(startOfDay , endOfDay  );
+    const data = this.firestore.collection<ClientModel>('LostProduct').doc(key) .collection(`Products`, ref =>
+      ref.where('timestamp', '>=', startOfDay).where('timestamp', '<=', endOfDay + (86399000)).orderBy('timestamp', 'desc')
+    );
+    let losses: Observable<any[]> = data.snapshotChanges().pipe(
+      map((changes) =>
+        changes.map((c: any) => {
+          const data = c.payload.doc.data();
+          const id = c.payload.doc.id;
+          return { id, ...data };
+        })
+      )
+    );
+    console.log(losses );
+    return losses;
+  }
+
   public getLossesByDate(key, startDate: Date, endDate: Date) {
     let startOfDay: any = new Date(startDate).getTime();
     let endOfDay: any = new Date(endDate).getTime();
+    console.log(startOfDay , endOfDay  );
     const data = this.firestore.collection<ClientModel>('LostProduct').doc(key) .collection(`Products`, ref =>
       ref.where('timestamp', '>=', startOfDay).where('timestamp', '<=', endOfDay).orderBy('timestamp', 'desc')
     );
@@ -50,6 +70,7 @@ export class InventoryService {
         })
       )
     );
+    console.log(losses );
     return losses;
   }
 

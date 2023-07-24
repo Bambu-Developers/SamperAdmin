@@ -88,7 +88,10 @@ export class CommissionComponent implements OnInit, OnDestroy {
   }
 
   public getLosses() {
-    this._subscriptionLosses = this._inventoryService.getLossesByDate(this.route, this.startDate, this.endDate).subscribe(losses => {
+    this._subscriptionLosses = this._inventoryService.getLossesCommission(this.route, this.startDate, this.endDate).subscribe(losses => {
+
+
+
         const lossesProducts = [];
         losses.forEach(loss => {
           const lossProductIdx = lossesProducts.findIndex((lp: any) => {
@@ -137,17 +140,25 @@ export class CommissionComponent implements OnInit, OnDestroy {
           items.number_of_items >= parseFloat(items.wholesale_quantity) &&
           items.number_of_items < parseFloat(items.wholesale_quantityG)
         ) {
-          this.totalCommission = this.totalCommission + (items.number_of_items  * items.wholesale_price  * parseFloat(items.seller_commission_wholesale)) / 100;
-          this.totalCommissionWholesale = this.totalCommissionWholesale + (items.number_of_items  * items.wholesale_price  * parseFloat(items.seller_commission_wholesale)) / 100;
+          console.log(parseFloat(items.seller_commission_wholesale));
+          this.totalCommission = this.totalCommission + (items.number_of_items  * items.wholesale_quantity  * parseFloat(items.seller_commission_wholesale)) / 100;
+          this.totalCommissionWholesale = this.totalCommissionWholesale + (items.number_of_items  * items.wholesale_quantity  * parseFloat(items.seller_commission_wholesale)) / 100;
 
           let newsku = true;
           wholesaleProducts.find( function (elementAux: any , index) {
             if (items.sku === elementAux.sku ) {
               wholesaleProducts[index].number_of_items =  wholesaleProducts[index].number_of_items + items.number_of_items;
+              wholesaleProducts[index].totalPrice =  wholesaleProducts[index].totalPrice + (items.number_of_items  * parseFloat(items.wholesale_quantity) );
+              wholesaleProducts[index].totalCommission =  wholesaleProducts[index].totalCommission + (items.number_of_items  * parseFloat(items.wholesale_quantity)  * parseFloat(items.seller_commission_wholesale)) / 100;
               newsku = false;
+
             }
           });
           if (newsku) {
+            items.totalPrice = 0;
+            items.totalCommission = 0;
+            items.totalPrice =  items.totalPrice + (items.number_of_items  *  parseFloat(items.wholesale_quantity));
+            items.totalCommission =  items.totalCommission + (items.number_of_items * parseFloat(items.wholesale_quantity)  * parseFloat(items.seller_commission_wholesale)) / 100;
             wholesaleProducts.push(items);
           }
         }
@@ -162,10 +173,16 @@ export class CommissionComponent implements OnInit, OnDestroy {
           wholesaleProductsG.find( function (elementAux: any , index) {
             if (items.sku === elementAux.sku ) {
               wholesaleProductsG[index].number_of_items =  wholesaleProductsG[index].number_of_items + items.number_of_items;
+              wholesaleProductsG[index].totalPrice =  wholesaleProductsG[index].totalPrice + (items.number_of_items  * parseFloat(items.wholesale_priceG) );
+              wholesaleProductsG[index].totalCommission =  wholesaleProductsG[index].totalCommission + (items.number_of_items  * parseFloat(items.wholesale_priceG)  * parseFloat(items.seller_commission_wholesaleG)) / 100;
               newsku = false;
             }
           });
           if (newsku) {
+            items.totalPrice = 0;
+            items.totalCommission = 0;
+            items.totalPrice =  items.totalPrice + (items.number_of_items  *  parseFloat(items.wholesale_priceG));
+            items.totalCommission =  items.totalCommission + (items.number_of_items * parseFloat(items.wholesale_priceG)  * parseFloat(items.seller_commission_wholesaleG)) / 100;
             wholesaleProductsG.push(items);
           }
         }
@@ -176,13 +193,16 @@ export class CommissionComponent implements OnInit, OnDestroy {
           retailProducts.find( function (elementAux: any , index) {
             if (items.sku === elementAux.sku ) {
               retailProducts[index].number_of_items =  retailProducts[index].number_of_items + items.number_of_items;
-              retailProducts[index].totalPrice =  retailProducts[index].totalPrice + (items.number_of_items  * items.retail_price  * parseFloat(items.seller_commission_retail)) / 100;
+              retailProducts[index].totalPrice =  retailProducts[index].totalPrice + (items.number_of_items  * items.retail_price );
+              retailProducts[index].totalCommission =  retailProducts[index].totalCommission + (items.number_of_items  * items.retail_price  * parseFloat(items.seller_commission_retail)) / 100;
               newsku = false;
             }
           });
           if (newsku) {
             items.totalPrice = 0;
-            items.totalPrice =  items.totalPrice + (items.number_of_items  * items.retail_price  * parseFloat(items.seller_commission_retail)) / 100;
+            items.totalCommission = 0;
+            items.totalPrice =  items.totalPrice + (items.number_of_items  * items.retail_price);
+            items.totalCommission =  items.totalCommission + (items.number_of_items  * items.retail_price  * parseFloat(items.seller_commission_retail)) / 100;
             retailProducts.push(items);
           }
         }
@@ -204,7 +224,7 @@ export class CommissionComponent implements OnInit, OnDestroy {
       retailTable.push({
         'Código SKU': retailSales['sku'],
         'Nombre': retailSales['name'],
-        'Cantidad (pzas)': retailSales['totalItems'],
+        'Cantidad (pzas)': retailSales['number_of_items'],
         'Subtotal': retailSales['totalPrice'],
         'Comisión': retailSales['totalCommission']
       });
@@ -213,7 +233,7 @@ export class CommissionComponent implements OnInit, OnDestroy {
       wholesaleTable.push({
         'Código SKU': wholesaleSales['sku'],
         'Nombre': wholesaleSales['name'],
-        'Cantidad (pzas)': wholesaleSales['totalItems'],
+        'Cantidad (pzas)': wholesaleSales['number_of_items'],
         'Subtotal': wholesaleSales['totalPrice'],
         'Comisión': wholesaleSales['totalCommission']
       });
@@ -222,7 +242,7 @@ export class CommissionComponent implements OnInit, OnDestroy {
       wholesaleTableG.push({
         'Código SKU': wholesaleSalesG['sku'],
         'Nombre': wholesaleSalesG['name'],
-        'Cantidad (pzas)': wholesaleSalesG['totalItems'],
+        'Cantidad (pzas)': wholesaleSalesG['number_of_items'],
         'Subtotal': wholesaleSalesG['totalPrice'],
         'Comisión': wholesaleSalesG['totalCommission']
       });
