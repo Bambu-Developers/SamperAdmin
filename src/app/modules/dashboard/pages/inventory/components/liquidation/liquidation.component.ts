@@ -111,6 +111,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
     const wholesaleProductsG = [];
     const retailProducts = [];
     this._inventoryService.getSalesToDay(this.userRoute,  this.dateParam).subscribe(async (res) => {
+      console.log(res);
       this.saleDate = this.dateParam;
       const dataItems = [];
 
@@ -120,6 +121,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
           iterator.devolutions.forEach(( element , index ) => {
             this.dataSourceDevolutions.data.push(element);
           });
+          console.log(iterator.devolutions);
         }
         if ( iterator.producst != undefined ) {
           iterator.producst.forEach( ( elementProducts , indexProducts ) => {
@@ -202,6 +204,7 @@ export class LiquidationComponent implements OnInit, OnDestroy {
 
   public getLosses( date , route ) {
       this._inventoryService.getLosses( date , route ).subscribe( ress => {
+        console.log(ress);
         ress.forEach( ( element , index ) => {
           this.dataSourceLosses.data.push(element);
           this.totalLosses = (element.number_of_piz * element.product.retail_price ) + this.totalLosses;

@@ -19,8 +19,9 @@ export class InventoryService {
  public getLosses( date , route ): Observable<any> {
     let startOfDay: any = new Date(date).getTime();
     let endOfDay: any = new Date(date).getTime() + (24 * 60 * 60 * 1000);
+    console.log(startOfDay + (6 * 60 * 60 * 1000 ) ,  endOfDay + (6 * 60 * 60 * 1000 ));
     const data = this.firestore.collection<ClientModel>('LostProduct').doc(route) .collection(`Products`, ref =>
-      ref.where('timestamp', '>=', startOfDay).where('timestamp', '<=', endOfDay).orderBy('timestamp', 'desc')
+      ref.where('timestamp', '>=', startOfDay + (6 * 60 * 60 * 1000 ) ).where('timestamp', '<=', endOfDay + (6 * 60 * 60 * 1000 )  ).orderBy('timestamp', 'desc')
     );
     let losses: Observable<any[]> = data.snapshotChanges().pipe(
       map((changes) =>
@@ -37,9 +38,8 @@ export class InventoryService {
   public getLossesCommission(key, startDate: Date, endDate: Date) {
     let startOfDay: any = new Date(startDate).getTime();
     let endOfDay: any = new Date(endDate).getTime();
-    console.log(startOfDay , endOfDay  );
     const data = this.firestore.collection<ClientModel>('LostProduct').doc(key) .collection(`Products`, ref =>
-      ref.where('timestamp', '>=', startOfDay).where('timestamp', '<=', endOfDay + (86399000)).orderBy('timestamp', 'desc')
+      ref.where('timestamp', '>=', startOfDay + (6 * 60 * 60 * 1000 )  ).where('timestamp', '<=', endOfDay + (86399000 + (6 * 60 * 60 * 1000 ) )).orderBy('timestamp', 'desc')
     );
     let losses: Observable<any[]> = data.snapshotChanges().pipe(
       map((changes) =>
@@ -57,9 +57,8 @@ export class InventoryService {
   public getLossesByDate(key, startDate: Date, endDate: Date) {
     let startOfDay: any = new Date(startDate).getTime();
     let endOfDay: any = new Date(endDate).getTime();
-    console.log(startOfDay , endOfDay  );
     const data = this.firestore.collection<ClientModel>('LostProduct').doc(key) .collection(`Products`, ref =>
-      ref.where('timestamp', '>=', startOfDay).where('timestamp', '<=', endOfDay).orderBy('timestamp', 'desc')
+      ref.where('timestamp', '>=', startOfDay + (6 * 60 * 60 * 1000 ) ).where('timestamp', '<=', endOfDay + (6 * 60 * 60 * 1000 ) ).orderBy('timestamp', 'desc')
     );
     let losses: Observable<any[]> = data.snapshotChanges().pipe(
       map((changes) =>

@@ -211,6 +211,7 @@ export class CommissionComponent implements OnInit, OnDestroy {
         this.dataSourceTableHistoryWholeSale.data = wholesaleProducts;
         this.dataSourceTableHistoryWholeSaleG.data = wholesaleProductsG;
         this.dataSourceTableHistory.data = retailProducts;
+        console.log(wholesaleProducts);
 
       });
   }

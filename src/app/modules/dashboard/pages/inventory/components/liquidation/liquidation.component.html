@@ -110,7 +110,7 @@
             <!-- Quantity Column -->
             <ng-container matColumnDef="quantity">
                 <th class="sa-quantity-column sa-brand-column-test-align" mat-header-cell *matHeaderCellDef>{{lanInv.quantityP}}</th>
-                <td class="sa-quantity-column sa-brand-column-test-align" mat-cell *matCellDef="let devolution">{{devolution.number_of_piz}}
+                <td class="sa-quantity-column sa-brand-column-test-align" mat-cell *matCellDef="let devolution">{{devolution.number_of_items}}
                 </td>
                 <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
@@ -132,7 +132,7 @@
             <ng-container matColumnDef="subtotal">
                 <th class="sa-subtotal-column" mat-header-cell *matHeaderCellDef>{{lanInv.subtotal}}</th>
                 <td class="sa-subtotal-column" mat-cell *matCellDef="let devolution">
-                    {{devolution.number_of_piz * devolution.prize | currency}}</td>
+                    {{devolution.number_of_items * devolution.prize | currency}}</td>
                 <td class="sa-subtotal-column" mat-footer-cell *matFooterCellDef> {{ totalDevolutions | currency}} </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumnsDevolutions"></tr>
