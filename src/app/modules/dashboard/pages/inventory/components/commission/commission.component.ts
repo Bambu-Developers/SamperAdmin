@@ -140,33 +140,33 @@ export class CommissionComponent implements OnInit, OnDestroy {
           items.number_of_items >= parseFloat(items.wholesale_quantity) &&
           items.number_of_items < parseFloat(items.wholesale_quantityG)
         ) {
-          console.log(parseFloat(items.seller_commission_wholesale));
-          this.totalCommission = this.totalCommission + (items.number_of_items  * items.wholesale_quantity  * parseFloat(items.seller_commission_wholesale)) / 100;
-          this.totalCommissionWholesale = this.totalCommissionWholesale + (items.number_of_items  * items.wholesale_quantity  * parseFloat(items.seller_commission_wholesale)) / 100;
+          this.totalCommission = this.totalCommission + (items.number_of_items  * parseFloat(items.wholesale_price)  * parseFloat(items.seller_commission_wholesale)) / 100;
+          this.totalCommissionWholesale = this.totalCommissionWholesale + (items.number_of_items  * parseFloat(items.wholesale_price)  * parseFloat(items.seller_commission_wholesale)) / 100;
 
           let newsku = true;
           wholesaleProducts.find( function (elementAux: any , index) {
             if (items.sku === elementAux.sku ) {
               wholesaleProducts[index].number_of_items =  wholesaleProducts[index].number_of_items + items.number_of_items;
-              wholesaleProducts[index].totalPrice =  wholesaleProducts[index].totalPrice + (items.number_of_items  * parseFloat(items.wholesale_quantity) );
-              wholesaleProducts[index].totalCommission =  wholesaleProducts[index].totalCommission + (items.number_of_items  * parseFloat(items.wholesale_quantity)  * parseFloat(items.seller_commission_wholesale)) / 100;
+              wholesaleProducts[index].totalPrice =  wholesaleProducts[index].totalPrice + (items.number_of_items  * parseFloat(items.wholesale_price) );
+              wholesaleProducts[index].totalCommission =  wholesaleProducts[index].totalCommission + (items.number_of_items  * parseFloat(items.wholesale_price)  * parseFloat(items.seller_commission_wholesale)) / 100;
               newsku = false;
-
             }
           });
           if (newsku) {
             items.totalPrice = 0;
             items.totalCommission = 0;
-            items.totalPrice =  items.totalPrice + (items.number_of_items  *  parseFloat(items.wholesale_quantity));
-            items.totalCommission =  items.totalCommission + (items.number_of_items * parseFloat(items.wholesale_quantity)  * parseFloat(items.seller_commission_wholesale)) / 100;
+            items.totalPrice =  items.totalPrice + (items.number_of_items  *  parseFloat(items.wholesale_price));
+            items.totalCommission =  items.totalCommission + (items.number_of_items * parseFloat(items.wholesale_price)  * parseFloat(items.seller_commission_wholesale)) / 100;
             wholesaleProducts.push(items);
+            console.log(items.number_of_items);
+            console.log(items.orderFormat);
+            console.log(items.wholesale_quantity);
           }
         }
         if (
           items.wholesale_quantityG !== '0.0' &&
           items.number_of_items >= parseFloat(items.wholesale_quantityG)
         ) {
-
           this.totalCommission = this.totalCommission + (items.number_of_items  * items.wholesale_priceG  * parseFloat(items.seller_commission_wholesaleG)) / 100;
           this.totalCommissionWholesaleG = this.totalCommissionWholesaleG + (items.number_of_items  * parseFloat(items.wholesale_priceG)  * parseFloat(items.seller_commission_wholesaleG)) / 100;
           let newsku = true;

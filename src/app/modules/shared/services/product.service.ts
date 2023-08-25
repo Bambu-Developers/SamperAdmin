@@ -1,4 +1,3 @@
-import { async } from '@angular/core/testing';
 import { Injectable } from '@angular/core';
 import { ProductModel } from '../../dashboard/pages/products/models/product.model';
 import { AngularFireStorage } from '@angular/fire/storage';

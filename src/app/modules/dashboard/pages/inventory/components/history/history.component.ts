@@ -95,9 +95,10 @@ export class HistoryComponent implements OnInit, AfterViewInit {
   }
 
   public async getAllSales(id: string , dataStart , dataEnd ) {
+    console.log(dataStart , dataEnd)
     this.loading = true;
     try {
-      await this._inventoryService.getSales(id ,  dataStart , dataEnd ).subscribe( sales => {
+      await this._inventoryService.getSalesHistory(id ,  dataStart , dataEnd ).subscribe( sales => {
         sales.forEach( ( element , index ) => {
           if (index + 1 === sales.length) {
             sales.sort((r1, r2) => {

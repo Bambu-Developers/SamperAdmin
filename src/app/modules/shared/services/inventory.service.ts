@@ -131,13 +131,33 @@ export class InventoryService {
 
 
   public getSales(idRoute: string , dataStart , dataEnd ): Observable<any> {
+    console.log(dataStart , dataEnd);
     let startOfDay: any = new Date(dataStart).getTime();
     let endOfDay: any = new Date(dataEnd).getTime() + (24 * 60 * 60 * 1000);
-
+    console.log(startOfDay);
+    console.log(endOfDay);
     const ref = this.firestore.collection<ClientModel>('HistoryRoutes').doc(idRoute).collection( 'Orders' ,
       ref =>  ref.where('date_time', '>=', startOfDay).where('date_time', '<=', endOfDay).orderBy('date_time', 'desc')
     );
+    const colection: Observable<any[]> = ref.snapshotChanges().pipe(
+      map((changes) =>
+        changes.map((c: any) => {
+          const data = c.payload.doc.data();
+          const id = c.payload.doc.id;
+          const route_id = idRoute;
+          return { id, route_id , ...data };
+        })
+      )
+    );
+    return colection;
+  }
 
+  public getSalesHistory(idRoute: string , dataStart , dataEnd ): Observable<any> {
+    let startOfDay: any = moment(dataStart).toDate().setHours(0, 0, 0, 0);
+    let endOfDay: any = moment(dataEnd).toDate().setHours(23, 59, 59, 999);
+    const ref = this.firestore.collection<ClientModel>('HistoryRoutes').doc(idRoute).collection( 'Orders' ,
+      ref =>  ref.where('date_time', '>=', startOfDay).where('date_time', '<=', endOfDay).orderBy('date_time', 'desc')
+    );
     const colection: Observable<any[]> = ref.snapshotChanges().pipe(
       map((changes) =>
         changes.map((c: any) => {
