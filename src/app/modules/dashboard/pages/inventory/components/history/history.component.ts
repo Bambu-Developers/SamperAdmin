@@ -37,8 +37,6 @@ export class HistoryComponent implements OnInit, AfterViewInit {
   public loading = true;
   public maxDate: Date;
   public dataId = '';
-  // private _subscriptionSales: Subscription;
-  // private _subscriptionRoutes: Subscription;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
@@ -98,7 +96,6 @@ export class HistoryComponent implements OnInit, AfterViewInit {
 
   public async getAllSales(id: string , dataStart , dataEnd ) {
     this.loading = true;
-
     try {
       await this._inventoryService.getSales(id ,  dataStart , dataEnd ).subscribe( sales => {
         sales.forEach( ( element , index ) => {
