@@ -13,7 +13,7 @@ export class ClientsService {
   public NEW_NAME: any;
   private _baseClientsImagePath = 'Staging/Customer/';
 
-  public clientRef: AngularFirestoreCollection<ClientModel>;
+  public clientRef: AngularFirestoreCollection;
   public clientDoc: AngularFirestoreDocument<ClientModel>;
 
   constructor(
@@ -174,9 +174,10 @@ export class ClientsService {
   }
 
   // Probar cundo exista la tabla
-  public getVisits(id: string): Observable<RouteModel[]> {
-      this.firestore.collection<ClientModel>('Visits').doc(id).collection(id);
-      const colection: Observable<any[]> = this.clientRef.snapshotChanges().pipe(
+  public getVisits(id: string) {
+    const data = this.firestore.collection('Visits').doc(id).collection('history' , res => res.orderBy('time_stamp', 'desc'));
+
+      const colection: Observable<any[]> = data.snapshotChanges().pipe(
         map((changes) =>
           changes.map((c: any) => {
             const data = c.payload.doc.data();

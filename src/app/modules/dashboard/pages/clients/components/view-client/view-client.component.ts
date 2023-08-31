@@ -126,6 +126,15 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
     this.editClientFormCredit = new FormGroup({
       haveCredit: new FormControl(''),
     });
+
+
+    console.log( "!!!!!!!!!!!!VISITAS!!!!!");
+    console.log( this.id );
+    this._clientService.getVisits( this.id ).subscribe(ress => {
+      console.log(ress , "!!!!!!!!!!!!VISITAS!!!!!");
+      this.dataSourceVisits.data = ress;
+
+    });
   }
 
   ngAfterViewInit() {
@@ -157,10 +166,6 @@ export class ViewClientComponent implements OnInit , AfterViewInit {
           this.getDays();
         }
       );
-
-      this._clientService.getVisits( this.id ).subscribe(ress => {
-        this.dataSourceVisits.data = ress;
-      });
 
     });
   }

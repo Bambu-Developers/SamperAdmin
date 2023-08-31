@@ -173,9 +173,8 @@ export class InventoryService {
 
 
   public getSalesToDay(idRoute: string, date: Date): Observable<any> {
-
-    let startOfDay: any = new Date(date).getTime();
-    let endOfDay: any = new Date(date).getTime() + (24 * 60 * 60 * 1000);
+    let startOfDay: any = moment(date).toDate().setHours(0, 0, 0, 0);
+    let endOfDay: any = moment(date).toDate().setHours(23, 59, 59, 999);date
     const ref = this.firestore.collection<ClientModel>('HistoryRoutes').doc(idRoute).collection('Orders',
       ref => ref.where('date_time', '>=', startOfDay).where('date_time', '<=', endOfDay).orderBy('date_time', 'desc')
     );

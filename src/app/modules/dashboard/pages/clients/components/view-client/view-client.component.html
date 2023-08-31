@@ -148,7 +148,7 @@
 
           <ng-container matColumnDef="name">
               <th class="sa-name-column" mat-header-cell *matHeaderCellDef> Status </th>
-              <td class="sa-name-column" mat-cell *matCellDef="let client" (click)="openModal(client.route , client.order_id , client.id)"> {{client?.status}} </td>
+              <td class="sa-name-column" mat-cell *matCellDef="let client" (click)="openModal(client.route , client.order_id , client.id)"> {{client?.razon}} </td>
           </ng-container>
 
           <ng-container matColumnDef="route_id">
